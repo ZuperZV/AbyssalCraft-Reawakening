@@ -5,7 +5,6 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.MapColor;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
 import net.zuperzv.abyssalcraft_reawakening.services.util.BlockWithItemRegistryHandle;
-import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
 
 public class ModBlocks {
     private ModBlocks() {}

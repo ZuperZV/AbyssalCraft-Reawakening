@@ -4,8 +4,6 @@ import net.minecraft.world.item.Item;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
 
-import java.util.function.Function;
-
 public class ModItems {
     private ModItems() {}
 

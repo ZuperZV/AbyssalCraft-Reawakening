@@ -12,6 +12,8 @@ public class NeoForgeAbyssalCraft {
         Constants.LOG.info("Hello NeoForge world!");
         CommonClass.init();
 
+        eventBus.addListener(AbyssalCraftDatagen::onGatherClientData);
+
         NeoForgeRegistryHelper.register(eventBus);
     }
 }

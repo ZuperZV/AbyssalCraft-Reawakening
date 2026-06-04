@@ -3,8 +3,6 @@ package net.zuperzv.abyssalcraft_reawakening;
 import net.zuperzv.abyssalcraft_reawakening.init.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.init.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.item.Items;
 
 public class CommonClass {
     public static void init() {
