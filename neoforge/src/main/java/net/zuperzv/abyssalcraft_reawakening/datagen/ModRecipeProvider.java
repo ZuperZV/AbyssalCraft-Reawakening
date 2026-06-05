@@ -34,6 +34,9 @@ public class ModRecipeProvider extends RecipeProvider {
 
         nineBlockStorageRecipes(output, RecipeCategory.MISC, ModItems.RAW_ABYSSALNITE.get(), RecipeCategory.MISC,
                 ModBlocks.RAW_ABYSSALNITE_BLOCK.item().get());
+
+        rawToIngot(ModItems.RAW_ABYSSALNITE.get(), RecipeCategory.MISC, "abyssalnite_ingot", 0.7f, 200, output);
+        rawToIngot(ModBlocks.ABYSSALNITE_OVERWORLD_ORE.item().get(), RecipeCategory.MISC, "abyssalnite_ingot", 0.9f, 200, output);
     }
 
     public static class Runner extends RecipeProvider.Runner {
@@ -104,18 +107,18 @@ public class ModRecipeProvider extends RecipeProvider {
     }
 
     public void rawToIngot(ItemLike rawItem, RecipeCategory category, String ingot, float experience, int cookingTime, RecipeOutput pWriter) {
-        ItemLike ingotItem = BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath("metal_morph", ingot));
+        ItemLike ingotItem = BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath(Constants.MOD_ID, ingot));
 
         SimpleCookingRecipeBuilder.smelting(Ingredient.of(rawItem), category, CookingBookCategory.MISC, ingotItem, experience, cookingTime)
                 .unlockedBy("has_" + getItemName(rawItem), has(rawItem))
-                .save(pWriter, recipeKey(getItemName(ingotItem) + "_from_smelting"));
+                .save(pWriter, recipeKey(getItemName(ingotItem) + "_from_" + getItemName(rawItem) + "_with_smelting"));
 
         float blastingExperience = experience - 0.10f;
         int blastingTime = cookingTime - 100 >= 0 ? cookingTime - 100 : cookingTime;
 
         SimpleCookingRecipeBuilder.blasting(Ingredient.of(rawItem), category, CookingBookCategory.MISC, ingotItem, blastingExperience, blastingTime)
                 .unlockedBy("has_" + getItemName(rawItem), has(rawItem))
-                .save(pWriter, recipeKey(getItemName(ingotItem) + "_from_blasting"));
+                .save(pWriter, recipeKey(getItemName(ingotItem)  + "_from_" + getItemName(rawItem) + "_with_blasting"));
     }
 
     private static ResourceKey<Recipe<?>> recipeKey(String name) {

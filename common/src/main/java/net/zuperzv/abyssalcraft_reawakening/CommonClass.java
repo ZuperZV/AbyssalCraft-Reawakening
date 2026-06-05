@@ -4,6 +4,7 @@ import net.zuperzv.abyssalcraft_reawakening.init.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.init.ModCreativeTabs;
 import net.zuperzv.abyssalcraft_reawakening.init.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
+import net.zuperzv.abyssalcraft_reawakening.worldgen.ModWorldgen;
 
 public class CommonClass {
     public static void init() {
@@ -18,5 +19,6 @@ public class CommonClass {
         ModItems.load();
         ModBlocks.load();
         ModCreativeTabs.load();
+        ModWorldgen.load();
     }
 }

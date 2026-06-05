@@ -14,5 +14,6 @@ public class AbyssalCraftDatagen {
         event.createProvider(ModLootTableProvider::new);
         event.createProvider(ModRecipeProvider.Runner::new);
         event.createProvider(ModEquipmentAssetProvider::new);
+        event.createProvider(ModWorldgenProvider::new);
     }
 }

@@ -3,18 +3,21 @@ package net.zuperzv.abyssalcraft_reawakening.datagen;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
+import net.minecraft.client.data.models.model.ItemModelUtils;
 import net.minecraft.client.data.models.model.ModelTemplates;
+import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.data.PackOutput;
-import net.minecraft.tags.ItemTags;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.init.ModBlocks;
-import net.zuperzv.abyssalcraft_reawakening.init.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.services.NeoForgeRegistryHelper;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import static net.minecraft.client.data.models.BlockModelGenerators.createSimpleBlock;
 
 public class ModModelProvider extends ModelProvider {
     private final Set<Item> generatedItems = new HashSet<>();

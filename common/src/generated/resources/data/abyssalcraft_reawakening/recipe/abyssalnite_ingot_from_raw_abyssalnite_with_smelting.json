@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.7,
+  "ingredient": "abyssalcraft_reawakening:raw_abyssalnite",
+  "result": {
+    "id": "abyssalcraft_reawakening:abyssalnite_ingot"
+  }
+}

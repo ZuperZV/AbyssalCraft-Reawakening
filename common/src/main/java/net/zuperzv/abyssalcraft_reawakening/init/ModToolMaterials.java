@@ -9,7 +9,7 @@ public final class ModToolMaterials {
 
     public static final ToolMaterial ABYSSALNITE =
             new ToolMaterial(
-                    BlockTags.INCORRECT_FOR_DIAMOND_TOOL, //Ignore
+                    ModBlockTags.INCORRECT_FOR_ABYSSALNITE_TOOL, //Ignore
                     1300,
                     10.0F,
                     4.0F,
@@ -19,7 +19,7 @@ public final class ModToolMaterials {
 
     public static final ToolMaterial REFINED_CORALIUM =
             new ToolMaterial(
-                    BlockTags.INCORRECT_FOR_DIAMOND_TOOL, //Ignore
+                    ModBlockTags.INCORRECT_FOR_REFINED_CORALIUM_TOOL, //Ignore
                     1800,
                     12.0F,
                     5.0F,
@@ -29,7 +29,7 @@ public final class ModToolMaterials {
 
     public static final ToolMaterial DREADIUM =
             new ToolMaterial(
-                    BlockTags.INCORRECT_FOR_NETHERITE_TOOL, //Ignore
+                    ModBlockTags.INCORRECT_FOR_DREADIUM_TOOL, //Ignore
                     2300,
                     14.0F,
                     6.0F,
@@ -39,7 +39,7 @@ public final class ModToolMaterials {
 
     public static final ToolMaterial ETHAXIUM =
             new ToolMaterial(
-                    BlockTags.INCORRECT_FOR_NETHERITE_TOOL, //Ignore
+                    ModBlockTags.INCORRECT_FOR_ETHAXIUM_TOOL, //Ignore
                     2800,
                     16.0F,
                     8.0F,

@@ -5,16 +5,20 @@
   "item.abyssalcraft_reawakening.abyssalnite_block": "Abyssalnite Block",
   "item.abyssalcraft_reawakening.abyssalnite_boots": "Abyssalnite Boots",
   "item.abyssalcraft_reawakening.abyssalnite_chestplate": "Abyssalnite Chestplate",
+  "item.abyssalcraft_reawakening.abyssalnite_deepslate_ore": "Abyssalnite Deepslate Ore",
+  "item.abyssalcraft_reawakening.abyssalnite_end_ore": "Abyssalnite End Ore",
   "item.abyssalcraft_reawakening.abyssalnite_helmet": "Abyssalnite Helmet",
   "item.abyssalcraft_reawakening.abyssalnite_hoe": "Abyssalnite Hoe",
   "item.abyssalcraft_reawakening.abyssalnite_ingot": "Abyssalnite Ingot",
   "item.abyssalcraft_reawakening.abyssalnite_leggings": "Abyssalnite Leggings",
+  "item.abyssalcraft_reawakening.abyssalnite_nether_ore": "Abyssalnite Nether Ore",
   "item.abyssalcraft_reawakening.abyssalnite_nugget": "Abyssalnite Nugget",
+  "item.abyssalcraft_reawakening.abyssalnite_overworld_ore": "Abyssalnite Overworld Ore",
   "item.abyssalcraft_reawakening.abyssalnite_pickaxe": "Abyssalnite Pickaxe",
   "item.abyssalcraft_reawakening.abyssalnite_shovel": "Abyssalnite Shovel",
   "item.abyssalcraft_reawakening.abyssalnite_spear": "Abyssalnite Spear",
   "item.abyssalcraft_reawakening.abyssalnite_sword": "Abyssalnite Sword",
   "item.abyssalcraft_reawakening.raw_abyssalnite": "Raw Abyssalnite",
   "item.abyssalcraft_reawakening.raw_abyssalnite_block": "Raw Abyssalnite Block",
-  "itemGroup.abyssalcraft_reawakeningabyssalcraft_tab": "Abyssalcraft Reawakeningabyssalcraft Tab"
+  "itemGroup.abyssalcraft_reawakeningabyssalcraft_tab": "Abyssalcraft Reawakening"
 }
