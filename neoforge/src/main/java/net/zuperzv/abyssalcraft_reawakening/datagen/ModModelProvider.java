@@ -3,25 +3,28 @@ package net.zuperzv.abyssalcraft_reawakening.datagen;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
-import net.minecraft.client.data.models.model.ItemModelUtils;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.minecraft.world.level.block.Block;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
+import net.zuperzv.abyssalcraft_reawakening.init.ModArmorMaterials;
 import net.zuperzv.abyssalcraft_reawakening.init.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.init.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.services.NeoForgeRegistryHelper;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import static net.minecraft.client.data.models.BlockModelGenerators.createSimpleBlock;
 
 public class ModModelProvider extends ModelProvider {
     private final Set<Item> generatedItems = new HashSet<>();
     private final Set<Block> generatedBlocks = new HashSet<>();
+
 
     public ModModelProvider(PackOutput output) {
         super(output, Constants.MOD_ID);
@@ -30,6 +33,11 @@ public class ModModelProvider extends ModelProvider {
     @Override
     protected void registerModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
         generateCubeBlock(blockModels, ModBlocks.ABYSSALNITE_BLOCK.block().get());
+
+        itemModels.generateTrimmableItem(ModItems.ABYSSALNITE_HELMET.get(), ModArmorMaterials.ABYSSALNITE_ASSET, ItemModelGenerators.TRIM_PREFIX_HELMET, false);
+        itemModels.generateTrimmableItem(ModItems.ABYSSALNITE_CHESTPLATE.get(), ModArmorMaterials.ABYSSALNITE_ASSET, ItemModelGenerators.TRIM_PREFIX_CHESTPLATE, false);
+        itemModels.generateTrimmableItem(ModItems.ABYSSALNITE_LEGGINGS.get(), ModArmorMaterials.ABYSSALNITE_ASSET, ItemModelGenerators.TRIM_PREFIX_LEGGINGS, false);
+        itemModels.generateTrimmableItem(ModItems.ABYSSALNITE_BOOTS.get(), ModArmorMaterials.ABYSSALNITE_ASSET, ItemModelGenerators.TRIM_PREFIX_BOOTS, false);
 
         for (Item item : getModItems()) {
             if (!(item instanceof BlockItem) && !generatedItems.contains(item)) {
@@ -84,4 +92,8 @@ public class ModModelProvider extends ModelProvider {
                 .map(entry -> (Item) entry.value())
                 .toList();
     }
+
+
+
+
 }

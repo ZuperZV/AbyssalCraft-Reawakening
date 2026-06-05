@@ -7,7 +7,6 @@ import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -26,31 +25,73 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 public class ModLootTableProvider extends LootTableProvider {
+    private static final Set<Block> generatedLoot = new java.util.HashSet<>();
+
     public ModLootTableProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
         super(
                 output,
                 Set.of(),
                 List.of(
-                        new SubProviderEntry(TutorialModBlockLootSubProvider::new, LootContextParamSets.BLOCK)
+                        new SubProviderEntry(ModBlockLootSubProvider::new, LootContextParamSets.BLOCK)
                 ),
                 registries
         );
     }
 
-    private static final class TutorialModBlockLootSubProvider extends BlockLootSubProvider {
-        TutorialModBlockLootSubProvider(HolderLookup.Provider registries) {
+    private static final class ModBlockLootSubProvider extends BlockLootSubProvider {
+
+        protected ModBlockLootSubProvider(HolderLookup.Provider registries) {
             super(Set.of(), FeatureFlags.DEFAULT_FLAGS, registries);
         }
 
         @Override
         protected void generate() {
+
             dropSelf(ModBlocks.ABYSSALNITE_BLOCK.block().get());
             dropSelf(ModBlocks.RAW_ABYSSALNITE_BLOCK.block().get());
 
-            addOreDrop(ModBlocks.ABYSSALNITE_OVERWORLD_ORE.block().get(), ModItems.RAW_ABYSSALNITE.get(), 1.0F, 3.0F);
-            addOreDrop(ModBlocks.ABYSSALNITE_DEEPSLATE_ORE.block().get(), ModItems.RAW_ABYSSALNITE.get(), 1.0F, 3.0F);
-            addOreDrop(ModBlocks.ABYSSALNITE_NETHER_ORE.block().get(), ModItems.RAW_ABYSSALNITE.get(), 1.0F, 3.0F);
-            addOreDrop(ModBlocks.ABYSSALNITE_END_ORE.block().get(), ModItems.RAW_ABYSSALNITE.get(), 1.0F, 3.0F);
+            addOreDrop(ModBlocks.ABYSSALNITE_OVERWORLD_ORE.block().get(),
+                    ModItems.RAW_ABYSSALNITE.get(), 1.0F, 3.0F);
+
+            addOreDrop(ModBlocks.ABYSSALNITE_DEEPSLATE_ORE.block().get(),
+                    ModItems.RAW_ABYSSALNITE.get(), 1.0F, 3.0F);
+
+            addOreDrop(ModBlocks.ABYSSALNITE_NETHER_ORE.block().get(),
+                    ModItems.RAW_ABYSSALNITE.get(), 1.0F, 3.0F);
+
+            addOreDrop(ModBlocks.ABYSSALNITE_END_ORE.block().get(),
+                    ModItems.RAW_ABYSSALNITE.get(), 1.0F, 3.0F);
+
+            for (Block block : getKnownBlocks()) {
+
+                if (!generatedLoot.contains(block)) {
+                    dropSelf(block);
+                }
+            }
+        }
+
+        protected void addOreDrop(Block block, Item item, float min, float max) {
+            this.add(block, b -> createOreDrop(block, item, min, max));
+        }
+
+        protected LootTable.Builder createOreDrop(Block block, Item item, float min, float max) {
+            generatedLoot.add(block);
+
+            var enchantments = this.registries.lookupOrThrow(Registries.ENCHANTMENT);
+
+            return createSilkTouchDispatchTable(
+                    block,
+                    applyExplosionDecay(
+                            item,
+                            LootItem.lootTableItem(item)
+                                    .apply(SetItemCountFunction.setCount(
+                                            UniformGenerator.between(min, max)
+                                    ))
+                                    .apply(ApplyBonusCount.addOreBonusCount(
+                                            enchantments.getOrThrow(Enchantments.FORTUNE)
+                                    ))
+                    )
+            );
         }
 
         @Override
@@ -61,26 +102,10 @@ public class ModLootTableProvider extends LootTableProvider {
                     .toList();
         }
 
-
-        protected void addOreDrop(Block block, Item item, float min, float max) {
-            this.add(block, b -> createOreDrop(block, item, min, max));
-        }
-
-        protected LootTable.Builder createOreDrop(Block block, Item item, float min, float max) {
-
-            var enchantments = this.registries.lookupOrThrow(Registries.ENCHANTMENT);
-
-            return createSilkTouchDispatchTable(
-                    block,
-                    applyExplosionDecay(
-                            item,
-                            LootItem.lootTableItem(item)
-                                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(min, max)))
-                                    .apply(ApplyBonusCount.addOreBonusCount(
-                                            enchantments.getOrThrow(Enchantments.FORTUNE)
-                                    ))
-                    )
-            );
+        @Override
+        protected void dropSelf(Block block) {
+            generatedLoot.add(block);
+            super.dropSelf(block);
         }
     }
 }
