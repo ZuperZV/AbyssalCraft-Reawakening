@@ -1,0 +1,19 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "abyssalcraft_reawakening:ethaxium"
+      }
+    ],
+    "humanoid_baby": [
+      {
+        "texture": "abyssalcraft_reawakening:ethaxium"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "abyssalcraft_reawakening:ethaxium"
+      }
+    ]
+  }
+}

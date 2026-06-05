@@ -1,0 +1,49 @@
+package net.zuperzv.abyssalcraft_reawakening.init;
+
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.item.ToolMaterial;
+
+public final class ModToolMaterials {
+    private ModToolMaterials() {
+    }
+
+    public static final ToolMaterial ABYSSALNITE =
+            new ToolMaterial(
+                    BlockTags.INCORRECT_FOR_DIAMOND_TOOL, //Ignore
+                    1300,
+                    10.0F,
+                    4.0F,
+                    15,
+                    ModItemTags.ABYSSALNITE_MATERIALS //repairItems
+            );
+
+    public static final ToolMaterial REFINED_CORALIUM =
+            new ToolMaterial(
+                    BlockTags.INCORRECT_FOR_DIAMOND_TOOL, //Ignore
+                    1800,
+                    12.0F,
+                    5.0F,
+                    13,
+                    ModItemTags.REFINED_CORALIUM_MATERIALS //repairItems
+            );
+
+    public static final ToolMaterial DREADIUM =
+            new ToolMaterial(
+                    BlockTags.INCORRECT_FOR_NETHERITE_TOOL, //Ignore
+                    2300,
+                    14.0F,
+                    6.0F,
+                    14,
+                    ModItemTags.DREADIUM_MATERIALS //repairItems
+            );
+
+    public static final ToolMaterial ETHAXIUM =
+            new ToolMaterial(
+                    BlockTags.INCORRECT_FOR_NETHERITE_TOOL, //Ignore
+                    2800,
+                    16.0F,
+                    8.0F,
+                    20,
+                    ModItemTags.ETHAXIUM_MATERIALS //repairItems
+            );
+}

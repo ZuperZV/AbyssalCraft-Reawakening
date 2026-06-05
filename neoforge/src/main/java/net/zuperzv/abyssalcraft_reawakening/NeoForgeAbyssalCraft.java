@@ -1,7 +1,9 @@
 package net.zuperzv.abyssalcraft_reawakening;
 
 
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.zuperzv.abyssalcraft_reawakening.services.NeoForgeRegistryHelper;
 

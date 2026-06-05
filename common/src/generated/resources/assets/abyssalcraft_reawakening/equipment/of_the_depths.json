@@ -1,0 +1,19 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "abyssalcraft_reawakening:of_the_depths"
+      }
+    ],
+    "humanoid_baby": [
+      {
+        "texture": "abyssalcraft_reawakening:of_the_depths"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "abyssalcraft_reawakening:of_the_depths"
+      }
+    ]
+  }
+}

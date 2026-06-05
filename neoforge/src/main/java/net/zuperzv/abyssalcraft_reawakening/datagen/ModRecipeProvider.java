@@ -26,9 +26,14 @@ public class ModRecipeProvider extends RecipeProvider {
 
     @Override
     protected void buildRecipes() {
+        nineBlockStorageRecipes(output, RecipeCategory.MISC, ModItems.ABYSSALNITE_NUGGET.get(), RecipeCategory.MISC,
+                ModItems.ABYSSALNITE_INGOT.get());
 
         nineBlockStorageRecipes(output, RecipeCategory.MISC, ModItems.ABYSSALNITE_INGOT.get(), RecipeCategory.MISC,
-                ModBlocks.ABYSSALNITE_BLOCK.block().get());
+                ModBlocks.ABYSSALNITE_BLOCK.item().get());
+
+        nineBlockStorageRecipes(output, RecipeCategory.MISC, ModItems.RAW_ABYSSALNITE.get(), RecipeCategory.MISC,
+                ModBlocks.RAW_ABYSSALNITE_BLOCK.item().get());
     }
 
     public static class Runner extends RecipeProvider.Runner {

@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "abyssalcraft_reawakening:raw_abyssalnite_block"
+  ],
+  "result": {
+    "count": 9,
+    "id": "abyssalcraft_reawakening:raw_abyssalnite"
+  }
+}

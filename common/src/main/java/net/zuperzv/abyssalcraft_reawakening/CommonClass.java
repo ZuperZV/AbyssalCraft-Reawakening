@@ -1,6 +1,7 @@
 package net.zuperzv.abyssalcraft_reawakening;
 
 import net.zuperzv.abyssalcraft_reawakening.init.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.init.ModCreativeTabs;
 import net.zuperzv.abyssalcraft_reawakening.init.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
 
@@ -16,5 +17,6 @@ public class CommonClass {
 
         ModItems.load();
         ModBlocks.load();
+        ModCreativeTabs.load();
     }
 }

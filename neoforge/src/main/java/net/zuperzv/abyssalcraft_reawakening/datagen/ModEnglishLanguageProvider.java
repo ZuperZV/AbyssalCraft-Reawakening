@@ -8,23 +8,47 @@ import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.init.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.init.ModCreativeTabs;
 import net.zuperzv.abyssalcraft_reawakening.init.ModItems;
+import net.zuperzv.abyssalcraft_reawakening.services.NeoForgeRegistryHelper;
+import org.jspecify.annotations.NonNull;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class ModEnglishLanguageProvider extends LanguageProvider {
+    private final Set<String> generatedKeys = new HashSet<>();
+
     public ModEnglishLanguageProvider(PackOutput output) {
         super(output, Constants.MOD_ID, "en_us");
     }
 
     @Override
     protected void addTranslations() {
-        add(ModItems.ABYSSALNITE_INGOT.get());
+        add(ModBlocks.ABYSSALNITE_BLOCK.block().get(), "Block of Abyssalnite");
+        add(ModBlocks.RAW_ABYSSALNITE_BLOCK.block().get(), "Block of Raw Abyssalnite");
 
-        add(ModBlocks.ABYSSALNITE_BLOCK.block().get());
+        add(ModCreativeTabs.ABYSSALCRAFT_TAB.get().getDisplayName(), "Abyssalcraft Reawakening");
+
+        getKnownItems().forEach(this::addIfMissing);
+        getKnownBlocks().forEach(this::addIfMissing);
+    }
+
+    @Override
+    public void add(String key, String value) {
+        generatedKeys.add(key);
+        super.add(key, value);
     }
 
     private void add(Component component, String value) {
         if (component.getContents() instanceof TranslatableContents translatableContents) {
             add(translatableContents.getKey(), value);
+        }
+    }
+
+    private void add(Component component) {
+        if (component.getContents() instanceof TranslatableContents translatableContents) {
+            add(translatableContents.getKey(), format(component.getString()));
         }
     }
 
@@ -34,7 +58,26 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
 
     private void add(Block block) {
         Item item = block.asItem();
-        add(item);
+
+        if (item != null) {
+            add(item);
+        }
+    }
+
+    private void addIfMissing(Item item) {
+        String key = item.getDescriptionId();
+
+        if (!generatedKeys.contains(key)) {
+            add(item);
+        }
+    }
+
+    private void addIfMissing(Block block) {
+        Item item = block.asItem();
+
+        if (item != null) {
+            addIfMissing(item);
+        }
     }
 
     private String format(String key) {
@@ -52,5 +95,19 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         }
 
         return result.toString().trim();
+    }
+
+    protected @NonNull Iterable<Block> getKnownBlocks() {
+        return NeoForgeRegistryHelper.BLOCKS.getEntries()
+                .stream()
+                .map(entry -> (Block) entry.value())
+                .toList();
+    }
+
+    protected @NonNull Iterable<Item> getKnownItems() {
+        return NeoForgeRegistryHelper.ITEMS.getEntries()
+                .stream()
+                .map(entry -> (Item) entry.value())
+                .toList();
     }
 }

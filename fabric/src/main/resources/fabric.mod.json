@@ -17,6 +17,9 @@
     "entrypoints": {
         "main": [
             "net.zuperzv.abyssalcraft_reawakening.FabricAbyssalCraft"
+        ],
+        "client": [
+            "net.zuperzv.abyssalcraft_reawakening.ModResources"
         ]
     },
     "depends": {

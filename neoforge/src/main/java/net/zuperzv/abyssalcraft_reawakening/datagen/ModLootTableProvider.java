@@ -35,6 +35,7 @@ public class ModLootTableProvider extends LootTableProvider {
         @Override
         protected void generate() {
             dropSelf(ModBlocks.ABYSSALNITE_BLOCK.block().get());
+            dropSelf(ModBlocks.RAW_ABYSSALNITE_BLOCK.block().get());
         }
 
         @Override
