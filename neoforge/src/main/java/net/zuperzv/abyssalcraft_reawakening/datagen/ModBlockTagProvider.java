@@ -49,24 +49,25 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         tag(ModBlockTags.NEEDS_ETHAXIUM_TOOL)
                 .add(ModBlocks.ETHAXIUM_ORE.block().get());
 
-
+        /*tag(BlockTags.INCORRECT_FOR_IRON_TOOL)
+                .addTag(ModBlockTags.NEEDS_ABYSSALNITE_TOOL)
+                .addTag(ModBlockTags.NEEDS_REFINED_CORALIUM_TOOL)
+                .addTag(ModBlockTags.NEEDS_DREADIUM_TOOL)
+                .addTag(ModBlockTags.NEEDS_ETHAXIUM_TOOL);
+         */
 
         tag(ModBlockTags.INCORRECT_FOR_ABYSSALNITE_TOOL)
-                .addTag(BlockTags.NEEDS_IRON_TOOL);
+                .addTag(ModBlockTags.NEEDS_REFINED_CORALIUM_TOOL)
+                .addTag(ModBlockTags.NEEDS_DREADIUM_TOOL)
+                .addTag(ModBlockTags.NEEDS_ETHAXIUM_TOOL);
 
         tag(ModBlockTags.INCORRECT_FOR_REFINED_CORALIUM_TOOL)
-                .addTag(ModBlockTags.NEEDS_ABYSSALNITE_TOOL)
-                .addTag(BlockTags.NEEDS_IRON_TOOL);
+                .addTag(ModBlockTags.NEEDS_DREADIUM_TOOL)
+                .addTag(ModBlockTags.NEEDS_ETHAXIUM_TOOL);
 
         tag(ModBlockTags.INCORRECT_FOR_DREADIUM_TOOL)
-                .addTag(ModBlockTags.NEEDS_REFINED_CORALIUM_TOOL)
-                .addTag(ModBlockTags.NEEDS_ABYSSALNITE_TOOL)
-                .addTag(BlockTags.NEEDS_IRON_TOOL);
+                .addTag(ModBlockTags.NEEDS_ETHAXIUM_TOOL);
 
-        tag(ModBlockTags.INCORRECT_FOR_ETHAXIUM_TOOL)
-                .addTag(ModBlockTags.NEEDS_DREADIUM_TOOL)
-                .addTag(ModBlockTags.NEEDS_REFINED_CORALIUM_TOOL)
-                .addTag(ModBlockTags.NEEDS_ABYSSALNITE_TOOL)
-                .addTag(BlockTags.NEEDS_IRON_TOOL);
+        tag(ModBlockTags.INCORRECT_FOR_ETHAXIUM_TOOL);
     }
 }

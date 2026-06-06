@@ -3,6 +3,7 @@ package net.zuperzv.abyssalcraft_reawakening.services;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -28,11 +29,14 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Constants.MOD_ID);
     private static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Constants.MOD_ID);
+    private static final DeferredRegister<MenuType<?>> MENU_TYPES =
+            DeferredRegister.create(Registries.MENU, Constants.MOD_ID);
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
         BLOCKS.register(eventBus);
         CREATIVE_MODE_TABS.register(eventBus);
+        MENU_TYPES.register(eventBus);
     }
 
     @Override
@@ -92,6 +96,23 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
             @Override
             public CreativeModeTab get() {
                 return deferredTab.get();
+            }
+        };
+    }
+
+    public <T extends net.minecraft.world.inventory.AbstractContainerMenu> RegistryHandle<MenuType<T>> registerMenuType(String name, MenuType.MenuSupplier<T> menuSupplier) {
+        Identifier id = Constants.id(name);
+        @SuppressWarnings("unchecked")
+        DeferredHolder<MenuType<?>, MenuType<T>> deferredMenuType = (DeferredHolder<MenuType<?>, MenuType<T>>) (DeferredHolder<?, ?>) MENU_TYPES.register(name, () -> new MenuType<>(menuSupplier));
+        return new RegistryHandle<>() {
+            @Override
+            public Identifier id() {
+                return id;
+            }
+
+            @Override
+            public MenuType<T> get() {
+                return deferredMenuType.get();
             }
         };
     }

@@ -2,7 +2,7 @@
   "type": "minecraft:blasting",
   "category": "misc",
   "cookingtime": 100,
-  "experience": 0.59999996,
+  "experience": -0.3,
   "ingredient": "abyssalcraft_reawakening:raw_abyssalnite",
   "result": {
     "id": "abyssalcraft_reawakening:abyssalnite_ingot"

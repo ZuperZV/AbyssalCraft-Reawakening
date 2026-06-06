@@ -6,6 +6,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -86,4 +87,24 @@ public class FabricRegistryHelper implements IRegistryHelper {
             }
         };
     }
+
+    public <T extends net.minecraft.world.inventory.AbstractContainerMenu> RegistryHandle<MenuType<T>> registerMenuType(String name, MenuType.MenuSupplier<T> menuSupplier) {
+        ResourceKey<MenuType<?>> key = ResourceKey.create(net.minecraft.core.registries.Registries.MENU, Constants.id(name));
+        Identifier id = key.identifier();
+        @SuppressWarnings("unchecked")
+        MenuType<T> registered = (MenuType<T>) Registry.register(BuiltInRegistries.MENU, id, new MenuType<>(menuSupplier));
+
+        return new RegistryHandle<>() {
+            @Override
+            public Identifier id() {
+                return id;
+            }
+
+            @Override
+            public MenuType<T> get() {
+                return registered;
+            }
+        };
+    }
 }
+

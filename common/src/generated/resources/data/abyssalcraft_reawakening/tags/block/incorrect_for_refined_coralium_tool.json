@@ -1,6 +1,6 @@
 {
   "values": [
-    "#abyssalcraft_reawakening:needs_abyssalnite_tool",
-    "#minecraft:needs_iron_tool"
+    "#abyssalcraft_reawakening:needs_dreadium_tool",
+    "#abyssalcraft_reawakening:needs_ethaxium_tool"
   ]
 }

@@ -35,8 +35,8 @@ public class ModRecipeProvider extends RecipeProvider {
         nineBlockStorageRecipes(output, RecipeCategory.MISC, ModItems.RAW_ABYSSALNITE.get(), RecipeCategory.MISC,
                 ModBlocks.RAW_ABYSSALNITE_BLOCK.item().get());
 
-        rawToIngot(ModItems.RAW_ABYSSALNITE.get(), RecipeCategory.MISC, "abyssalnite_ingot", 0.7f, 200, output);
-        rawToIngot(ModBlocks.ABYSSALNITE_OVERWORLD_ORE.item().get(), RecipeCategory.MISC, "abyssalnite_ingot", 0.9f, 200, output);
+        rawToIngot(ModItems.RAW_ABYSSALNITE.get(), RecipeCategory.MISC, ModItems.ABYSSALNITE_INGOT.get(), 0.7f, 200, output);
+        rawToIngot(ModBlocks.ABYSSALNITE_OVERWORLD_ORE.item().get(), RecipeCategory.MISC, ModItems.ABYSSALNITE_INGOT.get(), 0.9f, 200, output);
     }
 
     public static class Runner extends RecipeProvider.Runner {
@@ -106,14 +106,15 @@ public class ModRecipeProvider extends RecipeProvider {
                 .save(p_301222_, recipeKey(p_250475_ + "_from_" + p_252237_));
     }
 
-    public void rawToIngot(ItemLike rawItem, RecipeCategory category, String ingot, float experience, int cookingTime, RecipeOutput pWriter) {
+    public void rawToIngot(ItemLike rawItem, RecipeCategory category, ItemLike ingotLike, float experience, int cookingTime, RecipeOutput pWriter) {
+        String ingot = getItemName(ingotLike);
         ItemLike ingotItem = BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath(Constants.MOD_ID, ingot));
 
         SimpleCookingRecipeBuilder.smelting(Ingredient.of(rawItem), category, CookingBookCategory.MISC, ingotItem, experience, cookingTime)
                 .unlockedBy("has_" + getItemName(rawItem), has(rawItem))
                 .save(pWriter, recipeKey(getItemName(ingotItem) + "_from_" + getItemName(rawItem) + "_with_smelting"));
 
-        float blastingExperience = experience - 0.10f;
+        float blastingExperience = experience - 1.00f;
         int blastingTime = cookingTime - 100 >= 0 ? cookingTime - 100 : cookingTime;
 
         SimpleCookingRecipeBuilder.blasting(Ingredient.of(rawItem), category, CookingBookCategory.MISC, ingotItem, blastingExperience, blastingTime)
