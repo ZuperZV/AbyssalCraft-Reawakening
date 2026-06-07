@@ -1,7 +1,9 @@
 package net.zuperzv.abyssalcraft_reawakening.services.types;
 
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -14,10 +16,7 @@ import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.services.util.BlockWithItemRegistryHandle;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
 
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.function.*;
 
 public interface IRegistryHelper {
 
@@ -46,10 +45,23 @@ public interface IRegistryHelper {
         return ResourceKey.create(Registries.BLOCK, Constants.id(name));
     }
 
+    @FunctionalInterface
+    interface MenuSupplier<T extends AbstractContainerMenu> {
+        T create(int id, net.minecraft.world.entity.player.Inventory inv);
+    }
+
+    <T extends AbstractContainerMenu>
+    RegistryHandle<MenuType<T>> registerMenuType(String name, MenuSupplier<T> menuSupplier);
+
     RegistryHandle<CreativeModeTab> registerCreativeTab(String name, Supplier<ItemStack> icon, Consumer<CreativeTabOutput> entries);
 
     @FunctionalInterface
     interface CreativeTabOutput {
         void accept(ItemLike itemLike);
     }
+
+    <T> RegistryHandle<DataComponentType<T>> registerDataComponent(
+            String name,
+            UnaryOperator<DataComponentType.Builder<T>> builder
+    );
 }

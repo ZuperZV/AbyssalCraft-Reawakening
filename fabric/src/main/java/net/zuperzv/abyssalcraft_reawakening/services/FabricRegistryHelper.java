@@ -2,10 +2,14 @@ package net.zuperzv.abyssalcraft_reawakening.services;
 
 import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
 import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -17,10 +21,9 @@ import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.services.types.IRegistryHelper;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
 
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.function.*;
+
+import static net.minecraft.util.datafix.fixes.References.DATA_COMPONENTS;
 
 public class FabricRegistryHelper implements IRegistryHelper {
     @Override
@@ -88,11 +91,18 @@ public class FabricRegistryHelper implements IRegistryHelper {
         };
     }
 
-    public <T extends net.minecraft.world.inventory.AbstractContainerMenu> RegistryHandle<MenuType<T>> registerMenuType(String name, MenuType.MenuSupplier<T> menuSupplier) {
-        ResourceKey<MenuType<?>> key = ResourceKey.create(net.minecraft.core.registries.Registries.MENU, Constants.id(name));
-        Identifier id = key.identifier();
-        @SuppressWarnings("unchecked")
-        MenuType<T> registered = (MenuType<T>) Registry.register(BuiltInRegistries.MENU, id, new MenuType<>(menuSupplier));
+    @Override
+    public <T extends AbstractContainerMenu> RegistryHandle<MenuType<T>> registerMenuType(
+            String name,
+            IRegistryHelper.MenuSupplier<T> menuSupplier
+    ) {
+        Identifier id = Constants.id(name);
+
+        MenuType<T> type = Registry.register(
+                BuiltInRegistries.MENU,
+                id,
+                new MenuType<>((id1, inv) -> menuSupplier.create(id1, inv), FeatureFlags.VANILLA_SET)
+        );
 
         return new RegistryHandle<>() {
             @Override
@@ -102,7 +112,31 @@ public class FabricRegistryHelper implements IRegistryHelper {
 
             @Override
             public MenuType<T> get() {
-                return registered;
+                return type;
+            }
+        };
+    }
+
+    @Override
+    public <T> RegistryHandle<DataComponentType<T>> registerDataComponent(
+            String name,
+            UnaryOperator<DataComponentType.Builder<T>> builder
+    ) {
+
+        Identifier id = Constants.id(name);
+
+        DataComponentType<T> type =
+                builder.apply(DataComponentType.builder()).build();
+
+        return new RegistryHandle<>() {
+            @Override
+            public Identifier id() {
+                return id;
+            }
+
+            @Override
+            public DataComponentType<T> get() {
+                return type;
             }
         };
     }

@@ -9,13 +9,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.zuperzv.abyssalcraft_reawakening.init.screen.NecronomiconMenu;
 
 public class NecronomiconItem extends Item {
 
     public NecronomiconItem(Properties properties) {
         super(properties);
     }
-    /*
+
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
 
@@ -43,5 +44,4 @@ public class NecronomiconItem extends Item {
             }
         };
     }
-     */
 }

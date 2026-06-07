@@ -6,10 +6,10 @@ plugins {
 dependencies {
     compileOnly "mezz.jei:jei-${jei_minecraft_version}-common-api:${jei_version}"
     compileOnly "mezz.jei:jei-${jei_minecraft_version}-neoforge-api:${jei_version}"
-    // `localRuntime` is not provided by the NeoForge plugin; use `runtimeOnly` instead.
-    runtimeOnly "mezz.jei:jei-${jei_minecraft_version}-neoforge:${jei_version}"
 
-    // EMI removed per request
+    // `localRuntime` is not provided by the NeoForge plugin; use `runtimeOnly` instead.
+
+    runtimeOnly "mezz.jei:jei-${jei_minecraft_version}-neoforge:${jei_version}"
 }
 
 neoForge {

@@ -1,8 +1,11 @@
 package net.zuperzv.abyssalcraft_reawakening.services;
 
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -19,10 +22,9 @@ import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.services.types.IRegistryHelper;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
 
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.function.*;
+
+import static net.minecraft.util.datafix.fixes.References.DATA_COMPONENTS;
 
 public class NeoForgeRegistryHelper implements IRegistryHelper {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Constants.MOD_ID);
@@ -31,12 +33,15 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Constants.MOD_ID);
     private static final DeferredRegister<MenuType<?>> MENU_TYPES =
             DeferredRegister.create(Registries.MENU, Constants.MOD_ID);
+    private static final DeferredRegister<DataComponentType<?>> DATA_COMPONENTS =
+            DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, Constants.MOD_ID);
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
         BLOCKS.register(eventBus);
         CREATIVE_MODE_TABS.register(eventBus);
         MENU_TYPES.register(eventBus);
+        DATA_COMPONENTS.register(eventBus);
     }
 
     @Override
@@ -100,10 +105,18 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
         };
     }
 
-    public <T extends net.minecraft.world.inventory.AbstractContainerMenu> RegistryHandle<MenuType<T>> registerMenuType(String name, MenuType.MenuSupplier<T> menuSupplier) {
+    @Override
+    public <T extends AbstractContainerMenu> RegistryHandle<MenuType<T>> registerMenuType(
+            String name,
+            IRegistryHelper.MenuSupplier<T> menuSupplier
+    ) {
         Identifier id = Constants.id(name);
-        @SuppressWarnings("unchecked")
-        DeferredHolder<MenuType<?>, MenuType<T>> deferredMenuType = (DeferredHolder<MenuType<?>, MenuType<T>>) (DeferredHolder<?, ?>) MENU_TYPES.register(name, () -> new MenuType<>(menuSupplier));
+
+        DeferredHolder<MenuType<?>, MenuType<T>> holder =
+                MENU_TYPES.register(name, () ->
+                        new MenuType<>(menuSupplier::create, FeatureFlags.VANILLA_SET)
+                );
+
         return new RegistryHandle<>() {
             @Override
             public Identifier id() {
@@ -112,7 +125,31 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 
             @Override
             public MenuType<T> get() {
-                return deferredMenuType.get();
+                return holder.get();
+            }
+        };
+    }
+
+    @Override
+    public <T> RegistryHandle<DataComponentType<T>> registerDataComponent(
+            String name,
+            UnaryOperator<DataComponentType.Builder<T>> builder
+    ) {
+
+        DeferredHolder<DataComponentType<?>, DataComponentType<T>> holder =
+                DATA_COMPONENTS.register(name,
+                        () -> builder.apply(DataComponentType.builder()).build()
+                );
+
+        return new RegistryHandle<>() {
+            @Override
+            public Identifier id() {
+                return Constants.id(name);
+            }
+
+            @Override
+            public DataComponentType<T> get() {
+                return holder.get();
             }
         };
     }
