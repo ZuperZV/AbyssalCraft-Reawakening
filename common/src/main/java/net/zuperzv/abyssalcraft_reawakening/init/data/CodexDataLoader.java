@@ -133,7 +133,6 @@ public class CodexDataLoader {
                     "default",
                     "Default",
                     "minecraft:book",
-                    new ItemStack(ModItems.NECRONOMICON.get()),
                     List.of(),
                     List.of(),
                     Integer.MAX_VALUE

@@ -1,0 +1,18 @@
+{
+  "categories": [
+    {
+      "folder": "diamond",
+      "id": "diamond",
+      "title": "Diamond",
+      "icon": "minecraft:diamond",
+      "order": 0
+    },
+    {
+      "folder": "category",
+      "id": "category",
+      "title": "What are you doing?",
+      "icon": "minecraft:glass",
+      "order": 1
+    }
+  ]
+}

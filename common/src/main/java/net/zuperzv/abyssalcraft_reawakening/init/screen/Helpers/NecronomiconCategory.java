@@ -3,6 +3,7 @@ package net.zuperzv.abyssalcraft_reawakening.init.screen.Helpers;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
+import net.zuperzv.abyssalcraft_reawakening.init.ModItems;
 
 import java.util.List;
 
@@ -25,6 +26,16 @@ public class NecronomiconCategory {
         this.title = title;
         this.iconId = iconId;
         this.icon = icon;
+        this.entries = entries;
+        this.tiers = tiers;
+        this.order = order;
+    }
+
+    public NecronomiconCategory(String id, String title, String iconId, List<NecronomiconEntry> entries, List<Integer> tiers, int order) {
+        this.id = id;
+        this.title = title;
+        this.iconId = iconId;
+        this.icon = ItemStack.EMPTY;
         this.entries = entries;
         this.tiers = tiers;
         this.order = order;

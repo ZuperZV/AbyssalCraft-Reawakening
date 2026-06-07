@@ -1,0 +1,31 @@
+{
+  "id": "entry_1",
+  "title": "Entry 1",
+  "title_key": "codex_arcanum.stellar_sorcery.guide.entry_1.title",
+  "type": "item",
+  "icon": "minecraft:book",
+  "search_items": [],
+  "related": [],
+  "right_side": [
+    {
+      "modules": [
+        {
+          "module_type": "text",
+          "text": "hmmmm",
+          "text_key": "codex_arcanum.stellar_sorcery.guide.entry_1.page.1.module.1"
+        }
+      ]
+    },
+    {
+      "modules": [
+        {
+          "module_type": "recipe",
+          "recipe_type": "crafting_table",
+          "pattern": [],
+          "key": {},
+          "result": "minecraft:bamboo_planks"
+        }
+      ]
+    }
+  ]
+}

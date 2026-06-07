@@ -1,6 +1,5 @@
 package net.zuperzv.abyssalcraft_reawakening.init.screen.Helpers;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.advancements.AdvancementTab;
 import net.minecraft.client.gui.screens.advancements.AdvancementWidget;
@@ -28,6 +27,9 @@ public class CustomAdvancementRenderer {
         drawContents(graphics, x, y, selected);
 
         if (codexScreen.showAdvancement && screen != null) {
+            graphics.pose().popMatrix();
+
+            graphics.pose().pushMatrix();
             graphics.pose().translate(codexScreen.advancementX, codexScreen.advancementY);
 
             graphics.blit(
@@ -55,8 +57,10 @@ public class CustomAdvancementRenderer {
                     256,
                     256
             );
+            graphics.pose().popMatrix();
         }
 
+        graphics.pose().pushMatrix();
         graphics.pose().translate(x, y);
 
         int advX = X - 20;
@@ -68,6 +72,7 @@ public class CustomAdvancementRenderer {
             drawTooltips(graphics, mouseX - x, mouseY - y, x, y, selected);
         }
 
+        graphics.pose().popMatrix();
 
         //RenderSystem.enableBlend();
         //if (screenMixin.getTabs().size() > 1) {
@@ -106,6 +111,8 @@ public class CustomAdvancementRenderer {
         if (!insideArea) {
             return;
         }
+        
+        p_282892_.pose().pushMatrix();
 
         p_282892_.pose().translate(30.0F, 18.0F);
 
@@ -125,6 +132,8 @@ public class CustomAdvancementRenderer {
                 break;
             }
         }
+        
+        p_282892_.pose().popMatrix();
     }
 
     public static void drawContents(GuiGraphicsExtractor graphics, int x, int y, AdvancementTab tab) {
@@ -141,6 +150,7 @@ public class CustomAdvancementRenderer {
 
         graphics.enableScissor(x + 14,  y, x + 122, y + 109);
         graphics.enableScissor(x, y, x + viewWidth + 30, y + viewHeight);
+        graphics.pose().pushMatrix();
         graphics.pose().translate((float)x, (float)y);
 
         int scrollX = (int) Math.floor(mixin.getScrollX());
@@ -160,6 +170,7 @@ public class CustomAdvancementRenderer {
         mixin.getRoot().extractConnectivity(graphics, scrollX, scrollY, false);
         mixin.getRoot().extractRenderState(graphics, scrollX, scrollY);
 
+        graphics.pose().popMatrix();
         graphics.disableScissor();
         graphics.disableScissor();
     }

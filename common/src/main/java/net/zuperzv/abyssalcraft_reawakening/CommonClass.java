@@ -24,5 +24,6 @@ public class CommonClass {
         ModMenuTypes.load();
         ModCreativeTabs.load();
         ModWorldgen.load();
+
     }
 }
