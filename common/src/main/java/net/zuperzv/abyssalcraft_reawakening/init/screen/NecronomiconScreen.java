@@ -62,8 +62,6 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
     private final List<RenderedJeiLayout> renderedJeiLayouts = new ArrayList<>();
     private final Map<String, Optional<IRecipeLayoutDrawable<?>>> jeiLayoutCache = new HashMap<>();
      */
-    private final int FabricXOffset = 30;
-    private final int FabricYOffset = 18;
 
     public static final Identifier BOOK_TEXTURE =
             Identifier.fromNamespaceAndPath(Constants.MOD_ID, "textures/gui/book.png");
@@ -536,31 +534,19 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
 
         renderBg(guiGraphics, delta, mouseX, mouseY);
 
-        int fabricX = x;
-        int fabricY = y;
-        int mouseFabricX = mouseX;
-        int mousefabricY = mouseY;
-        if (Services.PLATFORM.getPlatformName() == "Fabric") {
-            System.out.println("Fabric");
-            fabricX = x - FabricXOffset;
-            fabricY = y - FabricYOffset;
-            mouseFabricX = mouseX - FabricXOffset;
-            mousefabricY = mouseY - FabricYOffset;
-        }
-
         if ((isInCategoryView) || (selectedCategory != null && selectedEntry == null)) {
-            drawIconAndTitle(guiGraphics, mouseFabricX, mousefabricY, x, y, getBookItem());
+            drawIconAndTitle(guiGraphics, guiScale(mouseX), guiScale(mouseY), x, y, getBookItem());
         }
 
         if (isInCategoryView) {
-            renderCategoryOverview(guiGraphics, mouseFabricX, mousefabricY, fabricX, fabricY);
+            renderCategoryOverview(guiGraphics, guiScale(mouseX), guiScale(mouseY), guiScale(x), guiScale(y));
         }
         else if (selectedCategory != null && selectedEntry == null) {
-            renderCategoryEntries(guiGraphics, mouseFabricX, mousefabricY, fabricX, fabricY);
+            renderCategoryEntries(guiGraphics, guiScale(mouseX), guiScale(mouseY), guiScale(x), guiScale(y));
         }
         else if (selectedEntry != null) {
-            drawSelectedPage(guiGraphics, mouseFabricX, mousefabricY, fabricX, fabricY);
-            drawIconAndTitle(guiGraphics, mouseFabricX, mousefabricY, fabricX, fabricY);
+            drawSelectedPage(guiGraphics, guiScale(mouseX), guiScale(mouseY), guiScale(x), guiScale(y));
+            drawIconAndTitle(guiGraphics, guiScale(mouseX), guiScale(mouseY), guiScale(x), guiScale(y));
         }
 
         this.updateButtonVisibility();
@@ -835,17 +821,12 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
     private void drawIconAndTitle(GuiGraphicsExtractor guiGraphics, int fabricMouseX, int fabricMouseY, int x, int y, ItemStack iconStack) {
         int xIcon = x + 145;
         int yIcon = y + 11;
-        if (Services.PLATFORM.getPlatformName() == "Fabric") {
-            System.out.println("Fabric");
-            xIcon = x + 145 - FabricXOffset;
-            yIcon = y + 11 - FabricYOffset;
-        }
 
         guiGraphics.blit(
                 RenderPipelines.GUI_TEXTURED,
                 BOOK_TEXTURE,
-                xIcon,
-                yIcon,
+                guiScale(xIcon),
+                guiScale(yIcon),
                 0,
                 180,
                 84,
@@ -1501,6 +1482,7 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
                     x,
                     y
             );
+            guiGraphics.pose().popMatrix();
         }
     }
 
@@ -1978,19 +1960,8 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
         guiGraphics.pose().popMatrix();
 
         if (!searchResults.isEmpty()) {
-            int fabricX = x;
-            int fabricY = y;
-            int mouseFabricX = mouseX;
-            int mousefabricY = mouseY;
-            if (Services.PLATFORM.getPlatformName() == "Fabric") {
-                System.out.println("Fabric");
-                fabricX = x - FabricXOffset;
-                fabricY = y - FabricYOffset;
-                mouseFabricX = mouseX - FabricXOffset;
-                mousefabricY = mouseY - FabricYOffset;
-            }
 
-            renderSearchResults(guiGraphics, fabricX, fabricY, mouseFabricX, mousefabricY);
+            renderSearchResults(guiGraphics, guiScale(x), guiScale(y), guiScale(mouseX), guiScale(mouseY));
         }
 
         if (showAdvancement && advancementsScreen != null) {
@@ -2413,5 +2384,9 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
             guiGraphics.nextStratum();
             currentLayer++;
         }
+    }
+
+    private int guiScale(int value) {
+        return (int)((value % 3) * Minecraft.getInstance().getWindow().getGuiScale());
     }
 }
