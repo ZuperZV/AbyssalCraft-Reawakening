@@ -70,8 +70,8 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
     private float easedIconX = 0f;
     private float easedIconY = 0f;
 
-    private int FabricX = 31;
-    private int FabricY = 19;
+    private int FabricX = 0; //31
+    private int FabricY = 0; //19
 
     public static final int Z_TOOLTIP = 300;
     public static final int Z_BOOK_EDGE = 200;
@@ -2037,19 +2037,17 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
     private void drawColoredOverlay(GuiGraphicsExtractor guiGraphics, int x_p, int y_p, int x, int y, int width, int height, int z_Layer) {
         if (this.minecraft == null || this.minecraft.player == null) return;
 
-        ItemStack stack = this.minecraft.player.getMainHandItem();
-
-        if (stack.isEmpty()) stack = this.minecraft.player.getOffhandItem();
-
-        if (stack.isEmpty() || !stack.is(ModItems.NECRONOMICON.get())) {
-            stack = getBookItem();
-        }
+        ItemStack stack = getBookItem();
 
         if (!stack.is(ModItems.NECRONOMICON.get())) return;
 
         DyedItemColor dyedColor = stack.get(DataComponents.DYED_COLOR);
 
-        int rgb = (dyedColor != null) ? dyedColor.rgb() : 0x643732;
+        int rgb = dyedColor != null ? dyedColor.rgb() : 0x643732;
+
+        int argb = 0xFF000000 | rgb;
+
+        System.out.println("rgb " + rgb);
 
         guiGraphics.pose().pushMatrix();
 
@@ -2068,7 +2066,7 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
                 height,
                 256,
                 256,
-                rgb
+                argb
         );
 
         //.setShaderColor(1f, 1f, 1f, 1f);
