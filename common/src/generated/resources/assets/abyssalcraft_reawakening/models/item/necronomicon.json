@@ -1,6 +1,7 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "abyssalcraft_reawakening:item/necronomicon"
+    "layer0": "abyssalcraft_reawakening:item/necronomicon",
+    "layer1": "abyssalcraft_reawakening:item/necronomicon_overlay"
   }
 }

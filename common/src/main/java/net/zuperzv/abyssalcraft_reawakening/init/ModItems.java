@@ -1,6 +1,5 @@
 package net.zuperzv.abyssalcraft_reawakening.init;
 
-import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.DyedItemColor;
@@ -11,15 +10,15 @@ import net.zuperzv.abyssalcraft_reawakening.init.custom.NecronomiconItem;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
 
-import java.util.function.Function;
-
 public class ModItems {
     private ModItems() {}
 
     public static void load() {}
 
     public static final RegistryHandle<Item> NECRONOMICON = Services.REGISTRY.registerItem("necronomicon",
-            properties -> new NecronomiconItem(properties.stacksTo(1).component(ModDataComponentTypes.CODEX_TIER.get(), new CodexTierData(1)).component(DataComponents.DYED_COLOR, new DyedItemColor(643732))));
+            properties -> new NecronomiconItem(properties.stacksTo(1)
+                    .component(ModDataComponentTypes.CODEX_TIER.get(), new CodexTierData(1))
+                    .component(DataComponents.DYED_COLOR, new DyedItemColor(0x643732))));
 
 
     public static final RegistryHandle<Item> ABYSSALNITE_INGOT = Services.REGISTRY.registerItem("abyssalnite_ingot",

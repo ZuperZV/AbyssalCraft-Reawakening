@@ -38,11 +38,7 @@ import net.zuperzv.abyssalcraft_reawakening.services.util.MouseUtil;
 import org.lwjgl.glfw.GLFW;
 import net.minecraft.client.gui.screens.advancements.AdvancementsScreen;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -73,6 +69,9 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
 
     private float easedIconX = 0f;
     private float easedIconY = 0f;
+
+    private int FabricX = 31;
+    private int FabricY = 19;
 
     public static final int Z_TOOLTIP = 300;
     public static final int Z_BOOK_EDGE = 200;
@@ -513,6 +512,10 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
      */
 
     @Override
+    protected void extractLabels(GuiGraphicsExtractor graphics, int xm, int ym) {
+    }
+
+    @Override
     public void extractContents(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float delta) {
         currentLayer = 0;
 
@@ -524,6 +527,17 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
 
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
+        int RenderX = x;
+        int RenderY = y;
+        int RenderMouseX = mouseX;
+        int RenderMouseY = mouseY;
+        if(Objects.equals(Services.PLATFORM.getPlatformName(), "Fabric")) {
+            RenderX = x - FabricX;
+            RenderY = y - FabricY;
+            RenderMouseX = mouseX - FabricX;
+            RenderMouseY = mouseY - FabricY;
+        }
+
         renderBookmarks(guiGraphics);
 
         renderSearch(guiGraphics, mouseX, mouseY, x, y);
@@ -535,18 +549,18 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
         renderBg(guiGraphics, delta, mouseX, mouseY);
 
         if ((isInCategoryView) || (selectedCategory != null && selectedEntry == null)) {
-            drawIconAndTitle(guiGraphics, guiScale(mouseX), guiScale(mouseY), x, y, getBookItem());
+            drawIconAndTitle(guiGraphics, RenderMouseX, RenderMouseY, RenderX, RenderY, getBookItem());
         }
 
         if (isInCategoryView) {
-            renderCategoryOverview(guiGraphics, guiScale(mouseX), guiScale(mouseY), guiScale(x), guiScale(y));
+            renderCategoryOverview(guiGraphics, RenderMouseX, RenderMouseY, RenderX, RenderY);
         }
         else if (selectedCategory != null && selectedEntry == null) {
-            renderCategoryEntries(guiGraphics, guiScale(mouseX), guiScale(mouseY), guiScale(x), guiScale(y));
+            renderCategoryEntries(guiGraphics, RenderMouseX, RenderMouseY, RenderX, RenderY);
         }
         else if (selectedEntry != null) {
-            drawSelectedPage(guiGraphics, guiScale(mouseX), guiScale(mouseY), guiScale(x), guiScale(y));
-            drawIconAndTitle(guiGraphics, guiScale(mouseX), guiScale(mouseY), guiScale(x), guiScale(y));
+            drawSelectedPage(guiGraphics, RenderMouseX, RenderMouseY, RenderX, RenderY);
+            drawIconAndTitle(guiGraphics, RenderMouseX, RenderMouseY, RenderX, RenderY);
         }
 
         this.updateButtonVisibility();
@@ -555,7 +569,7 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
             guiGraphics.pose().pushMatrix();
             guiGraphics.pose().translate(0, 0);
             applyLayer(guiGraphics, Z_TOOLTIP);
-            guiGraphics.setTooltipForNextFrame(this.font, hoveredStack, mouseX, mouseY);
+            guiGraphics.setTooltipForNextFrame(this.font, hoveredStack, RenderMouseX, RenderMouseY);
             guiGraphics.pose().popMatrix();
         }
 
@@ -726,6 +740,7 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
             }
 
             guiGraphics.item(cat.icon, areaX + ITEM_PADDING, drawY + (SLOT_HEIGHT - ITEM_SIZE) / 2);
+            //renderItemWithTooltip(guiGraphics, cat.icon, areaX + ITEM_PADDING, drawY + (SLOT_HEIGHT - ITEM_SIZE) / 2, mouseX, mouseY, false); // this adds a tooltip to the Category Item
             registerClickableItem(cat.icon, areaX + ITEM_PADDING, drawY + (SLOT_HEIGHT - ITEM_SIZE) / 2, ITEM_SIZE, ITEM_SIZE);
 
             Component message = Component.literal(cat.getDisplayTitle());
@@ -818,15 +833,16 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
         }
     }
 
-    private void drawIconAndTitle(GuiGraphicsExtractor guiGraphics, int fabricMouseX, int fabricMouseY, int x, int y, ItemStack iconStack) {
-        int xIcon = x + 145;
+
+    private void drawIconAndTitle(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, int x, int y, ItemStack iconStack) {
         int yIcon = y + 11;
+        int xIcon = x + 146;
 
         guiGraphics.blit(
                 RenderPipelines.GUI_TEXTURED,
                 BOOK_TEXTURE,
-                guiScale(xIcon),
-                guiScale(yIcon),
+                xIcon,
+                yIcon,
                 0,
                 180,
                 84,
@@ -836,7 +852,7 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
         );
         drawColoredOverlay(guiGraphics, xIcon, yIcon, 0, 180, 84, 30, 0);
 
-        renderItemWithTooltip(guiGraphics, iconStack, xIcon + 34, yIcon + 7, fabricMouseX, fabricMouseY, false);
+        renderItemWithTooltip(guiGraphics, iconStack, xIcon + 34, yIcon + 7, mouseX, mouseY, false);
 
         guiGraphics.text(this.font, Component.translatable(iconStack.getItem().getDescriptionId()), x + 14, y + 14, ChatFormatting.DARK_GRAY.getColor(), false);
     }
@@ -1482,7 +1498,6 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
                     x,
                     y
             );
-            guiGraphics.pose().popMatrix();
         }
     }
 
@@ -1922,26 +1937,6 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
         int barX = x + SEARCH_TEX_X_P;
         int barY = y + SEARCH_TEX_Y_P;
 
-        guiGraphics.pose().pushMatrix();
-        guiGraphics.pose().translate(0, 0);
-        applyLayer(guiGraphics, Z_BOOK_EDGE);
-        guiGraphics.blit(
-                BOOK_TEXTURE,
-                barX,
-                barY,
-                SEARCH_TEX_X_P,
-                SEARCH_TEX_Y_P,
-                SEARCH_TEX_W_P,
-                SEARCH_TEX_H_P,
-                256,
-                256
-        );
-        drawColoredOverlay(guiGraphics, barX, barY, SEARCH_TEX_X_P, SEARCH_TEX_Y_P, SEARCH_TEX_W_P, SEARCH_TEX_H_P, Z_BOOK_EDGE);
-
-        guiGraphics.pose().popMatrix();
-
-        drawColoredOverlay(guiGraphics, barX, barY, SEARCH_TEX_X_P, SEARCH_TEX_Y_P, SEARCH_TEX_W_P, SEARCH_TEX_H_P, Z_BOOK_EDGE);
-
         boolean mouseOver = MouseUtil.isMouseOver(mouseX, mouseY, barX, barY, SEARCH_TEX_W_P, SEARCH_TEX_H_P);
         if (mouseOver) mouseWasOverSearch = true;
 
@@ -1961,7 +1956,7 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
 
         if (!searchResults.isEmpty()) {
 
-            renderSearchResults(guiGraphics, guiScale(x), guiScale(y), guiScale(mouseX), guiScale(mouseY));
+            renderSearchResults(guiGraphics, x, y, mouseX, mouseY);
         }
 
         if (showAdvancement && advancementsScreen != null) {
@@ -2387,6 +2382,6 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
     }
 
     private int guiScale(int value) {
-        return (int)((value % 3) * Minecraft.getInstance().getWindow().getGuiScale());
+        return (int)((value / 3) * Minecraft.getInstance().getWindow().getGuiScale());
     }
 }

@@ -3,6 +3,7 @@ package net.zuperzv.abyssalcraft_reawakening;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
@@ -15,9 +16,12 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
+import net.zuperzv.abyssalcraft_reawakening.init.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.init.data.CodexDataLoader;
+import net.zuperzv.abyssalcraft_reawakening.init.network.SyncBookmarksPacket;
 import net.zuperzv.abyssalcraft_reawakening.init.screen.ModMenuTypes;
 import net.zuperzv.abyssalcraft_reawakening.init.screen.NecronomiconScreen;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockColorRegistry;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -38,6 +42,12 @@ public class ModResources implements ClientModInitializer {
         );
 
         MenuScreens.register(ModMenuTypes.NECRONOMICON_MENU.get(), NecronomiconScreen::new);
+        ClientPlayNetworking.registerGlobalReceiver(
+                SyncBookmarksPacket.TYPE,
+                (packet, context) -> SyncBookmarksPacket.handle(packet, context.client())
+        );
+
+
 
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
             CodexDataLoader.load();

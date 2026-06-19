@@ -77,9 +77,7 @@ public class BookmarkButton extends Button {
 
         DyedItemColor dyedColor = stack.get(DataComponents.DYED_COLOR);
 
-        int argb = dyedColor != null
-                ? dyedColor.rgb() | 0xFF000000
-                : 0x643732;
+        int rgb = (dyedColor != null) ? dyedColor.rgb() : 0x643732;
 
         guiGraphics.blit(
                 RenderPipelines.GUI_TEXTURED,
@@ -92,7 +90,7 @@ public class BookmarkButton extends Button {
                 height,
                 256,
                 256,
-                argb
+                rgb
         );
     }
 }

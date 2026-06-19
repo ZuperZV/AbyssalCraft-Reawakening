@@ -19,8 +19,12 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NonNull Provider provider) {
-        this.tag(ItemTags.CAULDRON_CAN_REMOVE_DYE)
+        tag(ItemTags.CAULDRON_CAN_REMOVE_DYE)
                 .add(ModItems.NECRONOMICON.get());
+
+        tag(ItemTags.DYES)
+                .add(ModItems.NECRONOMICON.get());
+
 
 
         tag(ItemTags.BEACON_PAYMENT_ITEMS)

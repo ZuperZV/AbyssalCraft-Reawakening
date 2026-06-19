@@ -1,9 +1,15 @@
 package net.zuperzv.abyssalcraft_reawakening.datagen;
 
+import net.minecraft.client.color.item.Dye;
+import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
+import net.minecraft.client.data.models.model.ItemModelUtils;
+import net.minecraft.client.data.models.model.ModelLocationUtils;
 import net.minecraft.client.data.models.model.ModelTemplates;
+import net.minecraft.client.data.models.model.TextureMapping;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -13,6 +19,8 @@ import net.minecraft.world.level.block.Block;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.init.ModArmorMaterials;
 import net.zuperzv.abyssalcraft_reawakening.init.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.init.ModItems;
+import net.zuperzv.abyssalcraft_reawakening.init.data.DyedColorTintSource;
 import net.zuperzv.abyssalcraft_reawakening.services.NeoForgeRegistryHelper;
 
 import java.util.HashSet;
@@ -30,7 +38,10 @@ public class ModModelProvider extends ModelProvider {
 
     @Override
     protected void registerModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
+
+        generateItemWithTintedOverlay(itemModels, ModItems.NECRONOMICON.get(), new DyedColorTintSource());
         generateCubeBlock(blockModels, ModBlocks.ABYSSALNITE_BLOCK.block().get());
+
 
         for (Item item : getModItems()) {
             if (!(item instanceof BlockItem) && !generatedItems.contains(item)) {
@@ -64,6 +75,36 @@ public class ModModelProvider extends ModelProvider {
     private void generateTrimmableItem(ItemModelGenerators itemModels, Item item, ResourceKey<EquipmentAsset> equipmentAssetId, Identifier slotTrimPrefix, boolean hasDyedLayer) {
         generatedItems.add(item);
         itemModels.generateTrimmableItem(item, equipmentAssetId, slotTrimPrefix, hasDyedLayer);
+    }
+
+    private void generateItemWithTintedBaseLayer(ItemModelGenerators itemModels, Item item, int defaultColor) {
+        generatedItems.add(item);
+        itemModels.generateItemWithTintedBaseLayer(item, defaultColor);
+    }
+
+    public void generateItemWithTintedOverlay(ItemModelGenerators itemModels, Item item, ItemTintSource overlayTint) {
+        this.generateItemWithTintedOverlay(itemModels, item, "_overlay", overlayTint);
+    }
+
+    public void generateItemWithTintedOverlay(ItemModelGenerators itemModels, Item item, String overlaySuffix, ItemTintSource overlayTint) {
+        generatedItems.add(item);
+
+        Identifier model = itemModels.generateLayeredItem(
+                item,
+                TextureMapping.getItemTexture(item),
+                TextureMapping.getItemTexture(item, overlaySuffix)
+        );
+
+        itemModels.itemModelOutput.accept(
+                item,
+                ItemModelUtils.tintedModel(
+                        model,
+                        new ItemTintSource[] {
+                                itemModels.BLANK_LAYER,
+                                overlayTint
+                        }
+                )
+        );
     }
 
     private boolean generateTrimmableItem(ItemModelGenerators itemModels, Item item, boolean hasDyedLayer) {
