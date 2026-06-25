@@ -1,7 +1,7 @@
-package net.zuperzv.abyssalcraft_reawakening.init;
+package net.zuperzv.abyssalcraft_reawakening.init.item;
 
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.ToolMaterial;
+import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlockTags;
 
 public final class ModToolMaterials {
     private ModToolMaterials() {

@@ -1,0 +1,6 @@
+{
+  "parent": "abyssalcraft_reawakening:block/ritual_altar",
+  "textures": {
+    "0": "abyssalcraft_reawakening:block/stone_ritual_altar"
+  }
+}

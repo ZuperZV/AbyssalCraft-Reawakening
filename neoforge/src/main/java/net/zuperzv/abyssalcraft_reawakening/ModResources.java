@@ -1,6 +1,5 @@
 package net.zuperzv.abyssalcraft_reawakening;
 
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
@@ -8,18 +7,17 @@ import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.util.profiling.ProfilerFiller;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.DyedItemColor;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.AddClientReloadListenersEvent;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
-import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
-import net.zuperzv.abyssalcraft_reawakening.init.ModItems;
+import net.zuperzv.abyssalcraft_reawakening.init.block.entity.ModBlockEntities;
+import net.zuperzv.abyssalcraft_reawakening.init.block.entity.renderer.StoneRitualAltarBlockEntityRenderer;
+import net.zuperzv.abyssalcraft_reawakening.init.block.entity.renderer.StoneRitualPedestalBlockEntityRenderer;
 import net.zuperzv.abyssalcraft_reawakening.init.data.CodexDataLoader;
 import net.zuperzv.abyssalcraft_reawakening.init.data.DyedColorTintSource;
 import net.zuperzv.abyssalcraft_reawakening.init.screen.ModMenuTypes;
@@ -54,6 +52,21 @@ public class ModResources {
         event.register(
                 Identifier.fromNamespaceAndPath(Constants.MOD_ID, "dyed_color_tint"),
                 DyedColorTintSource.MAP_CODEC
+        );
+    }
+
+    @SubscribeEvent
+    public static void registerBER(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerBlockEntityRenderer(ModBlockEntities.STONE_RITUAL_ALTAR_BE.get(), StoneRitualAltarBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.STONE_RITUAL_PEDESTAL_BE.get(), StoneRitualPedestalBlockEntityRenderer::new);
+    }
+
+    @SubscribeEvent
+    public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
+
+        event.registerLayerDefinition(
+                StoneRitualAltarBlockEntityRenderer.MAGIC_AURA_LAYER,
+                StoneRitualAltarBlockEntityRenderer::createMagicAuraLayer
         );
     }
 

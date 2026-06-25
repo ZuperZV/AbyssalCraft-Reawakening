@@ -1,8 +1,7 @@
-package net.zuperzv.abyssalcraft_reawakening.init;
+package net.zuperzv.abyssalcraft_reawakening.init.block;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 

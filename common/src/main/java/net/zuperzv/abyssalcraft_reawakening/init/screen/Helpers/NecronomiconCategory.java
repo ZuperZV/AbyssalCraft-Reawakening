@@ -3,7 +3,6 @@ package net.zuperzv.abyssalcraft_reawakening.init.screen.Helpers;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
-import net.zuperzv.abyssalcraft_reawakening.init.ModItems;
 
 import java.util.List;
 

@@ -7,9 +7,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
-import net.zuperzv.abyssalcraft_reawakening.init.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.init.ModCreativeTabs;
-import net.zuperzv.abyssalcraft_reawakening.init.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.services.NeoForgeRegistryHelper;
 import org.jspecify.annotations.NonNull;
 

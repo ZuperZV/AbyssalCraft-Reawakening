@@ -1,6 +1,5 @@
 package net.zuperzv.abyssalcraft_reawakening.init.screen.Helpers;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -13,7 +12,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
-import net.zuperzv.abyssalcraft_reawakening.init.ModItems;
+import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
 
 public class BookmarkButton extends Button {
     private static final Identifier BOOK_TEXTURE =

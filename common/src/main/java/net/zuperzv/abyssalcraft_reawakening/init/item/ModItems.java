@@ -1,4 +1,4 @@
-package net.zuperzv.abyssalcraft_reawakening.init;
+package net.zuperzv.abyssalcraft_reawakening.init.item;
 
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.*;
@@ -6,7 +6,7 @@ import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.zuperzv.abyssalcraft_reawakening.init.component.CodexTierData;
 import net.zuperzv.abyssalcraft_reawakening.init.component.ModDataComponentTypes;
-import net.zuperzv.abyssalcraft_reawakening.init.custom.NecronomiconItem;
+import net.zuperzv.abyssalcraft_reawakening.init.item.custom.NecronomiconItem;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
 

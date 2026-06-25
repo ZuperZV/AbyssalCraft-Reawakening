@@ -1,0 +1,7 @@
+{
+  "parent": "abyssalcraft_reawakening:block/ritual_pedestal",
+  "textures": {
+    "1": "abyssalcraft_reawakening:block/stone_ritual_pedestal",
+    "2": "abyssalcraft_reawakening:block/stone_ritual_pedestal"
+  }
+}

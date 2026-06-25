@@ -1,4 +1,4 @@
-package net.zuperzv.abyssalcraft_reawakening.init.custom;
+package net.zuperzv.abyssalcraft_reawakening.init.item.custom;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;

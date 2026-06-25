@@ -7,14 +7,13 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CookingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
-import net.zuperzv.abyssalcraft_reawakening.init.ModBlocks;
-import net.zuperzv.abyssalcraft_reawakening.init.ModItems;
+import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
 import org.jspecify.annotations.NonNull;
 
 import javax.annotation.Nullable;

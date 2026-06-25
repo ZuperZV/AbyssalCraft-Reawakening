@@ -1,9 +1,11 @@
 package net.zuperzv.abyssalcraft_reawakening;
 
-import net.zuperzv.abyssalcraft_reawakening.init.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.init.ModCreativeTabs;
-import net.zuperzv.abyssalcraft_reawakening.init.ModItems;
+import net.zuperzv.abyssalcraft_reawakening.init.block.entity.ModBlockEntities;
+import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.init.component.ModDataComponentTypes;
+import net.zuperzv.abyssalcraft_reawakening.init.recipe.ModRecipes;
 import net.zuperzv.abyssalcraft_reawakening.init.screen.ModMenuTypes;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
 import net.zuperzv.abyssalcraft_reawakening.worldgen.ModWorldgen;
@@ -24,6 +26,7 @@ public class CommonClass {
         ModMenuTypes.load();
         ModCreativeTabs.load();
         ModWorldgen.load();
-
+        ModBlockEntities.load();
+        ModRecipes.load(Services.REGISTRY);
     }
 }

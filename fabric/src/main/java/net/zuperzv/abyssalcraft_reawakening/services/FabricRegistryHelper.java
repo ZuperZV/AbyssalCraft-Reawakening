@@ -1,10 +1,11 @@
 package net.zuperzv.abyssalcraft_reawakening.services;
 
 import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -15,15 +16,19 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.services.types.IRegistryHelper;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
 
+import java.util.Arrays;
 import java.util.function.*;
-
-import static net.minecraft.util.datafix.fixes.References.DATA_COMPONENTS;
 
 public class FabricRegistryHelper implements IRegistryHelper {
     @Override
@@ -139,6 +144,98 @@ public class FabricRegistryHelper implements IRegistryHelper {
                 return type;
             }
         };
+    }
+
+    @Override
+    public <T extends BlockEntity> RegistryHandle<BlockEntityType<T>> registerBlockEntityType(
+            String name,
+            BiFunction<BlockPos, BlockState, T> factory,
+            Supplier<? extends Block>... blocks
+    ) {
+
+        Identifier id = Constants.id(name);
+
+        Block[] resolved = Arrays.stream(blocks)
+                .map(Supplier::get)
+                .toArray(Block[]::new);
+
+        BlockEntityType<T> registered = Registry.register(
+                BuiltInRegistries.BLOCK_ENTITY_TYPE,
+                id,
+                FabricBlockEntityTypeBuilder.create(factory::apply, resolved).build()
+        );
+
+        return new RegistryHandle<>() {
+            @Override
+            public Identifier id() {
+                return id;
+            }
+
+            @Override
+            public BlockEntityType<T> get() {
+                return registered;
+            }
+        };
+    }
+
+    @Override
+    public <T extends RecipeType<?>> RegistryHandle<T> registerRecipeType(String name, Supplier<T> type) {
+        Identifier id = Constants.id(name);
+
+        T registered = Registry.register(
+                BuiltInRegistries.RECIPE_TYPE,
+                id,
+                type.get()
+        );
+
+        return new RegistryHandle<>() {
+            @Override
+            public Identifier id() {
+                return id;
+            }
+
+            @Override
+            public T get() {
+                return registered;
+            }
+        };
+    }
+
+    @Override
+    public <T extends RecipeSerializer<?>> RegistryHandle<T> registerRecipeSerializer(String name, Supplier<T> serializer) {
+        Identifier id = Constants.id(name);
+
+        T registered = Registry.register(
+                BuiltInRegistries.RECIPE_SERIALIZER,
+                id,
+                serializer.get()
+        );
+
+        return new RegistryHandle<>() {
+            @Override
+            public Identifier id() {
+                return id;
+            }
+
+            @Override
+            public T get() {
+                return registered;
+            }
+        };
+    }
+
+    @Override
+    public <T extends RecipeType<?>, S extends RecipeSerializer<?>>
+    RecipeRegistryHandle<T, S> registerRecipeTypeAndSerializer(
+            String name,
+            Supplier<T> type,
+            Supplier<S> serializer
+    ) {
+
+        RegistryHandle<T> typeHandle = registerRecipeType(name, type);
+        RegistryHandle<S> serializerHandle = registerRecipeSerializer(name, serializer);
+
+        return new RecipeRegistryHandle<>(typeHandle, serializerHandle);
     }
 }
 

@@ -6,8 +6,8 @@ import net.minecraft.tags.BlockTags;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
-import net.zuperzv.abyssalcraft_reawakening.init.ModBlockTags;
-import net.zuperzv.abyssalcraft_reawakening.init.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlockTags;
+import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
 import org.jspecify.annotations.NonNull;
 
 import java.util.concurrent.CompletableFuture;

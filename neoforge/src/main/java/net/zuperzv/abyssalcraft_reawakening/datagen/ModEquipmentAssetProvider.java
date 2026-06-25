@@ -6,7 +6,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
-import net.zuperzv.abyssalcraft_reawakening.init.ModArmorMaterials;
+import net.zuperzv.abyssalcraft_reawakening.init.item.ModArmorMaterials;
 import org.jspecify.annotations.NonNull;
 
 import java.util.function.BiConsumer;

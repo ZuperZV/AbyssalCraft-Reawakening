@@ -3,11 +3,10 @@ package net.zuperzv.abyssalcraft_reawakening.datagen;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.common.data.ItemTagsProvider;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
-import net.zuperzv.abyssalcraft_reawakening.init.ModItemTags;
-import net.zuperzv.abyssalcraft_reawakening.init.ModItems;
+import net.zuperzv.abyssalcraft_reawakening.init.item.ModItemTags;
+import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
 import org.jspecify.annotations.NonNull;
 
 import java.util.concurrent.CompletableFuture;

@@ -1,6 +1,9 @@
 package net.zuperzv.abyssalcraft_reawakening.services;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -11,8 +14,13 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -20,8 +28,10 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.services.types.IRegistryHelper;
+import net.zuperzv.abyssalcraft_reawakening.services.util.BlockWithItemRegistryHandle;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
 
+import java.util.Arrays;
 import java.util.function.*;
 
 import static net.minecraft.util.datafix.fixes.References.DATA_COMPONENTS;
@@ -35,6 +45,12 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
             DeferredRegister.create(Registries.MENU, Constants.MOD_ID);
     private static final DeferredRegister<DataComponentType<?>> DATA_COMPONENTS =
             DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, Constants.MOD_ID);
+    private static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES =
+            DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, Constants.MOD_ID);
+    private static final DeferredRegister<RecipeType<?>> RECIPE_TYPES =
+            DeferredRegister.create(Registries.RECIPE_TYPE, Constants.MOD_ID);
+    private static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS =
+            DeferredRegister.create(Registries.RECIPE_SERIALIZER, Constants.MOD_ID);
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
@@ -42,6 +58,9 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
         CREATIVE_MODE_TABS.register(eventBus);
         MENU_TYPES.register(eventBus);
         DATA_COMPONENTS.register(eventBus);
+        BLOCK_ENTITY_TYPES.register(eventBus);
+        RECIPE_TYPES.register(eventBus);
+        RECIPE_SERIALIZERS.register(eventBus);
     }
 
     @Override
@@ -152,5 +171,88 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
                 return holder.get();
             }
         };
+    }
+
+    @Override
+    public <T extends BlockEntity> RegistryHandle<BlockEntityType<T>> registerBlockEntityType(
+            String name,
+            BiFunction<BlockPos, BlockState, T> factory,
+            Supplier<? extends Block>... blocks
+    ) {
+        DeferredHolder<BlockEntityType<?>, BlockEntityType<T>> holder =
+                BLOCK_ENTITY_TYPES.register(name,
+                        () -> new BlockEntityType<>(
+                                factory::apply,
+                                Arrays.stream(blocks)
+                                        .map(Supplier::get)
+                                        .toArray(Block[]::new)
+                        )
+                );
+
+        return new RegistryHandle<>() {
+            @Override
+            public Identifier id() {
+                return Constants.id(name);
+            }
+
+            @Override
+            public BlockEntityType<T> get() {
+                return holder.get();
+            }
+        };
+    }
+
+    @Override
+    public <T extends RecipeType<?>> RegistryHandle<T> registerRecipeType(String name, Supplier<T> type) {
+        Identifier id = Constants.id(name);
+
+        DeferredHolder<RecipeType<?>, T> holder =
+                (DeferredHolder) RECIPE_TYPES.register(name, type);
+
+        return new RegistryHandle<>() {
+            @Override
+            public Identifier id() {
+                return id;
+            }
+
+            @Override
+            public T get() {
+                return holder.get();
+            }
+        };
+    }
+
+    @Override
+    public <T extends RecipeSerializer<?>> RegistryHandle<T> registerRecipeSerializer(String name, Supplier<T> serializer) {
+        Identifier id = Constants.id(name);
+
+        DeferredHolder<RecipeSerializer<?>, T> holder =
+                (DeferredHolder) RECIPE_SERIALIZERS.register(name, serializer);
+
+        return new RegistryHandle<>() {
+            @Override
+            public Identifier id() {
+                return id;
+            }
+
+            @Override
+            public T get() {
+                return holder.get();
+            }
+        };
+    }
+
+    @Override
+    public <T extends RecipeType<?>, S extends RecipeSerializer<?>>
+    RecipeRegistryHandle<T, S> registerRecipeTypeAndSerializer(
+            String name,
+            Supplier<T> type,
+            Supplier<S> serializer
+    ) {
+
+        RegistryHandle<T> typeHandle = registerRecipeType(name, type);
+        RegistryHandle<S> serializerHandle = registerRecipeSerializer(name, serializer);
+
+        return new RecipeRegistryHandle<>(typeHandle, serializerHandle);
     }
 }

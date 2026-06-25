@@ -4,6 +4,8 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
@@ -13,15 +15,14 @@ import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
-import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.util.profiling.ProfilerFiller;
-import net.zuperzv.abyssalcraft_reawakening.init.ModItems;
+import net.zuperzv.abyssalcraft_reawakening.init.block.entity.ModBlockEntities;
+import net.zuperzv.abyssalcraft_reawakening.init.block.entity.renderer.StoneRitualAltarBlockEntityRenderer;
+import net.zuperzv.abyssalcraft_reawakening.init.block.entity.renderer.StoneRitualPedestalBlockEntityRenderer;
 import net.zuperzv.abyssalcraft_reawakening.init.data.CodexDataLoader;
 import net.zuperzv.abyssalcraft_reawakening.init.network.SyncBookmarksPacket;
 import net.zuperzv.abyssalcraft_reawakening.init.screen.ModMenuTypes;
 import net.zuperzv.abyssalcraft_reawakening.init.screen.NecronomiconScreen;
-import net.fabricmc.fabric.api.client.rendering.v1.BlockColorRegistry;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -47,6 +48,21 @@ public class ModResources implements ClientModInitializer {
                 (packet, context) -> SyncBookmarksPacket.handle(packet, context.client())
         );
 
+
+        BlockEntityRendererRegistry.register(
+                ModBlockEntities.STONE_RITUAL_ALTAR_BE.get(),
+                StoneRitualAltarBlockEntityRenderer::new
+        );
+        BlockEntityRendererRegistry.register(
+                ModBlockEntities.STONE_RITUAL_PEDESTAL_BE.get(),
+                StoneRitualPedestalBlockEntityRenderer::new
+        );
+
+
+        ModelLayerRegistry.registerModelLayer(
+                StoneRitualAltarBlockEntityRenderer.MAGIC_AURA_LAYER,
+                StoneRitualAltarBlockEntityRenderer::createMagicAuraLayer
+        );
 
 
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {

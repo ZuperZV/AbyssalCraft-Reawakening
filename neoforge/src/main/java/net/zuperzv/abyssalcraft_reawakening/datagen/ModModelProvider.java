@@ -1,15 +1,10 @@
 package net.zuperzv.abyssalcraft_reawakening.datagen;
 
-import net.minecraft.client.color.item.Dye;
 import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
-import net.minecraft.client.data.models.model.ItemModelUtils;
-import net.minecraft.client.data.models.model.ModelLocationUtils;
-import net.minecraft.client.data.models.model.ModelTemplates;
-import net.minecraft.client.data.models.model.TextureMapping;
-import net.minecraft.client.resources.model.sprite.Material;
+import net.minecraft.client.data.models.model.*;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -17,14 +12,19 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.minecraft.world.level.block.Block;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
-import net.zuperzv.abyssalcraft_reawakening.init.ModArmorMaterials;
-import net.zuperzv.abyssalcraft_reawakening.init.ModBlocks;
-import net.zuperzv.abyssalcraft_reawakening.init.ModItems;
+import net.zuperzv.abyssalcraft_reawakening.init.item.ModArmorMaterials;
+import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.init.data.DyedColorTintSource;
 import net.zuperzv.abyssalcraft_reawakening.services.NeoForgeRegistryHelper;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+
+import static net.minecraft.client.data.models.BlockModelGenerators.createSimpleBlock;
+import static net.minecraft.client.data.models.BlockModelGenerators.plainVariant;
 
 
 public class ModModelProvider extends ModelProvider {
@@ -41,6 +41,9 @@ public class ModModelProvider extends ModelProvider {
 
         generateItemWithTintedOverlay(itemModels, ModItems.NECRONOMICON.get(), new DyedColorTintSource());
         generateCubeBlock(blockModels, ModBlocks.ABYSSALNITE_BLOCK.block().get());
+
+        generateBlockFromParent(blockModels, ModBlocks.STONE_RITUAL_ALTAR.block().get(), "ritual_altar", List.of(TextureSlot.create("0")));
+        generateBlockFromParent(blockModels, ModBlocks.STONE_RITUAL_PEDESTAL.block().get(), "ritual_pedestal", List.of(TextureSlot.create("1"), TextureSlot.create("2")));
 
 
         for (Item item : getModItems()) {
@@ -154,6 +157,39 @@ public class ModModelProvider extends ModelProvider {
                 || item instanceof AxeItem
                 || item instanceof ShovelItem
                 || item instanceof HoeItem;
+    }
+
+    private void generateBlockFromParent(
+            BlockModelGenerators blockModels,
+            Block block,
+            String parentModel,
+            List<TextureSlot> slots
+    ) {
+        if (slots.isEmpty()) {
+            throw new IllegalArgumentException("At least one TextureSlot is required.");
+        }
+
+        generatedBlocks.add(block);
+
+        ModelTemplate template = new ModelTemplate(
+                Optional.of(Identifier.fromNamespaceAndPath(Constants.MOD_ID, "block/" + parentModel)),
+                Optional.empty(),
+                slots.toArray(new TextureSlot[0])
+        );
+
+        TextureMapping textures = new TextureMapping();
+
+        for (TextureSlot slot : slots) {
+            textures.put(slot, TextureMapping.getBlockTexture(block));
+        }
+
+        textures.put(TextureSlot.PARTICLE, TextureMapping.getBlockTexture(block));
+
+        Identifier model = template.create(block, textures, blockModels.modelOutput);
+
+        blockModels.blockStateOutput.accept(
+                createSimpleBlock(block, plainVariant(model))
+        );
     }
 
     private void generateCubeBlock(BlockModelGenerators blockModels, Block block) {

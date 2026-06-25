@@ -24,7 +24,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
-import net.zuperzv.abyssalcraft_reawakening.init.ModItems;
+import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.init.component.CodexTierData;
 import net.zuperzv.abyssalcraft_reawakening.init.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.init.data.CodexBookmarksData;
@@ -35,7 +35,6 @@ import net.zuperzv.abyssalcraft_reawakening.init.network.SetBookmarksPacket;
 import net.zuperzv.abyssalcraft_reawakening.init.screen.Helpers.*;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
 import net.zuperzv.abyssalcraft_reawakening.services.util.MouseUtil;
-import org.lwjgl.glfw.GLFW;
 import net.minecraft.client.gui.screens.advancements.AdvancementsScreen;
 
 import java.util.*;
@@ -176,7 +175,7 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
             advancementsScreen = new AdvancementsScreen(clientAdvancements, null);
             advancementsScreen.init(this.width, this.height);
 
-            Identifier netherRootId = Identifier.parse("abyssalcraft_reawakening:get_flower");
+            Identifier netherRootId = Identifier.fromNamespaceAndPath(Constants.MOD_ID, "get_flower");
             var netherNode = clientAdvancements.getTree().get(netherRootId);
 
             if (netherNode != null) {
