@@ -79,6 +79,7 @@ public class StoneRitualPedestalBlockEntity extends BlockEntity implements World
     }
 
     public static void tickServer(Level level, BlockPos pos, BlockState state, StoneRitualPedestalBlockEntity blockEntity) {
+        level.scheduleTick(pos, state.getBlock(), 1);
     }
 
     public void setSavedPos(BlockPos pos) {
@@ -276,8 +277,8 @@ public class StoneRitualPedestalBlockEntity extends BlockEntity implements World
 
         Set<Ingredient> matchedIngredients = new HashSet<>();
 
-        for (int dx = -2; dx <= 2; dx++) {
-            for (int dz = -2; dz <= 2; dz++) {
+        for (int dx = -3; dx <= 3; dx++) {
+            for (int dz = -3; dz <= 3; dz++) {
                 if (dx == 0 && dz == 0) continue;
 
                 BlockPos checkPos = nexus.getSavedPos().offset(dx, 0, dz);

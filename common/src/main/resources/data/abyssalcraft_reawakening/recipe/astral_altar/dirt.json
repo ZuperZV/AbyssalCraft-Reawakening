@@ -1,0 +1,19 @@
+{
+  "type": "abyssalcraft_reawakening:astral_altar",
+
+  "ingredient": "minecraft:diamond",
+
+  "ingredients": [
+    "minecraft:gold_ingot",
+    "minecraft:emerald"
+  ],
+
+  "output": {
+    "id": "minecraft:dirt",
+    "count": 1
+  },
+
+  "time": 120,
+  "time_of_day": "NIGHT",
+  "fake_time_of_day": "NIGHT"
+}

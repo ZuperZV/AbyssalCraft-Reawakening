@@ -1,7 +1,7 @@
 {
   "id": "entry_2",
   "title": "Entry 2",
-  "title_key": "codex_arcanum.stellar_sorcery.guide.entry_2.title",
+  "title_key": "codex_arcanum.abyssalcraft_reawakening.guide.entry_2.title",
   "type": "item",
   "icon": "minecraft:tuff_bricks",
   "search_items": [
@@ -13,8 +13,8 @@
       "modules": [
         {
           "module_type": "text",
-          "text": "codex_arcanum.stellar_sorcery.guide.entry_2.page.1.module.1",
-          "text_key": "codex_arcanum.stellar_sorcery.guide.entry_2.page.1.module.1"
+          "text": "codex_arcanum.abyssalcraft_reawakening.guide.entry_2.page.1.module.1",
+          "text_key": "codex_arcanum.abyssalcraft_reawakening.guide.entry_2.page.1.module.1"
         }
       ]
     }

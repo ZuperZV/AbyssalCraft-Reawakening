@@ -1,7 +1,7 @@
 {
   "id": "entry_1",
   "title": "Entry 1",
-  "title_key": "codex_arcanum.stellar_sorcery.guide.entry_1.title",
+  "title_key": "codex_arcanum.abyssalcraft_reawakening.guide.entry_1.title",
   "type": "item",
   "icon": "minecraft:book",
   "search_items": [],
@@ -12,7 +12,7 @@
         {
           "module_type": "text",
           "text": "hmmmm",
-          "text_key": "codex_arcanum.stellar_sorcery.guide.entry_1.page.1.module.1"
+          "text_key": "codex_arcanum.abyssalcraft_reawakening.guide.entry_1.page.1.module.1"
         }
       ]
     },

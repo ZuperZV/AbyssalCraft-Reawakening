@@ -34,6 +34,7 @@ import net.zuperzv.abyssalcraft_reawakening.init.block.entity.helper.SimpleItemH
 import net.zuperzv.abyssalcraft_reawakening.init.recipe.StoneRitualAltarRecipe;
 import net.zuperzv.abyssalcraft_reawakening.init.recipe.ModRecipes;
 import org.jetbrains.annotations.Nullable;
+import net.zuperzv.abyssalcraft_reawakening.Constants;
 
 import java.util.*;
 
@@ -43,6 +44,7 @@ public class StoneRitualAltarBlockEntity extends BlockEntity implements WorldlyC
     public int progress = 0;
     public int maxProgress = 80;
     private int prevProgress = 0;
+    private StoneRitualAltarRecipe currentRecipe;
     public Optional<Holder.Reference<EntityType<?>>> entityLastSacrificed = Optional.empty();
 
     public static final int INVENTORY_SIZE = 1;
@@ -124,10 +126,6 @@ public class StoneRitualAltarBlockEntity extends BlockEntity implements WorldlyC
         Level level = this.level;
         if (level == null) return;
 
-        SimpleContainer inventoryContainer = new SimpleContainer(inventory.getSlots());
-        for (int i = 0; i < inventory.getSlots(); i++) {
-            inventoryContainer.setItem(i, inventory.getStackInSlot(i));
-        }
 
         Optional<RecipeHolder<StoneRitualAltarRecipe>> recipe = Objects.requireNonNull(level.getServer()).getRecipeManager()
                 .getRecipeFor(ModRecipes.ASTRAL_ALTAR.type().get(), new BlockRecipeInput(inventory.getStackInSlot(0), worldPosition), level);
@@ -150,17 +148,31 @@ public class StoneRitualAltarBlockEntity extends BlockEntity implements WorldlyC
 
         if (allMatched) {
             if (altarRecipe.entityType().isPresent()) {
-                if (entityLastSacrificed.equals(altarRecipe.entityType().get())) {
+                    if (entityLastSacrificed.equals(altarRecipe.entityType().get())) {
                     setSacrificedEntity(null);
-                    System.out.println("Text: " + entityLastSacrificed);
+                    Constants.LOG.debug("Text: {}", entityLastSacrificed);
                 }
             }
 
             inventory.extractItem(0, 1, false);
             for (MatchedItem matched : matchedIngredientSources.values()) {
                 matched.nexus.inventory.extractItem(matched.slot, 1, false);
+
+                matched.nexus.inventory.setChangeCallback(this::setChanged);
+                matched.nexus.setChanged();
+                level.sendBlockUpdated(matched.nexus.getBlockPos(), matched.nexus.getBlockState(), matched.nexus.getBlockState(), 3);
             }
-            inventory.setStackInSlot(0, altarRecipe.output().copy());
+            inventory.setStackInSlot(0, altarRecipe.output().create().copy());
+
+            inventory.setChangeCallback(this::setChanged);
+            setChanged();
+
+            level.sendBlockUpdated(
+                    worldPosition,
+                    getBlockState(),
+                    getBlockState(),
+                    Block.UPDATE_CLIENTS
+            );
 
             itemCraftingParticles(level);
 
@@ -169,8 +181,8 @@ public class StoneRitualAltarBlockEntity extends BlockEntity implements WorldlyC
     }
 
     private static void giveNexusInfoAboutStoneRitualAltar(Level level, BlockPos pos, StoneRitualAltarBlockEntity altar) {
-        for (int dx = -2; dx <= 2; dx++) {
-            for (int dz = -2; dz <= 2; dz++) {
+        for (int dx = -3; dx <= 3; dx++) {
+            for (int dz = -3; dz <= 3; dz++) {
                 if (dx == 0 && dz == 0) continue;
 
                 BlockPos checkPos = pos.offset(dx, 0, dz);
@@ -193,8 +205,8 @@ public class StoneRitualAltarBlockEntity extends BlockEntity implements WorldlyC
             boolean matched = false;
 
             outer:
-            for (int dx = -2; dx <= 2; dx++) {
-                for (int dz = -2; dz <= 2; dz++) {
+            for (int dx = -3; dx <= 3; dx++) {
+                for (int dz = -3; dz <= 3; dz++) {
                     if (dx == 0 && dz == 0) continue;
 
                     BlockPos checkPos = worldPosition.offset(dx, 0, dz);
@@ -225,8 +237,8 @@ public class StoneRitualAltarBlockEntity extends BlockEntity implements WorldlyC
             boolean matched = false;
 
             outer:
-            for (int dx = -2; dx <= 2; dx++) {
-                for (int dz = -2; dz <= 2; dz++) {
+            for (int dx = -3; dx <= 3; dx++) {
+                for (int dz = -3; dz <= 3; dz++) {
                     if (dx == 0 && dz == 0) continue;
 
                     BlockPos checkPos = worldPosition.offset(dx, 0, dz);
@@ -289,8 +301,8 @@ public class StoneRitualAltarBlockEntity extends BlockEntity implements WorldlyC
             Block requiredBlock = altarRecipe.additionalBlock().get();
             Block newBlock = altarRecipe.blockOutput().get();
 
-            for (int dx = -2; dx <= 2; dx++) {
-                for (int dz = -2; dz <= 2; dz++) {
+            for (int dx = -3; dx <= 3; dx++) {
+                for (int dz = -3; dz <= 3; dz++) {
                     if (dx == 0 && dz == 0) continue;
 
                     BlockPos checkPos = worldPosition.offset(dx, 0, dz);
@@ -361,8 +373,8 @@ public class StoneRitualAltarBlockEntity extends BlockEntity implements WorldlyC
     }
 
     public static void setCrafting(BlockPos altarPos, Level level, boolean boo) {
-        for (int dx = -2; dx <= 2; dx++) {
-            for (int dz = -2; dz <= 2; dz++) {
+        for (int dx = -3; dx <= 3; dx++) {
+            for (int dz = -3; dz <= 3; dz++) {
                 if (dx == 0 && dz == 0) continue;
 
                 BlockPos checkPos = altarPos.offset(dx, 0, dz);
@@ -391,7 +403,7 @@ public class StoneRitualAltarBlockEntity extends BlockEntity implements WorldlyC
     }
 
     private void spawnVisualLightningBolt(ServerLevel level, BlockPos blockPos) {
-        EntityType.LIGHTNING_BOLT.spawn(level, blockPos, EntitySpawnReason.TRIGGERED).setVisualOnly(true);
+        Objects.requireNonNull(EntityType.LIGHTNING_BOLT.spawn(level, blockPos, EntitySpawnReason.TRIGGERED)).setVisualOnly(true);
     }
 
     public SimpleItemHandler getInputItems() {

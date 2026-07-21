@@ -97,7 +97,9 @@ public class SimpleItemHandler {
                 output.list("items", ItemStack.CODEC);
 
         for (ItemStack stack : items) {
-            list.add(stack);
+            if (!stack.isEmpty()) {
+                list.add(stack);
+            }
         }
     }
 
@@ -128,7 +130,15 @@ public class SimpleItemHandler {
         }
     }
 
+    private Runnable changeCallback;
+
+    public void setChangeCallback(Runnable callback) {
+        this.changeCallback = callback;
+    }
+
     protected void onContentsChanged(int slot) {
-        // override hvis du vil sync / markDirty //HUSK DET
+        if (changeCallback != null) {
+            changeCallback.run();
+        }
     }
 }

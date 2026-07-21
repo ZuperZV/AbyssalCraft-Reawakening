@@ -16,13 +16,17 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.custom.StoneRitualAltarBlockEntity;
+import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.custom.StoneRitualPedestalBlockEntity;
 import net.zuperzv.abyssalcraft_reawakening.init.recipe.helper.TimeOfDay;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.ItemStackTemplate;
+
 
 import java.util.*;
 
 public record StoneRitualAltarRecipe(
-        ItemStack output,
+        ItemStackTemplate output,
         Ingredient moldIngredient,
         List<Ingredient> additionalIngredients,
         Optional<EntityType<?>> entityType,
@@ -38,7 +42,8 @@ public record StoneRitualAltarRecipe(
 
     public static final MapCodec<StoneRitualAltarRecipe> CODEC =
             RecordCodecBuilder.mapCodec(instance -> instance.group(
-                    ItemStack.CODEC.fieldOf("output").forGetter(StoneRitualAltarRecipe::output),
+                    ItemStackTemplate.CODEC.fieldOf("output")
+                            .forGetter(StoneRitualAltarRecipe::output),
 
                     Ingredient.CODEC.fieldOf("ingredient")
                             .forGetter(StoneRitualAltarRecipe::moldIngredient),
@@ -86,13 +91,13 @@ public record StoneRitualAltarRecipe(
 
                 @Override
                 public void encode(RegistryFriendlyByteBuf buf, StoneRitualAltarRecipe recipe) {
-                    ItemStack.OPTIONAL_STREAM_CODEC.encode(buf, recipe.output());
+                    ItemStackTemplate.STREAM_CODEC.encode(buf, recipe.output());
                     Ingredient.CONTENTS_STREAM_CODEC.encode(buf, recipe.moldIngredient());
                 }
 
                 @Override
                 public StoneRitualAltarRecipe decode(RegistryFriendlyByteBuf buf) {
-                    ItemStack output = ItemStack.OPTIONAL_STREAM_CODEC.decode(buf);
+                    ItemStackTemplate output = ItemStackTemplate.STREAM_CODEC.decode(buf);
                     Ingredient ingredient = Ingredient.CONTENTS_STREAM_CODEC.decode(buf);
 
                     return new StoneRitualAltarRecipe(
@@ -114,7 +119,7 @@ public record StoneRitualAltarRecipe(
 
     @Override
     public ItemStack assemble(StoneRitualAltarBlockEntity.BlockRecipeInput input) {
-        return output.copy();
+        return output.create().copy();
     }
 
     @Override
@@ -178,7 +183,7 @@ public record StoneRitualAltarRecipe(
         if (fakeTimeOfDay.isPresent()) {
             long time = level.getLevelData().getGameTime() % 24000;
             boolean isDay = time >= 0 && time < 13000;
-            System.out.println("isDay: " + isDay);
+            Constants.LOG.debug("isDay: {}", isDay);
 
             switch (fakeTimeOfDay.get()) {
                 case DAY -> { if (!isDay) return false; }
@@ -189,8 +194,8 @@ public record StoneRitualAltarRecipe(
 
         Set<Ingredient> unmatched = new HashSet<>(additionalIngredients);
 
-        for (int dx = -2; dx <= 2; dx++) {
-            for (int dz = -2; dz <= 2; dz++) {
+        for (int dx = -3; dx <= 3; dx++) {
+            for (int dz = -3; dz <= 3; dz++) {
                 if (dx == 0 && dz == 0) continue;
 
                 BlockPos checkPos = center.offset(dx, 0, dz);
@@ -244,7 +249,7 @@ public record StoneRitualAltarRecipe(
 
     @Override
     public PlacementInfo placementInfo() {
-        return PlacementInfo.NOT_PLACEABLE;
+        return PlacementInfo.create(moldIngredient);
     }
 
     @Override

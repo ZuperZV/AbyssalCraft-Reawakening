@@ -13,21 +13,16 @@ public class ModRecipes {
             > ASTRAL_ALTAR;
 
     public static void load(IRegistryHelper registry) {
-        ASTRAL_ALTAR =
-                registry.registerRecipeTypeAndSerializer(
-                        "astral_altar",
+        ASTRAL_ALTAR = registry.registerRecipeTypeAndSerializer(
+                "astral_altar",
 
-                        () -> new RecipeType<StoneRitualAltarRecipe>() {
-                            @Override
-                            public String toString() {
-                                return "astral_altar";
-                            }
-                        },
-
-                        () -> new RecipeSerializer<>(
-                                StoneRitualAltarRecipe.CODEC,
-                                StoneRitualAltarRecipe.STREAM_CODEC
-                        )
-                );
+                () -> new RecipeType<StoneRitualAltarRecipe>()
+                {@Override
+                public String toString() {
+                    return "astral_altar";
+                    }
+                },
+                () -> new RecipeSerializer<>(StoneRitualAltarRecipe.CODEC, StoneRitualAltarRecipe.STREAM_CODEC)
+        );
     }
 }
