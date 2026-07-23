@@ -1,6 +1,7 @@
 package net.zuperzv.abyssalcraft_reawakening.init.block.entity.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -15,10 +16,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
-
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.custom.StoneRitualPedestalBlockEntity;
 
 public class StoneRitualPedestalBlockEntityRenderer
@@ -30,14 +28,16 @@ public class StoneRitualPedestalBlockEntityRenderer
         this.itemModelResolver = context.itemModelResolver();
     }
 
-    // =========================
-    // STATE
-    // =========================
-
     public static class NexusState extends BlockEntityRenderState {
         public Level level;
         public float rotation;
         public long gameTime;
+        public boolean hasItem;
+        public boolean isFlying;
+        public boolean isMergingAtAltar;
+        public float flyLocalX;
+        public float flyLocalY;
+        public float flyLocalZ;
 
         public final ItemStackRenderState itemStackRenderState = new ItemStackRenderState();
 
@@ -67,8 +67,14 @@ public class StoneRitualPedestalBlockEntityRenderer
         state.level = level;
         state.gameTime = (long) time;
         state.rotation = time % 360f;
+        state.isFlying = false;
+        state.isMergingAtAltar = false;
+        state.hasItem = false;
 
         ItemStack stack = be.inventory.getStackInSlot(0);
+        if (stack.isEmpty()) return;
+
+        state.hasItem = true;
 
         itemModelResolver.updateForTopItem(
                 state.itemStackRenderState,
@@ -78,6 +84,23 @@ public class StoneRitualPedestalBlockEntityRenderer
                 null,
                 0
         );
+
+        if (be.isUsedInActiveCraft()) {
+            float mergeProgress = be.getMergeProgress(partialTicks);
+            if (mergeProgress > 0f) {
+                state.isMergingAtAltar = true;
+            } else {
+                float flyProgress = be.getFlyProgress(partialTicks);
+                if (flyProgress > 0f) {
+                    be.getFlyingItemPosition(partialTicks).ifPresent(worldPos -> {
+                        state.isFlying = true;
+                        state.flyLocalX = (float) (worldPos.x - be.getBlockPos().getX());
+                        state.flyLocalY = (float) (worldPos.y - be.getBlockPos().getY());
+                        state.flyLocalZ = (float) (worldPos.z - be.getBlockPos().getZ());
+                    });
+                }
+            }
+        }
     }
 
     @Override
@@ -87,42 +110,39 @@ public class StoneRitualPedestalBlockEntityRenderer
             SubmitNodeCollector submitNodeCollector,
             CameraRenderState cameraRenderState
     ) {
-
         Level level = state.level;
-        if (level == null) return;
+        if (level == null || !state.hasItem) return;
 
         MultiBufferSource buffers = Minecraft.getInstance().renderBuffers().bufferSource();
         int light = state.lightCoords;
 
-        // =========================
-        // CENTER ITEM
-        // =========================
+        if (state.isFlying) {
+            poseStack.pushPose();
+            poseStack.translate(state.flyLocalX, state.flyLocalY, state.flyLocalZ);
+            poseStack.scale(0.5f, 0.5f, 0.5f);
+            poseStack.mulPose(Axis.YP.rotationDegrees(state.rotation));
 
-        poseStack.pushPose();
-        poseStack.translate(0.5f, 1.15f, 0.5f);
-        poseStack.scale(0.5f, 0.5f, 0.5f);
-        poseStack.mulPose(com.mojang.math.Axis.YP.rotationDegrees(state.rotation));
+            state.itemStackRenderState.submit(
+                    poseStack,
+                    submitNodeCollector,
+                    light,
+                    OverlayTexture.NO_OVERLAY,
+                    0
+            );
 
-        state.itemStackRenderState.submit(
-                poseStack,
-                submitNodeCollector,
-                light,
-                OverlayTexture.NO_OVERLAY,
-                0
-        );
+            poseStack.popPose();
+            return;
+        }
 
-        poseStack.popPose();
-
-        // =========================
-        // ENTITY
-        // =========================
+        if (state.isMergingAtAltar) {
+            return;
+        }
 
         if (state.entityRenderState != null) {
-
             poseStack.pushPose();
             poseStack.translate(0.5f, 1.2f, 0.5f);
             poseStack.scale(0.35f, 0.35f, 0.35f);
-            poseStack.mulPose(com.mojang.math.Axis.YP.rotationDegrees(state.rotation + 135));
+            poseStack.mulPose(Axis.YP.rotationDegrees(state.rotation + 135));
 
             Minecraft.getInstance()
                     .getEntityRenderDispatcher()
@@ -137,63 +157,19 @@ public class StoneRitualPedestalBlockEntityRenderer
             poseStack.popPose();
         }
 
-        // =========================
-        // FLOATING BLOCKS (FIXED PIPELINE)
-        // =========================
+        poseStack.pushPose();
+        poseStack.translate(0.5f, 1.15f, 0.5f);
+        poseStack.scale(0.5f, 0.5f, 0.5f);
+        poseStack.mulPose(Axis.YP.rotationDegrees(state.rotation));
 
-        /*
-        Block[] blocks = {
-                Blocks.GRASS_BLOCK,
-                Blocks.MOSS_BLOCK,
-                Blocks.DIRT,
-                Blocks.COARSE_DIRT,
-                Blocks.ROOTED_DIRT
-        };
+        state.itemStackRenderState.submit(
+                poseStack,
+                submitNodeCollector,
+                light,
+                OverlayTexture.NO_OVERLAY,
+                0
+        );
 
-        int count = 5;
-        double radius = 0.75;
-
-        for (int i = 0; i < count; i++) {
-
-            double t = (state.gameTime + i * 11) / 100.0;
-
-            double angle = (i / (double) count) * Math.PI * 2 + t;
-
-            double x = Math.cos(angle) * radius;
-            double z = Math.sin(angle) * radius;
-            double y = 0.2 + (Math.sin(t * Math.PI * 2) + 1.0) * 0.5;
-
-            float spin = (float)((t * 360) % 360);
-            float scale = 0.15f;
-
-            ItemStack stack = new ItemStack(blocks[i % blocks.length]);
-
-            ItemStackRenderState temp = new ItemStackRenderState();
-
-            itemModelResolver.updateForTopItem(
-                    temp,
-                    stack,
-                    ItemDisplayContext.FIXED,
-                    level,
-                    null,
-                    0
-            );
-
-            poseStack.pushPose();
-            poseStack.translate(0.5 + x, y, 0.5 + z);
-            poseStack.scale(scale, scale, scale);
-            poseStack.mulPose(com.mojang.math.Axis.YP.rotationDegrees(spin));
-
-            temp.submit(
-                    poseStack,
-                    submitNodeCollector,
-                    light,
-                    OverlayTexture.NO_OVERLAY,
-                    0
-            );
-
-            poseStack.popPose();
-        }
-         */
+        poseStack.popPose();
     }
 }

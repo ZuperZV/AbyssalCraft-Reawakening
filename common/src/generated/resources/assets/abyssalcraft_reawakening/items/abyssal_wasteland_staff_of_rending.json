@@ -1,0 +1,16 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "abyssalcraft_reawakening:item/abyssal_wasteland_staff_of_rending",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": -1
+      },
+      {
+        "type": "abyssalcraft_reawakening:dyed_color_tint",
+        "default": 6567730
+      }
+    ]
+  }
+}

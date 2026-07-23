@@ -164,6 +164,10 @@ public class StoneRitualAltarBlockEntity extends BlockEntity implements WorldlyC
             }
             inventory.setStackInSlot(0, altarRecipe.output().create().copy());
 
+            progress = 0;
+            prevProgress = 0;
+            setCrafting(worldPosition, level, false);
+
             inventory.setChangeCallback(this::setChanged);
             setChanged();
 
@@ -385,10 +389,12 @@ public class StoneRitualAltarBlockEntity extends BlockEntity implements WorldlyC
                     if (boo) {
                         if (nexus.craftingStartTime == -1) {
                             nexus.craftingStartTime = level.getGameTime();
+                            nexus.isUsedInActiveCraft = true;
                             nexus.setChanged();
                         }
                     } else {
                         nexus.craftingStartTime = -1;
+                        nexus.isUsedInActiveCraft = false;
                         nexus.setChanged();
                     }
                 }

@@ -172,6 +172,7 @@ public class StoneRitualPedestalBlock extends BaseEntityBlock {
         ItemStack stack = nexus.getInputItems().getStackInSlot(0);
         if (stack.isEmpty()) return;
 
+        /*
         nexus.getFlyingItemPosition(0.0f).ifPresent(currentPos -> {
             BlockPos altarPos = nexus.getSavedPos();
             if (altarPos == null) return;
@@ -179,9 +180,12 @@ public class StoneRitualPedestalBlock extends BaseEntityBlock {
             Vec3 targetPos = new Vec3(altarPos.getX() + 0.5, altarPos.getY() + 1.15, altarPos.getZ() + 0.5);
             Vec3 direction = targetPos.subtract(currentPos).normalize().scale(0.05);
 
+            if (targetPos == null) return;
+
             level.addParticle(new ItemParticleOption(ParticleTypes.ITEM, stack.getItem()),
                     currentPos.x, currentPos.y, currentPos.z,
                     direction.x, direction.y + 0.10, direction.z);
         });
+         */
     }
 }

@@ -14,6 +14,7 @@ import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -21,18 +22,23 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.ModBlockEntities;
+import net.zuperzv.abyssalcraft_reawakening.init.block.entity.custom.StoneRitualAltarBlockEntity;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.helper.SimpleItemHandler;
+import net.zuperzv.abyssalcraft_reawakening.init.recipe.ModRecipes;
 import net.zuperzv.abyssalcraft_reawakening.init.recipe.StoneRitualAltarRecipe;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
 public class StoneRitualPedestalBlockEntity extends BlockEntity implements WorldlyContainer {
+    public static final float MERGE_THRESHOLD = 0.85f;
+
     public long craftingStartTime = -1;
     public long animationStartTime = 1;
     public float clientProgress = 0f;
     public int progress = 0;
     public int maxProgress = 80;
+    public boolean isUsedInActiveCraft = false;
 
     public static final int INVENTORY_SIZE = 1;
     public final SimpleItemHandler inventory = new SimpleItemHandler (INVENTORY_SIZE) {
@@ -80,6 +86,8 @@ public class StoneRitualPedestalBlockEntity extends BlockEntity implements World
 
     public static void tickServer(Level level, BlockPos pos, BlockState state, StoneRitualPedestalBlockEntity blockEntity) {
         level.scheduleTick(pos, state.getBlock(), 1);
+
+        //System.out.println("isUsedInActiveCraft: " + blockEntity.isUsedInActiveCraft);
     }
 
     public void setSavedPos(BlockPos pos) {
@@ -241,15 +249,10 @@ public class StoneRitualPedestalBlockEntity extends BlockEntity implements World
     }
 
     public Optional<Vec3> getFlyingItemPosition(float partialTicks) {
-        if (level == null || savedPos == null || inventory.getStackInSlot(0).isEmpty()) return Optional.empty();
+        if (!isUsedInActiveCraft()) return Optional.empty();
 
-        if (!(level.getBlockEntity(savedPos) instanceof StoneRitualAltarBlockEntity)) return Optional.empty();
-
-        if (progress <= 0) return Optional.empty();
-
-        float interpolatedProgress = Mth.lerp(partialTicks, clientProgress, progress);
-        float prog = maxProgress == 0 ? 0f : Mth.clamp(interpolatedProgress / maxProgress, 0f, 1f);
-        if (prog <= 0f) return Optional.empty();
+        float prog = getFlyProgress(partialTicks);
+        if (prog <= 0f || prog >= MERGE_THRESHOLD) return Optional.empty();
 
         float smoothProgress = prog * prog * (3f - 2f * prog);
 
@@ -266,6 +269,41 @@ public class StoneRitualPedestalBlockEntity extends BlockEntity implements World
         double z = Mth.lerp(smoothProgress, startZ, endZ);
 
         return Optional.of(new Vec3(x, y, z));
+    }
+
+    public float getFlyProgress(float partialTicks) {
+        if (!isUsedInActiveCraft()) return 0f;
+
+        float interpolatedProgress = Mth.lerp(partialTicks, clientProgress, progress);
+        if (maxProgress == 0) return 0f;
+        return Mth.clamp(interpolatedProgress / maxProgress, 0f, 1f);
+    }
+
+    public float getMergeProgress(float partialTicks) {
+        float flyProgress = getFlyProgress(partialTicks);
+        if (flyProgress < MERGE_THRESHOLD) return 0f;
+        return Mth.clamp((flyProgress - MERGE_THRESHOLD) / (1f - MERGE_THRESHOLD), 0f, 1f);
+    }
+
+    public boolean isUsedInActiveCraft() {
+        return this.isUsedInActiveCraft;
+    }
+
+    public boolean setUsedInActiveCraft() {
+        if (level == null || savedPos == null || inventory.getStackInSlot(0).isEmpty() || progress <= 0) {
+            return false;
+        }
+
+        BlockEntity be = level.getBlockEntity(savedPos);
+        if (!(be instanceof StoneRitualAltarBlockEntity altar)) return false;
+
+        ItemStack altarStack = altar.inventory.getStackInSlot(0);
+        if (altarStack.isEmpty()) return false;
+
+        Optional<RecipeHolder<StoneRitualAltarRecipe>> recipeOpt = Objects.requireNonNull(level.getServer()).getRecipeManager()
+                .getRecipeFor(ModRecipes.ASTRAL_ALTAR.type().get(), new StoneRitualAltarBlockEntity.BlockRecipeInput(inventory.getStackInSlot(0), worldPosition), level);
+
+        return recipeOpt.filter(recipe -> isIngredientUsedInRecipeForThisNexus(this, recipe.value())).isPresent();
     }
 
     private boolean isIngredientUsedInRecipeForThisNexus(StoneRitualPedestalBlockEntity nexus, StoneRitualAltarRecipe recipe) {

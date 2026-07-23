@@ -104,15 +104,17 @@ public class SimpleItemHandler {
     }
 
     public void load(ValueInput input) {
-        input.list("items", ItemStack.CODEC).ifPresent(list -> {
+        for (int i = 0; i < items.size(); i++) {
+            items.set(i, ItemStack.EMPTY);
+        }
 
+        input.list("items", ItemStack.CODEC).ifPresent(list -> {
             int i = 0;
             for (ItemStack stack : list) {
                 if (i >= items.size()) break;
                 items.set(i, stack);
                 i++;
             }
-
         });
     }
 

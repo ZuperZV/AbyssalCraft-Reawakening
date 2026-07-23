@@ -7,6 +7,7 @@ import net.minecraft.world.item.equipment.ArmorType;
 import net.zuperzv.abyssalcraft_reawakening.init.component.CodexTierData;
 import net.zuperzv.abyssalcraft_reawakening.init.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.init.item.custom.NecronomiconItem;
+import net.zuperzv.abyssalcraft_reawakening.init.item.custom.StaffOfRendingItem;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
 
@@ -21,6 +22,33 @@ public class ModItems {
                     .component(DataComponents.DYED_COLOR, new DyedItemColor(0x643732))));
 
 
+    //Shadow items
+    public static final RegistryHandle<Item> SHADOW_FRAGMENT = Services.REGISTRY.registerItem("shadow_fragment",
+            properties -> new Item(properties));
+
+    public static final RegistryHandle<Item> SHADOW_SHARD = Services.REGISTRY.registerItem("shadow_shard",
+            properties -> new Item(properties));
+
+    public static final RegistryHandle<Item> SHADOW_GEM = Services.REGISTRY.registerItem("shadow_gem",
+            properties -> new Item(properties));
+
+    public static final RegistryHandle<Item> OBLIVION_SHARD = Services.REGISTRY.registerItem("oblivion_shard",
+            properties -> new Item(properties));
+
+    //Staff Of Rending
+    public static final RegistryHandle<Item> STAFF_OF_RENDING = Services.REGISTRY.registerItem("staff_of_rending",
+            properties -> new StaffOfRendingItem(properties, 30, 1000));
+
+    public static final RegistryHandle<Item> ABYSSAL_WASTELAND_STAFF_OF_RENDING = Services.REGISTRY.registerItem("abyssal_wasteland_staff_of_rending",
+            properties -> new StaffOfRendingItem(properties, 40, 3000));
+
+    public static final RegistryHandle<Item> DREADLANDS_STAFF_OF_RENDING = Services.REGISTRY.registerItem("dreadlands_staff_of_rending",
+            properties -> new StaffOfRendingItem(properties, 50, 5000));
+
+    public static final RegistryHandle<Item> OMOTHOL_STAFF_OF_RENDING = Services.REGISTRY.registerItem("omothol_staff_of_rending",
+            properties -> new StaffOfRendingItem(properties, 60, 7000));
+
+    //Abyssalnite
     public static final RegistryHandle<Item> ABYSSALNITE_INGOT = Services.REGISTRY.registerItem("abyssalnite_ingot",
             properties -> new Item(properties));
 

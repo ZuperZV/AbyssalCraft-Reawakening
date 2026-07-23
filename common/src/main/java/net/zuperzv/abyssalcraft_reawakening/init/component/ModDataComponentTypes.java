@@ -16,4 +16,16 @@ public class ModDataComponentTypes {
                     "codex_tier",
                     b -> b.persistent(CodexTierData.CODEC)
             );
+
+    public static final RegistryHandle<DataComponentType<EnergyData>> ENERGY =
+            Services.REGISTRY.registerDataComponent(
+                    "energy",
+                    b -> b.persistent(EnergyData.CODEC)
+            );
+
+    public static final RegistryHandle<DataComponentType<StaffTargetData>> STAFF_TARGET =
+            Services.REGISTRY.registerDataComponent(
+                    "staff_target",
+                    b -> b.persistent(StaffTargetData.CODEC)
+            );
 }

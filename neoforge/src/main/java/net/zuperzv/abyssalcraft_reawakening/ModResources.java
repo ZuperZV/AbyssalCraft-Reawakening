@@ -1,5 +1,6 @@
 package net.zuperzv.abyssalcraft_reawakening;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
@@ -7,12 +8,12 @@ import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.world.item.Item;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.AddClientReloadListenersEvent;
-import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
-import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.ModBlockEntities;
@@ -20,6 +21,9 @@ import net.zuperzv.abyssalcraft_reawakening.init.block.entity.renderer.StoneRitu
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.renderer.StoneRitualPedestalBlockEntityRenderer;
 import net.zuperzv.abyssalcraft_reawakening.init.data.CodexDataLoader;
 import net.zuperzv.abyssalcraft_reawakening.init.data.DyedColorTintSource;
+import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
+import net.zuperzv.abyssalcraft_reawakening.init.item.custom.decorator.ItemDecoratorRegistry;
+import net.zuperzv.abyssalcraft_reawakening.init.item.custom.decorator.StaffOfRenderingOverlay;
 import net.zuperzv.abyssalcraft_reawakening.init.screen.ModMenuTypes;
 import net.zuperzv.abyssalcraft_reawakening.init.screen.NecronomiconScreen;
 
@@ -49,6 +53,11 @@ public class ModResources {
 
     @SubscribeEvent
     public static void registerItemTintSources(RegisterColorHandlersEvent.ItemTintSources event) {
+        event.register(
+                Identifier.fromNamespaceAndPath(Constants.MOD_ID, "dyed_color_tint"),
+                DyedColorTintSource.MAP_CODEC
+        );
+
         event.register(
                 Identifier.fromNamespaceAndPath(Constants.MOD_ID, "dyed_color_tint"),
                 DyedColorTintSource.MAP_CODEC

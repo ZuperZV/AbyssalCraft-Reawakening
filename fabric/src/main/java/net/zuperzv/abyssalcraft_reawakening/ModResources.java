@@ -20,12 +20,16 @@ import net.zuperzv.abyssalcraft_reawakening.init.block.entity.ModBlockEntities;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.renderer.StoneRitualAltarBlockEntityRenderer;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.renderer.StoneRitualPedestalBlockEntityRenderer;
 import net.zuperzv.abyssalcraft_reawakening.init.data.CodexDataLoader;
+import net.zuperzv.abyssalcraft_reawakening.init.item.custom.decorator.ItemDecoratorRegistry;
+import net.zuperzv.abyssalcraft_reawakening.init.item.custom.decorator.StaffOfRenderingOverlay;
 import net.zuperzv.abyssalcraft_reawakening.init.network.SyncBookmarksPacket;
 import net.zuperzv.abyssalcraft_reawakening.init.screen.ModMenuTypes;
 import net.zuperzv.abyssalcraft_reawakening.init.screen.NecronomiconScreen;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
+
+import static net.zuperzv.abyssalcraft_reawakening.Constants.MOD_ID;
 
 @Environment(EnvType.CLIENT)
 public class ModResources implements ClientModInitializer {
@@ -92,5 +96,9 @@ public class ModResources implements ClientModInitializer {
                         return Identifier.fromNamespaceAndPath(Constants.MOD_ID, "codex_data");
                     }
                 });
+
+        //ItemDecoratorRegistry.register(
+        //        new StaffOfRenderingOverlay(Identifier.fromNamespaceAndPath(MOD_ID, "textures/item/oblivion_shard.png")));
+
     }
 }

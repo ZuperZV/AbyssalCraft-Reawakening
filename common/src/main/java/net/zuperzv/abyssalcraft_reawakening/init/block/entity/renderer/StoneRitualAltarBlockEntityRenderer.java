@@ -21,6 +21,7 @@ import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
+import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
@@ -29,10 +30,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.custom.StoneRitualAltarBlockEntity;
+import net.zuperzv.abyssalcraft_reawakening.init.block.entity.custom.StoneRitualPedestalBlockEntity;
 import org.jspecify.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static net.zuperzv.abyssalcraft_reawakening.init.block.custom.StoneRitualAltarBlock.CRAFTING;
 
@@ -128,11 +134,42 @@ public class StoneRitualAltarBlockEntityRenderer
                                 .extractEntity(entity, partialTicks);
             }
         });
-    }
 
-    // =========================
-    // RENDER
-    // =========================
+        state.mergingItems.clear();
+        if (state.crafting) {
+            BlockPos altarPos = blockEntity.getBlockPos();
+            for (int dx = -3; dx <= 3; dx++) {
+                for (int dz = -3; dz <= 3; dz++) {
+                    if (dx == 0 && dz == 0) continue;
+
+                    BlockEntity be = level.getBlockEntity(altarPos.offset(dx, 0, dz));
+                    if (!(be instanceof StoneRitualPedestalBlockEntity pedestal)) continue;
+                    if (!pedestal.isUsedInActiveCraft()) continue;
+
+                    float mergeProgress = pedestal.getMergeProgress(partialTicks);
+                    if (mergeProgress <= 0f) continue;
+
+                    ItemStack stackToRender = pedestal.inventory.getStackInSlot(0);
+                    if (stackToRender.isEmpty()) continue;
+
+                    MergingItemState mergingItem = new MergingItemState();
+                    mergingItem.mergeProgress = mergeProgress;
+                    mergingItem.orbitAngle = (float) Math.atan2(dz, dx);
+
+                    itemModelResolver.updateForTopItem(
+                            mergingItem.renderState,
+                            stackToRender,
+                            ItemDisplayContext.FIXED,
+                            level,
+                            null,
+                            0
+                    );
+
+                    state.mergingItems.add(mergingItem);
+                }
+            }
+        }
+    }
 
     @Override
     public void submit(
@@ -189,6 +226,36 @@ public class StoneRitualAltarBlockEntityRenderer
         );
 
         poseStack.popPose();
+
+        // =========================
+        // MERGING PEDESTAL ITEMS
+        // =========================
+        for (MergingItemState mergingItem : state.mergingItems) {
+            float mergeProgress = mergingItem.mergeProgress;
+            float smoothMerge = mergeProgress * mergeProgress * (3f - 2f * mergeProgress);
+            float orbitRadius = 0.35f * (1f - smoothMerge);
+            float scale = 0.5f * (1f - smoothMerge);
+            int alpha = (int) ((1f - smoothMerge) * 255f) << 24;
+
+            float x = 0.5f + Mth.cos(mergingItem.orbitAngle) * orbitRadius;
+            float y = 1.15f + 0.1f * (1f - smoothMerge);
+            float z = 0.5f + Mth.sin(mergingItem.orbitAngle) * orbitRadius;
+
+            poseStack.pushPose();
+            poseStack.translate(x, y, z);
+            poseStack.scale(scale, scale, scale);
+            poseStack.mulPose(Axis.YP.rotationDegrees(state.rotation + smoothMerge * 180f));
+
+            mergingItem.renderState.submit(
+                    poseStack,
+                    submitNodeCollector,
+                    light,
+                    OverlayTexture.NO_OVERLAY,
+                    alpha | 0xFFFFFF
+            );
+
+            poseStack.popPose();
+        }
 
         // =========================
         // ENTITY (FIXED SIGNATURE)
@@ -283,11 +350,18 @@ public class StoneRitualAltarBlockEntityRenderer
         public long gameTime;
 
         public final ItemStackRenderState itemStackRenderState = new ItemStackRenderState();
+        public final List<MergingItemState> mergingItems = new ArrayList<>();
 
         public float auraAlpha;
         public boolean crafting;
 
         public @Nullable Entity entity;
         public EntityRenderState entityRenderState;
+    }
+
+    public static class MergingItemState {
+        public final ItemStackRenderState renderState = new ItemStackRenderState();
+        public float mergeProgress;
+        public float orbitAngle;
     }
 }

@@ -37,28 +37,32 @@ public class StoneRitualAltarBlock extends BaseEntityBlock {
     public static BooleanProperty DONE = BooleanProperty.create("done");
 
     private static final VoxelShape SHAPE = Shapes.or(
+            // Bottom
             box(2, 0, 2, 14, 2, 14),
+
+            // Center
             box(4, 2, 4, 12, 10, 12),
+
+            // Top
             box(2, 10, 2, 14, 13, 14),
 
-            box(2, 6, 14, 14, 10, 14),
-            box(2, 6, 2, 2, 10, 14),
-            box(2, 6, 2, 14, 10, 2),
-            box(14, 6, 2, 14, 10, 14),
-
+            // Top corner blocks
             box(12, 13, 2, 14, 14, 4),
-            box(12, 13, 12, 14, 14, 14),
+            box(12, 12, 12, 14, 14, 14),
             box(2, 13, 12, 4, 14, 14),
             box(2, 13, 2, 4, 14, 4),
 
+            // Small details
             box(12, 9, 2, 14, 10, 4),
-            box(2, 9, 12, 4, 10, 14),
             box(12, 9, 12, 14, 10, 14),
+            box(2, 9, 2, 4, 10, 4),
+            box(2, 9, 12, 4, 10, 14),
 
-            box(11, 0, 3, 13, 9, 5),
-            box(11 - 8, 0, 3, 13 - 8, 9, 5),
-            box(11, 0, 3 + 8, 13, 9, 5 + 8),
-            box(11 - 8, 0, 3 + 8, 13 - 8, 9, 5 + 8)
+            // Four outer pillars
+            box(11, 0, 3, 13, 10, 5),
+            box(3, 0, 3, 5, 10, 5),
+            box(11, 0, 11, 13, 10, 13),
+            box(3, 0, 11, 5, 10, 13)
     );
 
     public StoneRitualAltarBlock(Properties properties) {

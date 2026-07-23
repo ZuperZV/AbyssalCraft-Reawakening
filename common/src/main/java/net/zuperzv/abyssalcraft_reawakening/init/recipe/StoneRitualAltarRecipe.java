@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.clock.WorldClocks;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
@@ -181,8 +182,9 @@ public record StoneRitualAltarRecipe(
         }
 
         if (fakeTimeOfDay.isPresent()) {
-            long time = level.getLevelData().getGameTime() % 24000;
-            boolean isDay = time >= 0 && time < 13000;
+            long time = level.getDefaultClockTime() % 24000;
+            boolean isDay = time < 13000;
+
             Constants.LOG.debug("isDay: {}", isDay);
 
             switch (fakeTimeOfDay.get()) {

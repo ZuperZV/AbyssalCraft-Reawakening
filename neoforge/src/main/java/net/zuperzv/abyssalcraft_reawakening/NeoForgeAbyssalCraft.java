@@ -1,17 +1,22 @@
 package net.zuperzv.abyssalcraft_reawakening;
 
 
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
+import net.zuperzv.abyssalcraft_reawakening.init.item.custom.decorator.ItemDecoratorRegistry;
+import net.zuperzv.abyssalcraft_reawakening.init.item.custom.decorator.StaffOfRenderingOverlay;
 import net.zuperzv.abyssalcraft_reawakening.init.network.SetBookmarksPacket;
 import net.zuperzv.abyssalcraft_reawakening.init.network.SyncBookmarksPacket;
 import net.zuperzv.abyssalcraft_reawakening.services.NeoForgeRegistryHelper;
@@ -20,7 +25,9 @@ import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
 
-@Mod(Constants.MOD_ID)
+import static net.zuperzv.abyssalcraft_reawakening.Constants.MOD_ID;
+
+@Mod(MOD_ID)
 public class NeoForgeAbyssalCraft {
 
     public NeoForgeAbyssalCraft(IEventBus eventBus) {
@@ -34,7 +41,7 @@ public class NeoForgeAbyssalCraft {
     }
 
     private void registerPayloadHandlers(RegisterPayloadHandlersEvent event) {
-        PayloadRegistrar registrar = event.registrar(Constants.MOD_ID);
+        PayloadRegistrar registrar = event.registrar(MOD_ID);
 
         registrar.playToServer(
                 SetBookmarksPacket.TYPE,
@@ -48,4 +55,18 @@ public class NeoForgeAbyssalCraft {
                 (packet, context) -> SyncBookmarksPacket.handle(packet, net.minecraft.client.Minecraft.getInstance())
         );
     }
+
+    /*
+    @EventBusSubscriber(modid = MOD_ID, value = Dist.CLIENT)
+    public class ClientInit {
+
+        @SubscribeEvent
+        public static void init(FMLClientSetupEvent event) {
+
+            ItemDecoratorRegistry.register(
+                    new StaffOfRenderingOverlay(Identifier.fromNamespaceAndPath(MOD_ID, "textures/item/oblivion_shard.png"))
+            );
+        }
+    }
+     */
 }

@@ -6,7 +6,9 @@
   "mixins": [],
   "client": [
     "AdvancementsScreenMixin",
-    "AdvancementTabMixin"
+    "AdvancementTabMixin",
+    "GuiGraphicsMixin",
+    "ItemInHandRendererMixin"
   ],
   "server": [],
   "injectors": {
