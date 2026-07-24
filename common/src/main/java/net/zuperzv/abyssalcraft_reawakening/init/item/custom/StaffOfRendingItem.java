@@ -34,11 +34,9 @@ import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.StaffTooltipCompon
 import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
 import org.jspecify.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 public class StaffOfRendingItem extends Item {
     private final int Range;
@@ -203,7 +201,16 @@ public class StaffOfRendingItem extends Item {
 
         EnergyData energyData = stack.get(ModDataComponentTypes.ENERGY.get());
         if (energyData != null) {
-            if (energyData.get(EnergyType.SHADOW).getAmount() >= MaxEnergy) {
+            EnergyEntry shadow = energyData.get(EnergyType.SHADOW);
+            EnergyEntry coralium = energyData.get(EnergyType.CORALIUM);
+            EnergyEntry dread = energyData.get(EnergyType.DREAD);
+            EnergyEntry omothol = energyData.get(EnergyType.OMOTHOL);
+
+            EnergyEntry maxEnergyEntry = Stream.of(shadow, coralium, dread, omothol)
+                    .max(Comparator.comparingInt(EnergyEntry::getAmount))
+                    .orElse(null);
+
+            if (energyData.get(maxEnergyEntry.getType()).getAmount() >= MaxEnergy) {
                 level.playLocalSound(
                         player.getX(),
                         player.getY(),
@@ -216,21 +223,25 @@ public class StaffOfRendingItem extends Item {
                 );
 
                 ItemStack reward = new ItemStack(ModItems.SHADOW_GEM.get());
-                ResourceKey<Level> dim = player.level().dimension();
 
-                if (dim.equals(Level.OVERWORLD)) {
+                if (maxEnergyEntry.getType() == EnergyType.SHADOW) {
+                    reward = new ItemStack(ModItems.SHADOW_GEM.get());
+
+                } else if (maxEnergyEntry.getType() == EnergyType.CORALIUM) {
                     reward = new ItemStack(ModItems.ABYSSAL_WASTELAND_ESSENCE.get());
 
-                } else if (dim.equals(Level.NETHER)) {
+                } else if (maxEnergyEntry.getType() == EnergyType.DREAD) {
                     reward = new ItemStack(ModItems.DREADLANDS_ESSENCE.get());
 
-                } else if (dim.equals(Level.END)) {
+                } else if (maxEnergyEntry.getType() == EnergyType.OMOTHOL) {
                     reward = new ItemStack(ModItems.OMOTHOL_ESSENCE.get());
                 }
 
                 if (!player.addItem(reward)) {
                     player.drop(reward, false);
                 }
+
+                maxEnergyEntry.setAmount(0);
             }
         }
 
