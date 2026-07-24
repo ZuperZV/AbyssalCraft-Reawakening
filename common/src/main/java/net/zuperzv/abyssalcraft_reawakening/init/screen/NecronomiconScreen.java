@@ -2046,7 +2046,7 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
 
         int argb = 0xFF000000 | rgb;
 
-        System.out.println("rgb " + rgb);
+        //System.out.println("rgb " + rgb);
 
         guiGraphics.pose().pushMatrix();
 

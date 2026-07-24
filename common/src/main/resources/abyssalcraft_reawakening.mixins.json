@@ -3,7 +3,9 @@
   "minVersion": "0.8",
   "package": "net.zuperzv.abyssalcraft_reawakening.init.mixin",
   "compatibilityLevel": "JAVA_21",
-  "mixins": [],
+  "mixins": [
+    "DyedItemColorMixin"
+  ],
   "client": [
     "AdvancementsScreenMixin",
     "AdvancementTabMixin",

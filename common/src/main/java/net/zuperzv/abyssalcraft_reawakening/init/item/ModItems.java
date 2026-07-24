@@ -35,18 +35,29 @@ public class ModItems {
     public static final RegistryHandle<Item> OBLIVION_SHARD = Services.REGISTRY.registerItem("oblivion_shard",
             properties -> new Item(properties));
 
+    //Essence
+    public static final RegistryHandle<Item> ABYSSAL_WASTELAND_ESSENCE = Services.REGISTRY.registerItem("abyssal_wasteland_essence",
+            properties -> new Item(properties));
+
+    public static final RegistryHandle<Item> DREADLANDS_ESSENCE = Services.REGISTRY.registerItem("dreadlands_essence",
+            properties -> new Item(properties));
+
+    public static final RegistryHandle<Item> OMOTHOL_ESSENCE = Services.REGISTRY.registerItem("omothol_essence",
+            properties -> new Item(properties));
+
+
     //Staff Of Rending
     public static final RegistryHandle<Item> STAFF_OF_RENDING = Services.REGISTRY.registerItem("staff_of_rending",
-            properties -> new StaffOfRendingItem(properties, 30, 1000));
+            properties -> new StaffOfRendingItem(properties.stacksTo(1), 30, 1000));
 
     public static final RegistryHandle<Item> ABYSSAL_WASTELAND_STAFF_OF_RENDING = Services.REGISTRY.registerItem("abyssal_wasteland_staff_of_rending",
-            properties -> new StaffOfRendingItem(properties, 40, 3000));
+            properties -> new StaffOfRendingItem(properties.stacksTo(1), 50, 3000));
 
     public static final RegistryHandle<Item> DREADLANDS_STAFF_OF_RENDING = Services.REGISTRY.registerItem("dreadlands_staff_of_rending",
-            properties -> new StaffOfRendingItem(properties, 50, 5000));
+            properties -> new StaffOfRendingItem(properties.stacksTo(1), 70, 5000));
 
     public static final RegistryHandle<Item> OMOTHOL_STAFF_OF_RENDING = Services.REGISTRY.registerItem("omothol_staff_of_rending",
-            properties -> new StaffOfRendingItem(properties, 60, 7000));
+            properties -> new StaffOfRendingItem(properties.stacksTo(1), 90, 7000));
 
     //Abyssalnite
     public static final RegistryHandle<Item> ABYSSALNITE_INGOT = Services.REGISTRY.registerItem("abyssalnite_ingot",

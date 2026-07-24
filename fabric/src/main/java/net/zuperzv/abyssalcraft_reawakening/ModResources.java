@@ -5,6 +5,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.ClientTooltipComponentCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
@@ -20,6 +21,8 @@ import net.zuperzv.abyssalcraft_reawakening.init.block.entity.ModBlockEntities;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.renderer.StoneRitualAltarBlockEntityRenderer;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.renderer.StoneRitualPedestalBlockEntityRenderer;
 import net.zuperzv.abyssalcraft_reawakening.init.data.CodexDataLoader;
+import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.StaffClientTooltip;
+import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.StaffTooltipComponent;
 import net.zuperzv.abyssalcraft_reawakening.init.item.custom.decorator.ItemDecoratorRegistry;
 import net.zuperzv.abyssalcraft_reawakening.init.item.custom.decorator.StaffOfRenderingOverlay;
 import net.zuperzv.abyssalcraft_reawakening.init.network.SyncBookmarksPacket;
@@ -96,6 +99,15 @@ public class ModResources implements ClientModInitializer {
                         return Identifier.fromNamespaceAndPath(Constants.MOD_ID, "codex_data");
                     }
                 });
+
+        ClientTooltipComponentCallback.EVENT.register(component -> {
+
+            if (component instanceof StaffTooltipComponent staff) {
+                return new StaffClientTooltip(staff);
+            }
+
+            return null;
+        });
 
         //ItemDecoratorRegistry.register(
         //        new StaffOfRenderingOverlay(Identifier.fromNamespaceAndPath(MOD_ID, "textures/item/oblivion_shard.png")));

@@ -5,11 +5,11 @@
     "component": "abyssalcraft_reawakening:grayscale",
     "on_false": {
       "type": "minecraft:model",
-      "model": "abyssalcraft_reawakening:item/shadow_gem"
+      "model": "abyssalcraft_reawakening:item/omothol_essence"
     },
     "on_true": {
       "type": "minecraft:model",
-      "model": "abyssalcraft_reawakening:item/shadow_gem_gray"
+      "model": "abyssalcraft_reawakening:item/omothol_essence_gray"
     },
     "property": "minecraft:has_component"
   }

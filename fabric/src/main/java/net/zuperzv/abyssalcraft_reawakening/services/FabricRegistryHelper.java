@@ -130,8 +130,11 @@ public class FabricRegistryHelper implements IRegistryHelper {
 
         Identifier id = Constants.id(name);
 
-        DataComponentType<T> type =
-                builder.apply(DataComponentType.builder()).build();
+        DataComponentType<T> type = Registry.register(
+                BuiltInRegistries.DATA_COMPONENT_TYPE,
+                id,
+                builder.apply(DataComponentType.builder()).build()
+        );
 
         return new RegistryHandle<>() {
             @Override

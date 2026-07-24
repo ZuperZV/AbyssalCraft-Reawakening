@@ -1,6 +1,8 @@
 package net.zuperzv.abyssalcraft_reawakening.init.component;
 
+import com.mojang.serialization.Codec;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
 
@@ -27,5 +29,11 @@ public class ModDataComponentTypes {
             Services.REGISTRY.registerDataComponent(
                     "staff_target",
                     b -> b.persistent(StaffTargetData.CODEC)
+            );
+
+    public static final RegistryHandle<DataComponentType<Boolean>> GRAYSCALE =
+            Services.REGISTRY.registerDataComponent(
+                    "grayscale",
+                    b -> b.persistent(Codec.BOOL)
             );
 }

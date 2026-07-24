@@ -5,6 +5,11 @@ import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
 import net.minecraft.client.data.models.model.*;
+import net.minecraft.client.renderer.item.ClientItem;
+import net.minecraft.client.renderer.item.ConditionalItemModel;
+import net.minecraft.client.renderer.item.ItemModel;
+import net.minecraft.client.renderer.item.properties.conditional.HasComponent;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -12,6 +17,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.minecraft.world.level.block.Block;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
+import net.zuperzv.abyssalcraft_reawakening.init.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.init.item.ModArmorMaterials;
 import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
@@ -41,12 +47,19 @@ public class ModModelProvider extends ModelProvider {
 
         generateItemWithTintedOverlay(itemModels, ModItems.NECRONOMICON.get(), new DyedColorTintSource());
 
+        //essence
+        generateItem(itemModels, ModItems.SHADOW_GEM.get(), "_gray", ModDataComponentTypes.GRAYSCALE.get());
+        generateItem(itemModels, ModItems.ABYSSAL_WASTELAND_ESSENCE.get(), "_gray", ModDataComponentTypes.GRAYSCALE.get());
+        generateItem(itemModels, ModItems.DREADLANDS_ESSENCE.get(), "_gray", ModDataComponentTypes.GRAYSCALE.get());
+        generateItem(itemModels, ModItems.OMOTHOL_ESSENCE.get(), "_gray", ModDataComponentTypes.GRAYSCALE.get());
+
         //Staff of rendering
         generateItemWithTintedOverlay(itemModels, ModItems.STAFF_OF_RENDING.get(), new DyedColorTintSource());
         generateItemWithTintedOverlay(itemModels, ModItems.ABYSSAL_WASTELAND_STAFF_OF_RENDING.get(), new DyedColorTintSource());
         generateItemWithTintedOverlay(itemModels, ModItems.DREADLANDS_STAFF_OF_RENDING.get(), new DyedColorTintSource());
         generateItemWithTintedOverlay(itemModels, ModItems.OMOTHOL_STAFF_OF_RENDING.get(), new DyedColorTintSource());
 
+        //Altar
         generateBlockFromParent(blockModels, ModBlocks.STONE_RITUAL_ALTAR.block().get(), "ritual_altar", List.of(TextureSlot.create("0")));
         generateBlockFromParent(blockModels, ModBlocks.STONE_RITUAL_PEDESTAL.block().get(), "ritual_pedestal", List.of(TextureSlot.create("1"), TextureSlot.create("2")));
 
@@ -78,6 +91,17 @@ public class ModModelProvider extends ModelProvider {
         }
 
         itemModels.generateFlatItem(item, ModelTemplates.FLAT_ITEM);
+    }
+
+    private void generateItem(ItemModelGenerators itemModels, Item item, String suffix, DataComponentType<?> componentType) {
+        generatedItems.add(item);
+
+        ItemModel.Unbaked unbakedDataTablet = ItemModelUtils.plainModel(itemModels.createFlatItemModel(item, ModelTemplates.FLAT_ITEM));
+        ItemModel.Unbaked unbakedDataTabletOn = ItemModelUtils.plainModel(itemModels.createFlatItemModel(item, suffix, ModelTemplates.FLAT_ITEM));
+
+        itemModels.itemModelOutput.register(item,
+                new ClientItem(new ConditionalItemModel.Unbaked(Optional.empty(), new HasComponent(componentType, false),
+                        unbakedDataTabletOn, unbakedDataTablet), new ClientItem.Properties(false, false, 1f)));
     }
 
     private void generateTrimmableItem(ItemModelGenerators itemModels, Item item, ResourceKey<EquipmentAsset> equipmentAssetId, Identifier slotTrimPrefix, boolean hasDyedLayer) {

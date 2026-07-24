@@ -13,8 +13,11 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
+import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.StaffClientTooltip;
+import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.StaffTooltipComponent;
 import net.zuperzv.abyssalcraft_reawakening.init.item.custom.decorator.ItemDecoratorRegistry;
 import net.zuperzv.abyssalcraft_reawakening.init.item.custom.decorator.StaffOfRenderingOverlay;
 import net.zuperzv.abyssalcraft_reawakening.init.network.SetBookmarksPacket;
@@ -56,17 +59,23 @@ public class NeoForgeAbyssalCraft {
         );
     }
 
-    /*
     @EventBusSubscriber(modid = MOD_ID, value = Dist.CLIENT)
     public class ClientInit {
 
         @SubscribeEvent
-        public static void init(FMLClientSetupEvent event) {
-
-            ItemDecoratorRegistry.register(
-                    new StaffOfRenderingOverlay(Identifier.fromNamespaceAndPath(MOD_ID, "textures/item/oblivion_shard.png"))
+        public static void registerTooltipFactories(
+                RegisterClientTooltipComponentFactoriesEvent event
+        ) {
+            event.register(
+                    StaffTooltipComponent.class,
+                    StaffClientTooltip::new
             );
         }
+
+        //@SubscribeEvent
+        //public static void init(FMLClientSetupEvent event) {
+            //ItemDecoratorRegistry.register(
+            //        new StaffOfRenderingOverlay(Identifier.fromNamespaceAndPath(MOD_ID, "textures/item/oblivion_shard.png")));
+        //}
     }
-     */
 }

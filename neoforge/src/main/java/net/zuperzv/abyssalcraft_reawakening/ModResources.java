@@ -1,5 +1,6 @@
 package net.zuperzv.abyssalcraft_reawakening;
 
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -63,6 +64,8 @@ public class ModResources {
                 DyedColorTintSource.MAP_CODEC
         );
     }
+
+
 
     @SubscribeEvent
     public static void registerBER(EntityRenderersEvent.RegisterRenderers event) {
