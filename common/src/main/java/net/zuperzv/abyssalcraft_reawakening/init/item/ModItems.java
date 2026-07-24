@@ -35,16 +35,6 @@ public class ModItems {
     public static final RegistryHandle<Item> OBLIVION_SHARD = Services.REGISTRY.registerItem("oblivion_shard",
             properties -> new Item(properties));
 
-    //Essence
-    public static final RegistryHandle<Item> ABYSSAL_WASTELAND_ESSENCE = Services.REGISTRY.registerItem("abyssal_wasteland_essence",
-            properties -> new Item(properties));
-
-    public static final RegistryHandle<Item> DREADLANDS_ESSENCE = Services.REGISTRY.registerItem("dreadlands_essence",
-            properties -> new Item(properties));
-
-    public static final RegistryHandle<Item> OMOTHOL_ESSENCE = Services.REGISTRY.registerItem("omothol_essence",
-            properties -> new Item(properties));
-
 
     //Staff Of Rending
     public static final RegistryHandle<Item> STAFF_OF_RENDING = Services.REGISTRY.registerItem("staff_of_rending",
@@ -58,6 +48,53 @@ public class ModItems {
 
     public static final RegistryHandle<Item> OMOTHOL_STAFF_OF_RENDING = Services.REGISTRY.registerItem("omothol_staff_of_rending",
             properties -> new StaffOfRendingItem(properties.stacksTo(1), 90, 7000));
+
+
+    //Essence
+    public static final RegistryHandle<Item> ABYSSAL_WASTELAND_ESSENCE = Services.REGISTRY.registerItem("abyssal_wasteland_essence",
+            properties -> new Item(properties));
+
+    public static final RegistryHandle<Item> DREADLANDS_ESSENCE = Services.REGISTRY.registerItem("dreadlands_essence",
+            properties -> new Item(properties));
+
+    public static final RegistryHandle<Item> OMOTHOL_ESSENCE = Services.REGISTRY.registerItem("omothol_essence",
+            properties -> new Item(properties));
+
+
+    //Skin Of
+    public static final RegistryHandle<Item> SKIN_OF_THE_ABYSSAL_WASTELAND = Services.REGISTRY.registerItem("skin_of_the_abyssal_wasteland",
+            properties -> new Item(properties));
+
+    public static final RegistryHandle<Item> SKIN_OF_THE_DREADLANDS = Services.REGISTRY.registerItem("skin_of_the_dreadlands",
+            properties -> new Item(properties));
+
+    public static final RegistryHandle<Item> SKIN_OF_THE_OMOTHOL = Services.REGISTRY.registerItem("skin_of_the_omothol",
+            properties -> new Item(properties));
+
+
+    //Flesh
+    public static final RegistryHandle<Item> CORALIUM_PLAGUED_FLESH = Services.REGISTRY.registerItem("coralium_plagued_flesh",
+            properties -> new Item(properties.food(ModFoods.CORALIUM_PLAGUED_FLESH)));
+
+        //Ghoul Flesh
+    public static final RegistryHandle<Item> GHOUL_FLESH = Services.REGISTRY.registerItem("ghoul_flesh",
+            properties -> new Item(properties.food(ModFoods.GHOUL_FLESH)));
+
+    public static final RegistryHandle<Item> ABYSSAL_GHOUL_FLESH = Services.REGISTRY.registerItem("abyssal_ghoul_flesh",
+            properties -> new Item(properties.food(ModFoods.ABYSSAL_GHOUL_FLESH)));
+
+    public static final RegistryHandle<Item> DREADED_GHOUL_FLESH = Services.REGISTRY.registerItem("dreaded_ghoul_flesh",
+            properties -> new Item(properties.food(ModFoods.DREADED_GHOUL_FLESH)));
+
+    public static final RegistryHandle<Item> OMOTHOL_GHOUL_FLESH = Services.REGISTRY.registerItem("omothol_ghoul_flesh",
+            properties -> new Item(properties.food(ModFoods.OMOTHOL_GHOUL_FLESH)));
+
+    public static final RegistryHandle<Item> SHADOW_GHOUL_FLESH = Services.REGISTRY.registerItem("shadow_ghoul_flesh",
+            properties -> new Item(properties.food(ModFoods.SHADOW_GHOUL_FLESH)));
+
+    public static final RegistryHandle<Item> ANTI_GHOUL_FLESH = Services.REGISTRY.registerItem("anti_ghoul_flesh",
+            properties -> new Item(properties.food(ModFoods.ANTI_GHOUL_FLESH)));
+
 
     //Abyssalnite
     public static final RegistryHandle<Item> ABYSSALNITE_INGOT = Services.REGISTRY.registerItem("abyssalnite_ingot",
@@ -100,4 +137,12 @@ public class ModItems {
 
     public static final RegistryHandle<Item> ABYSSALNITE_BOOTS = Services.REGISTRY.registerItem("abyssalnite_boots",
             properties -> new Item(properties.humanoidArmor(ModArmorMaterials.ABYSSALNITE_ARMOR_MATERIAL, ArmorType.BOOTS)));
+
+
+    //Coralium
+    public static final RegistryHandle<Item> TRANSMUTATION_GEM = Services.REGISTRY.registerItem("transmutation_gem",
+            properties -> new Item(properties));
+
+    public static final RegistryHandle<Item> CORALIUM_PEARL = Services.REGISTRY.registerItem("coralium_pearl",
+            properties -> new Item(properties));
 }

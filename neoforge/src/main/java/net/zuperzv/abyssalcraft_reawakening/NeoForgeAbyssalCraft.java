@@ -13,9 +13,11 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.client.event.RecipesReceivedEvent;
 import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
+//import net.zuperzv.abyssalcraft_reawakening.init.api.jei.custom.JEIPlugin;
 import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.StaffClientTooltip;
 import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.StaffTooltipComponent;
 import net.zuperzv.abyssalcraft_reawakening.init.item.custom.decorator.ItemDecoratorRegistry;
@@ -61,6 +63,10 @@ public class NeoForgeAbyssalCraft {
 
     @EventBusSubscriber(modid = MOD_ID, value = Dist.CLIENT)
     public class ClientInit {
+        @SubscribeEvent
+        public static void onRecipeReceived(RecipesReceivedEvent event) {
+            net.zuperzv.abyssalcraft_reawakening.init.api.jei.custom.JEIPlugin.syncedRecipes = event.getRecipeMap();
+        }
 
         @SubscribeEvent
         public static void registerTooltipFactories(

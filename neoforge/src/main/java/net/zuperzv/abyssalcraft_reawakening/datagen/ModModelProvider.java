@@ -54,10 +54,10 @@ public class ModModelProvider extends ModelProvider {
         generateItem(itemModels, ModItems.OMOTHOL_ESSENCE.get(), "_gray", ModDataComponentTypes.GRAYSCALE.get());
 
         //Staff of rendering
-        generateItemWithTintedOverlay(itemModels, ModItems.STAFF_OF_RENDING.get(), new DyedColorTintSource());
-        generateItemWithTintedOverlay(itemModels, ModItems.ABYSSAL_WASTELAND_STAFF_OF_RENDING.get(), new DyedColorTintSource());
-        generateItemWithTintedOverlay(itemModels, ModItems.DREADLANDS_STAFF_OF_RENDING.get(), new DyedColorTintSource());
-        generateItemWithTintedOverlay(itemModels, ModItems.OMOTHOL_STAFF_OF_RENDING.get(), new DyedColorTintSource());
+        generateItemWithTintedOverlay(itemModels, ModItems.STAFF_OF_RENDING.get(), new DyedColorTintSource(), ModelTemplates.FLAT_HANDHELD_ITEM);
+        generateItemWithTintedOverlay(itemModels, ModItems.ABYSSAL_WASTELAND_STAFF_OF_RENDING.get(), new DyedColorTintSource(), ModelTemplates.FLAT_HANDHELD_ITEM);
+        generateItemWithTintedOverlay(itemModels, ModItems.DREADLANDS_STAFF_OF_RENDING.get(), new DyedColorTintSource(), ModelTemplates.FLAT_HANDHELD_ITEM);
+        generateItemWithTintedOverlay(itemModels, ModItems.OMOTHOL_STAFF_OF_RENDING.get(), new DyedColorTintSource(), ModelTemplates.FLAT_HANDHELD_ITEM);
 
         //Altar
         generateBlockFromParent(blockModels, ModBlocks.STONE_RITUAL_ALTAR.block().get(), "ritual_altar", List.of(TextureSlot.create("0")));
@@ -94,10 +94,15 @@ public class ModModelProvider extends ModelProvider {
     }
 
     private void generateItem(ItemModelGenerators itemModels, Item item, String suffix, DataComponentType<?> componentType) {
+        generateItem(itemModels, item, suffix, componentType, ModelTemplates.FLAT_ITEM);
+    }
+
+
+    private void generateItem(ItemModelGenerators itemModels, Item item, String suffix, DataComponentType<?> componentType, ModelTemplate modelTemplate) {
         generatedItems.add(item);
 
-        ItemModel.Unbaked unbakedDataTablet = ItemModelUtils.plainModel(itemModels.createFlatItemModel(item, ModelTemplates.FLAT_ITEM));
-        ItemModel.Unbaked unbakedDataTabletOn = ItemModelUtils.plainModel(itemModels.createFlatItemModel(item, suffix, ModelTemplates.FLAT_ITEM));
+        ItemModel.Unbaked unbakedDataTablet = ItemModelUtils.plainModel(itemModels.createFlatItemModel(item, modelTemplate));
+        ItemModel.Unbaked unbakedDataTabletOn = ItemModelUtils.plainModel(itemModels.createFlatItemModel(item, suffix, modelTemplate));
 
         itemModels.itemModelOutput.register(item,
                 new ClientItem(new ConditionalItemModel.Unbaked(Optional.empty(), new HasComponent(componentType, false),
@@ -118,6 +123,10 @@ public class ModModelProvider extends ModelProvider {
         this.generateItemWithTintedOverlay(itemModels, item, "_overlay", overlayTint);
     }
 
+    public void generateItemWithTintedOverlay(ItemModelGenerators itemModels, Item item, ItemTintSource overlayTint, ModelTemplate modelTemplate) {
+        this.generateItemWithTintedOverlay(itemModels, item, "_overlay", overlayTint, modelTemplate);
+    }
+
     public void generateItemWithTintedOverlay(ItemModelGenerators itemModels, Item item, String overlaySuffix, ItemTintSource overlayTint) {
         generatedItems.add(item);
 
@@ -125,6 +134,30 @@ public class ModModelProvider extends ModelProvider {
                 item,
                 TextureMapping.getItemTexture(item),
                 TextureMapping.getItemTexture(item, overlaySuffix)
+        );
+
+        itemModels.itemModelOutput.accept(
+                item,
+                ItemModelUtils.tintedModel(
+                        model,
+                        new ItemTintSource[] {
+                                itemModels.BLANK_LAYER,
+                                overlayTint
+                        }
+                )
+        );
+    }
+
+    public void generateItemWithTintedOverlay(ItemModelGenerators itemModels, Item item, String overlaySuffix, ItemTintSource overlayTint, ModelTemplate modelTemplate) {
+        generatedItems.add(item);
+
+        Identifier model = modelTemplate.create(
+                ModelLocationUtils.getModelLocation(item),
+                TextureMapping.layered(
+                        TextureMapping.getItemTexture(item),
+                        TextureMapping.getItemTexture(item, overlaySuffix)
+                ),
+                itemModels.modelOutput
         );
 
         itemModels.itemModelOutput.accept(

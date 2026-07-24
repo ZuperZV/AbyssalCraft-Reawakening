@@ -7,13 +7,19 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CookingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Blocks;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
+import net.zuperzv.abyssalcraft_reawakening.datagen.custom.StoneRitualAltarRecipeBuilder;
 import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
+import net.zuperzv.abyssalcraft_reawakening.init.recipe.helper.TimeOfDay;
 import org.jspecify.annotations.NonNull;
 
 import javax.annotation.Nullable;
@@ -26,6 +32,78 @@ public class ModRecipeProvider extends RecipeProvider {
 
     @Override
     protected void buildRecipes() {
+        //Necronomicon
+        dyedItem(ModItems.NECRONOMICON.get(), "dyed_item");
+
+
+        //Skin Of
+        shaped(RecipeCategory.MISC, ModItems.SKIN_OF_THE_ABYSSAL_WASTELAND.get(),
+                new String[]{
+                        "BBB",
+                        "BAB",
+                        "BBB"
+                },
+                new Key('A', ModItems.ABYSSAL_WASTELAND_ESSENCE.get()),
+                new Key('B', ModItems.CORALIUM_PLAGUED_FLESH.get()));
+
+        shaped(RecipeCategory.MISC, ModItems.SKIN_OF_THE_DREADLANDS.get(),
+                new String[]{
+                        "BBB",
+                        "BAB",
+                        "BBB"
+                },
+                new Key('A', ModItems.DREADLANDS_ESSENCE.get()),
+                new Key('B', ModItems.CORALIUM_PLAGUED_FLESH.get()));
+
+        shaped(RecipeCategory.MISC, ModItems.SKIN_OF_THE_OMOTHOL.get(),
+                new String[]{
+                        "BBB",
+                        "BAB",
+                        "BBB"
+                },
+                new Key('A', ModItems.OMOTHOL_ESSENCE.get()),
+                new Key('B', ModItems.OMOTHOL_GHOUL_FLESH.get()));
+
+        //Shadow Items
+        fourBlockStorageRecipes(output, RecipeCategory.MISC, ModItems.SHADOW_FRAGMENT.get(), RecipeCategory.MISC,
+                ModItems.SHADOW_SHARD.get());
+
+        fourBlockStorageRecipes(output, RecipeCategory.MISC, ModItems.SHADOW_SHARD.get(), RecipeCategory.MISC,
+                ModItems.SHADOW_GEM.get());
+
+        shaped(RecipeCategory.MISC, ModItems.OBLIVION_SHARD.get(),
+                new String[]{
+                        " A ",
+                        "ABA",
+                        " A "
+                },
+                new Key('A', ModItems.SHADOW_GEM.get()),
+                new Key('B', ModItems.TRANSMUTATION_GEM.get()));
+
+        //Coralium
+        StoneRitualAltarRecipeBuilder.altar(
+                RecipeCategory.MISC, ModItems.TRANSMUTATION_GEM.get(),
+
+                        Ingredient.of(ModItems.CORALIUM_PEARL.get())
+                )
+                .addIngredient(Ingredient.of(Items.ENDER_PEARL))
+                .addIngredient(Ingredient.of(Items.DIAMOND))
+                .addIngredient(Ingredient.of(Items.ENDER_PEARL))
+                .addIngredient(Ingredient.of(Items.DIAMOND))
+                .addIngredient(Ingredient.of(Items.BLAZE_POWDER))
+                .addIngredient(Ingredient.of(Items.BLAZE_POWDER))
+                .addIngredient(Ingredient.of(Items.BLAZE_POWDER))
+                .addIngredient(Ingredient.of(Items.BLAZE_POWDER))
+                .time(TimeOfDay.BOTH)
+                .duration(400)
+                .unlockedBy(
+                        "has_coralium_pearl",
+                        has(ModItems.CORALIUM_PEARL.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("transmutation_gem")));
+
+
+        //Abyssalnite
         nineBlockStorageRecipes(output, RecipeCategory.MISC, ModItems.ABYSSALNITE_NUGGET.get(), RecipeCategory.MISC,
                 ModItems.ABYSSALNITE_INGOT.get());
 
@@ -34,8 +112,6 @@ public class ModRecipeProvider extends RecipeProvider {
 
         nineBlockStorageRecipes(output, RecipeCategory.MISC, ModItems.RAW_ABYSSALNITE.get(), RecipeCategory.MISC,
                 ModBlocks.RAW_ABYSSALNITE_BLOCK.item().get());
-
-        dyedItem(ModItems.NECRONOMICON.get(), "dyed_item");
 
         rawToIngot(ModItems.RAW_ABYSSALNITE.get(), RecipeCategory.MISC, ModItems.ABYSSALNITE_INGOT.get(), 0.7f, 200, output);
         rawToIngot(ModBlocks.ABYSSALNITE_OVERWORLD_ORE.item().get(), RecipeCategory.MISC, ModItems.ABYSSALNITE_INGOT.get(), 0.9f, 200, output);
@@ -55,6 +131,32 @@ public class ModRecipeProvider extends RecipeProvider {
         public @NonNull String getName() {
             return Constants.MOD_NAME + " Recipes";
         }
+    }
+
+    protected record Key(char key, ItemLike item) {}
+
+    protected void shaped(RecipeCategory category, ItemLike result, String[] pattern, Key... keys) {
+        ShapedRecipeBuilder builder = shaped(category, result);
+
+        for (String line : pattern) {
+            builder.pattern(line);
+        }
+
+        ItemLike unlockItem = null;
+
+        for (Key key : keys) {
+            builder.define(key.key(), key.item());
+
+            if (unlockItem == null) {
+                unlockItem = key.item();
+            }
+        }
+
+        if (unlockItem != null) {
+            builder.unlockedBy(getHasName(unlockItem), has(unlockItem));
+        }
+
+        builder.save(output);
     }
 
     protected void nineBlockStorageRecipes(

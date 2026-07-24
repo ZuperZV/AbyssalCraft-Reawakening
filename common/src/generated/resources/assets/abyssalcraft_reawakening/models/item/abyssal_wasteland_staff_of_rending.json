@@ -1,7 +1,6 @@
 {
-  "parent": "minecraft:item/generated",
+  "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "abyssalcraft_reawakening:item/abyssal_wasteland_staff_of_rending",
-    "layer1": "abyssalcraft_reawakening:item/abyssal_wasteland_staff_of_rending_overlay"
+    "layer0": "abyssalcraft_reawakening:item/abyssal_wasteland_staff_of_rending"
   }
 }

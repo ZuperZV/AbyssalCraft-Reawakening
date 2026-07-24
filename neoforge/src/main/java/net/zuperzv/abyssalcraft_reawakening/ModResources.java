@@ -16,7 +16,9 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
+import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
+//import net.zuperzv.abyssalcraft_reawakening.init.api.jei.custom.JEIPlugin;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.ModBlockEntities;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.renderer.StoneRitualAltarBlockEntityRenderer;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.renderer.StoneRitualPedestalBlockEntityRenderer;
@@ -25,6 +27,7 @@ import net.zuperzv.abyssalcraft_reawakening.init.data.DyedColorTintSource;
 import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.init.item.custom.decorator.ItemDecoratorRegistry;
 import net.zuperzv.abyssalcraft_reawakening.init.item.custom.decorator.StaffOfRenderingOverlay;
+import net.zuperzv.abyssalcraft_reawakening.init.recipe.ModRecipes;
 import net.zuperzv.abyssalcraft_reawakening.init.screen.ModMenuTypes;
 import net.zuperzv.abyssalcraft_reawakening.init.screen.NecronomiconScreen;
 
@@ -64,8 +67,6 @@ public class ModResources {
                 DyedColorTintSource.MAP_CODEC
         );
     }
-
-
 
     @SubscribeEvent
     public static void registerBER(EntityRenderersEvent.RegisterRenderers event) {
@@ -110,6 +111,13 @@ public class ModResources {
                         }, backgroundExecutor).thenCompose(barrier::wait);
                     }
                 }
+        );
+    }
+
+    @SubscribeEvent
+    public static void onDatapackSync(OnDatapackSyncEvent event) {
+        event.sendRecipes(
+                ModRecipes.ASTRAL_ALTAR.type().get()
         );
     }
 }

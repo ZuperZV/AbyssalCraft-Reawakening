@@ -23,6 +23,10 @@ def syncCommonResources = tasks.register('syncCommonResources', Sync) {
 }
 
 dependencies {
+    compileOnly "mezz.jei:jei-${jei_minecraft_version}-common:${jei_version}"
+    compileOnly "mezz.jei:jei-${jei_minecraft_version}-gui:${jei_version}"
+    compileOnly "mezz.jei:jei-${jei_minecraft_version}-lib:${jei_version}"
+
     compileOnly group: 'org.spongepowered', name: 'mixin', version: '0.8.5'
     // fabric and neoforge both bundle mixinextras, so it is safe to use it in common
     compileOnly group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.5.3'

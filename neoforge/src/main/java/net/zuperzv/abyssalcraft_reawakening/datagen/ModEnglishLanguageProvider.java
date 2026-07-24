@@ -24,6 +24,11 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
+        //Recipe mods
+        add("recipe_mods.abyssalcraft_reawakening.ritual_altar", "Ritual Altar");
+
+
+        //Abyssalnite
         add(ModBlocks.ABYSSALNITE_BLOCK.block().get(), "Block of Abyssalnite");
         add(ModBlocks.RAW_ABYSSALNITE_BLOCK.block().get(), "Block of Raw Abyssalnite");
 

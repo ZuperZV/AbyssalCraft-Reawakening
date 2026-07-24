@@ -4,8 +4,11 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.clock.WorldClocks;
 import net.minecraft.world.entity.EntityType;
@@ -92,28 +95,204 @@ public record StoneRitualAltarRecipe(
 
                 @Override
                 public void encode(RegistryFriendlyByteBuf buf, StoneRitualAltarRecipe recipe) {
+
                     ItemStackTemplate.STREAM_CODEC.encode(buf, recipe.output());
+
                     Ingredient.CONTENTS_STREAM_CODEC.encode(buf, recipe.moldIngredient());
+
+
+                    buf.writeVarInt(recipe.additionalIngredients().size());
+
+                    for (Ingredient ingredient : recipe.additionalIngredients()) {
+                        Ingredient.CONTENTS_STREAM_CODEC.encode(buf, ingredient);
+                    }
+
+                    buf.writeBoolean(recipe.entityType().isPresent());
+
+                    recipe.entityType().ifPresent(entity ->
+                            ByteBufCodecs.registry(Registries.ENTITY_TYPE)
+                                    .encode(buf, entity)
+                    );
+
+                    buf.writeBoolean(recipe.requiredEssenceType().isPresent());
+
+                    recipe.requiredEssenceType()
+                            .ifPresent(buf::writeUtf);
+
+                    buf.writeBoolean(recipe.additionalBlock().isPresent());
+
+                    recipe.additionalBlock().ifPresent(block ->
+                            buf.writeIdentifier(
+                                    BuiltInRegistries.BLOCK.getKey(block)
+                            )
+                    );
+
+                    buf.writeBoolean(recipe.blockState().isPresent());
+
+                    recipe.blockState().ifPresent(state -> {
+
+                        buf.writeVarInt(state.size());
+
+                        for (var entry : state.entrySet()) {
+                            buf.writeUtf(entry.getKey());
+                            buf.writeUtf(entry.getValue());
+                        }
+                    });
+
+                    buf.writeBoolean(recipe.needsBlock().isPresent());
+
+                    recipe.needsBlock()
+                            .ifPresent(buf::writeBoolean);
+
+                    buf.writeBoolean(recipe.blockOutput().isPresent());
+
+                    recipe.blockOutput().ifPresent(block ->
+                            buf.writeIdentifier(
+                                    BuiltInRegistries.BLOCK.getKey(block)
+                            )
+                    );
+
+                    buf.writeBoolean(recipe.timeOfDay().isPresent());
+
+                    recipe.timeOfDay()
+                            .ifPresent(time ->
+                                    buf.writeUtf(time.name())
+                            );
+
+                    buf.writeBoolean(recipe.fakeTimeOfDay().isPresent());
+
+                    recipe.fakeTimeOfDay()
+                            .ifPresent(time ->
+                                    buf.writeUtf(time.name())
+                            );
+
+                    buf.writeVarInt(recipe.recipeTime());
                 }
 
                 @Override
                 public StoneRitualAltarRecipe decode(RegistryFriendlyByteBuf buf) {
-                    ItemStackTemplate output = ItemStackTemplate.STREAM_CODEC.decode(buf);
-                    Ingredient ingredient = Ingredient.CONTENTS_STREAM_CODEC.decode(buf);
+
+                    ItemStackTemplate output =
+                            ItemStackTemplate.STREAM_CODEC.decode(buf);
+
+                    Ingredient moldIngredient =
+                            Ingredient.CONTENTS_STREAM_CODEC.decode(buf);
+
+                    int ingredientSize = buf.readVarInt();
+
+                    List<Ingredient> additionalIngredients = new ArrayList<>();
+
+                    for (int i = 0; i < ingredientSize; i++) {
+
+                        additionalIngredients.add(
+                                Ingredient.CONTENTS_STREAM_CODEC.decode(buf)
+                        );
+                    }
+
+                    Optional<EntityType<?>> entityType = Optional.empty();
+
+                    if (buf.readBoolean()) {
+
+                        entityType = Optional.of(
+                                ByteBufCodecs.registry(Registries.ENTITY_TYPE)
+                                        .decode(buf)
+                        );
+                    }
+
+                    Optional<String> requiredEssenceType = Optional.empty();
+
+                    if (buf.readBoolean()) {
+
+                        requiredEssenceType =
+                                Optional.of(buf.readUtf());
+                    }
+
+                    Optional<Block> additionalBlock = Optional.empty();
+
+                    if (buf.readBoolean()) {
+                        additionalBlock =
+                                BuiltInRegistries.BLOCK
+                                        .get(buf.readIdentifier())
+                                        .map(Holder.Reference::value);
+                    }
+
+                    Optional<Map<String,String>> blockState = Optional.empty();
+
+                    if (buf.readBoolean()) {
+
+                        int size = buf.readVarInt();
+
+                        Map<String,String> map = new HashMap<>();
+
+                        for (int i = 0; i < size; i++) {
+
+                            map.put(
+                                    buf.readUtf(),
+                                    buf.readUtf()
+                            );
+                        }
+
+                        blockState = Optional.of(map);
+                    }
+
+                    Optional<Boolean> needsBlock = Optional.empty();
+
+                    if (buf.readBoolean()) {
+                        needsBlock =
+                                Optional.of(
+                                        buf.readBoolean()
+                                );
+                    }
+
+                    Optional<Block> blockOutput = Optional.empty();
+
+                    if (buf.readBoolean()) {
+                        blockOutput =
+                                BuiltInRegistries.BLOCK
+                                        .get(buf.readIdentifier())
+                                        .map(Holder.Reference::value);
+                    }
+
+                    Optional<TimeOfDay> timeOfDay = Optional.empty();
+
+                    if (buf.readBoolean()) {
+
+                        timeOfDay =
+                                Optional.of(
+                                        TimeOfDay.valueOf(
+                                                buf.readUtf()
+                                        )
+                                );
+                    }
+
+                    Optional<TimeOfDay> fakeTimeOfDay = Optional.empty();
+
+                    if (buf.readBoolean()) {
+
+                        fakeTimeOfDay =
+                                Optional.of(
+                                        TimeOfDay.valueOf(
+                                                buf.readUtf()
+                                        )
+                                );
+                    }
+
+                    int recipeTime =
+                            buf.readVarInt();
 
                     return new StoneRitualAltarRecipe(
                             output,
-                            ingredient,
-                            List.of(),
-                            Optional.empty(),
-                            Optional.empty(),
-                            Optional.empty(),
-                            Optional.empty(),
-                            Optional.empty(),
-                            Optional.empty(),
-                            Optional.empty(),
-                            Optional.empty(),
-                            0
+                            moldIngredient,
+                            additionalIngredients,
+                            entityType,
+                            requiredEssenceType,
+                            additionalBlock,
+                            blockState,
+                            needsBlock,
+                            blockOutput,
+                            timeOfDay,
+                            fakeTimeOfDay,
+                            recipeTime
                     );
                 }
             };
