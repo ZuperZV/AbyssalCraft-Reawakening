@@ -53,7 +53,7 @@ public class ModRecipeProvider extends RecipeProvider {
                         "BBB"
                 },
                 new Key('A', ModItems.DREADLANDS_ESSENCE.get()),
-                new Key('B', ModItems.CORALIUM_PLAGUED_FLESH.get()));
+                new Key('B', ModItems.DREAD_FRAGMENT.get()));
 
         shaped(RecipeCategory.MISC, ModItems.SKIN_OF_THE_OMOTHOL.get(),
                 new String[]{
@@ -80,20 +80,93 @@ public class ModRecipeProvider extends RecipeProvider {
                 new Key('A', ModItems.SHADOW_GEM.get()),
                 new Key('B', ModItems.TRANSMUTATION_GEM.get()));
 
+        //Staf of rendering
+        shaped(RecipeCategory.MISC, ModItems.STAFF_OF_RENDING.get(),
+                new String[]{
+                        " BA",
+                        " BB",
+                        "B  "
+                },
+                new Key('A', ModItems.OBLIVION_SHARD.get()),
+                new Key('B', ModItems.SHADOW_SHARD.get()));
+
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC, ModItems.ABYSSAL_WASTELAND_STAFF_OF_RENDING.get(),
+                        Ingredient.of(ModItems.STAFF_OF_RENDING.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_PLAGUED_FLESH.get())) //Venster
+                .addIngredient(Ingredient.of(ModItems.SHADOW_GEM.get())) //Up
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_PLAGUED_FLESH.get())) //Højere
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_PLAGUED_FLESH.get())) //Ned
+                .addIngredient(Ingredient.of(ModBlocks.ABYSSAL_STONE.item().get())) //Venster Up
+                .addIngredient(Ingredient.of(ModBlocks.ABYSSAL_STONE.item().get())) //Højere Up
+                .addIngredient(Ingredient.of(ModBlocks.ABYSSAL_STONE.item().get())) //Højere Ned
+                .addIngredient(Ingredient.of(ModBlocks.ABYSSAL_STONE.item().get())) //Venster Ned
+                .time(TimeOfDay.NIGHT)
+                .duration(600)
+                .potentialEnergy(1000)
+                .unlockedBy(
+                        "has_staff_of_rending",
+                        has(ModItems.STAFF_OF_RENDING.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("abyssal_wasteland_staff_of_rending")));
+
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC, ModItems.DREADLANDS_STAFF_OF_RENDING.get(),
+                        Ingredient.of(ModItems.ABYSSAL_WASTELAND_STAFF_OF_RENDING.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.DREAD_FRAGMENT.get())) //Venster
+                .addIngredient(Ingredient.of(ModItems.SHADOW_GEM.get())) //Up
+                .addIngredient(Ingredient.of(ModItems.DREAD_FRAGMENT.get())) //Højere
+                .addIngredient(Ingredient.of(ModItems.DREAD_FRAGMENT.get())) //Ned
+                .addIngredient(Ingredient.of(ModBlocks.DREADIUM_STONE.item().get())) //Venster Up
+                .addIngredient(Ingredient.of(ModBlocks.DREADIUM_STONE.item().get())) //Højere Up
+                .addIngredient(Ingredient.of(ModBlocks.DREADIUM_STONE.item().get())) //Højere Ned
+                .addIngredient(Ingredient.of(ModBlocks.DREADIUM_STONE.item().get())) //Venster Ned
+                .time(TimeOfDay.NIGHT)
+                .duration(900)
+                .potentialEnergy(2000)
+                .unlockedBy(
+                        "has_abyssal_wasteland_staff_of_rending",
+                        has(ModItems.ABYSSAL_WASTELAND_STAFF_OF_RENDING.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("dreadlands_staff_of_rending")));
+
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC, ModItems.OMOTHOL_STAFF_OF_RENDING.get(),
+                        Ingredient.of(ModItems.DREADLANDS_STAFF_OF_RENDING.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.OMOTHOL_GHOUL_FLESH.get())) //Venster
+                .addIngredient(Ingredient.of(ModItems.SHADOW_GEM.get())) //Up
+                .addIngredient(Ingredient.of(ModItems.OMOTHOL_GHOUL_FLESH.get())) //Højere
+                .addIngredient(Ingredient.of(ModItems.OMOTHOL_GHOUL_FLESH.get())) //Ned
+                .addIngredient(Ingredient.of(ModBlocks.OMOTHOL_STONE.item().get())) //Venster Up
+                .addIngredient(Ingredient.of(ModBlocks.OMOTHOL_STONE.item().get())) //Højere Up
+                .addIngredient(Ingredient.of(ModBlocks.OMOTHOL_STONE.item().get())) //Højere Ned
+                .addIngredient(Ingredient.of(ModBlocks.OMOTHOL_STONE.item().get())) //Venster Ned
+                .time(TimeOfDay.NIGHT)
+                .duration(1300)
+                .potentialEnergy(3000)
+                .unlockedBy(
+                        "has_dreadlands_staff_of_rending",
+                        has(ModItems.DREADLANDS_STAFF_OF_RENDING.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("omothol_staff_of_rending")));
+
         //Coralium
         StoneRitualAltarRecipeBuilder.altar(
                 RecipeCategory.MISC, ModItems.TRANSMUTATION_GEM.get(),
 
                         Ingredient.of(ModItems.CORALIUM_PEARL.get())
                 )
-                .addIngredient(Ingredient.of(Items.ENDER_PEARL))
-                .addIngredient(Ingredient.of(Items.DIAMOND))
-                .addIngredient(Ingredient.of(Items.ENDER_PEARL))
-                .addIngredient(Ingredient.of(Items.DIAMOND))
-                .addIngredient(Ingredient.of(Items.BLAZE_POWDER))
-                .addIngredient(Ingredient.of(Items.BLAZE_POWDER))
-                .addIngredient(Ingredient.of(Items.BLAZE_POWDER))
-                .addIngredient(Ingredient.of(Items.BLAZE_POWDER))
+                .addIngredient(Ingredient.of(Items.ENDER_PEARL)) //Venster
+                .addIngredient(Ingredient.of(Items.DIAMOND)) //Up
+                .addIngredient(Ingredient.of(Items.ENDER_PEARL)) //Højere
+                .addIngredient(Ingredient.of(Items.DIAMOND)) //Ned
+                .addIngredient(Ingredient.of(Items.BLAZE_POWDER)) //Venster Up
+                .addIngredient(Ingredient.of(Items.BLAZE_POWDER)) //Højere Up
+                .addIngredient(Ingredient.of(Items.BLAZE_POWDER)) //Højere Ned
+                .addIngredient(Ingredient.of(Items.BLAZE_POWDER)) //Venster Ned
                 .time(TimeOfDay.BOTH)
                 .duration(400)
                 .potentialEnergy(300)

@@ -102,7 +102,7 @@ public class NecronomiconClientTooltip implements ClientTooltipComponent {
 
         graphics.text(
                 Minecraft.getInstance().font,
-                (int)energy + "/" + maxEnergy,
+                (int)energy + "/" + maxEnergy + " PE",
                 x + 18 + 4,
                 y + 3,
                 texColor

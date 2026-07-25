@@ -218,6 +218,7 @@ public class StoneRitualAltarBlockEntity extends BlockEntity implements WorldlyC
                         }
 
                         int requiredPE = altarRecipe.potentialEnergy();
+                        System.out.println("requiredPE: " + requiredPE);
                         int currentPE = pe.getPotentialEnergy();
 
                         if (currentPE >= requiredPE) {

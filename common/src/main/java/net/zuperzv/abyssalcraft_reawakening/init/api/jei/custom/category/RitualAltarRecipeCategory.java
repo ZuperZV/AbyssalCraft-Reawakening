@@ -2,6 +2,7 @@ package net.zuperzv.abyssalcraft_reawakening.init.api.jei.custom.category;
 
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
 import mezz.jei.api.gui.drawable.IDrawableStatic;
@@ -13,11 +14,11 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.api.recipe.types.IRecipeType;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.FormattedText;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 
-import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.init.api.jei.custom.ModJEIRecipeTypes;
 import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
@@ -26,6 +27,7 @@ import net.zuperzv.abyssalcraft_reawakening.init.component.PotentialEnergyData;
 import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.init.recipe.StoneRitualAltarRecipe;
 
+import net.zuperzv.abyssalcraft_reawakening.init.recipe.helper.TimeOfDay;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -38,6 +40,10 @@ public class RitualAltarRecipeCategory implements IRecipeCategory<RecipeHolder<S
 
     private final IDrawable background;
     private final IDrawable icon;
+
+    private final IDrawableStatic dayIcon;
+    private final IDrawableStatic nightIcon;
+    private final IDrawableStatic bothIcon;
 
     private final IDrawableAnimated progress;
 
@@ -109,6 +115,38 @@ public class RitualAltarRecipeCategory implements IRecipeCategory<RecipeHolder<S
                         .setTextureSize(18,18)
                         .build();
 
+        this.dayIcon =
+                helper.drawableBuilder(
+                                Identifier.fromNamespaceAndPath(Constants.MOD_ID, "textures/gui/icon_day.png"),
+                                0,
+                                0,
+                                16,
+                                16
+                        )
+                        .setTextureSize(16,16)
+                        .build();
+
+        this.nightIcon =
+                helper.drawableBuilder(
+                                Identifier.fromNamespaceAndPath(Constants.MOD_ID, "textures/gui/icon_night.png"),
+                                0,
+                                0,
+                                16,
+                                16
+                        )
+                        .setTextureSize(16,16)
+                        .build();
+
+        this.bothIcon =
+                helper.drawableBuilder(
+                                Identifier.fromNamespaceAndPath(Constants.MOD_ID, "textures/gui/icon_both.png"),
+                                0,
+                                0,
+                                16,
+                                16
+                        )
+                        .setTextureSize(16,16)
+                        .build();
     }
 
     @Override
@@ -131,6 +169,37 @@ public class RitualAltarRecipeCategory implements IRecipeCategory<RecipeHolder<S
         return Component.translatable(
                 "recipe_mods.abyssalcraft_reawakening.ritual_altar"
         );
+    }
+
+    @Override
+    public void getTooltip(
+            ITooltipBuilder tooltip,
+            RecipeHolder<StoneRitualAltarRecipe> recipe,
+            IRecipeSlotsView slots,
+            double mouseX,
+            double mouseY
+    ) {
+        //Arrow
+        if (isMouseOver(mouseX, mouseY, 79, centerY, 23, 15)) {
+            tooltip.add(
+                    Component.translatable("recipe_mods.abyssalcraft_reawakening.time")
+                            .append(Component.literal(": " + recipe.value().getRecipeTime() / 20 + "s"))
+            );
+        }
+
+        //Time of day
+        if (recipe.value().timeOfDay().get() != TimeOfDay.BOTH) {
+            int iconX = width / 2 + 3;
+            int iconY = 5;
+
+            if (isMouseOver(mouseX, mouseY, iconX, iconY, 16, 16)) {
+                tooltip.add(
+                        Component.translatable("recipe_mods.abyssalcraft_reawakening.works_at")
+                                .append(Component.literal(": ")
+                                        .append(Component.translatable("recipe_mods.abyssalcraft_reawakening." + recipe.value().timeOfDay().get().name().toLowerCase())))
+                );
+            }
+        }
     }
 
     @Override
@@ -179,11 +248,31 @@ public class RitualAltarRecipeCategory implements IRecipeCategory<RecipeHolder<S
                 height - 5 - slotSize
         );
 
+        //Arrow
         progress.draw(
                 guiGraphics,
                 79,
                 centerY
         );
+
+
+        // Time of Day
+        int iconX = width / 2 + 3;
+        int iconY = 5;
+
+        if (recipe.timeOfDay().get() != TimeOfDay.BOTH) {
+            slotDrawable.draw(
+                    guiGraphics,
+                    iconX,
+                    iconY
+            );
+
+            switch (recipe.timeOfDay().get()) {
+                case DAY -> dayIcon.draw(guiGraphics, iconX + 1, iconY + 1);
+                case NIGHT -> nightIcon.draw(guiGraphics, iconX + 1, iconY + 1);
+                case BOTH -> bothIcon.draw(guiGraphics, iconX + 1, iconY + 1); // Not in use
+            }
+        }
     }
 
 
@@ -240,5 +329,19 @@ public class RitualAltarRecipeCategory implements IRecipeCategory<RecipeHolder<S
     @Override
     public IDrawable getIcon() {
         return icon;
+    }
+
+    private static boolean isMouseOver(
+            double mouseX,
+            double mouseY,
+            int x,
+            int y,
+            int width,
+            int height
+    ) {
+        return mouseX >= x
+                && mouseX < x + width
+                && mouseY >= y
+                && mouseY < y + height;
     }
 }

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": "abyssalcraft_reawakening:oblivion_shard",
+    "B": "abyssalcraft_reawakening:shadow_shard"
+  },
+  "pattern": [
+    " BA",
+    " BB",
+    "B  "
+  ],
+  "result": {
+    "id": "abyssalcraft_reawakening:staff_of_rending"
+  }
+}

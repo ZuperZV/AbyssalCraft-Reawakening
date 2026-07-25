@@ -147,6 +147,10 @@ public class ModItems {
     public static final RegistryHandle<Item> CORALIUM_PEARL = Services.REGISTRY.registerItem("coralium_pearl",
             properties -> new Item(properties));
 
+    //Dread
+    public static final RegistryHandle<Item> DREAD_FRAGMENT = Services.REGISTRY.registerItem("dread_fragment",
+            properties -> new Item(properties));
+
 
     //Rendering Items
     public static final RegistryHandle<Item> POTENTIAL_ENERGY = Services.REGISTRY.registerItem("potential_energy",

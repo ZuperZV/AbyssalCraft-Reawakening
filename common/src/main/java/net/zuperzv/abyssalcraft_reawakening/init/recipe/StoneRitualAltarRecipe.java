@@ -10,7 +10,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.world.clock.WorldClocks;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -27,11 +26,9 @@ import net.zuperzv.abyssalcraft_reawakening.init.block.entity.custom.StoneRitual
 import net.zuperzv.abyssalcraft_reawakening.init.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.init.component.PotentialEnergyData;
 import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
-import net.zuperzv.abyssalcraft_reawakening.init.item.custom.NecronomiconItem;
 import net.zuperzv.abyssalcraft_reawakening.init.recipe.helper.TimeOfDay;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.ItemStackTemplate;
-import org.lwjgl.system.ffm.mapping.Mapping;
 
 
 import java.util.*;
@@ -48,8 +45,8 @@ public record StoneRitualAltarRecipe(
         Optional<Block> blockOutput,
         Optional<TimeOfDay> timeOfDay,
         Optional<TimeOfDay> fakeTimeOfDay,
-        int potentialEnergy,
-        int recipeTime
+        int recipeTime,
+        int potentialEnergy
 ) implements Recipe<StoneRitualAltarBlockEntity.BlockRecipeInput> {
 
     public static final MapCodec<StoneRitualAltarRecipe> CODEC =
@@ -520,5 +517,13 @@ public record StoneRitualAltarRecipe(
     @Override
     public RecipeBookCategory recipeBookCategory() {
         return RecipeBookCategories.CRAFTING_MISC;
+    }
+
+    public int getRecipeTime() {
+        return recipeTime;
+    }
+
+    public Optional<TimeOfDay> getTimeOfDay() {
+        return timeOfDay;
     }
 }

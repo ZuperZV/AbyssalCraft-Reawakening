@@ -85,7 +85,7 @@ public class NecronomiconItem extends Item {
         PotentialEnergyData pe =
                 stack.get(ModDataComponentTypes.POTENTIAL_ENERGY.get());
 
-        System.out.println("Potential Energy getTooltipImage: " + pe.getPotentialEnergy());
+        //System.out.println("Potential Energy getTooltipImage: " + pe.getPotentialEnergy());
 
         return Optional.of(
                 new NecronomiconTooltipComponent(

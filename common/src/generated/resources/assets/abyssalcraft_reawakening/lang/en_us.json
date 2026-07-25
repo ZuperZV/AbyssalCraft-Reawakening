@@ -2,6 +2,7 @@
   "block.abyssalcraft_reawakening.abyssalnite_block": "Block of Abyssalnite",
   "block.abyssalcraft_reawakening.raw_abyssalnite_block": "Block of Raw Abyssalnite",
   "item.abyssalcraft_reawakening.abyssal_ghoul_flesh": "Abyssal Ghoul Flesh",
+  "item.abyssalcraft_reawakening.abyssal_stone": "Abyssal Stone",
   "item.abyssalcraft_reawakening.abyssal_wasteland_essence": "Abyssal Wasteland Essence",
   "item.abyssalcraft_reawakening.abyssal_wasteland_staff_of_rending": "Abyssal Wasteland Staff Of Rending",
   "item.abyssalcraft_reawakening.abyssalnite_axe": "Abyssalnite Axe",
@@ -24,8 +25,10 @@
   "item.abyssalcraft_reawakening.anti_ghoul_flesh": "Anti Ghoul Flesh",
   "item.abyssalcraft_reawakening.coralium_pearl": "Coralium Pearl",
   "item.abyssalcraft_reawakening.coralium_plagued_flesh": "Coralium Plagued Flesh",
+  "item.abyssalcraft_reawakening.dread_fragment": "Dread Fragment",
   "item.abyssalcraft_reawakening.dreaded_ghoul_flesh": "Dreaded Ghoul Flesh",
   "item.abyssalcraft_reawakening.dreadium_block": "Dreadium Block",
+  "item.abyssalcraft_reawakening.dreadium_stone": "Dreadium Stone",
   "item.abyssalcraft_reawakening.dreadlands_essence": "Dreadlands Essence",
   "item.abyssalcraft_reawakening.dreadlands_staff_of_rending": "Dreadlands Staff Of Rending",
   "item.abyssalcraft_reawakening.ethaxium_block": "Ethaxium Block",
@@ -36,6 +39,7 @@
   "item.abyssalcraft_reawakening.omothol_essence": "Omothol Essence",
   "item.abyssalcraft_reawakening.omothol_ghoul_flesh": "Omothol Ghoul Flesh",
   "item.abyssalcraft_reawakening.omothol_staff_of_rending": "Omothol Staff Of Rending",
+  "item.abyssalcraft_reawakening.omothol_stone": "Omothol Stone",
   "item.abyssalcraft_reawakening.potential_energy": "Potential Energy",
   "item.abyssalcraft_reawakening.raw_abyssalnite": "Raw Abyssalnite",
   "item.abyssalcraft_reawakening.raw_abyssalnite_block": "Raw Abyssalnite Block",
@@ -52,5 +56,10 @@
   "item.abyssalcraft_reawakening.stone_ritual_pedestal": "Stone Ritual Pedestal",
   "item.abyssalcraft_reawakening.transmutation_gem": "Transmutation Gem",
   "itemGroup.abyssalcraft_reawakeningabyssalcraft_tab": "Abyssalcraft Reawakening",
-  "recipe_mods.abyssalcraft_reawakening.ritual_altar": "Ritual Altar"
+  "recipe_mods.abyssalcraft_reawakening.both": "Both",
+  "recipe_mods.abyssalcraft_reawakening.day": "Day",
+  "recipe_mods.abyssalcraft_reawakening.night": "Night",
+  "recipe_mods.abyssalcraft_reawakening.ritual_altar": "Ritual Altar",
+  "recipe_mods.abyssalcraft_reawakening.time": "Time",
+  "recipe_mods.abyssalcraft_reawakening.works_at": "Works at"
 }

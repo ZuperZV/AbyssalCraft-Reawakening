@@ -2,6 +2,7 @@ package net.zuperzv.abyssalcraft_reawakening.init.api.jei.custom;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.recipe.types.IRecipeType;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
@@ -24,7 +25,6 @@ public class JEIPlugin implements IModPlugin {
 
     @Override
     public Identifier getPluginUid() {
-        System.out.println("JEI Plugin Loaded. From loader: " + Services.PLATFORM.getPlatformName());
         return Identifier.fromNamespaceAndPath(Constants.MOD_ID, "jei_plugin");
     }
 
@@ -37,18 +37,14 @@ public class JEIPlugin implements IModPlugin {
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
-        System.out.println("registerCategories Loaded. From loader: " + Services.PLATFORM.getPlatformName());
         registration.addRecipeCategories(new RitualAltarRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
     }
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        if (Services.PLATFORM.getPlatformName() == "NeoForge") {
-            registration.addRecipes(ModJEIRecipeTypes.RITUAL_ALTAR, this.getRecipes(syncedRecipes, ModRecipes.ASTRAL_ALTAR.type().get()));
-        } else {
-            registration.addRecipes(ModJEIRecipeTypes.RITUAL_ALTAR, Services.PLATFORM.getAllOfType(ModRecipes.ASTRAL_ALTAR.type().get()).stream().flatMap(Collection::stream).toList());
-        }
+        registerRecipe(registration, ModJEIRecipeTypes.RITUAL_ALTAR, ModRecipes.ASTRAL_ALTAR.type().get());
     }
+
 
     /*
     @Override
@@ -64,5 +60,20 @@ public class JEIPlugin implements IModPlugin {
 
         registration.addCraftingStation(ModJEIRecipeTypes.RITUAL_ALTAR, new ItemStack(ModBlocks.STONE_RITUAL_ALTAR.item().get()));
         registration.addCraftingStation(ModJEIRecipeTypes.RITUAL_ALTAR, new ItemStack(ModBlocks.STONE_RITUAL_PEDESTAL.item().get()));
+    }
+
+
+    //Helper
+    private <I extends RecipeInput, T extends Recipe<I>> void registerRecipe(
+            IRecipeRegistration registration,
+            mezz.jei.api.recipe.types.IRecipeType<RecipeHolder<T>> recipeType,
+            RecipeType<T> type
+    ) {
+        if ("NeoForge".equals(Services.PLATFORM.getPlatformName())) {
+            registration.addRecipes(recipeType, getRecipes(syncedRecipes, type));
+        } else {
+            registration.addRecipes(recipeType, Services.PLATFORM.getAllOfType(type)
+                            .stream().flatMap(Collection::stream).toList());
+        }
     }
 }
