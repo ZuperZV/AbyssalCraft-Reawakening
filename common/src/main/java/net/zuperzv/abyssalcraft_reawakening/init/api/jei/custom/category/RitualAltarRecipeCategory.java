@@ -17,9 +17,13 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.init.api.jei.custom.ModJEIRecipeTypes;
 import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.init.component.ModDataComponentTypes;
+import net.zuperzv.abyssalcraft_reawakening.init.component.PotentialEnergyData;
+import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.init.recipe.StoneRitualAltarRecipe;
 
 import org.jetbrains.annotations.NotNull;
@@ -39,17 +43,19 @@ public class RitualAltarRecipeCategory implements IRecipeCategory<RecipeHolder<S
 
     private final IDrawableStatic slotDrawable;
 
-    private final int width = 115;
-    private final int height = 55;
+    private final int width = 115 + 16;
+    private final int height = 55 + 16;
 
-    int centerX = 20;
+    int slotSize = 16;
+
+    int centerX = 28;
     int centerY = height / 2 - 7;
 
     private static final int[][] SLOT_POSITIONS = new int[][]{
-            {-19, 0},   // venstre
-            {0, -19},   // op
-            {19, 0},    // højre
-            {0, 19},    // ned
+            {-19 - 8, 0},   // venstre
+            {0, -19 - 8},   // op
+            {19 + 8, 0},    // højre
+            {0, 19 + 8},    // ned
             {-19, -19}, // øverste venstre hjørne
             {19, -19},  // øverste højre hjørne
             {19, 19},   // nederste højre hjørne
@@ -162,13 +168,20 @@ public class RitualAltarRecipeCategory implements IRecipeCategory<RecipeHolder<S
 
         slotDrawable.draw(
                 guiGraphics,
-                97-1,
+                width - 4 - slotSize,
                 centerY-1
+        );
+
+        //Necronomicon
+        slotDrawable.draw(
+                guiGraphics,
+                width / 2 + 3,
+                height - 5 - slotSize
         );
 
         progress.draw(
                 guiGraphics,
-                63,
+                79,
                 centerY
         );
     }
@@ -183,7 +196,18 @@ public class RitualAltarRecipeCategory implements IRecipeCategory<RecipeHolder<S
 
         StoneRitualAltarRecipe recipe = holder.value();
 
-        // Main ingredient (center)
+        //Necronomicon
+        ItemStack necronomicon = ModItems.NECRONOMICON.get().getDefaultInstance();
+        necronomicon.set(
+                ModDataComponentTypes.POTENTIAL_ENERGY.get(),
+                new PotentialEnergyData(recipe.potentialEnergy())
+        );
+        builder.addSlot(
+                RecipeIngredientRole.INPUT,
+                width / 2 + 4,
+                height - 4 - slotSize
+        ).add(necronomicon);
+
         builder.addSlot(
                         RecipeIngredientRole.INPUT,
                         centerX,
@@ -191,7 +215,6 @@ public class RitualAltarRecipeCategory implements IRecipeCategory<RecipeHolder<S
                 )
                 .add(recipe.moldIngredient());
 
-        // Pedestal ingredients
         for (int i = 0; i < recipe.additionalIngredients().size(); i++) {
 
             if (i >= SLOT_POSITIONS.length)
@@ -207,10 +230,9 @@ public class RitualAltarRecipeCategory implements IRecipeCategory<RecipeHolder<S
             ).add(recipe.additionalIngredients().get(i));
         }
 
-        // Output
         builder.addSlot(
                 RecipeIngredientRole.OUTPUT,
-                97,
+                width - 3 - slotSize,
                 centerY
         ).add(recipe.output().create());
     }

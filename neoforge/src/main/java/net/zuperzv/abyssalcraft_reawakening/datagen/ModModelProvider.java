@@ -64,6 +64,9 @@ public class ModModelProvider extends ModelProvider {
         generateBlockFromParent(blockModels, ModBlocks.STONE_RITUAL_PEDESTAL.block().get(), "ritual_pedestal", List.of(TextureSlot.create("1"), TextureSlot.create("2")));
 
 
+        //Rendering Items
+        generateItem(itemModels, ModItems.POTENTIAL_ENERGY.get(), "_gray", ModDataComponentTypes.GRAYSCALE.get());
+
         for (Item item : getModItems()) {
             if (!(item instanceof BlockItem) && !generatedItems.contains(item)) {
                 generateItem(itemModels, item);

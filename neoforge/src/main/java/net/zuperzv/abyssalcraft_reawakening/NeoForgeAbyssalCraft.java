@@ -1,34 +1,25 @@
 package net.zuperzv.abyssalcraft_reawakening;
 
 
-import net.minecraft.resources.Identifier;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.FlowerPotBlock;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.client.event.RecipesReceivedEvent;
 import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
+import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
-//import net.zuperzv.abyssalcraft_reawakening.init.api.jei.custom.JEIPlugin;
+import net.zuperzv.abyssalcraft_reawakening.init.api.jei.custom.JEIPlugin;
+import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.NecronomiconClientTooltip;
+import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.NecronomiconTooltipComponent;
 import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.StaffClientTooltip;
 import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.StaffTooltipComponent;
-import net.zuperzv.abyssalcraft_reawakening.init.item.custom.decorator.ItemDecoratorRegistry;
-import net.zuperzv.abyssalcraft_reawakening.init.item.custom.decorator.StaffOfRenderingOverlay;
 import net.zuperzv.abyssalcraft_reawakening.init.network.SetBookmarksPacket;
 import net.zuperzv.abyssalcraft_reawakening.init.network.SyncBookmarksPacket;
+import net.zuperzv.abyssalcraft_reawakening.init.recipe.ModRecipes;
 import net.zuperzv.abyssalcraft_reawakening.services.NeoForgeRegistryHelper;
-
-import java.lang.reflect.Field;
-import java.util.HashSet;
-import java.util.Set;
 
 import static net.zuperzv.abyssalcraft_reawakening.Constants.MOD_ID;
 
@@ -63,9 +54,17 @@ public class NeoForgeAbyssalCraft {
 
     @EventBusSubscriber(modid = MOD_ID, value = Dist.CLIENT)
     public class ClientInit {
+
         @SubscribeEvent
         public static void onRecipeReceived(RecipesReceivedEvent event) {
-            net.zuperzv.abyssalcraft_reawakening.init.api.jei.custom.JEIPlugin.syncedRecipes = event.getRecipeMap();
+            JEIPlugin.syncedRecipes = event.getRecipeMap();
+        }
+
+        @SubscribeEvent
+        public static void onDatapackSync(OnDatapackSyncEvent event) {
+            event.sendRecipes(
+                    ModRecipes.ASTRAL_ALTAR.type().get()
+            );
         }
 
         @SubscribeEvent
@@ -75,6 +74,11 @@ public class NeoForgeAbyssalCraft {
             event.register(
                     StaffTooltipComponent.class,
                     StaffClientTooltip::new
+            );
+
+            event.register(
+                    NecronomiconTooltipComponent.class,
+                    NecronomiconClientTooltip::new
             );
         }
 

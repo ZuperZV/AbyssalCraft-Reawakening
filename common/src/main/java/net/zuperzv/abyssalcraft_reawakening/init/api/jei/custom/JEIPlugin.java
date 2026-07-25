@@ -15,11 +15,9 @@ import net.zuperzv.abyssalcraft_reawakening.init.recipe.ModRecipes;
 
 import java.util.List;
 
-
 @JeiPlugin
 public class JEIPlugin implements IModPlugin {
     public static RecipeMap syncedRecipes = RecipeMap.EMPTY;
-    public static RecipeType<?> recipeTypes;
     @Override
     public Identifier getPluginUid() {
         return Identifier.fromNamespaceAndPath(Constants.MOD_ID, "jei_plugin");

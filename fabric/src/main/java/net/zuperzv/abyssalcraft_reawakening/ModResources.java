@@ -21,6 +21,8 @@ import net.zuperzv.abyssalcraft_reawakening.init.block.entity.ModBlockEntities;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.renderer.StoneRitualAltarBlockEntityRenderer;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.renderer.StoneRitualPedestalBlockEntityRenderer;
 import net.zuperzv.abyssalcraft_reawakening.init.data.CodexDataLoader;
+import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.NecronomiconClientTooltip;
+import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.NecronomiconTooltipComponent;
 import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.StaffClientTooltip;
 import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.StaffTooltipComponent;
 import net.zuperzv.abyssalcraft_reawakening.init.item.custom.decorator.ItemDecoratorRegistry;
@@ -104,6 +106,10 @@ public class ModResources implements ClientModInitializer {
 
             if (component instanceof StaffTooltipComponent staff) {
                 return new StaffClientTooltip(staff);
+            }
+
+            if (component instanceof NecronomiconTooltipComponent necronomicon) {
+                return new NecronomiconClientTooltip(necronomicon);
             }
 
             return null;

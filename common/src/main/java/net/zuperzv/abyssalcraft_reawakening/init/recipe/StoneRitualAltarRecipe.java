@@ -12,6 +12,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.clock.WorldClocks;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
@@ -19,12 +20,18 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraft.world.phys.AABB;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.custom.StoneRitualAltarBlockEntity;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.custom.StoneRitualPedestalBlockEntity;
+import net.zuperzv.abyssalcraft_reawakening.init.component.ModDataComponentTypes;
+import net.zuperzv.abyssalcraft_reawakening.init.component.PotentialEnergyData;
+import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
+import net.zuperzv.abyssalcraft_reawakening.init.item.custom.NecronomiconItem;
 import net.zuperzv.abyssalcraft_reawakening.init.recipe.helper.TimeOfDay;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.ItemStackTemplate;
+import org.lwjgl.system.ffm.mapping.Mapping;
 
 
 import java.util.*;
@@ -41,6 +48,7 @@ public record StoneRitualAltarRecipe(
         Optional<Block> blockOutput,
         Optional<TimeOfDay> timeOfDay,
         Optional<TimeOfDay> fakeTimeOfDay,
+        int potentialEnergy,
         int recipeTime
 ) implements Recipe<StoneRitualAltarBlockEntity.BlockRecipeInput> {
 
@@ -87,7 +95,10 @@ public record StoneRitualAltarRecipe(
                             .forGetter(StoneRitualAltarRecipe::fakeTimeOfDay),
 
                     Codec.INT.fieldOf("time")
-                            .forGetter(StoneRitualAltarRecipe::recipeTime)
+                            .forGetter(StoneRitualAltarRecipe::recipeTime),
+
+                    Codec.INT.fieldOf("pe")
+                            .forGetter(StoneRitualAltarRecipe::potentialEnergy)
             ).apply(instance, StoneRitualAltarRecipe::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, StoneRitualAltarRecipe> STREAM_CODEC =
@@ -167,6 +178,7 @@ public record StoneRitualAltarRecipe(
                             );
 
                     buf.writeVarInt(recipe.recipeTime());
+                    buf.writeVarInt(recipe.potentialEnergy());
                 }
 
                 @Override
@@ -280,6 +292,9 @@ public record StoneRitualAltarRecipe(
                     int recipeTime =
                             buf.readVarInt();
 
+                    int potentialEnergy =
+                            buf.readVarInt();
+
                     return new StoneRitualAltarRecipe(
                             output,
                             moldIngredient,
@@ -292,7 +307,8 @@ public record StoneRitualAltarRecipe(
                             blockOutput,
                             timeOfDay,
                             fakeTimeOfDay,
-                            recipeTime
+                            recipeTime,
+                            potentialEnergy
                     );
                 }
             };
@@ -373,39 +389,107 @@ public record StoneRitualAltarRecipe(
             }
         }
 
-        Set<Ingredient> unmatched = new HashSet<>(additionalIngredients);
+        List<Ingredient> remainingIngredients = new ArrayList<>(additionalIngredients);
 
+        Set<String> usedPedestals = new HashSet<>();
+
+        ingredients:
         for (int dx = -3; dx <= 3; dx++) {
             for (int dz = -3; dz <= 3; dz++) {
-                if (dx == 0 && dz == 0) continue;
+
+                if (dx == 0 && dz == 0)
+                    continue;
 
                 BlockPos checkPos = center.offset(dx, 0, dz);
                 BlockEntity be = level.getBlockEntity(checkPos);
-                if (!(be instanceof StoneRitualPedestalBlockEntity nexus)) continue;
+
+
+                if (!(be instanceof StoneRitualPedestalBlockEntity nexus))
+                    continue;
 
                 for (int slot = 0; slot < nexus.inventory.getSlots(); slot++) {
+
+                    String pedestalId = nexus.getBlockPos() + ":" + slot;
+
+                    if (usedPedestals.contains(pedestalId))
+                        continue;
+
                     ItemStack stack = nexus.inventory.getStackInSlot(slot);
-                    if (stack.isEmpty()) continue;
 
-                    Ingredient matched = null;
+                    if (stack.isEmpty())
+                        continue;
 
-                    for (Ingredient ing : unmatched) {
-                        if (ing.test(stack)) {
-                            matched = ing;
+                    for (int i = 0; i < remainingIngredients.size(); i++) {
+
+                        Ingredient ingredient = remainingIngredients.get(i);
+
+                        if (ingredient.test(stack)) {
+
+                            usedPedestals.add(pedestalId);
+
+                            remainingIngredients.remove(i);
+
                             break;
                         }
                     }
 
-                    if (matched != null) {
-                        unmatched.remove(matched);
+                    if (remainingIngredients.isEmpty()) {
+                        break ingredients;
                     }
-
-                    if (unmatched.isEmpty()) return true;
                 }
             }
         }
 
-        return unmatched.isEmpty();
+        if (!remainingIngredients.isEmpty()) {
+            return false;
+        }
+
+        BlockPos pos = blockInput.pos();
+
+        List<Player> players = level.getEntitiesOfClass(
+                Player.class,
+                new AABB(
+                        pos.getX() - 7,
+                        pos.getY() - 7,
+                        pos.getZ() - 7,
+                        pos.getX() + 8,
+                        pos.getY() + 8,
+                        pos.getZ() + 8
+                )
+        );
+
+        players.sort(Comparator.comparingDouble(player ->
+                player.distanceToSqr(pos.getX(), pos.getY(), pos.getZ())
+        ));
+
+        if (players.isEmpty()) {
+            return false;
+        }
+
+        for (Player player : players) {
+            if (player.isCreative()) {
+                return true;
+            }
+
+            for (ItemStack stack : player.getInventory().getNonEquipmentItems()) {
+                if (stack.is(ModItems.NECRONOMICON.get())) {
+
+                    PotentialEnergyData pe = stack.get(
+                            ModDataComponentTypes.POTENTIAL_ENERGY.get()
+                    );
+
+                    if (pe == null) {
+                        continue;
+                    }
+
+                    if (pe.getPotentialEnergy() >= potentialEnergy) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
     @Override

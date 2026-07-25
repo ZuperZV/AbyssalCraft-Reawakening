@@ -20,6 +20,9 @@
         ],
         "client": [
             "net.zuperzv.abyssalcraft_reawakening.ModResources"
+        ],
+        "jei_mod_plugin": [
+            "net.zuperzv.abyssalcraft_reawakening.init.api.jei.custom.JEIPlugin"
         ]
     },
     "mixins": [

@@ -113,11 +113,4 @@ public class ModResources {
                 }
         );
     }
-
-    @SubscribeEvent
-    public static void onDatapackSync(OnDatapackSyncEvent event) {
-        event.sendRecipes(
-                ModRecipes.ASTRAL_ALTAR.type().get()
-        );
-    }
 }

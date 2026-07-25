@@ -96,6 +96,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .addIngredient(Ingredient.of(Items.BLAZE_POWDER))
                 .time(TimeOfDay.BOTH)
                 .duration(400)
+                .potentialEnergy(300)
                 .unlockedBy(
                         "has_coralium_pearl",
                         has(ModItems.CORALIUM_PEARL.get()))

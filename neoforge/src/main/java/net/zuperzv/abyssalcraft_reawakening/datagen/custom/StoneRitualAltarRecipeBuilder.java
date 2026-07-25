@@ -40,6 +40,7 @@ public class StoneRitualAltarRecipeBuilder implements RecipeBuilder {
     private Optional<TimeOfDay> fakeTimeOfDay = Optional.empty();
 
     private int recipeTime = 200;
+    private int potentialEnergy = 200;
 
 
     private final RecipeUnlockAdvancementBuilder advancementBuilder =
@@ -58,7 +59,6 @@ public class StoneRitualAltarRecipeBuilder implements RecipeBuilder {
         this.moldIngredient = moldIngredient;
     }
 
-
     public static StoneRitualAltarRecipeBuilder altar(
             RecipeCategory category,
             ItemStackTemplate output,
@@ -70,7 +70,6 @@ public class StoneRitualAltarRecipeBuilder implements RecipeBuilder {
                 mold
         );
     }
-
 
     public static StoneRitualAltarRecipeBuilder altar(
             RecipeCategory category,
@@ -84,25 +83,21 @@ public class StoneRitualAltarRecipeBuilder implements RecipeBuilder {
         );
     }
 
-
     public StoneRitualAltarRecipeBuilder addIngredient(Ingredient ingredient) {
         this.additionalIngredients.add(ingredient);
         return this;
     }
-
 
     public StoneRitualAltarRecipeBuilder essence(String essence) {
         this.requiredEssenceType = Optional.of(essence);
         return this;
     }
 
-
     public StoneRitualAltarRecipeBuilder needsBlock(Block block) {
         this.additionalBlock = Optional.of(block);
         this.needsBlock = Optional.of(true);
         return this;
     }
-
 
     public StoneRitualAltarRecipeBuilder blockState(
             String key,
@@ -118,24 +113,25 @@ public class StoneRitualAltarRecipeBuilder implements RecipeBuilder {
         return this;
     }
 
-
     public StoneRitualAltarRecipeBuilder time(TimeOfDay time) {
         this.timeOfDay = Optional.of(time);
         return this;
     }
-
 
     public StoneRitualAltarRecipeBuilder fakeTime(TimeOfDay time) {
         this.fakeTimeOfDay = Optional.of(time);
         return this;
     }
 
-
     public StoneRitualAltarRecipeBuilder duration(int ticks) {
         this.recipeTime = ticks;
         return this;
     }
 
+    public StoneRitualAltarRecipeBuilder potentialEnergy(int energy) {
+        this.potentialEnergy = energy;
+        return this;
+    }
 
     @Override
     public RecipeBuilder unlockedBy(
@@ -146,19 +142,16 @@ public class StoneRitualAltarRecipeBuilder implements RecipeBuilder {
         return this;
     }
 
-
     @Override
     public RecipeBuilder group(@Nullable String group) {
         this.group = group;
         return this;
     }
 
-
     @Override
     public ResourceKey<Recipe<?>> defaultId() {
         return RecipeBuilder.getDefaultRecipeId(output);
     }
-
 
     @Override
     public void save(
@@ -179,7 +172,8 @@ public class StoneRitualAltarRecipeBuilder implements RecipeBuilder {
                         this.blockOutput,
                         this.timeOfDay,
                         this.fakeTimeOfDay,
-                        this.recipeTime
+                        this.recipeTime,
+                        this.potentialEnergy
                 );
 
 

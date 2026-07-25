@@ -19,6 +19,12 @@ public class ModDataComponentTypes {
                     b -> b.persistent(CodexTierData.CODEC)
             );
 
+    public static final RegistryHandle<DataComponentType<PotentialEnergyData>> POTENTIAL_ENERGY =
+            Services.REGISTRY.registerDataComponent(
+                    "potential_energy",
+                    b -> b.persistent(PotentialEnergyData.CODEC)
+            );
+
     public static final RegistryHandle<DataComponentType<EnergyData>> ENERGY =
             Services.REGISTRY.registerDataComponent(
                     "energy",

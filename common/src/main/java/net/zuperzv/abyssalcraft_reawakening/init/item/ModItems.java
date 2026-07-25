@@ -6,6 +6,7 @@ import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.zuperzv.abyssalcraft_reawakening.init.component.CodexTierData;
 import net.zuperzv.abyssalcraft_reawakening.init.component.ModDataComponentTypes;
+import net.zuperzv.abyssalcraft_reawakening.init.component.PotentialEnergyData;
 import net.zuperzv.abyssalcraft_reawakening.init.item.custom.NecronomiconItem;
 import net.zuperzv.abyssalcraft_reawakening.init.item.custom.StaffOfRendingItem;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
@@ -144,5 +145,10 @@ public class ModItems {
             properties -> new Item(properties));
 
     public static final RegistryHandle<Item> CORALIUM_PEARL = Services.REGISTRY.registerItem("coralium_pearl",
+            properties -> new Item(properties));
+
+
+    //Rendering Items
+    public static final RegistryHandle<Item> POTENTIAL_ENERGY = Services.REGISTRY.registerItem("potential_energy",
             properties -> new Item(properties));
 }

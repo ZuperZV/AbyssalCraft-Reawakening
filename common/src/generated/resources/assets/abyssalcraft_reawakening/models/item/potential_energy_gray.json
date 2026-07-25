@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "abyssalcraft_reawakening:item/potential_energy_gray"
+  }
+}

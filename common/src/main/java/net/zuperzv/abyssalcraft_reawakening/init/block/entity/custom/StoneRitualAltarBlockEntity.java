@@ -28,9 +28,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.phys.AABB;
 import net.zuperzv.abyssalcraft_reawakening.init.block.custom.StoneRitualAltarBlock;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.ModBlockEntities;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.helper.SimpleItemHandler;
+import net.zuperzv.abyssalcraft_reawakening.init.component.ModDataComponentTypes;
+import net.zuperzv.abyssalcraft_reawakening.init.component.PotentialEnergyData;
+import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.init.recipe.StoneRitualAltarRecipe;
 import net.zuperzv.abyssalcraft_reawakening.init.recipe.ModRecipes;
 import org.jetbrains.annotations.Nullable;
@@ -126,7 +130,6 @@ public class StoneRitualAltarBlockEntity extends BlockEntity implements WorldlyC
         Level level = this.level;
         if (level == null) return;
 
-
         Optional<RecipeHolder<StoneRitualAltarRecipe>> recipe = Objects.requireNonNull(level.getServer()).getRecipeManager()
                 .getRecipeFor(ModRecipes.ASTRAL_ALTAR.type().get(), new BlockRecipeInput(inventory.getStackInSlot(0), worldPosition), level);
 
@@ -137,7 +140,7 @@ public class StoneRitualAltarBlockEntity extends BlockEntity implements WorldlyC
 
         if (!altarRecipe.moldIngredient().test(inputStack)) return;
 
-        Map<Ingredient, MatchedItem> matchedIngredientSources = new HashMap<>();
+        List<MatchedItem> matchedIngredientSources = new ArrayList<>();
 
         List<Ingredient> ingredientsToMatch = new ArrayList<>(altarRecipe.additionalIngredients());
 
@@ -155,12 +158,23 @@ public class StoneRitualAltarBlockEntity extends BlockEntity implements WorldlyC
             }
 
             inventory.extractItem(0, 1, false);
-            for (MatchedItem matched : matchedIngredientSources.values()) {
-                matched.nexus.inventory.extractItem(matched.slot, 1, false);
+            for (MatchedItem matched : matchedIngredientSources) {
+
+                matched.nexus.inventory.extractItem(
+                        matched.slot,
+                        matched.amount,
+                        false
+                );
 
                 matched.nexus.inventory.setChangeCallback(this::setChanged);
                 matched.nexus.setChanged();
-                level.sendBlockUpdated(matched.nexus.getBlockPos(), matched.nexus.getBlockState(), matched.nexus.getBlockState(), 3);
+
+                level.sendBlockUpdated(
+                        matched.nexus.getBlockPos(),
+                        matched.nexus.getBlockState(),
+                        matched.nexus.getBlockState(),
+                        3
+                );
             }
             inventory.setStackInSlot(0, altarRecipe.output().create().copy());
 
@@ -169,6 +183,62 @@ public class StoneRitualAltarBlockEntity extends BlockEntity implements WorldlyC
             setCrafting(worldPosition, level, false);
 
             inventory.setChangeCallback(this::setChanged);
+
+            List<Player> players = level.getEntitiesOfClass(
+                    Player.class,
+                    new AABB(
+                            worldPosition.getX() - 7,
+                            worldPosition.getY() - 7,
+                            worldPosition.getZ() - 7,
+                            worldPosition.getX() + 8,
+                            worldPosition.getY() + 8,
+                            worldPosition.getZ() + 8
+                    )
+            );
+
+            players.sort(Comparator.comparingDouble(player ->
+                    player.distanceToSqr(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ())
+            ));
+
+            boolean hasRemovedItems = false;
+
+            for (Player player : players) {
+                if (hasRemovedItems || player.isCreative()) {
+                    continue;
+                }
+
+                for (ItemStack stack : player.getInventory().getNonEquipmentItems()) {
+
+                    if (stack.is(ModItems.NECRONOMICON.get())) {
+
+                        PotentialEnergyData pe = stack.get(ModDataComponentTypes.POTENTIAL_ENERGY.get());
+
+                        if (pe == null) {
+                            continue;
+                        }
+
+                        int requiredPE = altarRecipe.potentialEnergy();
+                        int currentPE = pe.getPotentialEnergy();
+
+                        if (currentPE >= requiredPE) {
+
+                            stack.set(
+                                    ModDataComponentTypes.POTENTIAL_ENERGY.get(),
+                                    new PotentialEnergyData(
+                                            pe.getPotentialEnergy() - requiredPE
+                                    )
+                            );
+
+                            player.getInventory().setChanged();
+                            player.containerMenu.broadcastChanges();
+
+                            hasRemovedItems = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
             setChanged();
 
             level.sendBlockUpdated(
@@ -236,39 +306,72 @@ public class StoneRitualAltarBlockEntity extends BlockEntity implements WorldlyC
         return allMatched;
     }
 
-    private boolean isAllMatched(List<Ingredient> ingredientsToMatch, Level level, Map<Ingredient, MatchedItem> matchedIngredientSources, boolean allMatched) {
-        for (Ingredient ingredient : ingredientsToMatch) {
-            boolean matched = false;
+    private boolean isAllMatched(
+            List<Ingredient> ingredientsToMatch,
+            Level level,
+            List<MatchedItem> matchedIngredientSources,
+            boolean allMatched
+    ) {
 
-            outer:
-            for (int dx = -3; dx <= 3; dx++) {
-                for (int dz = -3; dz <= 3; dz++) {
-                    if (dx == 0 && dz == 0) continue;
+        List<Ingredient> remaining = new ArrayList<>(ingredientsToMatch);
 
-                    BlockPos checkPos = worldPosition.offset(dx, 0, dz);
-                    BlockEntity be = level.getBlockEntity(checkPos);
+        Set<String> usedSlots = new HashSet<>();
 
-                    if (!(be instanceof StoneRitualPedestalBlockEntity nexus)) continue;
+        for (int dx = -3; dx <= 3; dx++) {
+            for (int dz = -3; dz <= 3; dz++) {
 
-                    for (int slot = 0; slot < nexus.inventory.getSlots(); slot++) {
-                        ItemStack stack = nexus.inventory.getStackInSlot(slot);
-                        if (!stack.isEmpty() && ingredient.test(stack)) {
-                            matchedIngredientSources.put(ingredient, new MatchedItem(nexus, slot));
-                            matched = true;
-                            break outer;
+                if (dx == 0 && dz == 0)
+                    continue;
+
+                BlockPos checkPos = worldPosition.offset(dx, 0, dz);
+                BlockEntity be = level.getBlockEntity(checkPos);
+
+                if (!(be instanceof StoneRitualPedestalBlockEntity nexus))
+                    continue;
+
+                for (int slot = 0; slot < nexus.inventory.getSlots(); slot++) {
+
+                    String slotId = nexus.getBlockPos() + ":" + slot;
+
+                    if (usedSlots.contains(slotId))
+                        continue;
+
+                    ItemStack stack = nexus.inventory.getStackInSlot(slot);
+
+                    if (stack.isEmpty())
+                        continue;
+
+                    for (int i = 0; i < remaining.size(); i++) {
+
+                        Ingredient ingredient = remaining.get(i);
+
+                        if (ingredient.test(stack)) {
+
+                            matchedIngredientSources.add(
+                                    new MatchedItem(
+                                            nexus,
+                                            slot,
+                                            1
+                                    )
+                            );
+
+                            usedSlots.add(slotId);
+
+                            remaining.remove(i);
+
+                            break;
                         }
+                    }
+
+                    if (remaining.isEmpty()) {
+                        return true;
                     }
                 }
             }
-
-            if (!matched) {
-                allMatched = false;
-                break;
-            }
         }
-        return allMatched;
-    }
 
+        return false;
+    }
 
     private void itemCraftingParticles(Level level) {
         if (level instanceof ServerLevel serverLevel) {
@@ -528,10 +631,16 @@ public class StoneRitualAltarBlockEntity extends BlockEntity implements WorldlyC
     private static class MatchedItem {
         public final StoneRitualPedestalBlockEntity nexus;
         public final int slot;
+        public final int amount;
 
-        public MatchedItem(StoneRitualPedestalBlockEntity nexus, int slot) {
+        public MatchedItem(
+                StoneRitualPedestalBlockEntity nexus,
+                int slot,
+                int amount
+        ) {
             this.nexus = nexus;
             this.slot = slot;
+            this.amount = amount;
         }
     }
 

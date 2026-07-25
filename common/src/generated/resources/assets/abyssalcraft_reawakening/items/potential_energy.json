@@ -1,0 +1,16 @@
+{
+  "hand_animation_on_swap": false,
+  "model": {
+    "type": "minecraft:condition",
+    "component": "abyssalcraft_reawakening:grayscale",
+    "on_false": {
+      "type": "minecraft:model",
+      "model": "abyssalcraft_reawakening:item/potential_energy"
+    },
+    "on_true": {
+      "type": "minecraft:model",
+      "model": "abyssalcraft_reawakening:item/potential_energy_gray"
+    },
+    "property": "minecraft:has_component"
+  }
+}

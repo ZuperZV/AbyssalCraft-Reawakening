@@ -14,6 +14,7 @@
   "output": {
     "id": "abyssalcraft_reawakening:transmutation_gem"
   },
-  "time": 400,
+  "pe": 400,
+  "time": 300,
   "time_of_day": "BOTH"
 }
