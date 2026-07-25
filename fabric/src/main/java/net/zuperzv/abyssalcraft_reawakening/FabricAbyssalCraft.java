@@ -4,11 +4,16 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.fabricmc.fabric.api.recipe.v1.sync.RecipeSynchronization;
+import net.fabricmc.fabric.api.recipe.v1.sync.SynchronizedRecipes;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.item.ItemTintSources;
 import net.minecraft.resources.Identifier;
+import net.zuperzv.abyssalcraft_reawakening.init.api.jei.custom.JEIPlugin;
 import net.zuperzv.abyssalcraft_reawakening.init.data.DyedColorTintSource;
 import net.zuperzv.abyssalcraft_reawakening.init.network.SetBookmarksPacket;
 import net.zuperzv.abyssalcraft_reawakening.init.network.SyncBookmarksPacket;
+import net.zuperzv.abyssalcraft_reawakening.init.recipe.ModRecipes;
 import net.zuperzv.abyssalcraft_reawakening.services.FabricServerHelper;
 import net.zuperzv.abyssalcraft_reawakening.worldgen.FabricModWorldgen;
 
@@ -31,6 +36,11 @@ public class FabricAbyssalCraft implements ModInitializer {
         ItemTintSources.ID_MAPPER.put(
                 Identifier.fromNamespaceAndPath(Constants.MOD_ID, "dyed_color_tint"),
                 DyedColorTintSource.MAP_CODEC
+        );
+
+        //JEI
+        RecipeSynchronization.synchronizeRecipeSerializer(
+                ModRecipes.ASTRAL_ALTAR.serializer().get()
         );
 
         FabricModWorldgen.load();

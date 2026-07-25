@@ -3,20 +3,30 @@ package net.zuperzv.abyssalcraft_reawakening;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.recipe.v1.sync.ClientRecipeSynchronizedEvent;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ClientTooltipComponentCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.recipe.v1.FabricRecipeManager;
+import net.fabricmc.fabric.api.recipe.v1.sync.SynchronizedRecipes;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeMap;
+import net.zuperzv.abyssalcraft_reawakening.init.api.jei.custom.JEIPlugin;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.ModBlockEntities;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.renderer.StoneRitualAltarBlockEntityRenderer;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.renderer.StoneRitualPedestalBlockEntityRenderer;
@@ -28,6 +38,7 @@ import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.StaffTooltipCompon
 import net.zuperzv.abyssalcraft_reawakening.init.item.custom.decorator.ItemDecoratorRegistry;
 import net.zuperzv.abyssalcraft_reawakening.init.item.custom.decorator.StaffOfRenderingOverlay;
 import net.zuperzv.abyssalcraft_reawakening.init.network.SyncBookmarksPacket;
+import net.zuperzv.abyssalcraft_reawakening.init.recipe.ModRecipes;
 import net.zuperzv.abyssalcraft_reawakening.init.screen.ModMenuTypes;
 import net.zuperzv.abyssalcraft_reawakening.init.screen.NecronomiconScreen;
 
@@ -118,5 +129,19 @@ public class ModResources implements ClientModInitializer {
         //ItemDecoratorRegistry.register(
         //        new StaffOfRenderingOverlay(Identifier.fromNamespaceAndPath(MOD_ID, "textures/item/oblivion_shard.png")));
 
+        //JEI
+
+        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
+            client.execute(() -> {
+                if (client.level != null) {
+                    JEIPlugin.syncedRecipes =
+                            (RecipeMap) client.level.recipeAccess().getSynchronizedRecipes();
+
+                    System.out.println(
+                            "Synced recipes: " + JEIPlugin.syncedRecipes.values().size()
+                    );
+                }
+            });
+        });
     }
 }

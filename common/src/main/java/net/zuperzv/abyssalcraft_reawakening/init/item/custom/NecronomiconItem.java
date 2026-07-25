@@ -31,12 +31,14 @@ public class NecronomiconItem extends Item {
         super(properties);
     }
 
+    /*
     @Override
     public void inventoryTick(ItemStack itemStack, ServerLevel level, Entity owner, @Nullable EquipmentSlot slot) {
         super.inventoryTick(itemStack, level, owner, slot);
 
         System.out.println("Potential Energy: " + itemStack.get(ModDataComponentTypes.POTENTIAL_ENERGY.get()).getPotentialEnergy());
     }
+     */
 
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {

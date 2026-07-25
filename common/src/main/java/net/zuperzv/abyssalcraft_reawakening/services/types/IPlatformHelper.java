@@ -1,5 +1,10 @@
 package net.zuperzv.abyssalcraft_reawakening.services.types;
 
+import net.minecraft.world.item.crafting.*;
+
+import java.util.Collection;
+import java.util.List;
+
 public interface IPlatformHelper {
 
     /**
@@ -33,4 +38,11 @@ public interface IPlatformHelper {
 
         return isDevelopmentEnvironment() ? "development" : "production";
     }
+
+    /**
+     * Only For Fabric
+     *
+     * @return the list of recipe entries of given type
+     */
+    public <I extends RecipeInput, T extends Recipe<I>> List<Collection<RecipeHolder<T>>> getAllOfType(RecipeType<T> type);
 }
