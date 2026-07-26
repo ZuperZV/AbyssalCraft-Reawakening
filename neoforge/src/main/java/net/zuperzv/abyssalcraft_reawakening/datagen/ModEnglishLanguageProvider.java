@@ -28,6 +28,7 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         add("recipe_mods.abyssalcraft_reawakening.ritual_altar", "Ritual Altar");
 
         add("recipe_mods.abyssalcraft_reawakening.time", "Time");
+        add("recipe_mods.abyssalcraft_reawakening.works_in_dimension", "Works in Dimension");
         add("recipe_mods.abyssalcraft_reawakening.works_at", "Works at");
         add("recipe_mods.abyssalcraft_reawakening.day", "Day");
         add("recipe_mods.abyssalcraft_reawakening.night", "Night");

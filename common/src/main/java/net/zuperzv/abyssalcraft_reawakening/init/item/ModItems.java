@@ -141,11 +141,12 @@ public class ModItems {
 
 
     //Coralium
-    public static final RegistryHandle<Item> TRANSMUTATION_GEM = Services.REGISTRY.registerItem("transmutation_gem",
-            properties -> new Item(properties));
-
     public static final RegistryHandle<Item> CORALIUM_PEARL = Services.REGISTRY.registerItem("coralium_pearl",
             properties -> new Item(properties));
+
+    public static final RegistryHandle<Item> TRANSMUTATION_GEM = Services.REGISTRY.registerItem("transmutation_gem",
+            properties -> Services.ITEM_FACTORY.createTransmutationGem(
+                    properties.durability(10).stacksTo(1)));
 
     //Dread
     public static final RegistryHandle<Item> DREAD_FRAGMENT = Services.REGISTRY.registerItem("dread_fragment",

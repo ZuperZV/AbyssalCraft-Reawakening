@@ -1,6 +1,10 @@
 package net.zuperzv.abyssalcraft_reawakening.datagen.custom;
 
+import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementRequirements;
+import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.Criterion;
+import net.minecraft.advancements.criterion.RecipeUnlockedTrigger;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -10,6 +14,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.zuperzv.abyssalcraft_reawakening.init.recipe.StoneRitualAltarRecipe;
 import net.zuperzv.abyssalcraft_reawakening.init.recipe.helper.TimeOfDay;
@@ -42,6 +47,7 @@ public class StoneRitualAltarRecipeBuilder implements RecipeBuilder {
     private int recipeTime = 200;
     private int potentialEnergy = 200;
 
+    private Optional<ResourceKey<Level>> dimension = Optional.empty();
 
     private final RecipeUnlockAdvancementBuilder advancementBuilder =
             new RecipeUnlockAdvancementBuilder();
@@ -133,6 +139,11 @@ public class StoneRitualAltarRecipeBuilder implements RecipeBuilder {
         return this;
     }
 
+    public StoneRitualAltarRecipeBuilder dimension(ResourceKey<Level> dim) {
+        this.dimension = Optional.of(dim);
+        return this;
+    }
+
     @Override
     public RecipeBuilder unlockedBy(
             String name,
@@ -155,9 +166,31 @@ public class StoneRitualAltarRecipeBuilder implements RecipeBuilder {
 
     @Override
     public void save(
-            RecipeOutput output,
+            RecipeOutput recipeOutput,
             ResourceKey<Recipe<?>> id
     ) {
+        ensureValid(id);
+
+        ResourceKey<Recipe<?>> newId =
+                ResourceKey.create(
+                        id.registryKey(),
+                        id.identifier()
+                                .withPath(path -> "stone_ritual_altar/" + path)
+                );
+
+
+        Advancement.Builder advancementBuilder = recipeOutput.advancement()
+                .addCriterion(
+                        "has_the_recipe",
+                        RecipeUnlockedTrigger.unlocked(newId)
+                )
+                .rewards(
+                        AdvancementRewards.Builder.recipe(newId)
+                )
+                .requirements(
+                        AdvancementRequirements.Strategy.OR
+                );
+
 
         StoneRitualAltarRecipe recipe =
                 new StoneRitualAltarRecipe(
@@ -173,18 +206,31 @@ public class StoneRitualAltarRecipeBuilder implements RecipeBuilder {
                         this.timeOfDay,
                         this.fakeTimeOfDay,
                         this.recipeTime,
-                        this.potentialEnergy
+                        this.potentialEnergy,
+                        this.dimension
                 );
 
 
-        output.accept(
-                id,
+        recipeOutput.accept(
+                newId,
                 recipe,
                 advancementBuilder.build(
-                        output,
-                        id,
-                        category
+                        newId.identifier()
+                                .withPrefix(
+                                        "recipes/"
+                                                + this.category.getFolderName()
+                                                + "/"
+                                )
                 )
         );
+    }
+
+
+    private void ensureValid(ResourceKey<Recipe<?>> id) {
+        if (advancementBuilder == null) {
+            throw new IllegalStateException(
+                    "No way of obtaining recipe " + id.identifier()
+            );
+        }
     }
 }

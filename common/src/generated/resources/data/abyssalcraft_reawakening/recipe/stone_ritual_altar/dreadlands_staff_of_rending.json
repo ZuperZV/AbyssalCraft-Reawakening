@@ -1,5 +1,6 @@
 {
   "type": "abyssalcraft_reawakening:astral_altar",
+  "dimension": "minecraft:the_nether",
   "ingredient": "abyssalcraft_reawakening:abyssal_wasteland_staff_of_rending",
   "ingredients": [
     "abyssalcraft_reawakening:dread_fragment",

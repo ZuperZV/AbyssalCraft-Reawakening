@@ -1,5 +1,6 @@
 {
   "type": "abyssalcraft_reawakening:astral_altar",
+  "dimension": "minecraft:the_end",
   "ingredient": "abyssalcraft_reawakening:dreadlands_staff_of_rending",
   "ingredients": [
     "abyssalcraft_reawakening:omothol_ghoul_flesh",

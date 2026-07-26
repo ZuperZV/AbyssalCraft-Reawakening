@@ -10,6 +10,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -46,7 +47,8 @@ public record StoneRitualAltarRecipe(
         Optional<TimeOfDay> timeOfDay,
         Optional<TimeOfDay> fakeTimeOfDay,
         int recipeTime,
-        int potentialEnergy
+        int potentialEnergy,
+        Optional<ResourceKey<Level>> dimension
 ) implements Recipe<StoneRitualAltarBlockEntity.BlockRecipeInput> {
 
     public static final MapCodec<StoneRitualAltarRecipe> CODEC =
@@ -95,7 +97,11 @@ public record StoneRitualAltarRecipe(
                             .forGetter(StoneRitualAltarRecipe::recipeTime),
 
                     Codec.INT.fieldOf("pe")
-                            .forGetter(StoneRitualAltarRecipe::potentialEnergy)
+                            .forGetter(StoneRitualAltarRecipe::potentialEnergy),
+
+                    ResourceKey.codec(Registries.DIMENSION)
+                            .optionalFieldOf("dimension")
+                            .forGetter(StoneRitualAltarRecipe::dimension)
             ).apply(instance, StoneRitualAltarRecipe::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, StoneRitualAltarRecipe> STREAM_CODEC =
@@ -176,6 +182,12 @@ public record StoneRitualAltarRecipe(
 
                     buf.writeVarInt(recipe.recipeTime());
                     buf.writeVarInt(recipe.potentialEnergy());
+
+                    buf.writeBoolean(recipe.dimension().isPresent());
+
+                    recipe.dimension().ifPresent(dimension ->
+                            buf.writeIdentifier(dimension.identifier())
+                    );
                 }
 
                 @Override
@@ -292,6 +304,17 @@ public record StoneRitualAltarRecipe(
                     int potentialEnergy =
                             buf.readVarInt();
 
+                    Optional<ResourceKey<Level>> dimension = Optional.empty();
+
+                    if (buf.readBoolean()) {
+                        dimension = Optional.of(
+                                ResourceKey.create(
+                                        Registries.DIMENSION,
+                                        buf.readIdentifier()
+                                )
+                        );
+                    }
+
                     return new StoneRitualAltarRecipe(
                             output,
                             moldIngredient,
@@ -305,7 +328,8 @@ public record StoneRitualAltarRecipe(
                             timeOfDay,
                             fakeTimeOfDay,
                             recipeTime,
-                            potentialEnergy
+                            potentialEnergy,
+                            dimension
                     );
                 }
             };
@@ -322,6 +346,10 @@ public record StoneRitualAltarRecipe(
         BlockPos center = blockInput.pos();
 
         if (!moldIngredient.test(moldStack)) return false;
+
+        if (dimension.isPresent() && !level.dimension().equals(dimension.get())) {
+            return false;
+        }
 
         if (entityType.isPresent()) {
             BlockEntity be = level.getBlockEntity(center);

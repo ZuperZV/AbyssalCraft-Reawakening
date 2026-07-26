@@ -19,6 +19,8 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.init.api.jei.custom.ModJEIRecipeTypes;
 import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
@@ -188,10 +190,10 @@ public class RitualAltarRecipeCategory implements IRecipeCategory<RecipeHolder<S
         }
 
         //Time of day
-        if (recipe.value().timeOfDay().get() != TimeOfDay.BOTH) {
-            int iconX = width / 2 + 3;
-            int iconY = 5;
+        int iconX = width / 2 + 4;
+        int iconY = 3;
 
+        if (recipe.value().timeOfDay().get() != TimeOfDay.BOTH) {
             if (isMouseOver(mouseX, mouseY, iconX, iconY, 16, 16)) {
                 tooltip.add(
                         Component.translatable("recipe_mods.abyssalcraft_reawakening.works_at")
@@ -199,7 +201,50 @@ public class RitualAltarRecipeCategory implements IRecipeCategory<RecipeHolder<S
                                         .append(Component.translatable("recipe_mods.abyssalcraft_reawakening." + recipe.value().timeOfDay().get().name().toLowerCase())))
                 );
             }
+
+            iconX += 19;
         }
+
+        //Dimension
+        if (recipe.value().dimension().isPresent()) {
+            if (isMouseOver(mouseX, mouseY, iconX, iconY, 16, 16)) {
+                tooltip.add(
+                        Component.translatable("recipe_mods.abyssalcraft_reawakening.works_in_dimension")
+                                .append(Component.literal(": " +
+                                        formatDimensionName(recipe.value().dimension().get().toString())
+                                ))
+                );
+            }
+
+            iconX += 19;
+        }
+    }
+
+    private String formatDimensionName(String id) {
+        if (id.contains(":")) {
+            int colon = id.lastIndexOf(':');
+            if (colon != -1) {
+                id = id.substring(colon + 1);
+            }
+        }
+
+        if (id.contains("/")) {
+            id = id.substring(id.lastIndexOf("/") + 1).trim();
+        }
+
+        id = id.replace("_", " ");
+        id = id.replace("]", "");
+
+        StringBuilder result = new StringBuilder();
+        for (String word : id.split(" ")) {
+            if (!word.isEmpty()) {
+                result.append(Character.toUpperCase(word.charAt(0)))
+                        .append(word.substring(1).toLowerCase())
+                        .append(" ");
+            }
+        }
+
+        return result.toString().trim();
     }
 
     @Override
@@ -258,7 +303,7 @@ public class RitualAltarRecipeCategory implements IRecipeCategory<RecipeHolder<S
 
         // Time of Day
         int iconX = width / 2 + 3;
-        int iconY = 5;
+        int iconY = 3;
 
         if (recipe.timeOfDay().get() != TimeOfDay.BOTH) {
             slotDrawable.draw(
@@ -272,6 +317,19 @@ public class RitualAltarRecipeCategory implements IRecipeCategory<RecipeHolder<S
                 case NIGHT -> nightIcon.draw(guiGraphics, iconX + 1, iconY + 1);
                 case BOTH -> bothIcon.draw(guiGraphics, iconX + 1, iconY + 1); // Not in use
             }
+
+            iconX += 19;
+        }
+
+        //Dimension
+        if (recipe.dimension().isPresent()) {
+            slotDrawable.draw(
+                    guiGraphics,
+                    iconX,
+                    iconY
+            );
+
+            iconX += 19;
         }
     }
 
@@ -297,6 +355,47 @@ public class RitualAltarRecipeCategory implements IRecipeCategory<RecipeHolder<S
                 height - 4 - slotSize
         ).add(necronomicon);
 
+        int iconX = width / 2 + 4;
+        int iconY = 4;
+
+        if (recipe.timeOfDay().get() != TimeOfDay.BOTH) {
+            iconX += 19;
+        }
+
+        // Dimension
+        if (recipe.dimension().isPresent()) {
+            ItemStack dimensionIcon = ItemStack.EMPTY;
+
+            var dimension = recipe.dimension().get();
+
+            if (dimension == Level.OVERWORLD) {
+                dimensionIcon = new ItemStack(Blocks.GRASS_BLOCK);
+            } else if (dimension == Level.NETHER) {
+                dimensionIcon = new ItemStack(Blocks.NETHERRACK);
+            } else if (dimension == Level.END) {
+                dimensionIcon = new ItemStack(Blocks.END_STONE);
+            }
+
+            if (!dimensionIcon.isEmpty()) {
+                builder.addSlot(
+                        RecipeIngredientRole.RENDER_ONLY,
+                                iconX,
+                                iconY
+                        )
+                        .add(dimensionIcon)
+                        .addRichTooltipCallback((view, tooltip) -> tooltip.clear())
+                        .addRichTooltipCallback((view, tooltip) -> tooltip.add(
+                                Component.translatable("recipe_mods.abyssalcraft_reawakening.works_in_dimension")
+                                        .append(Component.literal(": " +
+                                                formatDimensionName(recipe.dimension().get().toString())
+                                        ))
+                        ));
+            }
+
+            iconX += 19;
+        }
+
+        //Inputs
         builder.addSlot(
                         RecipeIngredientRole.INPUT,
                         centerX,

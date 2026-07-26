@@ -14,6 +14,7 @@ import net.minecraft.world.item.crafting.CookingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.datagen.custom.StoneRitualAltarRecipeBuilder;
@@ -105,6 +106,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .time(TimeOfDay.NIGHT)
                 .duration(600)
                 .potentialEnergy(1000)
+                .dimension(Level.OVERWORLD)//Abyssale
                 .unlockedBy(
                         "has_staff_of_rending",
                         has(ModItems.STAFF_OF_RENDING.get()))
@@ -126,6 +128,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .time(TimeOfDay.NIGHT)
                 .duration(900)
                 .potentialEnergy(2000)
+                .dimension(Level.NETHER)//Dreadlands
                 .unlockedBy(
                         "has_abyssal_wasteland_staff_of_rending",
                         has(ModItems.ABYSSAL_WASTELAND_STAFF_OF_RENDING.get()))
@@ -147,6 +150,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .time(TimeOfDay.NIGHT)
                 .duration(1300)
                 .potentialEnergy(3000)
+                .dimension(Level.END)//Omothol
                 .unlockedBy(
                         "has_dreadlands_staff_of_rending",
                         has(ModItems.DREADLANDS_STAFF_OF_RENDING.get()))
@@ -173,8 +177,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy(
                         "has_coralium_pearl",
                         has(ModItems.CORALIUM_PEARL.get()))
-                .save(output, ResourceKey.create(Registries.RECIPE,
-                        Constants.id("transmutation_gem")));
+                .save(output);
 
 
         //Abyssalnite
