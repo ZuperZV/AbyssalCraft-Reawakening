@@ -1,0 +1,7 @@
+{
+  "parent": "abyssalcraft_reawakening:item/in_hand",
+  "textures": {
+    "layer0": "abyssalcraft_reawakening:item/staff_of_rending_in_hand",
+    "layer1": "abyssalcraft_reawakening:item/staff_of_rending_in_hand_overlay"
+  }
+}

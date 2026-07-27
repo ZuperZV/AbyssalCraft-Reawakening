@@ -18,7 +18,7 @@ public class TransmutationItemBase extends Item {
     public int getBarColor(ItemStack stack) {
         int maxDamage = stack.getMaxDamage();
         float healthPercentage = Math.max(0.0F, ((float)maxDamage - (float)stack.getDamageValue()) / (float)maxDamage);
-        return Mth.hsvToRgb(healthPercentage * 0.66F, 1.0F, 1.0F);
+        return Mth.hsvToRgb(healthPercentage * 0.63F, 1.0F, 1.0F);
     }
 
     public static @Nullable ItemStack getCraftingRemainderPearl(ItemInstance instance) {

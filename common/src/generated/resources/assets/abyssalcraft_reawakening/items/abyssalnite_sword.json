@@ -1,6 +1,25 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "abyssalcraft_reawakening:item/abyssalnite_sword"
-  }
+    "type": "minecraft:select",
+    "cases": [
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "abyssalcraft_reawakening:item/abyssalnite_sword"
+        },
+        "when": [
+          "gui",
+          "ground",
+          "fixed",
+          "on_shelf"
+        ]
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "abyssalcraft_reawakening:item/abyssalnite_swordin_hand"
+    },
+    "property": "minecraft:display_context"
+  },
+  "swap_animation_scale": 1.95
 }

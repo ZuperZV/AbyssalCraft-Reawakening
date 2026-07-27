@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.item.ClientItem;
 import net.minecraft.client.renderer.item.ConditionalItemModel;
 import net.minecraft.client.renderer.item.ItemModel;
 import net.minecraft.client.renderer.item.properties.conditional.HasComponent;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
@@ -31,12 +32,11 @@ import java.util.Set;
 
 import static net.minecraft.client.data.models.BlockModelGenerators.createSimpleBlock;
 import static net.minecraft.client.data.models.BlockModelGenerators.plainVariant;
-
+import static net.minecraft.client.data.models.ItemModelGenerators.createFlatModelDispatch;
 
 public class ModModelProvider extends ModelProvider {
     private final Set<Item> generatedItems = new HashSet<>();
     private final Set<Block> generatedBlocks = new HashSet<>();
-
 
     public ModModelProvider(PackOutput output) {
         super(output, Constants.MOD_ID);
@@ -47,6 +47,9 @@ public class ModModelProvider extends ModelProvider {
 
         generateItemWithTintedOverlay(itemModels, ModItems.NECRONOMICON.get(), new DyedColorTintSource());
 
+        //Sword in hand
+        generateInHand(itemModels, ModItems.ABYSSALNITE_SWORD.get(), ModelTemplates.FLAT_ITEM, SWORD_IN_HAND);
+
         //essence
         generateItem(itemModels, ModItems.SHADOW_GEM.get(), "_gray", ModDataComponentTypes.GRAYSCALE.get());
         generateItem(itemModels, ModItems.ABYSSAL_WASTELAND_ESSENCE.get(), "_gray", ModDataComponentTypes.GRAYSCALE.get());
@@ -54,18 +57,21 @@ public class ModModelProvider extends ModelProvider {
         generateItem(itemModels, ModItems.OMOTHOL_ESSENCE.get(), "_gray", ModDataComponentTypes.GRAYSCALE.get());
 
         //Staff of rendering
-        generateItemWithTintedOverlay(itemModels, ModItems.STAFF_OF_RENDING.get(), new DyedColorTintSource(), ModelTemplates.FLAT_HANDHELD_ITEM);
-        generateItemWithTintedOverlay(itemModels, ModItems.ABYSSAL_WASTELAND_STAFF_OF_RENDING.get(), new DyedColorTintSource(), ModelTemplates.FLAT_HANDHELD_ITEM);
-        generateItemWithTintedOverlay(itemModels, ModItems.DREADLANDS_STAFF_OF_RENDING.get(), new DyedColorTintSource(), ModelTemplates.FLAT_HANDHELD_ITEM);
-        generateItemWithTintedOverlay(itemModels, ModItems.OMOTHOL_STAFF_OF_RENDING.get(), new DyedColorTintSource(), ModelTemplates.FLAT_HANDHELD_ITEM);
+        generateInHandWithTintedOverlay(itemModels, ModItems.STAFF_OF_RENDING.get(), new DyedColorTintSource(), FLAT_HANDHELD_TWO_LAYER, FLAT_HANDHELD_IN_HAND_TWO_LAYER);
+        generateInHandWithTintedOverlay(itemModels, ModItems.ABYSSAL_WASTELAND_STAFF_OF_RENDING.get(), new DyedColorTintSource(), FLAT_HANDHELD_TWO_LAYER, FLAT_HANDHELD_IN_HAND_TWO_LAYER);
+        generateInHandWithTintedOverlay(itemModels, ModItems.DREADLANDS_STAFF_OF_RENDING.get(), new DyedColorTintSource(), FLAT_HANDHELD_TWO_LAYER, FLAT_HANDHELD_IN_HAND_TWO_LAYER);
+        generateInHandWithTintedOverlay(itemModels, ModItems.OMOTHOL_STAFF_OF_RENDING.get(), new DyedColorTintSource(), FLAT_HANDHELD_TWO_LAYER, FLAT_HANDHELD_IN_HAND_TWO_LAYER);
 
         //Altar
         generateBlockFromParent(blockModels, ModBlocks.STONE_RITUAL_ALTAR.block().get(), "ritual_altar", List.of(TextureSlot.create("0")));
         generateBlockFromParent(blockModels, ModBlocks.STONE_RITUAL_PEDESTAL.block().get(), "ritual_pedestal", List.of(TextureSlot.create("1"), TextureSlot.create("2")));
 
-
         //Rendering Items
         generateItem(itemModels, ModItems.POTENTIAL_ENERGY.get(), "_gray", ModDataComponentTypes.GRAYSCALE.get());
+
+        //Not Generated
+        //generatedItems.add(ModItems.ABYSSALNITE_SWORD.get());
+        //declareCustomModelItem(itemModels, ModItems.ABYSSALNITE_SWORD.get());
 
         for (Item item : getModItems()) {
             if (!(item instanceof BlockItem) && !generatedItems.contains(item)) {
@@ -100,6 +106,10 @@ public class ModModelProvider extends ModelProvider {
         generateItem(itemModels, item, suffix, componentType, ModelTemplates.FLAT_ITEM);
     }
 
+    private void declareCustomModelItem(ItemModelGenerators itemModels, Item item) {
+        generatedItems.add(item);
+        itemModels.declareCustomModelItem(item);
+    }
 
     private void generateItem(ItemModelGenerators itemModels, Item item, String suffix, DataComponentType<?> componentType, ModelTemplate modelTemplate) {
         generatedItems.add(item);
@@ -151,6 +161,64 @@ public class ModModelProvider extends ModelProvider {
         );
     }
 
+    public void generateInHandWithTintedOverlay(
+            ItemModelGenerators itemModels,
+            Item item,
+            ItemTintSource overlayTint,
+            ModelTemplate modelTemplate,
+            ModelTemplate modelTemplateInHand
+    ) {
+        generatedItems.add(item);
+
+        Identifier flatModel = modelTemplate.create(
+                ModelLocationUtils.getModelLocation(item),
+                TextureMapping.layered(
+                        TextureMapping.getItemTexture(item),
+                        TextureMapping.getItemTexture(item, "_overlay")
+                ),
+                itemModels.modelOutput
+        );
+
+        Identifier inHandModel = modelTemplateInHand.create(
+                ModelLocationUtils.getModelLocation(item, "_in_hand"),
+                TextureMapping.layered(
+                        TextureMapping.getItemTexture(item, "_in_hand"),
+                        TextureMapping.getItemTexture(item, "_in_hand_overlay")
+                ),
+                itemModels.modelOutput
+        );
+
+
+        ItemModel.Unbaked flat = ItemModelUtils.tintedModel(
+                flatModel,
+                new ItemTintSource[]{
+                        itemModels.BLANK_LAYER,
+                        overlayTint
+                }
+        );
+
+        ItemModel.Unbaked inHand = ItemModelUtils.tintedModel(
+                inHandModel,
+                new ItemTintSource[]{
+                        itemModels.BLANK_LAYER,
+                        overlayTint
+                }
+        );
+
+
+        itemModels.itemModelOutput.accept(
+                item,
+                createFlatModelDispatch(flat, inHand),
+                new ClientItem.Properties(true, false, 1.95F)
+        );
+    }
+
+    public Identifier generateLayeredItem(ItemModelGenerators itemModels, Item target, Material layer0, Material layer1) {
+        generatedItems.add(target);
+
+        return ModelTemplates.TWO_LAYERED_ITEM.create(target, TextureMapping.layered(layer0, layer1), itemModels.modelOutput);
+    }
+
     public void generateItemWithTintedOverlay(ItemModelGenerators itemModels, Item item, String overlaySuffix, ItemTintSource overlayTint, ModelTemplate modelTemplate) {
         generatedItems.add(item);
 
@@ -173,6 +241,30 @@ public class ModModelProvider extends ModelProvider {
                         }
                 )
         );
+    }
+
+    public void generateSpear(ItemModelGenerators itemModels, Item item) {
+        generatedItems.add(item);
+
+        ItemModel.Unbaked flatModel = ItemModelUtils.plainModel(itemModels.createFlatItemModel(item, ModelTemplates.FLAT_ITEM));
+        ItemModel.Unbaked inHandModel = ItemModelUtils.plainModel(
+                ModelTemplates.SPEAR_IN_HAND.create(item, TextureMapping.layer0(TextureMapping.getItemTexture(item, "_in_hand")), itemModels.modelOutput)
+        );
+        itemModels.itemModelOutput.accept(item, createFlatModelDispatch(flatModel, inHandModel), new ClientItem.Properties(true, false, 1.95F));
+    }
+
+    public void generateInHand(ItemModelGenerators itemModels, Item item) {
+        generateInHand(itemModels, item, ModelTemplates.FLAT_ITEM, ModelTemplates.SPEAR_IN_HAND);
+    }
+
+    public void generateInHand(ItemModelGenerators itemModels, Item item, ModelTemplate modelTemplate, ModelTemplate modelTemplateInHand) {
+        generatedItems.add(item);
+
+        ItemModel.Unbaked flatModel = ItemModelUtils.plainModel(itemModels.createFlatItemModel(item, modelTemplate));
+        ItemModel.Unbaked inHandModel = ItemModelUtils.plainModel(
+                modelTemplateInHand.create(item, TextureMapping.layer0(TextureMapping.getItemTexture(item, "_in_hand")), itemModels.modelOutput)
+        );
+        itemModels.itemModelOutput.accept(item, createFlatModelDispatch(flatModel, inHandModel), new ClientItem.Properties(true, false, 1.95F));
     }
 
     private boolean generateTrimmableItem(ItemModelGenerators itemModels, Item item, boolean hasDyedLayer) {
@@ -274,5 +366,33 @@ public class ModModelProvider extends ModelProvider {
                 .stream()
                 .map(entry -> (Item) entry.value())
                 .toList();
+    }
+
+    //ModelTemplates
+    public static final ModelTemplate FLAT_HANDHELD_TWO_LAYER =
+            new ModelTemplate(
+                    Optional.of(Identifier.withDefaultNamespace("item/handheld")),
+                    Optional.empty(),
+                    TextureSlot.LAYER0,
+                    TextureSlot.LAYER1
+            );
+    public static final ModelTemplate FLAT_HANDHELD_IN_HAND_TWO_LAYER =
+            new ModelTemplate(
+                    Optional.of(Identifier.fromNamespaceAndPath(Constants.MOD_ID, "item/in_hand")),
+                    Optional.empty(),
+                    TextureSlot.LAYER0,
+                    TextureSlot.LAYER1
+            );
+    public static final ModelTemplate SWORD_IN_HAND;
+    static {
+        SWORD_IN_HAND = createItem("in_hand", "in_hand", TextureSlot.LAYER0);
+    }
+
+    public static ModelTemplate createItem(String id, String suffix, TextureSlot... slots) {
+        return new ModelTemplate(Optional.of(decorateItemModelLocation(id)), Optional.of(suffix), slots);
+    }
+
+    public static Identifier decorateItemModelLocation(final String id) {
+        return Identifier.fromNamespaceAndPath(Constants.MOD_ID, "item/" + id);
     }
 }

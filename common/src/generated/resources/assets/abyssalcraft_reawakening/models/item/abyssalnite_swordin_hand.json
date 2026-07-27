@@ -1,0 +1,6 @@
+{
+  "parent": "abyssalcraft_reawakening:item/in_hand",
+  "textures": {
+    "layer0": "abyssalcraft_reawakening:item/abyssalnite_sword_in_hand"
+  }
+}
