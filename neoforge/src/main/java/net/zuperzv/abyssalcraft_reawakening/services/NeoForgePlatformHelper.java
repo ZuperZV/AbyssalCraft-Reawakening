@@ -1,12 +1,12 @@
 package net.zuperzv.abyssalcraft_reawakening.services;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.world.item.crafting.*;
-import net.zuperzv.abyssalcraft_reawakening.init.api.jei.custom.JEIPlugin;
-import net.zuperzv.abyssalcraft_reawakening.services.types.IPlatformHelper;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeInput;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLLoader;
+import net.zuperzv.abyssalcraft_reawakening.services.types.IPlatformHelper;
 
 import java.util.Collection;
 import java.util.List;

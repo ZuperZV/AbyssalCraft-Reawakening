@@ -1,16 +1,13 @@
 package net.zuperzv.abyssalcraft_reawakening.init.item.custom.decorator;
 
-import com.mojang.blaze3d.pipeline.RenderPipeline;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.util.ARGB;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-
-import static net.zuperzv.abyssalcraft_reawakening.Constants.MOD_ID;
 
 public class StaffOfRenderingOverlay implements ItemDecorator {
 

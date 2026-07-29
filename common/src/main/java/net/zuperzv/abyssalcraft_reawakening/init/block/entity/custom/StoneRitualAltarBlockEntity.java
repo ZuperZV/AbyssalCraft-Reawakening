@@ -1,6 +1,9 @@
 package net.zuperzv.abyssalcraft_reawakening.init.block.entity.custom;
 
-import net.minecraft.core.*;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -29,16 +32,16 @@ import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
+import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.init.block.custom.StoneRitualAltarBlock;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.ModBlockEntities;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.helper.SimpleItemHandler;
 import net.zuperzv.abyssalcraft_reawakening.init.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.init.component.PotentialEnergyData;
 import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
-import net.zuperzv.abyssalcraft_reawakening.init.recipe.StoneRitualAltarRecipe;
 import net.zuperzv.abyssalcraft_reawakening.init.recipe.ModRecipes;
+import net.zuperzv.abyssalcraft_reawakening.init.recipe.StoneRitualAltarRecipe;
 import org.jetbrains.annotations.Nullable;
-import net.zuperzv.abyssalcraft_reawakening.Constants;
 
 import java.util.*;
 

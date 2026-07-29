@@ -22,7 +22,6 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.ModBlockEntities;
-import net.zuperzv.abyssalcraft_reawakening.init.block.entity.custom.StoneRitualAltarBlockEntity;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.helper.SimpleItemHandler;
 import net.zuperzv.abyssalcraft_reawakening.init.recipe.ModRecipes;
 import net.zuperzv.abyssalcraft_reawakening.init.recipe.StoneRitualAltarRecipe;

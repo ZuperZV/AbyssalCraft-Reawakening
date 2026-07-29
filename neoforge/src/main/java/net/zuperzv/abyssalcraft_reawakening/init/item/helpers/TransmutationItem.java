@@ -6,8 +6,6 @@ import net.minecraft.world.item.ItemStackTemplate;
 import net.zuperzv.abyssalcraft_reawakening.init.item.custom.TransmutationItemBase;
 import org.jspecify.annotations.Nullable;
 
-import java.util.Objects;
-
 public class TransmutationItem extends TransmutationItemBase {
 
     public TransmutationItem(Properties properties) {

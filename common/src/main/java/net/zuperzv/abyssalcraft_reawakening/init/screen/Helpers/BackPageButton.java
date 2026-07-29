@@ -9,7 +9,6 @@ import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
-import net.zuperzv.abyssalcraft_reawakening.init.screen.NecronomiconScreen;
 
 public class BackPageButton extends Button {
     private static final Identifier PAGE_BACK_HIGHLIGHTED_SPRITE = Identifier.fromNamespaceAndPath(Constants.MOD_ID, "widget/page_back_highlighted");

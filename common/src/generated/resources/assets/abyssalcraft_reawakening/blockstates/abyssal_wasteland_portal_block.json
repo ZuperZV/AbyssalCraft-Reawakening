@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "abyssalcraft_reawakening:block/abyssal_wasteland_portal_block_ns"
+    },
+    "axis=z": {
+      "model": "abyssalcraft_reawakening:block/abyssal_wasteland_portal_block_ew"
+    }
+  }
+}

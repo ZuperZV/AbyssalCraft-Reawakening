@@ -4,8 +4,10 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
+import net.zuperzv.abyssalcraft_reawakening.init.block.custom.AbyssalWastelandPortalBlock;
+import net.zuperzv.abyssalcraft_reawakening.init.block.custom.PortalActivatorBlock;
 import net.zuperzv.abyssalcraft_reawakening.init.block.custom.StoneRitualAltarBlock;
 import net.zuperzv.abyssalcraft_reawakening.init.block.custom.StoneRitualPedestalBlock;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
@@ -26,7 +28,10 @@ public final class ModBlocks {
 
     //Abyssal
     public static final BlockWithItemRegistryHandle<Block> ABYSSAL_STONE = Services.REGISTRY.registerBlockWithItem("abyssal_stone",
-            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.STONE)));
+            properties -> new PortalActivatorBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> ABYSSAL_WASTELAND_PORTAL_BLOCK = Services.REGISTRY.registerBlockWithItem("abyssal_wasteland_portal_block",
+            properties -> new AbyssalWastelandPortalBlock(properties.noCollision().randomTicks().strength(-1.0F).sound(SoundType.GLASS).lightLevel((statex) -> 11).pushReaction(PushReaction.BLOCK)));
 
 
     public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_BLOCK = Services.REGISTRY.registerBlockWithItem("abyssalnite_block",

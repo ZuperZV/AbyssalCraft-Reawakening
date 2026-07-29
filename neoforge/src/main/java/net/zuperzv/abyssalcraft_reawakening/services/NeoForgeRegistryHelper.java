@@ -1,9 +1,7 @@
 package net.zuperzv.abyssalcraft_reawakening.services;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -28,13 +26,10 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.services.types.IRegistryHelper;
-import net.zuperzv.abyssalcraft_reawakening.services.util.BlockWithItemRegistryHandle;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
 
 import java.util.Arrays;
 import java.util.function.*;
-
-import static net.minecraft.util.datafix.fixes.References.DATA_COMPONENTS;
 
 public class NeoForgeRegistryHelper implements IRegistryHelper {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Constants.MOD_ID);

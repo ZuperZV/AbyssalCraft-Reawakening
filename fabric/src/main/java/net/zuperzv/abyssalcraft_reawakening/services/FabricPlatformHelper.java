@@ -1,10 +1,13 @@
 package net.zuperzv.abyssalcraft_reawakening.services;
 
 import net.fabricmc.fabric.api.recipe.v1.sync.SynchronizedRecipes;
-import net.minecraft.client.Minecraft;
-import net.minecraft.world.item.crafting.*;
-import net.zuperzv.abyssalcraft_reawakening.services.types.IPlatformHelper;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeInput;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.zuperzv.abyssalcraft_reawakening.services.types.IPlatformHelper;
 
 import java.util.Collection;
 import java.util.List;

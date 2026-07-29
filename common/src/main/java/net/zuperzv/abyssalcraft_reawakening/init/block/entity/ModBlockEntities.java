@@ -7,8 +7,6 @@ import net.zuperzv.abyssalcraft_reawakening.init.block.entity.custom.StoneRitual
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
 
-import java.util.Objects;
-
 public class ModBlockEntities {
     private ModBlockEntities() {}
 

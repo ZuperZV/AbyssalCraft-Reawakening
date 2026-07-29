@@ -12,13 +12,10 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.api.recipe.types.IRecipeType;
-
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.FormattedText;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
-
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
@@ -28,7 +25,6 @@ import net.zuperzv.abyssalcraft_reawakening.init.component.ModDataComponentTypes
 import net.zuperzv.abyssalcraft_reawakening.init.component.PotentialEnergyData;
 import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.init.recipe.StoneRitualAltarRecipe;
-
 import net.zuperzv.abyssalcraft_reawakening.init.recipe.helper.TimeOfDay;
 import org.jetbrains.annotations.NotNull;
 

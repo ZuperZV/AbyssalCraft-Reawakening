@@ -9,7 +9,6 @@ import net.minecraft.util.ARGB;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.DyedItemColor;
 import org.jspecify.annotations.Nullable;
 
 public record DyedColorTintSource(int defaultColor) implements ItemTintSource {

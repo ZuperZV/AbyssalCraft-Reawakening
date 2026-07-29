@@ -1,10 +1,10 @@
 package net.zuperzv.abyssalcraft_reawakening;
 
-import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.init.ModCreativeTabs;
+import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.ModBlockEntities;
-import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.init.component.ModDataComponentTypes;
+import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.init.recipe.ModRecipes;
 import net.zuperzv.abyssalcraft_reawakening.init.screen.ModMenuTypes;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;

@@ -4,12 +4,15 @@ import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
+import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
+import net.minecraft.client.data.models.blockstates.PropertyDispatch;
 import net.minecraft.client.data.models.model.*;
 import net.minecraft.client.renderer.item.ClientItem;
 import net.minecraft.client.renderer.item.ConditionalItemModel;
 import net.minecraft.client.renderer.item.ItemModel;
 import net.minecraft.client.renderer.item.properties.conditional.HasComponent;
 import net.minecraft.client.resources.model.sprite.Material;
+import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
@@ -17,12 +20,13 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
-import net.zuperzv.abyssalcraft_reawakening.init.component.ModDataComponentTypes;
-import net.zuperzv.abyssalcraft_reawakening.init.item.ModArmorMaterials;
 import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
-import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
+import net.zuperzv.abyssalcraft_reawakening.init.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.init.data.DyedColorTintSource;
+import net.zuperzv.abyssalcraft_reawakening.init.item.ModArmorMaterials;
+import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.services.NeoForgeRegistryHelper;
 
 import java.util.HashSet;
@@ -62,12 +66,15 @@ public class ModModelProvider extends ModelProvider {
         generateInHandWithTintedOverlay(itemModels, ModItems.DREADLANDS_STAFF_OF_RENDING.get(), new DyedColorTintSource(), FLAT_HANDHELD_TWO_LAYER, FLAT_HANDHELD_IN_HAND_TWO_LAYER);
         generateInHandWithTintedOverlay(itemModels, ModItems.OMOTHOL_STAFF_OF_RENDING.get(), new DyedColorTintSource(), FLAT_HANDHELD_TWO_LAYER, FLAT_HANDHELD_IN_HAND_TWO_LAYER);
 
+        //Rendering Items
+        generateItem(itemModels, ModItems.POTENTIAL_ENERGY.get(), "_gray", ModDataComponentTypes.GRAYSCALE.get());
+
         //Altar
         generateBlockFromParent(blockModels, ModBlocks.STONE_RITUAL_ALTAR.block().get(), "ritual_altar", List.of(TextureSlot.create("0")));
         generateBlockFromParent(blockModels, ModBlocks.STONE_RITUAL_PEDESTAL.block().get(), "ritual_pedestal", List.of(TextureSlot.create("1"), TextureSlot.create("2")));
 
-        //Rendering Items
-        generateItem(itemModels, ModItems.POTENTIAL_ENERGY.get(), "_gray", ModDataComponentTypes.GRAYSCALE.get());
+        //PortalBlock
+        createNetherPortalBlock(blockModels, ModBlocks.ABYSSAL_WASTELAND_PORTAL_BLOCK.block().get());
 
         //Not Generated
         //generatedItems.add(ModItems.ABYSSALNITE_SWORD.get());
@@ -346,6 +353,25 @@ public class ModModelProvider extends ModelProvider {
 
         blockModels.blockStateOutput.accept(
                 createSimpleBlock(block, plainVariant(model))
+        );
+    }
+
+    public void createNetherPortalBlock(BlockModelGenerators blockModels, Block block) {
+        generatedBlocks.add(block);
+
+        blockModels.blockStateOutput.accept(
+                MultiVariantGenerator.dispatch(block)
+                        .with(
+                                PropertyDispatch.initial(BlockStateProperties.HORIZONTAL_AXIS)
+                                        .select(
+                                                Direction.Axis.X,
+                                                plainVariant(ModelLocationUtils.getModelLocation(block, "_ns"))
+                                        )
+                                        .select(
+                                                Direction.Axis.Z,
+                                                plainVariant(ModelLocationUtils.getModelLocation(block, "_ew"))
+                                        )
+                        )
         );
     }
 

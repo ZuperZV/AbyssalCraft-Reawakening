@@ -1,28 +1,20 @@
 package net.zuperzv.abyssalcraft_reawakening.init.item.custom;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.zuperzv.abyssalcraft_reawakening.init.component.EnergyData;
-import net.zuperzv.abyssalcraft_reawakening.init.component.EnergyEntry;
 import net.zuperzv.abyssalcraft_reawakening.init.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.init.component.PotentialEnergyData;
-import net.zuperzv.abyssalcraft_reawakening.init.data.EnergyType;
 import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.NecronomiconTooltipComponent;
 import net.zuperzv.abyssalcraft_reawakening.init.screen.NecronomiconMenu;
-import org.jspecify.annotations.Nullable;
 
-import java.util.List;
 import java.util.Optional;
 
 public class NecronomiconItem extends Item {

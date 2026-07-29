@@ -5,7 +5,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemStackTemplate;
 import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
 import org.jspecify.annotations.Nullable;
 

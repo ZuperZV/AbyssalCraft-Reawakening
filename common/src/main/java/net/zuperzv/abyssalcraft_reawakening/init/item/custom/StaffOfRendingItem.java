@@ -1,9 +1,6 @@
 package net.zuperzv.abyssalcraft_reawakening.init.item.custom;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -16,12 +13,10 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.item.component.DyedItemColor;
-import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -35,7 +30,6 @@ import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 public class StaffOfRendingItem extends Item {
@@ -125,8 +119,15 @@ public class StaffOfRendingItem extends Item {
     }
 
     @Override
-    public InteractionResult use(Level level, Player player, InteractionHand hand) {
-        ItemStack stack = player.getItemInHand(hand);
+    public void onUseTick(Level level, LivingEntity living, ItemStack stack, int remainingUseDuration) {
+        if (!(living instanceof Player player))
+            return;
+
+        if (level.isClientSide())
+            return;
+
+        if (remainingUseDuration % 20 != 0)
+            return;
 
         Vec3 start = player.getEyePosition();
         Vec3 look = player.getViewVector(1.0F);
@@ -245,7 +246,23 @@ public class StaffOfRendingItem extends Item {
             }
         }
 
-        return InteractionResult.SUCCESS;
+        return;
+    }
+
+    @Override
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
+        player.startUsingItem(hand);
+        return InteractionResult.CONSUME;
+    }
+
+    @Override
+    public ItemUseAnimation getUseAnimation(ItemStack stack) {
+        return ItemUseAnimation.SPEAR;
+    }
+
+    @Override
+    public int getUseDuration(ItemStack stack, LivingEntity entity) {
+        return 72000;
     }
 
     @Override

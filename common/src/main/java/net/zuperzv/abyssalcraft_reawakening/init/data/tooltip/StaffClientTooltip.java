@@ -8,7 +8,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.zuperzv.abyssalcraft_reawakening.init.component.EnergyEntry;
 import net.zuperzv.abyssalcraft_reawakening.init.component.ModDataComponentTypes;
-import net.zuperzv.abyssalcraft_reawakening.init.data.EnergyType;
 import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.init.item.custom.StaffOfRendingItem;
 

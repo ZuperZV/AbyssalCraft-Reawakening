@@ -1,13 +1,10 @@
 package net.zuperzv.abyssalcraft_reawakening.init.mixin;
 
-import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.DyedItemColor;
-import net.minecraft.core.component.DataComponentGetter;
 import net.zuperzv.abyssalcraft_reawakening.init.component.ModDataComponentTypes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

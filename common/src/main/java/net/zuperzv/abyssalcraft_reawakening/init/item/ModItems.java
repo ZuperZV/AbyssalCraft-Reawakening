@@ -1,12 +1,14 @@
 package net.zuperzv.abyssalcraft_reawakening.init.item;
 
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.HoeItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.zuperzv.abyssalcraft_reawakening.init.component.CodexTierData;
 import net.zuperzv.abyssalcraft_reawakening.init.component.ModDataComponentTypes;
-import net.zuperzv.abyssalcraft_reawakening.init.component.PotentialEnergyData;
 import net.zuperzv.abyssalcraft_reawakening.init.item.custom.NecronomiconItem;
 import net.zuperzv.abyssalcraft_reawakening.init.item.custom.StaffOfRendingItem;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;

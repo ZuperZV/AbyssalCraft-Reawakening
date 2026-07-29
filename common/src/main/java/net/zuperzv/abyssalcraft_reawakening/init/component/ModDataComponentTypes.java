@@ -2,11 +2,8 @@ package net.zuperzv.abyssalcraft_reawakening.init.component;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.core.component.DataComponentType;
-import net.minecraft.network.codec.ByteBufCodecs;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
-
-import java.util.function.UnaryOperator;
 
 public class ModDataComponentTypes {
     private ModDataComponentTypes() {}
