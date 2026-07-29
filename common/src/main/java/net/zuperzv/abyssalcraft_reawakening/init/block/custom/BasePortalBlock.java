@@ -102,12 +102,9 @@ public class BasePortalBlock extends Block implements Portal {
         Direction.Axis updateAxis = directionToNeighbour.getAxis();
         Direction.Axis axis = state.getValue(AXIS);
         boolean wrongAxis = axis != updateAxis && updateAxis.isHorizontal();
-        return state;
-        /*
         return !wrongAxis && !neighbourState.is(this) && !BasePortalShape.findAnyShape(level, pos, axis).isComplete()
                 ? Blocks.AIR.defaultBlockState()
                 : super.updateShape(state, level, ticks, pos, directionToNeighbour, neighbourPos, neighbourState, random);
-         */
     }
 
     @Override
@@ -136,12 +133,18 @@ public class BasePortalBlock extends Block implements Portal {
     @Nullable TeleportTransition getExitPortal(
             ServerLevel newLevel, Entity entity, BlockPos portalEntryPos, BlockPos approximateExitPos, boolean toNether, WorldBorder worldBorder
     ) {
+        LOGGER.info("approxExit = {}", approximateExitPos);
+
         Optional<BlockPos> exitPortalPos = new BasePortalForcer(newLevel).findClosestPortalPosition(approximateExitPos, toNether, worldBorder);
         BlockUtil.FoundRectangle exitPortal;
         TeleportTransition.PostTeleportTransition post;
         if (exitPortalPos.isPresent()) {
             BlockPos pos = exitPortalPos.get();
             BlockState portalState = newLevel.getBlockState(pos);
+
+            LOGGER.info("Found portal at {}", pos);
+            LOGGER.info("State = {}", portalState);
+            LOGGER.info("Block = {}", portalState.getBlock());
 
             if (!portalState.is(this)) {
                 LOGGER.warn("Portal disappeared at {}", pos);
@@ -175,6 +178,8 @@ public class BasePortalBlock extends Block implements Portal {
             exitPortal = createdExit.get();
             post = TeleportTransition.PLAY_PORTAL_SOUND.then(TeleportTransition.PLACE_PORTAL_TICKET);
         }
+
+        LOGGER.info("exitPortalPos = {}", exitPortalPos);
 
         return getDimensionTransitionFromExit(entity, portalEntryPos, exitPortal, newLevel, post);
     }

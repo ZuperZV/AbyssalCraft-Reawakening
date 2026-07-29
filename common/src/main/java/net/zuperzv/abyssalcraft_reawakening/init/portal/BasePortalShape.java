@@ -30,8 +30,10 @@ import java.util.function.Predicate;
     public static final int MAX_WIDTH = 21;
     private static final int MIN_HEIGHT = 3;
     public static final int MAX_HEIGHT = 21;
-    private static final BlockBehaviour.StatePredicate FRAME = (state, level, pos) -> state.is(ModBlocks.ABYSSAL_STONE.block().get());
-    private static final float SAFE_TRAVEL_MAX_ENTITY_XY = 4.0F;
+        private static final BlockBehaviour.StatePredicate FRAME = (state, level, pos) ->
+                state.is(ModBlocks.ABYSSAL_STONE.block().get()) ||
+                        state.is(ModBlocks.ABYSSAL_WASTELAND_ACTIVATOR.block().get());
+        private static final float SAFE_TRAVEL_MAX_ENTITY_XY = 4.0F;
     private static final double SAFE_TRAVEL_MAX_VERTICAL_DELTA = (double)1.0F;
     private final Direction.Axis axis;
     private final Direction rightDir;

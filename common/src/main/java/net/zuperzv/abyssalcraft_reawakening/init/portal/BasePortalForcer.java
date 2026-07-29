@@ -44,19 +44,22 @@ public class BasePortalForcer {
     ) {
         int radius = toNether ? 16 : 128;
 
-        return BlockPos.betweenClosedStream(
+        Optional<BlockPos> result = BlockPos.betweenClosedStream(
                         approximateExitPos.offset(-radius, -radius, -radius),
-                        approximateExitPos.offset(radius, radius, radius)
-                )
+                        approximateExitPos.offset(radius, radius, radius))
                 .filter(worldBorder::isWithinBounds)
-                .filter(pos -> this.level.getBlockState(pos.immutable())
+                .filter(pos -> level.getBlockState(pos)
                         .is(ModBlocks.ABYSSAL_WASTELAND_PORTAL_BLOCK.block().get()))
+                .map(BlockPos::immutable)
                 .min(
                         Comparator
-                                .comparingDouble((BlockPos p) -> p.immutable().distSqr(approximateExitPos))
+                                .comparingDouble((BlockPos p) -> p.distSqr(approximateExitPos))
                                 .thenComparingInt(BlockPos::getY)
-                )
-                .map(BlockPos::immutable);
+                );
+
+        result.ifPresent(pos -> System.out.println("Returning portal: " + pos));
+
+        return result;
     }
 
     public Optional<BlockUtil.FoundRectangle> createPortal(BlockPos origin, Direction.Axis portalAxis) {
@@ -152,7 +155,7 @@ public class BasePortalForcer {
                     if (width == 0 && height == -1) {
                         this.level.setBlock(
                                 mutable,
-                                ModBlocks.ABYSSAL_STONE.block().get().defaultBlockState(), //Activator Block
+                                ModBlocks.ABYSSAL_WASTELAND_ACTIVATOR.block().get().defaultBlockState(), //Activator Block
                                 3
                         );
                     } else {

@@ -27,8 +27,11 @@ public final class ModBlocks {
                     .sound(SoundType.TUFF_BRICKS).noOcclusion()));
 
     //Abyssal
+    public static final BlockWithItemRegistryHandle<Block> ABYSSAL_WASTELAND_ACTIVATOR = Services.REGISTRY.registerBlockWithItem("abyssal_wasteland_activator",
+            properties -> new PortalActivatorBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(9.0F, 13.0F).sound(SoundType.VAULT)));
+
     public static final BlockWithItemRegistryHandle<Block> ABYSSAL_STONE = Services.REGISTRY.registerBlockWithItem("abyssal_stone",
-            properties -> new PortalActivatorBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.STONE)));
+            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.STONE)));
 
     public static final BlockWithItemRegistryHandle<Block> ABYSSAL_WASTELAND_PORTAL_BLOCK = Services.REGISTRY.registerBlockWithItem("abyssal_wasteland_portal_block",
             properties -> new AbyssalWastelandPortalBlock(properties.noCollision().randomTicks().strength(-1.0F).sound(SoundType.GLASS).lightLevel((statex) -> 11).pushReaction(PushReaction.BLOCK)));
