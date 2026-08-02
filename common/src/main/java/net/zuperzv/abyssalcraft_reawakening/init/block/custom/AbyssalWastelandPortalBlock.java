@@ -8,6 +8,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.portal.TeleportTransition;
+import net.zuperzv.abyssalcraft_reawakening.init.worldgen.dimension.ModDimensions;
 import org.jspecify.annotations.Nullable;
 
 public class AbyssalWastelandPortalBlock extends BasePortalBlock{
@@ -17,12 +18,12 @@ public class AbyssalWastelandPortalBlock extends BasePortalBlock{
 
     @Override
     public @Nullable TeleportTransition getPortalDestination(ServerLevel currentLevel, Entity entity, BlockPos portalEntryPos) {
-        ResourceKey<Level> newDimension = currentLevel.dimension() == Level.END ? Level.OVERWORLD : Level.END;
+        ResourceKey<Level> newDimension = currentLevel.dimension() == ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY ? Level.OVERWORLD : ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY;
         ServerLevel newLevel = currentLevel.getServer().getLevel(newDimension);
         if (newLevel == null) {
             return null;
         } else {
-            boolean toNether = newLevel.dimension() == Level.END;
+            boolean toNether = newLevel.dimension() == ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY;
             WorldBorder newWorldBorder = newLevel.getWorldBorder();
             double teleportationScale = DimensionType.getTeleportationScale(currentLevel.dimensionType(), newLevel.dimensionType());
             BlockPos approximateExitPos = newWorldBorder.clampToBounds(entity.getX() * teleportationScale, entity.getY(), entity.getZ() * teleportationScale);

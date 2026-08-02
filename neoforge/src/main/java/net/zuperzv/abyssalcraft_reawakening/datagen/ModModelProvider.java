@@ -21,8 +21,10 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.init.block.custom.PortalActivatorBlock;
 import net.zuperzv.abyssalcraft_reawakening.init.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.init.data.DyedColorTintSource;
 import net.zuperzv.abyssalcraft_reawakening.init.item.ModArmorMaterials;
@@ -75,6 +77,7 @@ public class ModModelProvider extends ModelProvider {
 
         //PortalBlock
         createNetherPortalBlock(blockModels, ModBlocks.ABYSSAL_WASTELAND_PORTAL_BLOCK.block().get());
+        createPortalActivator(blockModels, ModBlocks.ABYSSAL_WASTELAND_ACTIVATOR.block().get());
 
         //Not Generated
         //generatedItems.add(ModItems.ABYSSALNITE_SWORD.get());
@@ -91,6 +94,78 @@ public class ModModelProvider extends ModelProvider {
                 generateCubeBlock(blockModels, block);
             }
         }
+    }
+
+    //TO-DO make the models
+    private void createBooleanBlock(
+            BlockModelGenerators blockModels,
+            Block block,
+            BooleanProperty property,
+            String falseSuffix,
+            String trueSuffix
+    ) {
+        generatedBlocks.add(block);
+
+        blockModels.blockStateOutput.accept(
+                MultiVariantGenerator.dispatch(block)
+                        .with(
+                                PropertyDispatch.initial(property)
+                                        .select(false,
+                                                plainVariant(ModelLocationUtils.getModelLocation(block, falseSuffix)))
+                                        .select(true,
+                                                plainVariant(ModelLocationUtils.getModelLocation(block, trueSuffix)))
+                        )
+        );
+    }
+
+    private void createPortalActivator(BlockModelGenerators blockModels, Block block) {
+        generatedBlocks.add(block);
+
+        // No key
+        TextureMapping noKeyTextures = new TextureMapping()
+                .put(TextureSlot.FRONT, TextureMapping.getBlockTexture(block, "_no_key"))
+                .put(TextureSlot.SIDE, TextureMapping.getBlockTexture(block, "_side"))
+                .put(TextureSlot.TOP, TextureMapping.getBlockTexture(block, "_top_no_key"))
+                .put(TextureSlot.BOTTOM, TextureMapping.getBlockTexture(ModBlocks.CORALIUM_BRICKS.block().get()));
+
+        // With key
+        TextureMapping withKeyTextures = new TextureMapping()
+                .put(TextureSlot.FRONT, TextureMapping.getBlockTexture(block, "_with_key"))
+                .put(TextureSlot.SIDE, TextureMapping.getBlockTexture(block, "_side"))
+                .put(TextureSlot.TOP, TextureMapping.getBlockTexture(block, "_top_with_key"))
+                .put(TextureSlot.BOTTOM, TextureMapping.getBlockTexture(ModBlocks.CORALIUM_BRICKS.block().get()));
+
+
+        Identifier noKeyModel = ModelTemplates.CUBE_BOTTOM_TOP.create(
+                block,
+                noKeyTextures,
+                blockModels.modelOutput
+        );
+
+        Identifier withKeyModel = ModelTemplates.CUBE_BOTTOM_TOP.createWithSuffix(
+                block,
+                "_with_key",
+                withKeyTextures,
+                blockModels.modelOutput
+        );
+
+
+        blockModels.blockStateOutput.accept(
+                MultiVariantGenerator.dispatch(block)
+                        .with(
+                                PropertyDispatch.initial(PortalActivatorBlock.ON)
+                                        .select(
+                                                false,
+                                                plainVariant(noKeyModel)
+                                        )
+                                        .select(
+                                                true,
+                                                plainVariant(withKeyModel)
+                                        )
+                        )
+        );
+
+        blockModels.registerSimpleItemModel(block, noKeyModel);
     }
 
     private void generateItem(ItemModelGenerators itemModels, Item item) {

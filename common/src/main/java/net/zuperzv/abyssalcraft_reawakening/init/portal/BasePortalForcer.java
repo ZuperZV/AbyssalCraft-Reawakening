@@ -124,8 +124,8 @@ public class BasePortalForcer {
             closestFullPosition = worldBorder.clampToBounds(closestFullPosition);
             Direction clockWise = direction.getClockWise();
 
-            for(int box = -1; box < 3; ++box) {
-                for(int width = 0; width < 3; ++width) {
+            for(int box = -1; box < 2; ++box) {
+                for(int width = -1; width < 2; ++width) {
                     for(int height = -1; height < 3; ++height) {
                         BlockState blockState = height < 0 ? ModBlocks.ABYSSAL_STONE.block().get().defaultBlockState() : Blocks.AIR.defaultBlockState();
                         mutable.setWithOffset(closestFullPosition, width * direction.getStepX() + box * clockWise.getStepX(), height, width * direction.getStepZ() + box * clockWise.getStepZ());

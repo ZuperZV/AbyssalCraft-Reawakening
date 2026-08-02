@@ -9,6 +9,7 @@ import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
@@ -62,6 +63,8 @@ public class ModLootTableProvider extends LootTableProvider {
             addOreDrop(ModBlocks.ABYSSALNITE_END_ORE.block().get(),
                     ModItems.RAW_ABYSSALNITE.get(), 1.0F, 3.0F);
 
+            noDrop(ModBlocks.ABYSSAL_WASTELAND_PORTAL_BLOCK.block().get());
+
             for (Block block : getKnownBlocks()) {
 
                 if (!generatedLoot.contains(block)) {
@@ -72,6 +75,11 @@ public class ModLootTableProvider extends LootTableProvider {
 
         protected void addOreDrop(Block block, Item item, float min, float max) {
             this.add(block, b -> createOreDrop(block, item, min, max));
+        }
+
+        protected void noDrop(Block block) {
+            generatedLoot.add(block);
+            this.add(block, noDrop());
         }
 
         protected LootTable.Builder createOreDrop(Block block, Item item, float min, float max) {

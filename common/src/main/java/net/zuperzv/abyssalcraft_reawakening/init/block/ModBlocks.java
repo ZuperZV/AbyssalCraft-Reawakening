@@ -50,7 +50,13 @@ public final class ModBlocks {
 
     //Coralium
     public static final BlockWithItemRegistryHandle<Block> REFINED_CORALIUM_BLOCK = Services.REGISTRY.registerBlockWithItem("refined_coralium_block",
-            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.METAL)));
+            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 7.0F).sound(SoundType.METAL)));
+
+    public static final BlockWithItemRegistryHandle<Block> CORALIUM_STONE = Services.REGISTRY.registerBlockWithItem("coralium_stone",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_BLUE).requiresCorrectToolForDrops().strength(5.0F, 4.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> CORALIUM_BRICKS = Services.REGISTRY.registerBlockWithItem("coralium_bricks",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_BLUE).requiresCorrectToolForDrops().strength(6.0F, 8.0F).sound(SoundType.STONE)));
 
     //Dread
     public static final BlockWithItemRegistryHandle<Block> DREADIUM_STONE = Services.REGISTRY.registerBlockWithItem("dreadium_stone",
