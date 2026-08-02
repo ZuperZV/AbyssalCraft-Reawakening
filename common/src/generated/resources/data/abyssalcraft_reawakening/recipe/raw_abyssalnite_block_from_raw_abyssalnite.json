@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "abyssalcraft_reawakening:raw_abyssalnite",
+    "abyssalcraft_reawakening:raw_abyssalnite",
+    "abyssalcraft_reawakening:raw_abyssalnite",
+    "abyssalcraft_reawakening:raw_abyssalnite",
+    "abyssalcraft_reawakening:raw_abyssalnite",
+    "abyssalcraft_reawakening:raw_abyssalnite",
+    "abyssalcraft_reawakening:raw_abyssalnite",
+    "abyssalcraft_reawakening:raw_abyssalnite",
+    "abyssalcraft_reawakening:raw_abyssalnite"
+  ],
+  "result": {
+    "id": "abyssalcraft_reawakening:raw_abyssalnite_block"
+  }
+}

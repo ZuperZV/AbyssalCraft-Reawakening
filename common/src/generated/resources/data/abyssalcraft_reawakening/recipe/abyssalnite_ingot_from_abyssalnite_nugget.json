@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "abyssalcraft_reawakening:abyssalnite_nugget",
+    "abyssalcraft_reawakening:abyssalnite_nugget",
+    "abyssalcraft_reawakening:abyssalnite_nugget",
+    "abyssalcraft_reawakening:abyssalnite_nugget",
+    "abyssalcraft_reawakening:abyssalnite_nugget",
+    "abyssalcraft_reawakening:abyssalnite_nugget",
+    "abyssalcraft_reawakening:abyssalnite_nugget",
+    "abyssalcraft_reawakening:abyssalnite_nugget",
+    "abyssalcraft_reawakening:abyssalnite_nugget"
+  ],
+  "result": {
+    "id": "abyssalcraft_reawakening:abyssalnite_ingot"
+  }
+}

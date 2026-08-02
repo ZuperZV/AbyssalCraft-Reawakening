@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "abyssalcraft_reawakening:shadow_fragment"
+  },
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "result": {
+    "id": "abyssalcraft_reawakening:shadow_shard"
+  }
+}

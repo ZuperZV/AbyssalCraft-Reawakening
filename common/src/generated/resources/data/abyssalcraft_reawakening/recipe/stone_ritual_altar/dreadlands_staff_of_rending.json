@@ -1,0 +1,21 @@
+{
+  "type": "abyssalcraft_reawakening:astral_altar",
+  "dimension": "minecraft:the_nether",
+  "ingredient": "abyssalcraft_reawakening:abyssal_wasteland_staff_of_rending",
+  "ingredients": [
+    "abyssalcraft_reawakening:dread_fragment",
+    "abyssalcraft_reawakening:shadow_gem",
+    "abyssalcraft_reawakening:dread_fragment",
+    "abyssalcraft_reawakening:dread_fragment",
+    "abyssalcraft_reawakening:dreadium_stone",
+    "abyssalcraft_reawakening:dreadium_stone",
+    "abyssalcraft_reawakening:dreadium_stone",
+    "abyssalcraft_reawakening:dreadium_stone"
+  ],
+  "output": {
+    "id": "abyssalcraft_reawakening:dreadlands_staff_of_rending"
+  },
+  "pe": 2000,
+  "time": 900,
+  "time_of_day": "NIGHT"
+}

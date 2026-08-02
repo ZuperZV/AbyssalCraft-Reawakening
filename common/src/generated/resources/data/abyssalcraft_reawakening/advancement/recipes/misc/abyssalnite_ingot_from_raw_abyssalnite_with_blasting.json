@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_raw_abyssalnite": {
+      "conditions": {
+        "items": [
+          {
+            "items": "abyssalcraft_reawakening:raw_abyssalnite"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "abyssalcraft_reawakening:abyssalnite_ingot_from_raw_abyssalnite_with_blasting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_raw_abyssalnite"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "abyssalcraft_reawakening:abyssalnite_ingot_from_raw_abyssalnite_with_blasting"
+    ]
+  }
+}

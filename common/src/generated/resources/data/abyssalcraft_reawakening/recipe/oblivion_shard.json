@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": "abyssalcraft_reawakening:shadow_gem",
+    "B": "abyssalcraft_reawakening:transmutation_gem"
+  },
+  "pattern": [
+    " A ",
+    "ABA",
+    " A "
+  ],
+  "result": {
+    "id": "abyssalcraft_reawakening:oblivion_shard"
+  }
+}
