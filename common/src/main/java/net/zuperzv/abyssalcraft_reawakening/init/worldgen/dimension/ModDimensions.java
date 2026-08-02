@@ -1,6 +1,7 @@
 package net.zuperzv.abyssalcraft_reawakening.init.worldgen.dimension;
 
 import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.DataResult;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.biome.OverworldBiomes;
@@ -23,6 +24,7 @@ import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
+import net.minecraft.world.level.levelgen.NoiseSettings;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 
 import java.util.List;
@@ -39,6 +41,15 @@ public class ModDimensions {
     public static final ResourceKey<NoiseGeneratorSettings> ABYSSAL_WASTELAND_NOISE = ResourceKey.create(Registries.NOISE_SETTINGS,
             Identifier.fromNamespaceAndPath(Constants.MOD_ID, "abyssal_wasteland"));
 
+    protected static final NoiseSettings ABYSSAL_WASTELAND_SETTINGS = create(-64, 384, 1, 2);
+
+    public static NoiseSettings create(int minY, int height, int noiseSizeHorizontal, int noiseSizeVertical) {
+        NoiseSettings noiseSettings = new NoiseSettings(minY, height, noiseSizeHorizontal, noiseSizeVertical);
+        guardY(noiseSettings).error().ifPresent((error) -> {
+            throw new IllegalStateException(error.message());
+        });
+        return noiseSettings;
+    }
 
     public static void bootstrapType(BootstrapContext<DimensionType> context) {
         var timelines = context.lookup(Registries.TIMELINE);
@@ -50,7 +61,7 @@ public class ModDimensions {
                 false,
                 false,
                 1.0,
-                0,
+                -80,
                 256,
                 256,
                 BlockTags.INFINIBURN_OVERWORLD,
@@ -81,14 +92,50 @@ public class ModDimensions {
         NoiseBasedChunkGenerator multiBiomeGenerator = new NoiseBasedChunkGenerator(
                 MultiNoiseBiomeSource.createFromList(
                         new Climate.ParameterList<>(List.of(
-                                Pair.of(Climate.parameters(0f, 0f, 0f, 0f, 0f, 0f, 0f), biomes.getOrThrow(Biomes.FOREST)),
-                                Pair.of(Climate.parameters(0f, 0.1f, 0f, 0f, 0f, 0f, 0f), biomes.getOrThrow(Biomes.BIRCH_FOREST)),
-                                Pair.of(Climate.parameters(0.1f, 0.1f, 0f, 0f, 0f, 0f, 0f), biomes.getOrThrow(Biomes.CHERRY_GROVE)),
-                                Pair.of(Climate.parameters(0.1f, 0.25f, 0f, 0f, 0f, 0f, 0f), biomes.getOrThrow(Biomes.BEACH)),
-                                Pair.of(Climate.parameters(0.1f, 0.3f, -0.05f, 0f, 0f, 0f, 0f), biomes.getOrThrow(Biomes.DEEP_LUKEWARM_OCEAN))
-                        ))),
+
+                                // Dybt ocean (lav continentalness)
+                                Pair.of(
+                                        Climate.parameters(-1.0f, -0.5f, 0f, 0f, 0f, 0f, 0f),
+                                        biomes.getOrThrow(Biomes.DEEP_LUKEWARM_OCEAN)
+                                ),
+
+                                // Kyst / strand overgang
+                                Pair.of(
+                                        Climate.parameters(-0.5f, -0.1f, 0f, 0f, 0f, 0f, 0f),
+                                        biomes.getOrThrow(Biomes.BEACH)
+                                ),
+
+                                // Normalt land
+                                Pair.of(
+                                        Climate.parameters(-0.1f, 0.3f, 0f, 0f, 0f, 0f, 0f),
+                                        biomes.getOrThrow(Biomes.FOREST)
+                                ),
+
+                                Pair.of(
+                                        Climate.parameters(0.3f, 0.6f, 0f, 0f, 0f, 0f, 0f),
+                                        biomes.getOrThrow(Biomes.BIRCH_FOREST)
+                                ),
+
+                                Pair.of(
+                                        Climate.parameters(0.6f, 1.0f, 0f, 0f, 0f, 0f, 0f),
+                                        biomes.getOrThrow(Biomes.CHERRY_GROVE)
+                                )
+                        ))
+                ),
                 noiseGenSettings.getOrThrow(ABYSSAL_WASTELAND_NOISE));
 
         context.register(THE_ABYSSAL_WASTELAND_KEY, new LevelStem(dimensionTypes.getOrThrow(ModDimensions.THE_ABYSSAL_WASTELAND_DIM_TYPE_KEY), multiBiomeGenerator));
     }
+
+
+    private static DataResult<NoiseSettings> guardY(NoiseSettings dimensionType) {
+        if (dimensionType.minY() + dimensionType.height() > DimensionType.MAX_Y + 1) {
+            return DataResult.error(() -> "min_y + height cannot be higher than: " + (DimensionType.MAX_Y + 1));
+        } else if (dimensionType.height() % 16 != 0) {
+            return DataResult.error(() -> "height has to be a multiple of 16");
+        } else {
+            return dimensionType.minY() % 16 != 0 ? DataResult.error(() -> "min_y has to be a multiple of 16") : DataResult.success(dimensionType);
+        }
+    }
+
 }

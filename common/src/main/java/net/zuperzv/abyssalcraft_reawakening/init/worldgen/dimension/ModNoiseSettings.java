@@ -1,6 +1,5 @@
 package net.zuperzv.abyssalcraft_reawakening.init.worldgen.dimension;
 
-import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.Blocks;
@@ -14,16 +13,20 @@ import java.util.List;
 public class ModNoiseSettings {
 
     public static NoiseGeneratorSettings create(
-            HolderGetter<NormalNoise.NoiseParameters> noiseGetter
+            HolderGetter<DensityFunction> functions,
+            HolderGetter<NormalNoise.NoiseParameters> noises
     ) {
 
         NoiseRouter router =
-                ModNoiseRouter.abyssalWasteland(noiseGetter);
+                ModNoiseRouter.abyssalWasteland(
+                        functions,
+                        noises
+                );
 
 
         return new NoiseGeneratorSettings(
                 NoiseSettings.create(
-                        0,
+                        -80,
                         384,
                         1,
                         2
@@ -36,13 +39,12 @@ public class ModNoiseSettings {
 
                 ModSurfaceRules.makeRules(),
 
-                // spawn Target
                 List.of(),
 
                 63,
                 false,
-                false,
-                false,
+                true,
+                true,
                 false
         );
     }

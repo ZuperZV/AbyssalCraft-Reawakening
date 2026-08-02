@@ -43,6 +43,8 @@ public final class ModBlocks {
     public static final BlockWithItemRegistryHandle<Block> RAW_ABYSSALNITE_BLOCK = Services.REGISTRY.registerBlockWithItem("raw_abyssalnite_block",
             properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.METAL)));
 
+    public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_ORE = createOreBlock("abyssalnite_ore");
+
     public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_OVERWORLD_ORE = createOreBlock("abyssalnite_overworld_ore");
     public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_DEEPSLATE_ORE = createOreBlock("abyssalnite_deepslate_ore");
     public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_NETHER_ORE = createOreBlock("abyssalnite_nether_ore");

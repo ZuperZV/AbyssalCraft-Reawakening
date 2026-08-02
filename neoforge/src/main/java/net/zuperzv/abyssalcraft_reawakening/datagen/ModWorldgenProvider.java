@@ -10,6 +10,7 @@ import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
@@ -23,6 +24,7 @@ import net.zuperzv.abyssalcraft_reawakening.datagen.bootstrap.ModWorldgenBootstr
 import net.zuperzv.abyssalcraft_reawakening.init.worldgen.dimension.ModDimensions;
 import net.zuperzv.abyssalcraft_reawakening.init.worldgen.dimension.ModNoiseRouter;
 import net.zuperzv.abyssalcraft_reawakening.init.worldgen.dimension.ModNoiseSettings;
+import net.zuperzv.abyssalcraft_reawakening.init.worldgen.dimension.density.ModDensityFunctions;
 import net.zuperzv.abyssalcraft_reawakening.worldgen.ModWorldgen;
 
 import java.util.Set;
@@ -35,6 +37,7 @@ public final class ModWorldgenProvider extends DatapackBuiltinEntriesProvider {
             .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ModWorldgenProvider::bootstrapBiomeModifiers)
 
             .add(Registries.NOISE, ModWorldgenProvider::bootstrapNoise)
+            .add(Registries.DENSITY_FUNCTION, ModDensityFunctions::bootstrap)
             .add(Registries.NOISE_SETTINGS, ModWorldgenProvider::bootstrapNoiseSettings)
             .add(Registries.DIMENSION_TYPE, ModDimensions::bootstrapType)
             .add(Registries.LEVEL_STEM, ModDimensions::bootstrapStem);
@@ -68,9 +71,16 @@ public final class ModWorldgenProvider extends DatapackBuiltinEntriesProvider {
         HolderGetter<NormalNoise.NoiseParameters> noises =
                 context.lookup(Registries.NOISE);
 
+        HolderGetter<DensityFunction> functions =
+                context.lookup(Registries.DENSITY_FUNCTION);
+
+
         context.register(
                 ModDimensions.ABYSSAL_WASTELAND_NOISE,
-                ModNoiseSettings.create(noises)
+                ModNoiseSettings.create(
+                        functions,
+                        noises
+                )
         );
     }
 

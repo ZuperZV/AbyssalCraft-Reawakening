@@ -17,6 +17,7 @@ import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.init.portal.AbyssalWastelandPortalShape;
 import net.zuperzv.abyssalcraft_reawakening.init.portal.BasePortalShape;
+import net.zuperzv.abyssalcraft_reawakening.init.worldgen.dimension.ModDimensions;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Optional;
@@ -68,6 +69,6 @@ public class PortalActivatorBlock extends Block {
     }
 
     private static boolean inPortalDimension(Level level) {
-        return level.dimension() == Level.OVERWORLD || level.dimension() == Level.NETHER;
+        return level.dimension() == Level.OVERWORLD || level.dimension() == ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY;
     }
 }
