@@ -36,6 +36,9 @@ public class ModDimensions {
     public static final ResourceKey<DimensionType> THE_ABYSSAL_WASTELAND_DIM_TYPE_KEY = ResourceKey.create(Registries.DIMENSION_TYPE,
             Identifier.fromNamespaceAndPath(Constants.MOD_ID, "abyssal_wasteland"));
 
+    public static final ResourceKey<NoiseGeneratorSettings> ABYSSAL_WASTELAND_NOISE = ResourceKey.create(Registries.NOISE_SETTINGS,
+            Identifier.fromNamespaceAndPath(Constants.MOD_ID, "abyssal_wasteland"));
+
 
     public static void bootstrapType(BootstrapContext<DimensionType> context) {
         var timelines = context.lookup(Registries.TIMELINE);
@@ -73,7 +76,7 @@ public class ModDimensions {
 
         NoiseBasedChunkGenerator singleBiomeGenerator = new NoiseBasedChunkGenerator(
                 new FixedBiomeSource(biomes.getOrThrow(Biomes.CHERRY_GROVE)),
-                noiseGenSettings.getOrThrow(NoiseGeneratorSettings.AMPLIFIED));
+                noiseGenSettings.getOrThrow(ABYSSAL_WASTELAND_NOISE));
 
         NoiseBasedChunkGenerator multiBiomeGenerator = new NoiseBasedChunkGenerator(
                 MultiNoiseBiomeSource.createFromList(
@@ -84,7 +87,7 @@ public class ModDimensions {
                                 Pair.of(Climate.parameters(0.1f, 0.25f, 0f, 0f, 0f, 0f, 0f), biomes.getOrThrow(Biomes.BEACH)),
                                 Pair.of(Climate.parameters(0.1f, 0.3f, -0.05f, 0f, 0f, 0f, 0f), biomes.getOrThrow(Biomes.DEEP_LUKEWARM_OCEAN))
                         ))),
-                noiseGenSettings.getOrThrow(NoiseGeneratorSettings.AMPLIFIED));
+                noiseGenSettings.getOrThrow(ABYSSAL_WASTELAND_NOISE));
 
         context.register(THE_ABYSSAL_WASTELAND_KEY, new LevelStem(dimensionTypes.getOrThrow(ModDimensions.THE_ABYSSAL_WASTELAND_DIM_TYPE_KEY), multiBiomeGenerator));
     }

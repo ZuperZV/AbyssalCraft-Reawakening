@@ -11,13 +11,18 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.level.levelgen.synth.NormalNoise;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.common.world.BiomeModifiers;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.datagen.bootstrap.ModWorldgenBootstrapper;
+import net.zuperzv.abyssalcraft_reawakening.init.worldgen.dimension.ModDimensions;
+import net.zuperzv.abyssalcraft_reawakening.init.worldgen.dimension.ModNoiseRouter;
+import net.zuperzv.abyssalcraft_reawakening.init.worldgen.dimension.ModNoiseSettings;
 import net.zuperzv.abyssalcraft_reawakening.worldgen.ModWorldgen;
 
 import java.util.Set;
@@ -27,7 +32,12 @@ public final class ModWorldgenProvider extends DatapackBuiltinEntriesProvider {
     private static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
             .add(Registries.CONFIGURED_FEATURE, ModWorldgenBootstrapper::bootstrapConfiguredFeatures)
             .add(Registries.PLACED_FEATURE, ModWorldgenBootstrapper::bootstrapPlacedFeatures)
-            .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ModWorldgenProvider::bootstrapBiomeModifiers);
+            .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ModWorldgenProvider::bootstrapBiomeModifiers)
+
+            .add(Registries.NOISE, ModWorldgenProvider::bootstrapNoise)
+            .add(Registries.NOISE_SETTINGS, ModWorldgenProvider::bootstrapNoiseSettings)
+            .add(Registries.DIMENSION_TYPE, ModDimensions::bootstrapType)
+            .add(Registries.LEVEL_STEM, ModDimensions::bootstrapStem);
 
     private static final ResourceKey<BiomeModifier> ABYSSALNITE_OVERWORLD_ORE_MODIFIER = biomeModifierKey("abyssalnite_overworld_ore");
     private static final ResourceKey<BiomeModifier> ABYSSALNITE_NETHER_ORE_MODIFIER = biomeModifierKey("abyssalnite_nether_ore");
@@ -35,6 +45,33 @@ public final class ModWorldgenProvider extends DatapackBuiltinEntriesProvider {
 
     public ModWorldgenProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
         super(output, registries, BUILDER, Set.of(Constants.MOD_ID));
+    }
+
+    public static void bootstrapNoise(BootstrapContext<NormalNoise.NoiseParameters> context) {
+
+        context.register(
+                ModNoiseRouter.ABYSSAL_TERRAIN,
+                new NormalNoise.NoiseParameters(
+                        0,
+                        1.0,
+                        2,
+                        1.0,
+                        0.5
+                )
+        );
+    }
+
+    public static void bootstrapNoiseSettings(
+            BootstrapContext<NoiseGeneratorSettings> context
+    ) {
+
+        HolderGetter<NormalNoise.NoiseParameters> noises =
+                context.lookup(Registries.NOISE);
+
+        context.register(
+                ModDimensions.ABYSSAL_WASTELAND_NOISE,
+                ModNoiseSettings.create(noises)
+        );
     }
 
     private static void bootstrapBiomeModifiers(BootstrapContext<BiomeModifier> context) {
