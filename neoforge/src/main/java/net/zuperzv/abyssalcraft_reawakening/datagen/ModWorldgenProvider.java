@@ -20,12 +20,13 @@ import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.common.world.BiomeModifiers;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
-import net.zuperzv.abyssalcraft_reawakening.datagen.bootstrap.ModWorldgenBootstrapper;
+import net.zuperzv.abyssalcraft_reawakening.init.worldgen.ModWorldgenBootstrapper;
+import net.zuperzv.abyssalcraft_reawakening.init.worldgen.biome.ModBiomes;
 import net.zuperzv.abyssalcraft_reawakening.init.worldgen.dimension.ModDimensions;
 import net.zuperzv.abyssalcraft_reawakening.init.worldgen.dimension.ModNoiseRouter;
 import net.zuperzv.abyssalcraft_reawakening.init.worldgen.dimension.ModNoiseSettings;
 import net.zuperzv.abyssalcraft_reawakening.init.worldgen.dimension.density.ModDensityFunctions;
-import net.zuperzv.abyssalcraft_reawakening.worldgen.ModWorldgen;
+import net.zuperzv.abyssalcraft_reawakening.init.worldgen.ModWorldgen;
 
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -34,6 +35,7 @@ public final class ModWorldgenProvider extends DatapackBuiltinEntriesProvider {
     private static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
             .add(Registries.CONFIGURED_FEATURE, ModWorldgenBootstrapper::bootstrapConfiguredFeatures)
             .add(Registries.PLACED_FEATURE, ModWorldgenBootstrapper::bootstrapPlacedFeatures)
+            .add(Registries.BIOME, ModBiomes::bootstrap)
             .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ModWorldgenProvider::bootstrapBiomeModifiers)
 
             .add(Registries.NOISE, ModWorldgenProvider::bootstrapNoise)
@@ -53,13 +55,11 @@ public final class ModWorldgenProvider extends DatapackBuiltinEntriesProvider {
     public static void bootstrapNoise(BootstrapContext<NormalNoise.NoiseParameters> context) {
 
         context.register(
-                ModNoiseRouter.ABYSSAL_TERRAIN,
+                ModNoiseRouter.ABYSSAL_GROUND,
                 new NormalNoise.NoiseParameters(
-                        0,
-                        1.0,
+                        -4,
                         2,
-                        1.0,
-                        0.5
+                        3
                 )
         );
     }

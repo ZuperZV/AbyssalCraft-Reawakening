@@ -5,40 +5,54 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BiomeDefaultFeatures;
 import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.data.worldgen.Carvers;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.Music;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.attribute.AmbientMoodSettings;
 import net.minecraft.world.level.biome.*;
+import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarver;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
+import net.zuperzv.abyssalcraft_reawakening.init.worldgen.ModWorldgen;
 
-public class ModBiomes {
+public final class ModBiomes {
     protected static final int NORMAL_WATER_COLOR = 4159204;
     protected static final int NORMAL_WATER_FOG_COLOR = 329011;
     private static final int OVERWORLD_FOG_COLOR = 12638463;
 
     private static final Music NORMAL_MUSIC = null;
 
-    public static final ResourceKey<Biome> TEST_BIOME = register("test_biome");
+    public static final ResourceKey<Biome> ABYSSAL_WASTELANDS_BIOME = register("abyssal_wastelands");
 
-    public static void boostrap(BootstrapContext<Biome> context) {
-        context.register(TEST_BIOME, testBiome(context));
+    public static void bootstrap(BootstrapContext<Biome> context) {
+        context.register(ABYSSAL_WASTELANDS_BIOME, AbyssalWastelandsBiome(context));
     }
 
-    public static Biome testBiome(BootstrapContext<Biome> context) {
+    public static Biome AbyssalWastelandsBiome(BootstrapContext<Biome> context) {
 
         MobSpawnSettings.Builder spawnBuilder = new MobSpawnSettings.Builder();
 
         BiomeGenerationSettings.Builder biomeBuilder =
                 new BiomeGenerationSettings.Builder(context.lookup(Registries.PLACED_FEATURE), context.lookup(Registries.CONFIGURED_CARVER));
 
+        //UNDERGROUND
+        biomeBuilder.addCarver(Carvers.CAVE);
+        biomeBuilder.addCarver(Carvers.CAVE_EXTRA_UNDERGROUND);
+        biomeBuilder.addCarver(Carvers.CANYON);
+
+            // ORES
+        biomeBuilder.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, ModWorldgen.ABYSSALNITE_ORE_PLACED);
+
+        // SURFACE
+        biomeBuilder.addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, ModWorldgen.ABYSSAL_MUD_DISK_PLACED);
+
+        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModWorldgen.WASTITE_SPIKE_PLACED);
+
         return new Biome.BiomeBuilder()
                 .hasPrecipitation(false)
                 .downfall(0.0f)
-                .temperature(0.1f)
+                .temperature(0.6f)
                 .generationSettings(biomeBuilder.build())
                 .mobSpawnSettings(spawnBuilder.build())
                 .specialEffects((new BiomeSpecialEffects.Builder())
@@ -48,6 +62,8 @@ public class ModBiomes {
                         .build())
                 .build();
     }
+
+
 
     public static void globalOverworldGeneration(BiomeGenerationSettings.Builder builder) {
         BiomeDefaultFeatures.addDefaultCarversAndLakes(builder);

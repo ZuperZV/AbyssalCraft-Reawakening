@@ -3,6 +3,7 @@ package net.zuperzv.abyssalcraft_reawakening.datagen;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
@@ -20,6 +21,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
     @Override
     protected void addTags(HolderLookup.@NonNull Provider provider) {
         tag(ModBlockTags.ABYSSALCRAFT_ORES)
+                .add(ModBlocks.ABYSSALNITE_ORE.block().get())
                 .add(ModBlocks.ABYSSALNITE_OVERWORLD_ORE.block().get())
                 .add(ModBlocks.ABYSSALNITE_DEEPSLATE_ORE.block().get())
                 .add(ModBlocks.ABYSSALNITE_NETHER_ORE.block().get())
@@ -31,6 +33,22 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
         tag(Tags.Blocks.ORES)
                 .addTag(ModBlockTags.ABYSSALCRAFT_ORES);
+
+        tag(ModBlockTags.ABYSSAL_WAISTLAND_SURFACES)
+                .add(ModBlocks.ABYSSAL_STONE.block().get())
+                .add(ModBlocks.CORRUPTED_SOIL.block().get())
+                .add(ModBlocks.WASTITE.block().get())
+                .add(Blocks.MUD);
+
+        tag(ModBlockTags.WASTITE_SPIKE_REPLACEABLE)
+                .add(ModBlocks.WASTITE.block().get())
+                .addTag(ModBlockTags.ABYSSAL_WAISTLAND_SURFACES);
+
+        tag(ModBlockTags.ABYSSAL_STONE_ORE_REPLACEABLES)
+                .add(ModBlocks.ABYSSAL_STONE.block().get());
+
+        tag(ModBlockTags.ABYSSAL_DEEPSLATE_ORE_REPLACEABLES)
+                .add(ModBlocks.ABYSSAL_STONE.block().get());
 
 
         tag(BlockTags.NEEDS_IRON_TOOL)

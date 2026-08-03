@@ -44,7 +44,7 @@ public class ModNoiseSettings {
                 63,
                 false,
                 true,
-                true,
+                false,
                 false
         );
     }

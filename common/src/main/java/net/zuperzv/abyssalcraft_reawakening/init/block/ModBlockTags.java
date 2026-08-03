@@ -35,6 +35,18 @@ public final class ModBlockTags {
     public static final TagKey<Block> INCORRECT_FOR_ETHAXIUM_TOOL =
             create("incorrect_for_ethaxium_tool");
 
+    public static final TagKey<Block> ABYSSAL_STONE_ORE_REPLACEABLES =
+            create("abyssal_stone_ore_replaceables");
+
+    public static final TagKey<Block> ABYSSAL_DEEPSLATE_ORE_REPLACEABLES =
+            create("abyssal_deepslate_ore_replaceables");
+
+    public static final TagKey<Block> ABYSSAL_WAISTLAND_SURFACES =
+            create("abyssal_waistland_surfaces");
+
+    public static final TagKey<Block> WASTITE_SPIKE_REPLACEABLE =
+            create("wastite_spike_replaceable");
+
     public static TagKey<Block> create(String name) {
         return TagKey.create(Registries.BLOCK, Constants.id(name));
     }

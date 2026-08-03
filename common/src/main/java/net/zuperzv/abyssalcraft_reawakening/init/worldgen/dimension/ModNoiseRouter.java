@@ -6,6 +6,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.levelgen.*;
+import net.minecraft.world.level.levelgen.synth.BlendedNoise;
 import net.minecraft.world.level.levelgen.synth.NormalNoise;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 
@@ -22,7 +23,8 @@ public class ModNoiseRouter {
     public static final ResourceKey<DensityFunction> OFFSET = createKey("abyssal/offset");
     public static final ResourceKey<DensityFunction> FACTOR = createKey("abyssal/factor");
     public static final ResourceKey<DensityFunction> DEPTH = createKey("abyssal/depth");
-    private static final ResourceKey<DensityFunction> SLOPED_CHEESE = createKeyWithDefaultNamespace("overworld/sloped_cheese");
+    public static final ResourceKey<DensityFunction> SLOPED_CHEESE = createKey("abyssal/sloped_cheese");
+    public static final ResourceKey<DensityFunction> BASE_3D_NOISE = createKey("abyssal/base_3d_noise");
     public static final ResourceKey<DensityFunction> CONTINENTS_LARGE = createKeyWithDefaultNamespace("overworld_large_biomes/continents");
     public static final ResourceKey<DensityFunction> EROSION_LARGE = createKeyWithDefaultNamespace("overworld_large_biomes/erosion");
     private static final ResourceKey<DensityFunction> OFFSET_LARGE = createKeyWithDefaultNamespace("overworld_large_biomes/offset");
@@ -48,8 +50,8 @@ public class ModNoiseRouter {
                 Identifier.withDefaultNamespace(name));
     }
 
-    public static final ResourceKey<NormalNoise.NoiseParameters> ABYSSAL_TERRAIN =
-            ResourceKey.create(Registries.NOISE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "abyssal_terrain"));
+    public static final ResourceKey<NormalNoise.NoiseParameters> ABYSSAL_GROUND =
+            ResourceKey.create(Registries.NOISE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "abyssal_ground"));
 
 
     public static NoiseRouter abyssalWasteland(
@@ -63,10 +65,6 @@ public class ModNoiseRouter {
                 false,
                 false
         );
-
-
-        DensityFunction abyssNoise = DensityFunctions.noise(
-                        noises.getOrThrow(ABYSSAL_TERRAIN), 0.5, 0.5);
 
         return new NoiseRouter(
                 abyssalWasteland.barrierNoise(),

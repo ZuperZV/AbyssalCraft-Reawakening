@@ -6,6 +6,7 @@ import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.DensityFunctions;
 import net.minecraft.world.level.levelgen.Noises;
+import net.minecraft.world.level.levelgen.synth.BlendedNoise;
 import net.minecraft.world.level.levelgen.synth.NormalNoise;
 import net.zuperzv.abyssalcraft_reawakening.init.worldgen.dimension.ModNoiseRouter;
 
@@ -20,10 +21,10 @@ public class ModDensityFunctions {
         context.register(
                 ModNoiseRouter.Y,
                 DensityFunctions.yClampedGradient(
-                        -80,
-                        320,
-                        -1.2,
-                        1.0
+                        -64,
+                        200,
+                        -1.0,
+                        0.6
                 )
         );
 
@@ -50,7 +51,7 @@ public class ModDensityFunctions {
                                         0.9,
                                         0.4
                                 ),
-                                DensityFunctions.constant(2.2)
+                                DensityFunctions.constant(0.6)
                         ),
 
                         DensityFunctions.mul(
@@ -69,56 +70,99 @@ public class ModDensityFunctions {
                 DensityFunctions.mul(
                         DensityFunctions.noise(
                                 noises.getOrThrow(Noises.EROSION),
-                                1.1,
-                                0.8
+                                1.0,
+                                0.5
                         ),
-                        DensityFunctions.constant(0.65)
+                        DensityFunctions.constant(0.35)
                 )
         );
 
         // Ridges klipper/revner
-        context.register(
-                ModNoiseRouter.RIDGES,
+        DensityFunction ridges =
                 DensityFunctions.mul(
+
                         DensityFunctions.noise(
                                 noises.getOrThrow(Noises.RIDGE),
-                                1.4,
-                                0.9
+                                0.35,
+                                0.25
                         ),
-                        DensityFunctions.constant(1.6)
-                )
-        );
+
+                        DensityFunctions.constant(0.35)
+                );
+
 
         context.register(
-                ModNoiseRouter.FACTOR,
-                DensityFunctions.constant(2.0)
+                ModNoiseRouter.RIDGES,
+                ridges
         );
 
-        context.register(
-                ModNoiseRouter.OFFSET,
-                DensityFunctions.constant(-0.35)
-        );
-
-        context.register(
-                ModNoiseRouter.DEPTH,
+        DensityFunction depth =
                 DensityFunctions.add(
 
                         DensityFunctions.yClampedGradient(
-                                -80,
-                                320,
-                                1.0,
-                                -1.2
+                                -64,
+                                200,
+                                0.6,
+                                -0.6
                         ),
 
                         DensityFunctions.mul(
                                 DensityFunctions.noise(
                                         noises.getOrThrow(Noises.RIDGE),
-                                        1.4,
-                                        0.9
+                                        0.35,
+                                        0.25
                                 ),
-                                DensityFunctions.constant(0.5)
+                                DensityFunctions.constant(0.25)
                         )
-                )
+                );
+
+        context.register(
+                ModNoiseRouter.DEPTH,
+                depth
+        );
+
+        context.register(
+                ModNoiseRouter.FACTOR,
+                DensityFunctions.constant(0.65)
+        );
+
+        context.register(
+                ModNoiseRouter.OFFSET,
+                DensityFunctions.constant(-7.5)
+        );
+
+        context.register(
+                ModNoiseRouter.BASE_3D_NOISE,
+                BlendedNoise.createUnseeded(
+                        0.25, 0.125, 80.0, 130.0, 8.0)
+        );
+
+        HolderGetter<DensityFunction> functions =
+                context.lookup(Registries.DENSITY_FUNCTION);
+
+        DensityFunction baseNoise =
+                new DensityFunctions.HolderHolder(
+                        functions.getOrThrow(ModNoiseRouter.BASE_3D_NOISE)
+                );
+
+        // SLOPED CHEESE
+        DensityFunction slopedCheese =
+                DensityFunctions.add(
+                        baseNoise,
+
+                        DensityFunctions.add(
+                                depth,
+                                DensityFunctions.mul(
+                                        ridges,
+                                        DensityFunctions.constant(-0.25)
+                                )
+                        )
+                );
+
+
+        context.register(
+                ModNoiseRouter.SLOPED_CHEESE,
+                slopedCheese
         );
     }
 }

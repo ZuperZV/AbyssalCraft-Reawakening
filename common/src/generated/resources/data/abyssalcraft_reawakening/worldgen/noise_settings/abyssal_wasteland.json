@@ -74,12 +74,12 @@
                           "argument1": 0.078125,
                           "argument2": {
                             "type": "minecraft:range_choice",
-                            "input": "minecraft:overworld/sloped_cheese",
+                            "input": "abyssalcraft_reawakening:abyssal/sloped_cheese",
                             "max_exclusive": 1.5625,
                             "min_inclusive": -1000000.0,
                             "when_in_range": {
                               "type": "minecraft:min",
-                              "argument1": "minecraft:overworld/sloped_cheese",
+                              "argument1": "abyssalcraft_reawakening:abyssal/sloped_cheese",
                               "argument2": {
                                 "type": "minecraft:mul",
                                 "argument1": 5.0,
@@ -132,7 +132,7 @@
                                           "argument2": {
                                             "type": "minecraft:mul",
                                             "argument1": -0.64,
-                                            "argument2": "minecraft:overworld/sloped_cheese"
+                                            "argument2": "abyssalcraft_reawakening:abyssal/sloped_cheese"
                                           }
                                         },
                                         "max": 0.5,
@@ -429,7 +429,7 @@
           "false_at_and_above": {
             "above_bottom": 5
           },
-          "random_name": "minecraft:bedrock_floor",
+          "random_name": "minecraft:abyssal_bedrock",
           "true_at_and_below": {
             "above_bottom": 0
           }
@@ -439,6 +439,72 @@
           "result_state": {
             "Name": "minecraft:bedrock"
           }
+        }
+      },
+      {
+        "type": "minecraft:condition",
+        "if_true": {
+          "type": "minecraft:biome",
+          "biome_is": [
+            "abyssalcraft_reawakening:abyssal_wastelands"
+          ]
+        },
+        "then_run": {
+          "type": "minecraft:condition",
+          "if_true": {
+            "type": "minecraft:stone_depth",
+            "add_surface_depth": false,
+            "offset": 0,
+            "secondary_depth_range": 0,
+            "surface_type": "floor"
+          },
+          "then_run": {
+            "type": "minecraft:sequence",
+            "sequence": [
+              {
+                "type": "minecraft:condition",
+                "if_true": {
+                  "type": "minecraft:noise_threshold",
+                  "max_threshold": 0.0,
+                  "min_threshold": -1.0,
+                  "noise": "abyssalcraft_reawakening:abyssal_ground"
+                },
+                "then_run": {
+                  "type": "minecraft:block",
+                  "result_state": {
+                    "Name": "abyssalcraft_reawakening:abyssal_stone"
+                  }
+                }
+              },
+              {
+                "type": "minecraft:condition",
+                "if_true": {
+                  "type": "minecraft:noise_threshold",
+                  "max_threshold": 0.5,
+                  "min_threshold": 0.0,
+                  "noise": "abyssalcraft_reawakening:abyssal_ground"
+                },
+                "then_run": {
+                  "type": "minecraft:block",
+                  "result_state": {
+                    "Name": "abyssalcraft_reawakening:corrupted_soil"
+                  }
+                }
+              },
+              {
+                "type": "minecraft:block",
+                "result_state": {
+                  "Name": "abyssalcraft_reawakening:abyssal_stone"
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "type": "minecraft:block",
+        "result_state": {
+          "Name": "abyssalcraft_reawakening:abyssal_stone"
         }
       }
     ]

@@ -60,8 +60,8 @@ public final class ModOreVeinifier {
     }
 
     protected static enum VeinType {
-        ABYSSALNITE(ModBlocks.ABYSSALNITE_ORE.block().get().defaultBlockState(), ModBlocks.RAW_ABYSSALNITE_BLOCK.block().get().defaultBlockState(), Blocks.STONE.defaultBlockState(), 0, 50),
-        IRON(Blocks.DEEPSLATE_IRON_ORE.defaultBlockState(), Blocks.RAW_IRON_BLOCK.defaultBlockState(), Blocks.TUFF.defaultBlockState(), -60, -8);
+        ABYSSALNITE(ModBlocks.ABYSSALNITE_ORE.block().get().defaultBlockState(), ModBlocks.RAW_ABYSSALNITE_BLOCK.block().get().defaultBlockState(), ModBlocks.WASTITE.block().get().defaultBlockState(), 0, 50),
+        IRON(Blocks.DEEPSLATE_IRON_ORE.defaultBlockState(), Blocks.RAW_IRON_BLOCK.defaultBlockState(), ModBlocks.WASTITE.block().get().defaultBlockState(), -60, -8);
 
         private final BlockState ore;
         private final BlockState rawOreBlock;

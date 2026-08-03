@@ -8,7 +8,7 @@ import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.init.recipe.ModRecipes;
 import net.zuperzv.abyssalcraft_reawakening.init.screen.ModMenuTypes;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
-import net.zuperzv.abyssalcraft_reawakening.worldgen.ModWorldgen;
+import net.zuperzv.abyssalcraft_reawakening.init.worldgen.ModWorldgen;
 
 public class CommonClass {
     public static void init() {

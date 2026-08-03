@@ -26,6 +26,7 @@ import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 import net.minecraft.world.level.levelgen.NoiseSettings;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
+import net.zuperzv.abyssalcraft_reawakening.init.worldgen.biome.ModBiomes;
 
 import java.util.List;
 import java.util.Optional;
@@ -86,7 +87,7 @@ public class ModDimensions {
         var noiseGenSettings = context.lookup(Registries.NOISE_SETTINGS);
 
         NoiseBasedChunkGenerator singleBiomeGenerator = new NoiseBasedChunkGenerator(
-                new FixedBiomeSource(biomes.getOrThrow(Biomes.CHERRY_GROVE)),
+                new FixedBiomeSource(biomes.getOrThrow(ModBiomes.ABYSSAL_WASTELANDS_BIOME)),
                 noiseGenSettings.getOrThrow(ABYSSAL_WASTELAND_NOISE));
 
         NoiseBasedChunkGenerator multiBiomeGenerator = new NoiseBasedChunkGenerator(
@@ -96,35 +97,35 @@ public class ModDimensions {
                                 // Dybt ocean (lav continentalness)
                                 Pair.of(
                                         Climate.parameters(-1.0f, -0.5f, 0f, 0f, 0f, 0f, 0f),
-                                        biomes.getOrThrow(Biomes.DEEP_LUKEWARM_OCEAN)
+                                        biomes.getOrThrow(ModBiomes.ABYSSAL_WASTELANDS_BIOME)
                                 ),
 
                                 // Kyst / strand overgang
                                 Pair.of(
                                         Climate.parameters(-0.5f, -0.1f, 0f, 0f, 0f, 0f, 0f),
-                                        biomes.getOrThrow(Biomes.BEACH)
+                                        biomes.getOrThrow(ModBiomes.ABYSSAL_WASTELANDS_BIOME)
                                 ),
 
                                 // Normalt land
                                 Pair.of(
                                         Climate.parameters(-0.1f, 0.3f, 0f, 0f, 0f, 0f, 0f),
-                                        biomes.getOrThrow(Biomes.FOREST)
+                                        biomes.getOrThrow(ModBiomes.ABYSSAL_WASTELANDS_BIOME)
                                 ),
 
                                 Pair.of(
                                         Climate.parameters(0.3f, 0.6f, 0f, 0f, 0f, 0f, 0f),
-                                        biomes.getOrThrow(Biomes.BIRCH_FOREST)
+                                        biomes.getOrThrow(ModBiomes.ABYSSAL_WASTELANDS_BIOME)
                                 ),
 
                                 Pair.of(
                                         Climate.parameters(0.6f, 1.0f, 0f, 0f, 0f, 0f, 0f),
-                                        biomes.getOrThrow(Biomes.CHERRY_GROVE)
+                                        biomes.getOrThrow(ModBiomes.ABYSSAL_WASTELANDS_BIOME)
                                 )
                         ))
                 ),
                 noiseGenSettings.getOrThrow(ABYSSAL_WASTELAND_NOISE));
 
-        context.register(THE_ABYSSAL_WASTELAND_KEY, new LevelStem(dimensionTypes.getOrThrow(ModDimensions.THE_ABYSSAL_WASTELAND_DIM_TYPE_KEY), multiBiomeGenerator));
+        context.register(THE_ABYSSAL_WASTELAND_KEY, new LevelStem(dimensionTypes.getOrThrow(ModDimensions.THE_ABYSSAL_WASTELAND_DIM_TYPE_KEY), singleBiomeGenerator));
     }
 
 
