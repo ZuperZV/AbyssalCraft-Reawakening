@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "abyssalcraft_reawakening:block/witherwood_log_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "abyssalcraft_reawakening:block/witherwood_log"
+    },
+    "axis=z": {
+      "model": "abyssalcraft_reawakening:block/witherwood_log_horizontal",
+      "x": 90
+    }
+  }
+}

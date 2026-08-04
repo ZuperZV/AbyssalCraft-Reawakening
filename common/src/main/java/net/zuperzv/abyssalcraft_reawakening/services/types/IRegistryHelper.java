@@ -1,5 +1,7 @@
 package net.zuperzv.abyssalcraft_reawakening.services.types;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
@@ -18,6 +20,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
+import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.services.util.BlockWithItemRegistryHandle;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
@@ -91,5 +95,10 @@ public interface IRegistryHelper {
             String name,
             Supplier<T> type,
             Supplier<S> serializer
+    );
+
+    <T extends TreeDecorator> RegistryHandle<TreeDecoratorType<T>> registerTreeDecoratorType(
+            String name,
+            MapCodec<T> codec
     );
 }

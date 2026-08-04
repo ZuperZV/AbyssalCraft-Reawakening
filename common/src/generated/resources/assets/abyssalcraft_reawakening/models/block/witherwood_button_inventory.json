@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/button_inventory",
+  "textures": {
+    "texture": "abyssalcraft_reawakening:block/witherwood_planks"
+  }
+}

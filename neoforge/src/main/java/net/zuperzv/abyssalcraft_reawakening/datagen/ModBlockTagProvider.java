@@ -3,6 +3,7 @@ package net.zuperzv.abyssalcraft_reawakening.datagen;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
@@ -87,5 +88,59 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .addTag(ModBlockTags.NEEDS_ETHAXIUM_TOOL);
 
         tag(ModBlockTags.INCORRECT_FOR_ETHAXIUM_TOOL);
+
+        this.tag(BlockTags.WOODEN_DOORS)
+                .add(
+                        ModBlocks.WITHERWOOD_DOOR.block().get()
+                );
+        this.tag(BlockTags.WOODEN_STAIRS)
+                .add(
+                        ModBlocks.WITHERWOOD_STAIRS.block().get()
+                );
+        this.tag(BlockTags.WOODEN_SLABS)
+                .add(
+                        ModBlocks.WITHERWOOD_SLAB.block().get()
+                );
+        this.tag(BlockTags.WOODEN_FENCES)
+                .add(
+                        ModBlocks.WITHERWOOD_FENCE.block().get()
+                );
+        this.tag(BlockTags.FENCE_GATES)
+                .add(
+                        ModBlocks.WITHERWOOD_FENCE_GATE.block().get()
+                );
+        this.tag(BlockTags.WOODEN_PRESSURE_PLATES)
+                .add(
+                        ModBlocks.WITHERWOOD_PRESSURE_PLATE.block().get()
+                );
+        this.tag(BlockTags.WOODEN_SHELVES)
+                .add(
+                        ModBlocks.WITHERWOOD_SHELF.block().get()
+                );
+        /*
+        this.tag(BlockTags.SAPLINGS)
+                .add(
+                        ModBlocks.WITHERWOOD_SAPLING.block().get()
+                );
+         */
+        this.tag(BlockTags.LEAVES)
+                .add(
+                        ModBlocks.WITHERWOOD_LEAVES.block().get()
+                );
+
+        this.tag(BlockTags.WOODEN_TRAPDOORS)
+                .add(
+                        ModBlocks.WITHERWOOD_TRAPDOOR.block().get()
+                );
+
+        this.tag(ModBlockTags.WITHERWOOD_LOGS)
+                .add(ModBlocks.WITHERWOOD_LOG.block().get())
+                .add(ModBlocks.WITHERWOOD_WOOD.block().get())
+                .add(ModBlocks.STRIPPED_WITHERWOOD_LOG.block().get())
+                .add(ModBlocks.STRIPPED_WITHERWOOD_WOOD.block().get());
+
+
+        this.tag(BlockTags.LOGS_THAT_BURN)
+                .addTags(ModBlockTags.WITHERWOOD_LOGS);
     }
 }

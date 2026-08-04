@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_top_right_open",
+  "textures": {
+    "bottom": "abyssalcraft_reawakening:block/witherwood_door_bottom",
+    "top": "abyssalcraft_reawakening:block/witherwood_door_top"
+  }
+}

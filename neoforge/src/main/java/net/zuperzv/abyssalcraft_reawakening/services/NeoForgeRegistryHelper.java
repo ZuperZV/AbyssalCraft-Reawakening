@@ -1,7 +1,10 @@
 package net.zuperzv.abyssalcraft_reawakening.services;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -19,6 +22,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
+import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -46,6 +51,8 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
             DeferredRegister.create(Registries.RECIPE_TYPE, Constants.MOD_ID);
     private static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS =
             DeferredRegister.create(Registries.RECIPE_SERIALIZER, Constants.MOD_ID);
+    private static final DeferredRegister<TreeDecoratorType<?>> TREE_DECORATORS =
+            DeferredRegister.create(BuiltInRegistries.TREE_DECORATOR_TYPE, Constants.MOD_ID);
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
@@ -56,6 +63,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
         BLOCK_ENTITY_TYPES.register(eventBus);
         RECIPE_TYPES.register(eventBus);
         RECIPE_SERIALIZERS.register(eventBus);
+        TREE_DECORATORS.register(eventBus);
     }
 
     @Override
@@ -249,5 +257,28 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
         RegistryHandle<S> serializerHandle = registerRecipeSerializer(name, serializer);
 
         return new RecipeRegistryHandle<>(typeHandle, serializerHandle);
+    }
+
+    @Override
+    public <T extends TreeDecorator> RegistryHandle<TreeDecoratorType<T>> registerTreeDecoratorType(
+            String name,
+            MapCodec<T> codec
+    ) {
+        Identifier id = Constants.id(name);
+
+        DeferredHolder<TreeDecoratorType<?>, TreeDecoratorType<T>> holder =
+                (DeferredHolder) TREE_DECORATORS.register(name, () -> new TreeDecoratorType<>(codec));
+
+        return new RegistryHandle<>() {
+            @Override
+            public Identifier id() {
+                return id;
+            }
+
+            @Override
+            public TreeDecoratorType<T> get() {
+                return holder.get();
+            }
+        };
     }
 }

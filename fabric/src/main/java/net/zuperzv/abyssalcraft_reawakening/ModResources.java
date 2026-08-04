@@ -15,14 +15,17 @@ import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.blockentity.StandingSignRenderer;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.crafting.RecipeMap;
 import net.zuperzv.abyssalcraft_reawakening.init.api.jei.custom.JEIPlugin;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.ModBlockEntities;
+import net.zuperzv.abyssalcraft_reawakening.init.block.entity.renderer.ModStandingSignRenderer;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.renderer.StoneRitualAltarBlockEntityRenderer;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.renderer.StoneRitualPedestalBlockEntityRenderer;
+import net.zuperzv.abyssalcraft_reawakening.init.block.entity.renderer.WitherwoodShelfBlockEntityRender;
 import net.zuperzv.abyssalcraft_reawakening.init.data.CodexDataLoader;
 import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.NecronomiconClientTooltip;
 import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.NecronomiconTooltipComponent;
@@ -64,6 +67,14 @@ public class ModResources implements ClientModInitializer {
         BlockEntityRendererRegistry.register(
                 ModBlockEntities.STONE_RITUAL_PEDESTAL_BE.get(),
                 StoneRitualPedestalBlockEntityRenderer::new
+        );
+        BlockEntityRendererRegistry.register(
+                ModBlockEntities.MOD_SHELF_BE.get(),
+                WitherwoodShelfBlockEntityRender::new
+        );
+        BlockEntityRendererRegistry.register(
+                ModBlockEntities.MOD_SIGN_BE.get(),
+                ModStandingSignRenderer::new
         );
 
 

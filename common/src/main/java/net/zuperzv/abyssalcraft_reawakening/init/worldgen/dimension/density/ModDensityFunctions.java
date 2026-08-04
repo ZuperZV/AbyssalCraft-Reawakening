@@ -23,7 +23,7 @@ public class ModDensityFunctions {
                 DensityFunctions.yClampedGradient(
                         -64,
                         200,
-                        -1.0,
+                        -0.6,
                         0.6
                 )
         );
@@ -73,7 +73,7 @@ public class ModDensityFunctions {
                                 1.0,
                                 0.5
                         ),
-                        DensityFunctions.constant(0.35)
+                        DensityFunctions.constant(1.35)
                 )
         );
 
@@ -102,8 +102,8 @@ public class ModDensityFunctions {
                         DensityFunctions.yClampedGradient(
                                 -64,
                                 200,
-                                0.6,
-                                -0.6
+                                1.5,
+                                -1.5
                         ),
 
                         DensityFunctions.mul(
@@ -112,7 +112,7 @@ public class ModDensityFunctions {
                                         0.35,
                                         0.25
                                 ),
-                                DensityFunctions.constant(0.25)
+                                DensityFunctions.constant(0.05)
                         )
                 );
 

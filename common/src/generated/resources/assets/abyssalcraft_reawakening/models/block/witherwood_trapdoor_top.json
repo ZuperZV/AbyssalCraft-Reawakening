@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_orientable_trapdoor_top",
+  "textures": {
+    "texture": "abyssalcraft_reawakening:block/witherwood_trapdoor"
+  }
+}

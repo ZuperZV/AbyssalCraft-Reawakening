@@ -10,6 +10,10 @@ public final class ModWorldgen {
     private ModWorldgen() {}
     public static void load() {}
 
+    public static final ResourceKey<ConfiguredFeature<?, ?>> CORALIUM_TENDRILS = configuredFeatureKey("coralium_tendrils");
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> DEAD_ABYSS_TREE = configuredFeatureKey("dead_abyss_tree");
+
     public static final ResourceKey<ConfiguredFeature<?, ?>> WASTITE_SPIKE_PATCH = configuredFeatureKey("wastite_spike_patch");
     public static final ResourceKey<ConfiguredFeature<?, ?>> WASTITE_SPIKE_COLUMN = configuredFeatureKey("wastite_spike_column");
 
@@ -20,6 +24,11 @@ public final class ModWorldgen {
     public static final ResourceKey<ConfiguredFeature<?, ?>> ABYSSALNITE_NETHER_ORE = configuredFeatureKey("abyssalnite_nether_ore");
     public static final ResourceKey<ConfiguredFeature<?, ?>> ABYSSALNITE_END_ORE = configuredFeatureKey("abyssalnite_end_ore");
 
+
+
+    public static final ResourceKey<PlacedFeature> CORALIUM_TENDRILS_PLACED = placedFeatureKey("coralium_tendrils");
+
+    public static final ResourceKey<PlacedFeature> DEAD_ABYSS_TREE_PLACED = placedFeatureKey("dead_abyss_tree");
 
     public static final ResourceKey<PlacedFeature> WASTITE_SPIKE_COLUMN_PLACED = placedFeatureKey("wastite_spike_column");
     public static final ResourceKey<PlacedFeature> WASTITE_SPIKE_PLACED = placedFeatureKey("wastite_spike");

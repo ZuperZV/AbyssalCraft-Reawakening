@@ -4,6 +4,8 @@
   "package": "net.zuperzv.abyssalcraft_reawakening.init.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "AxeItemAccessor",
+    "AxeItemMixin",
     "DyedItemColorMixin"
   ],
   "client": [

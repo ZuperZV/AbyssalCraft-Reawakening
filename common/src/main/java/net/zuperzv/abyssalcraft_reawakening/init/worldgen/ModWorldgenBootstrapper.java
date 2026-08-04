@@ -1,23 +1,48 @@
 package net.zuperzv.abyssalcraft_reawakening.init.worldgen;
 
-import net.minecraft.core.Direction;import net.minecraft.core.Holder;import net.minecraft.core.HolderGetter;
-import net.minecraft.core.Vec3i;import net.minecraft.core.registries.Registries;
+import net.minecraft.core.*;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.data.worldgen.features.VegetationFeatures;
+import net.minecraft.data.worldgen.placement.PlacementUtils;
+import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.random.WeightedList;import net.minecraft.util.valueproviders.BiasedToBottomInt;import net.minecraft.util.valueproviders.ConstantInt;
+import net.minecraft.util.random.WeightedList;
+import net.minecraft.util.valueproviders.BiasedToBottomInt;
+import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.TrapezoidInt;
-import net.minecraft.util.valueproviders.UniformInt;import net.minecraft.world.level.block.Block;import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;import net.minecraft.world.level.levelgen.Heightmap;import net.minecraft.world.level.levelgen.VerticalAnchor;
-import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LeafLitterBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.VerticalAnchor;
+import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.BlockColumnConfiguration;import net.minecraft.world.level.levelgen.feature.configurations.DiskConfiguration;import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.VegetationPatchConfiguration;import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;import net.minecraft.world.level.levelgen.placement.*;
+import net.minecraft.world.level.levelgen.feature.configurations.*;
+import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlacer;
+import net.minecraft.world.level.levelgen.feature.rootplacers.AboveRootPlacement;
+import net.minecraft.world.level.levelgen.feature.rootplacers.MangroveRootPlacement;
+import net.minecraft.world.level.levelgen.feature.rootplacers.MangroveRootPlacer;
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
+import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
+import net.minecraft.world.level.levelgen.feature.treedecorators.PlaceOnGroundDecorator;
+import net.minecraft.world.level.levelgen.feature.trunkplacers.FancyTrunkPlacer;
+import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
-import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlockTags;import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
-import net.zuperzv.abyssalcraft_reawakening.init.worldgen.ModWorldgen;
+import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlockTags;
+import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.init.worldgen.helpers.ModWorldgenPredicates;
+import net.zuperzv.abyssalcraft_reawakening.init.worldgen.tree.decorator.TinyRootDecorator;
 
 import java.util.List;
+import java.util.Optional;
 
 public final class ModWorldgenBootstrapper {
     private ModWorldgenBootstrapper() {
@@ -26,6 +51,54 @@ public final class ModWorldgenBootstrapper {
     public static void bootstrapConfiguredFeatures(BootstrapContext<ConfiguredFeature<?, ?>> context) {
         HolderGetter<PlacedFeature> placedFeatures =
                 context.lookup(Registries.PLACED_FEATURE);
+
+        context.register(
+                ModWorldgen.CORALIUM_TENDRILS,
+
+                new ConfiguredFeature<>(
+                        Feature.SIMPLE_BLOCK,
+                        new SimpleBlockConfiguration(
+                                BlockStateProvider.simple(
+                                        ModBlocks.CORALIUM_TENDRILS.block().get()
+                                )
+                        )
+                )
+        );
+
+        PlaceOnGroundDecorator sparseLeafLitter = new PlaceOnGroundDecorator(
+                96, 4, 2, new WeightedStateProvider(leafLitterPatchBuilder(1, 3))
+        );
+        PlaceOnGroundDecorator thickLeafLitter = new PlaceOnGroundDecorator(
+                150, 2, 2, new WeightedStateProvider(leafLitterPatchBuilder(1, 4))
+        );
+
+        context.register(ModWorldgen.DEAD_ABYSS_TREE, new ConfiguredFeature<>(Feature.TREE,
+                        new TreeConfiguration.TreeConfigurationBuilder(
+                                BlockStateProvider.simple(Blocks.PALE_OAK_LOG),
+                                new FancyTrunkPlacer(
+                                        7,
+                                        4,
+                                        9),
+
+                                BlockStateProvider.simple(Blocks.AIR),
+                                new BlobFoliagePlacer(
+                                        UniformInt.of(0, 0),
+                                        UniformInt.of(0, 0),
+                                        0
+                                ),
+
+                                new TwoLayersFeatureSize(1, 0, 2))
+                                .decorators(
+                                        List.of(
+                                                new TinyRootDecorator(
+                                                        BlockStateProvider.simple(
+                                                                Blocks.PALE_OAK_WOOD
+                                                        ),
+                                                        0.75F
+                                                ),
+                                                sparseLeafLitter
+                                        )
+                                ).build()));
 
         context.register(ModWorldgen.ABYSSAL_MUD_DISK,
                 new ConfiguredFeature<>(
@@ -175,7 +248,53 @@ public final class ModWorldgenBootstrapper {
     }
 
     public static void bootstrapPlacedFeatures(BootstrapContext<PlacedFeature> context) {
-        HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
+        HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures =
+                context.lookup(Registries.CONFIGURED_FEATURE);
+
+        context.register(
+                ModWorldgen.CORALIUM_TENDRILS_PLACED,
+
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(
+                                ModWorldgen.CORALIUM_TENDRILS
+                        ),
+
+                        List.of(
+                                CountPlacement.of(90),
+                                InSquarePlacement.spread(),
+
+                                HeightRangePlacement.uniform(
+                                        VerticalAnchor.absolute(55),
+                                        VerticalAnchor.absolute(66)
+                                ),
+
+                                PlacementUtils.HEIGHTMAP_NO_LEAVES,
+                                BiomeFilter.biome(),
+
+                                BlockPredicateFilter.forPredicate(
+                                        ModWorldgenPredicates.nearCustomWaterPredicate(
+                                                Blocks.WATER,
+                                                3
+                                        )
+                                ),
+
+                                BlockPredicateFilter.forPredicate(
+                                        BlockPredicate.ONLY_IN_AIR_PREDICATE
+                                )
+                        )
+                )
+        );
+
+        context.register(
+                ModWorldgen.DEAD_ABYSS_TREE_PLACED,
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(ModWorldgen.DEAD_ABYSS_TREE),
+                        VegetationPlacements.treePlacement(
+                                PlacementUtils.countExtra(3, 0.2f, 2),
+                                Blocks.PALE_OAK_SAPLING
+                        )
+                )
+        );
 
         context.register(ModWorldgen.ABYSSAL_MUD_DISK_PLACED,
                 new PlacedFeature(
@@ -264,5 +383,21 @@ public final class ModWorldgenBootstrapper {
                         )
                 )
         );
+    }
+
+    public static WeightedList.Builder<BlockState> leafLitterPatchBuilder(int minState, int maxState) {
+        return segmentedBlockPatchBuilder(Blocks.LEAF_LITTER, minState, maxState, LeafLitterBlock.AMOUNT, LeafLitterBlock.FACING);
+    }
+
+    private static WeightedList.Builder<BlockState> segmentedBlockPatchBuilder(Block block, int minState, int maxState, IntegerProperty amountProperty, EnumProperty<Direction> directionProperty) {
+        WeightedList.Builder<BlockState> segmentedBlockBuild = WeightedList.builder();
+
+        for(int amount = minState; amount <= maxState; ++amount) {
+            for(Direction direction : Direction.Plane.HORIZONTAL) {
+                segmentedBlockBuild.add((BlockState)((BlockState)block.defaultBlockState().setValue(amountProperty, amount)).setValue(directionProperty, direction), 1);
+            }
+        }
+
+        return segmentedBlockBuild;
     }
 }

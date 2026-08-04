@@ -65,6 +65,9 @@ public class ModLootTableProvider extends LootTableProvider {
 
             noDrop(ModBlocks.ABYSSAL_WASTELAND_PORTAL_BLOCK.block().get());
 
+            addDoorDrop(ModBlocks.WITHERWOOD_DOOR.block().get());
+            addSlabDrop(ModBlocks.WITHERWOOD_SLAB.block().get());
+
             for (Block block : getKnownBlocks()) {
 
                 if (!generatedLoot.contains(block)) {
@@ -80,6 +83,16 @@ public class ModLootTableProvider extends LootTableProvider {
         protected void noDrop(Block block) {
             generatedLoot.add(block);
             this.add(block, noDrop());
+        }
+
+        protected void addDoorDrop(Block block) {
+            generatedLoot.add(block);
+            this.add(block, x$0 -> this.createDoorTable(x$0));
+        }
+
+        protected void addSlabDrop(Block block) {
+            generatedLoot.add(block);
+            this.add(block, x$0 -> this.createSlabItemTable(x$0));
         }
 
         protected LootTable.Builder createOreDrop(Block block, Item item, float min, float max) {

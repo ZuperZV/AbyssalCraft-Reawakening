@@ -2,9 +2,13 @@ package net.zuperzv.abyssalcraft_reawakening.datagen;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.data.ItemTagsProvider;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
+import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlockTags;
+import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.init.item.ModItemTags;
 import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
 import org.jspecify.annotations.NonNull;
@@ -74,5 +78,49 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
         tag(ItemTags.FOOT_ARMOR)
         .add(ModItems.ABYSSALNITE_BOOTS.get());
+
+
+        tag(ItemTags.PLANKS)
+                .add(ModBlocks.WITHERWOOD_PLANKS.item().get());
+
+        
+        tag(ItemTags.WOODEN_DOORS)
+                .add(ModBlocks.WITHERWOOD_DOOR.item().get());
+        
+        tag(ItemTags.WOODEN_STAIRS)
+                .add(ModBlocks.WITHERWOOD_STAIRS.item().get());
+
+        tag(ItemTags.WOODEN_SLABS)
+                .add(ModBlocks.WITHERWOOD_SLAB.item().get());
+
+        tag(ItemTags.WOODEN_FENCES)
+                .add(ModBlocks.WITHERWOOD_FENCE.item().get());
+
+        tag(ItemTags.FENCE_GATES)
+                .add(ModBlocks.WITHERWOOD_FENCE_GATE.item().get());
+
+        tag(ItemTags.WOODEN_PRESSURE_PLATES)
+                .add(ModBlocks.WITHERWOOD_PRESSURE_PLATE.item().get());
+
+        /*
+        tag(ItemTags.SAPLINGS)
+                .add(
+                        ModBlocks.WITHERWOOD_SAPLING.item().get());
+                );
+         */
+        tag(ItemTags.LEAVES)
+                .add(ModBlocks.WITHERWOOD_LEAVES.item().get());
+
+        tag(ItemTags.WOODEN_TRAPDOORS)
+                .add(ModBlocks.WITHERWOOD_TRAPDOOR.item().get());
+
+        tag(ModItemTags.WITHERWOOD_LOGS)
+                .add(ModBlocks.WITHERWOOD_LOG.item().get())
+                .add(ModBlocks.WITHERWOOD_WOOD.item().get())
+                .add(ModBlocks.STRIPPED_WITHERWOOD_LOG.item().get())
+                .add(ModBlocks.STRIPPED_WITHERWOOD_WOOD.item().get());
+
+        tag(ItemTags.LOGS_THAT_BURN)
+                .addTags(ModItemTags.WITHERWOOD_LOGS);
     }
 }

@@ -2,6 +2,8 @@ package net.zuperzv.abyssalcraft_reawakening.init.block.entity;
 
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.init.block.entity.custom.ModSignBlockEntity;
+import net.zuperzv.abyssalcraft_reawakening.init.block.entity.custom.ModShelfBlockEntity;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.custom.StoneRitualAltarBlockEntity;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.custom.StoneRitualPedestalBlockEntity;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
@@ -16,13 +18,28 @@ public class ModBlockEntities {
             Services.REGISTRY.registerBlockEntityType(
                     "stone_ritual_altar_be",
                     StoneRitualAltarBlockEntity::new,
-                    ModBlocks.STONE_RITUAL_ALTAR.block()
+                    ModBlocks.STONE_RITUAL_ALTAR.block()::get
             );
 
     public static final RegistryHandle<BlockEntityType<StoneRitualPedestalBlockEntity>> STONE_RITUAL_PEDESTAL_BE =
             Services.REGISTRY.registerBlockEntityType(
                     "stone_ritual_pedestal_be",
                     StoneRitualPedestalBlockEntity::new,
-                    ModBlocks.STONE_RITUAL_PEDESTAL.block()
+                    ModBlocks.STONE_RITUAL_PEDESTAL.block()::get
+            );
+
+    public static final RegistryHandle<BlockEntityType<ModShelfBlockEntity>> MOD_SHELF_BE =
+            Services.REGISTRY.registerBlockEntityType(
+                    "mod_shelf",
+                    ModShelfBlockEntity::new,
+                    ModBlocks.WITHERWOOD_SHELF.block()::get
+            );
+
+    public static final RegistryHandle<BlockEntityType<ModSignBlockEntity>> MOD_SIGN_BE =
+            Services.REGISTRY.registerBlockEntityType(
+                    "mod_sign",
+                    ModSignBlockEntity::new,
+                    ModBlocks.WITHERWOOD_SIGN.block()::get,
+                    ModBlocks.WITHERWOOD_WALL_SIGN.block()::get
             );
 }

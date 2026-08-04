@@ -1,5 +1,7 @@
 package net.zuperzv.abyssalcraft_reawakening.services;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.core.BlockPos;
@@ -23,6 +25,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
+import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.services.types.IRegistryHelper;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
@@ -239,6 +243,30 @@ public class FabricRegistryHelper implements IRegistryHelper {
         RegistryHandle<S> serializerHandle = registerRecipeSerializer(name, serializer);
 
         return new RecipeRegistryHandle<>(typeHandle, serializerHandle);
+    }
+
+    @Override
+    public <T extends TreeDecorator> RegistryHandle<TreeDecoratorType<T>> registerTreeDecoratorType(
+            String name,
+            MapCodec<T> codec
+    ) {
+        Identifier id = Constants.id(name);
+
+        TreeDecoratorType<T> registered =
+                Registry.register(BuiltInRegistries.TREE_DECORATOR_TYPE, id, new TreeDecoratorType<>(codec));
+
+        return new RegistryHandle<>() {
+
+            @Override
+            public Identifier id() {
+                return id;
+            }
+
+            @Override
+            public TreeDecoratorType<T> get() {
+                return registered;
+            }
+        };
     }
 }
 

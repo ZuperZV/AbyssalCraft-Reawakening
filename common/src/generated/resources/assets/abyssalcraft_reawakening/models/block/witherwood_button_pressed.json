@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/button_pressed",
+  "textures": {
+    "texture": "abyssalcraft_reawakening:block/witherwood_planks"
+  }
+}

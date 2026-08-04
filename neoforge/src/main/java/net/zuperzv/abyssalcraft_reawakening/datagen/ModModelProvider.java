@@ -4,9 +4,11 @@ import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
+import net.minecraft.client.data.models.MultiVariant;
 import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
 import net.minecraft.client.data.models.blockstates.PropertyDispatch;
 import net.minecraft.client.data.models.model.*;
+import net.minecraft.client.renderer.block.BuiltInBlockModels;
 import net.minecraft.client.renderer.item.ClientItem;
 import net.minecraft.client.renderer.item.ConditionalItemModel;
 import net.minecraft.client.renderer.item.ItemModel;
@@ -20,10 +22,13 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.WoodType;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.init.block.custom.ModWoodTypes;
 import net.zuperzv.abyssalcraft_reawakening.init.block.custom.PortalActivatorBlock;
 import net.zuperzv.abyssalcraft_reawakening.init.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.init.data.DyedColorTintSource;
@@ -79,6 +84,66 @@ public class ModModelProvider extends ModelProvider {
         createNetherPortalBlock(blockModels, ModBlocks.ABYSSAL_WASTELAND_PORTAL_BLOCK.block().get());
         createPortalActivator(blockModels, ModBlocks.ABYSSAL_WASTELAND_ACTIVATOR.block().get());
 
+        //Plants
+        createCrossBlockWithItem(blockModels, itemModels, ModBlocks.CORALIUM_TENDRILS.block().get(), BlockModelGenerators.PlantType.NOT_TINTED);
+        
+        //Tree
+            //WITHERWOOD
+        generateWoodSet(
+                blockModels,
+                ModBlocks.WITHERWOOD_LOG.block().get(),
+                ModBlocks.WITHERWOOD_WOOD.block().get()
+        );
+
+        generateWoodSet(
+                blockModels,
+                ModBlocks.STRIPPED_WITHERWOOD_LOG.block().get(),
+                ModBlocks.STRIPPED_WITHERWOOD_WOOD.block().get()
+        );
+
+        generateLeaves(
+                blockModels,
+                ModBlocks.WITHERWOOD_LEAVES.block().get(),
+                -12012255
+        );
+
+        blockModels.family(ModBlocks.WITHERWOOD_PLANKS.block().get())
+                .stairs(ModBlocks.WITHERWOOD_STAIRS.block().get())
+                .slab(ModBlocks.WITHERWOOD_SLAB.block().get())
+                .pressurePlate(ModBlocks.WITHERWOOD_PRESSURE_PLATE.block().get())
+                .button(ModBlocks.WITHERWOOD_BUTTON.block().get())
+                .fence(ModBlocks.WITHERWOOD_FENCE.block().get())
+                .fenceGate(ModBlocks.WITHERWOOD_FENCE_GATE.block().get())
+                .door(ModBlocks.WITHERWOOD_DOOR.block().get())
+                .trapdoor(ModBlocks.WITHERWOOD_TRAPDOOR.block().get());
+
+        generatedBlocks.add(ModBlocks.WITHERWOOD_PLANKS.block().get());
+        generatedBlocks.add(ModBlocks.WITHERWOOD_STAIRS.block().get());
+        generatedBlocks.add(ModBlocks.WITHERWOOD_SLAB.block().get());
+        generatedBlocks.add(ModBlocks.WITHERWOOD_PRESSURE_PLATE.block().get());
+        generatedBlocks.add(ModBlocks.WITHERWOOD_BUTTON.block().get());
+        generatedBlocks.add(ModBlocks.WITHERWOOD_FENCE.block().get());
+        generatedBlocks.add(ModBlocks.WITHERWOOD_FENCE_GATE.block().get());
+        generatedBlocks.add(ModBlocks.WITHERWOOD_DOOR.block().get());
+        generatedBlocks.add(ModBlocks.WITHERWOOD_TRAPDOOR.block().get());
+
+        createShelf(blockModels, ModBlocks.WITHERWOOD_SHELF.block().get(), ModBlocks.STRIPPED_WITHERWOOD_WOOD.block().get());
+
+        createSign(
+                blockModels,
+                ModBlocks.WITHERWOOD_SIGN.block().get(),
+                ModBlocks.WITHERWOOD_WALL_SIGN.block().get(),
+                ModWoodTypes.WITHERWOOD
+        );
+
+        /*
+        generateSapling(
+                blockModels,
+                ModBlocks.WITHERWOOD_SAPLING.block().get(),
+                ModBlocks.POTTED_WITHERWOOD_SAPLING.block().get()
+        );
+         */
+
         //Not Generated
         //generatedItems.add(ModItems.ABYSSALNITE_SWORD.get());
         //declareCustomModelItem(itemModels, ModItems.ABYSSALNITE_SWORD.get());
@@ -94,6 +159,135 @@ public class ModModelProvider extends ModelProvider {
                 generateCubeBlock(blockModels, block);
             }
         }
+    }
+
+    private void createSign(
+            BlockModelGenerators blockModels,
+            Block sign,
+            Block wallSign,
+            WoodType woodType
+    ) {
+        generatedBlocks.add(sign);
+        generatedBlocks.add(wallSign);
+
+        TextureMapping mapping = new TextureMapping()
+                .put(TextureSlot.PARTICLE, TextureMapping.getBlockTexture(sign));
+
+        Identifier model = ModelTemplates.PARTICLE_ONLY.create(
+                sign,
+                mapping,
+                blockModels.modelOutput
+        );
+
+        MultiVariant variant = BlockModelGenerators.plainVariant(model);
+
+        blockModels.blockStateOutput.accept(
+                BlockModelGenerators.createSimpleBlock(sign, variant)
+        );
+
+        blockModels.blockStateOutput.accept(
+                BlockModelGenerators.createSimpleBlock(wallSign, variant)
+        );
+
+        blockModels.registerSimpleFlatItemModel(sign.asItem());
+    }
+
+    private void createShelf(
+            BlockModelGenerators blockModels,
+            Block block,
+            Block strippedLog
+    ) {
+        generatedBlocks.add(block);
+
+        blockModels.createShelf(block, strippedLog);
+    }
+
+    private void generateWoodSet(
+            BlockModelGenerators blockModels,
+            Block log,
+            Block wood
+    ) {
+        generatedBlocks.add(log);
+        generatedBlocks.add(wood);
+
+        blockModels.woodProvider(log)
+                .logWithHorizontal(log)
+                .wood(wood);
+    }
+
+    private void generateLeaves(
+            BlockModelGenerators blockModels,
+            Block leaves,
+            int color
+    ) {
+        generatedBlocks.add(leaves);
+
+        blockModels.createTintedLeaves(
+                leaves,
+                TexturedModel.LEAVES,
+                color
+        );
+    }
+
+    private void generateSapling(
+            BlockModelGenerators blockModels,
+            Block sapling,
+            Block pottedSapling
+    ) {
+        generatedBlocks.add(sapling);
+        generatedBlocks.add(pottedSapling);
+
+        blockModels.createPlantWithDefaultItem(
+                sapling,
+                pottedSapling,
+                BlockModelGenerators.PlantType.TINTED
+        );
+
+        generatedItems.add(sapling.asItem());
+    }
+
+    public void createCrossBlockWithItem(
+            BlockModelGenerators blockModels,
+            ItemModelGenerators itemModels,
+            Block block,
+            BlockModelGenerators.PlantType plantType
+    ) {
+        createCrossBlock(blockModels, block, plantType);
+
+        Item item = block.asItem();
+        generatedItems.add(item);
+
+        Identifier itemModel = itemModels.createFlatItemModel(
+                item,
+                ModelTemplates.FLAT_ITEM
+        );
+
+        itemModels.itemModelOutput.accept(
+                item,
+                ItemModelUtils.plainModel(itemModel)
+        );
+    }
+
+    public void createCrossBlock(
+            BlockModelGenerators blockModels,
+            Block block,
+            BlockModelGenerators.PlantType plantType
+    ) {
+        generatedBlocks.add(block);
+
+        TextureMapping textures = plantType.getTextureMapping(block);
+
+        MultiVariant model = plainVariant(
+                plantType.getCross().create(
+                        block,
+                        textures,
+                        blockModels.modelOutput
+                )
+        );
+
+        blockModels.blockStateOutput.accept(
+                createSimpleBlock(block, model)
+        );
     }
 
     //TO-DO make the models

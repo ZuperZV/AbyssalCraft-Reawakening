@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "abyssalcraft_reawakening:block/witherwood_planks"
+  }
+}

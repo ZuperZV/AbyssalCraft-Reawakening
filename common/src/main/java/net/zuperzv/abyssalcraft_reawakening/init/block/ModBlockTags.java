@@ -47,6 +47,9 @@ public final class ModBlockTags {
     public static final TagKey<Block> WASTITE_SPIKE_REPLACEABLE =
             create("wastite_spike_replaceable");
 
+    public static final TagKey<Block> WITHERWOOD_LOGS =
+            create("witherwood_logs");
+
     public static TagKey<Block> create(String name) {
         return TagKey.create(Registries.BLOCK, Constants.id(name));
     }

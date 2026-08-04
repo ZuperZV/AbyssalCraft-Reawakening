@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "abyssalcraft_reawakening:block/witherwood_slab"
+    },
+    "type=double": {
+      "model": "abyssalcraft_reawakening:block/witherwood_planks"
+    },
+    "type=top": {
+      "model": "abyssalcraft_reawakening:block/witherwood_slab_top"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "abyssalcraft_reawakening:block/witherwood_log",
+    "side": "abyssalcraft_reawakening:block/witherwood_log"
+  }
+}

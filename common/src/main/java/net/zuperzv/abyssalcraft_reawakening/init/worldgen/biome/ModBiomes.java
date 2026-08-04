@@ -47,6 +47,8 @@ public final class ModBiomes {
         // SURFACE
         biomeBuilder.addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, ModWorldgen.ABYSSAL_MUD_DISK_PLACED);
 
+        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModWorldgen.CORALIUM_TENDRILS_PLACED);
+        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModWorldgen.DEAD_ABYSS_TREE_PLACED);
         biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModWorldgen.WASTITE_SPIKE_PLACED);
 
         return new Biome.BiomeBuilder()
