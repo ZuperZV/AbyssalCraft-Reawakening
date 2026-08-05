@@ -9,6 +9,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.blockentity.state.SignRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
@@ -26,18 +27,18 @@ import net.minecraft.world.level.block.SignBlock;
 import net.minecraft.world.level.block.entity.SignText;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.phys.Vec3;
-import net.zuperzv.abyssalcraft_reawakening.init.block.entity.custom.ModSignBlockEntity;
+import net.zuperzv.abyssalcraft_reawakening.init.block.entity.custom.ModHangingSignBlockEntity;
 import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
-public abstract class ModAbstractSignRenderer<S extends SignRenderState> implements BlockEntityRenderer<ModSignBlockEntity, S> {
+public abstract class ModAbstractHangingSignRenderer<S extends SignRenderState> implements BlockEntityRenderer<ModHangingSignBlockEntity, S> {
     private static final int BLACK_TEXT_OUTLINE_COLOR = -988212;
     private static final int OUTLINE_RENDER_DISTANCE = Mth.square(16);
     private final Font font;
     private final SpriteGetter sprites;
 
-    public ModAbstractSignRenderer(BlockEntityRendererProvider.Context context) {
+    public ModAbstractHangingSignRenderer(BlockEntityRendererProvider.Context context) {
         this.font = context.font();
         this.sprites = context.sprites();
     }
@@ -121,7 +122,16 @@ public abstract class ModAbstractSignRenderer<S extends SignRenderState> impleme
         return color == DyeColor.BLACK.getTextColor() && signText.hasGlowingText() ? -988212 : ARGB.scaleRGB(color, 0.4F);
     }
 
-    public void extractRenderState(ModSignBlockEntity blockEntity, S state, float partialTicks, Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+    @Override
+    public void extractRenderState(
+            ModHangingSignBlockEntity blockEntity,
+            S state,
+            float partialTicks,
+            Vec3 cameraPosition,
+            ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress
+    ) {
+        BlockEntityRenderState.extractBase(blockEntity, state, breakProgress);
+
         state.maxTextLineWidth = blockEntity.getMaxTextLineWidth();
         state.textLineHeight = blockEntity.getTextLineHeight();
         state.frontText = blockEntity.getFrontText();

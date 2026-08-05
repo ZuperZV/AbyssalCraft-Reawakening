@@ -30,7 +30,6 @@ import net.minecraft.util.Unit;
 import net.minecraft.world.level.block.PlainSignBlock;
 import net.minecraft.world.level.block.StandingSignBlock;
 import net.minecraft.world.level.block.WallSignBlock;
-import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.RotationSegment;
 import net.minecraft.world.level.block.state.properties.WoodType;
@@ -43,7 +42,7 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.Map;
 
-public class ModStandingSignRenderer extends ModAbstractSignRenderer<StandingSignRenderState> {
+public class ModStandingSignRenderer extends ModAbstractStandingSignRenderer<StandingSignRenderState> {
     private static final float RENDER_SCALE = 0.6666667F;
     private static final Vector3fc TEXT_OFFSET = new Vector3f(0.0F, 0.33333334F, 0.046666667F);
 

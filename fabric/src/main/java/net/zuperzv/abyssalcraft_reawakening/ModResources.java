@@ -25,10 +25,7 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.crafting.RecipeMap;
 import net.zuperzv.abyssalcraft_reawakening.init.api.jei.custom.JEIPlugin;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.ModBlockEntities;
-import net.zuperzv.abyssalcraft_reawakening.init.block.entity.renderer.ModStandingSignRenderer;
-import net.zuperzv.abyssalcraft_reawakening.init.block.entity.renderer.StoneRitualAltarBlockEntityRenderer;
-import net.zuperzv.abyssalcraft_reawakening.init.block.entity.renderer.StoneRitualPedestalBlockEntityRenderer;
-import net.zuperzv.abyssalcraft_reawakening.init.block.entity.renderer.WitherwoodShelfBlockEntityRender;
+import net.zuperzv.abyssalcraft_reawakening.init.block.entity.renderer.*;
 import net.zuperzv.abyssalcraft_reawakening.init.data.CodexDataLoader;
 import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.NecronomiconClientTooltip;
 import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.NecronomiconTooltipComponent;
@@ -80,6 +77,10 @@ public class ModResources implements ClientModInitializer {
         BlockEntityRendererRegistry.register(
                 ModBlockEntities.MOD_SIGN.get(),
                 ModStandingSignRenderer::new
+        );
+        BlockEntityRendererRegistry.register(
+                ModBlockEntities.MOD_HANGING_SIGN.get(),
+                ModHangingSignRenderer::new
         );
 
         ModelLayerRegistry.registerModelLayer(

@@ -13,7 +13,8 @@
     "AdvancementsScreenMixin",
     "AdvancementTabMixin",
     "GuiGraphicsMixin",
-    "ItemInHandRendererMixin"
+    "ItemInHandRendererMixin",
+    "LocalPlayerMixin"
   ],
   "server": [],
   "injectors": {
