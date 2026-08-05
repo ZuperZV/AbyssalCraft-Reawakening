@@ -1,48 +1,47 @@
 package net.zuperzv.abyssalcraft_reawakening.init.worldgen;
 
 import net.minecraft.core.*;
+import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
-import net.minecraft.data.worldgen.features.VegetationFeatures;
+import net.minecraft.data.worldgen.ProcessorLists;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.random.WeightedList;
 import net.minecraft.util.valueproviders.BiasedToBottomInt;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.TrapezoidInt;
 import net.minecraft.util.valueproviders.UniformInt;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeafLitterBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.FossilFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.*;
 import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlacer;
-import net.minecraft.world.level.levelgen.feature.rootplacers.AboveRootPlacement;
-import net.minecraft.world.level.levelgen.feature.rootplacers.MangroveRootPlacement;
-import net.minecraft.world.level.levelgen.feature.rootplacers.MangroveRootPlacer;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 import net.minecraft.world.level.levelgen.feature.treedecorators.PlaceOnGroundDecorator;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.FancyTrunkPlacer;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
+import net.minecraft.world.level.levelgen.structure.templatesystem.GravityProcessor;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
+import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlockTags;
 import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.init.worldgen.helpers.ModWorldgenPredicates;
 import net.zuperzv.abyssalcraft_reawakening.init.worldgen.tree.decorator.TinyRootDecorator;
 
 import java.util.List;
-import java.util.Optional;
 
 public final class ModWorldgenBootstrapper {
     private ModWorldgenBootstrapper() {
@@ -52,6 +51,166 @@ public final class ModWorldgenBootstrapper {
         HolderGetter<PlacedFeature> placedFeatures =
                 context.lookup(Registries.PLACED_FEATURE);
 
+        HolderGetter<StructureProcessorList> processorLists =
+                context.lookup(Registries.PROCESSOR_LIST);
+
+        // FOSSIL
+
+        List<Identifier> fossils = List.of(
+                Constants.idWithDefaultNamespace("fossil/skull_1"),
+                Constants.idWithDefaultNamespace("fossil/spine_1")
+        );
+
+        List<Identifier> fossilsReplace = List.of(
+                Constants.idWithDefaultNamespace("fossil/skull_1"),
+                Constants.idWithDefaultNamespace("fossil/spine_1")
+        );
+
+        context.register(
+                ModWorldgen.FOSSIL,
+
+                new ConfiguredFeature<>(
+                        Feature.FOSSIL,
+
+                        new FossilFeatureConfiguration(
+                                fossils,
+                                fossilsReplace,
+
+                                Holder.direct(
+                                        new StructureProcessorList(
+                                                List.of(
+                                                        new GravityProcessor(
+                                                                Heightmap.Types.MOTION_BLOCKING,
+                                                                -1
+                                                        )
+                                                )
+                                        )
+                                ),
+
+                                processorLists.getOrThrow(
+                                        ProcessorLists.FOSSIL_COAL
+                                ),
+
+                                4
+                        )
+                )
+        );
+
+
+        // ============================================================
+        // FOSSIL DISK
+        //
+        // This is the RED_WOOL disk.
+        //
+        // IMPORTANT:
+        // It has NO placement here.
+        // The enclosing VEGETATION_PATCH controls its position.
+        // ============================================================
+
+        context.register(
+                ModWorldgen.FOSSIL_DISK,
+
+                new ConfiguredFeature<>(
+                        Feature.DISK,
+
+                        new DiskConfiguration(
+                                BlockStateProvider.simple(
+                                        Blocks.RED_WOOL
+                                ),
+
+                                BlockPredicate.matchesBlocks(
+                                        ModBlocks.ABYSSAL_STONE.block().get(),
+                                        Blocks.MUD,
+                                        Blocks.AIR
+                                ),
+
+                                ConstantInt.of(5),
+                                1
+                        )
+                )
+        );
+
+
+        // ============================================================
+        // FOSSIL DISK PLACED
+        //
+        // NO heightmap
+        // NO random offset
+        // NO spread
+        //
+        // The parent VEGETATION_PATCH gives it the position.
+        // ============================================================
+
+        // NOTE:
+        // This is only a holder for the disk feature.
+        // It must not move itself.
+
+
+        // ============================================================
+        // FOSSIL DISK AIR
+        //
+        // Vanilla SIMPLE_BLOCK that places AIR.
+        // It is used as the vegetation feature of the removal patch
+        // to clean up the disk after the fossil has gravitated to it.
+        // This must have same placement modifiers as FOSSIL_DISK_PLACED
+        // and FOSSIL_PATCH_PLACED to remove in the same location.
+        // ============================================================
+
+        context.register(
+                ModWorldgen.FOSSIL_DISK_AIR,
+
+                new ConfiguredFeature<>(
+                        Feature.SIMPLE_BLOCK,
+
+                        new SimpleBlockConfiguration(
+                                BlockStateProvider.simple(
+                                        Blocks.AIR
+                                )
+                        )
+                )
+        );
+
+
+        // ============================================================
+        // FOSSIL PATCH
+        //
+        // Simple placement of the fossil structure.
+        // Will only place if RED_WOOL disk exists below (checked via BlockPredicateFilter).
+        // GravityProcessor (MOTION_BLOCKING) pushes fossil UP to the disk.
+        // ============================================================
+
+        context.register(
+                ModWorldgen.FOSSIL_PATCH,
+
+                new ConfiguredFeature<>(
+                        Feature.SIMPLE_BLOCK,
+
+                        new SimpleBlockConfiguration(
+                                BlockStateProvider.simple(
+                                        Blocks.AIR
+                                )
+                        )
+                )
+        );
+
+
+        // FOSSIL DISK REMOVE
+        context.register(
+                ModWorldgen.FOSSIL_DISK_REMOVE,
+
+                new ConfiguredFeature<>(
+                        Feature.SIMPLE_BLOCK,
+
+                        new SimpleBlockConfiguration(
+                                BlockStateProvider.simple(
+                                        Blocks.AIR
+                                )
+                        )
+                )
+        );
+
+
+        // CORALIUM TENDRILS
         context.register(
                 ModWorldgen.CORALIUM_TENDRILS,
 
@@ -68,13 +227,10 @@ public final class ModWorldgenBootstrapper {
         PlaceOnGroundDecorator sparseLeafLitter = new PlaceOnGroundDecorator(
                 96, 4, 2, new WeightedStateProvider(leafLitterPatchBuilder(1, 3))
         );
-        PlaceOnGroundDecorator thickLeafLitter = new PlaceOnGroundDecorator(
-                150, 2, 2, new WeightedStateProvider(leafLitterPatchBuilder(1, 4))
-        );
 
         context.register(ModWorldgen.DEAD_ABYSS_TREE, new ConfiguredFeature<>(Feature.TREE,
                         new TreeConfiguration.TreeConfigurationBuilder(
-                                BlockStateProvider.simple(Blocks.PALE_OAK_LOG),
+                                BlockStateProvider.simple(ModBlocks.WITHERWOOD_LOG.block().get()),
                                 new FancyTrunkPlacer(
                                         7,
                                         4,
@@ -92,7 +248,7 @@ public final class ModWorldgenBootstrapper {
                                         List.of(
                                                 new TinyRootDecorator(
                                                         BlockStateProvider.simple(
-                                                                Blocks.PALE_OAK_WOOD
+                                                                ModBlocks.WITHERWOOD_WOOD.block().get()
                                                         ),
                                                         0.75F
                                                 ),
@@ -100,18 +256,24 @@ public final class ModWorldgenBootstrapper {
                                         )
                                 ).build()));
 
-        context.register(ModWorldgen.ABYSSAL_MUD_DISK,
+        context.register(
+                ModWorldgen.ABYSSAL_MUD_DISK,
+
                 new ConfiguredFeature<>(
                         Feature.DISK,
+
                         new DiskConfiguration(
                                 BlockStateProvider.simple(
                                         Blocks.MUD
                                 ),
+
                                 BlockPredicate.matchesBlocks(
                                         ModBlocks.ABYSSAL_STONE.block().get(),
                                         Blocks.MUD
                                 ),
+
                                 ConstantInt.of(5),
+
                                 2
                         )
                 )
@@ -251,6 +413,146 @@ public final class ModWorldgenBootstrapper {
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures =
                 context.lookup(Registries.CONFIGURED_FEATURE);
 
+        // FOSSIL
+        context.register(
+                ModWorldgen.FOSSIL_PLACED,
+
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(
+                                ModWorldgen.FOSSIL
+                        ),
+
+                        List.of(
+                                // Only place fossil if RED_WOOL disk exists below
+                                BlockPredicateFilter.forPredicate(
+                                        BlockPredicate.matchesBlocks(
+                                                new Vec3i(0, -1, 0),
+                                                Blocks.RED_WOOL
+                                        )
+                                )
+                        )
+                )
+        );
+
+
+        // ============================================================
+        // FOSSIL DISK PLACED
+        //
+        // NO placement modifiers here!
+        //
+        // This is only placed by the FOSSIL_PATCH vegetation patch
+        // as its surface layer. The vegetation patch handles all positioning.
+        // ============================================================
+
+        context.register(
+                ModWorldgen.FOSSIL_DISK_PLACED,
+
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(
+                                ModWorldgen.FOSSIL_DISK
+                        ),
+
+                        List.of(
+                                RarityFilter.onAverageOnceEvery(8),
+
+                                InSquarePlacement.spread(),
+
+                                HeightmapPlacement.onHeightmap(
+                                        Heightmap.Types.WORLD_SURFACE
+                                ),
+
+                                RandomOffsetPlacement.vertical(
+                                        ConstantInt.of(10)
+                                ),
+
+                                BiomeFilter.biome()
+                        )
+                )
+        );
+
+
+        // ============================================================
+        // FOSSIL AIR
+        // ============================================================
+
+        context.register(
+                ModWorldgen.FOSSIL_DISK_AIR_PLACED,
+
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(
+                                ModWorldgen.FOSSIL_DISK_AIR
+                        ),
+
+                        List.of()
+                )
+        );
+
+
+        // ============================================================
+        // FOSSIL PATCH (now places the actual FOSSIL)
+        //
+        // Places fossil at WORLD_SURFACE level.
+        // GravityProcessor with MOTION_BLOCKING will push it UP to the disk.
+        // Only places if RED_WOOL disk exists 10 blocks above (checked via BlockPredicateFilter).
+        // ============================================================
+
+        context.register(
+                ModWorldgen.FOSSIL_PATCH_PLACED,
+
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(
+                                ModWorldgen.FOSSIL
+                        ),
+
+                        List.of(
+                                RarityFilter.onAverageOnceEvery(8),
+
+                                InSquarePlacement.spread(),
+
+                                HeightmapPlacement.onHeightmap(
+                                        Heightmap.Types.WORLD_SURFACE
+                                ),
+
+                                BiomeFilter.biome()
+                        )
+                )
+        );
+
+
+        // ============================================================
+        // FOSSIL DISK REMOVE
+        //
+        // Removes the RED_WOOL disk after fossil is placed.
+        // Must use SAME placement as FOSSIL_DISK_PLACED to remove from correct location.
+        // ============================================================
+
+        context.register(
+                ModWorldgen.FOSSIL_DISK_REMOVE_PLACED,
+
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(
+                                ModWorldgen.FOSSIL_DISK_REMOVE
+                        ),
+
+                        List.of(
+                                RarityFilter.onAverageOnceEvery(8),
+
+                                InSquarePlacement.spread(),
+
+                                HeightmapPlacement.onHeightmap(
+                                        Heightmap.Types.WORLD_SURFACE
+                                ),
+
+                                RandomOffsetPlacement.vertical(
+                                        ConstantInt.of(10)
+                                ),
+
+                                BiomeFilter.biome()
+                        )
+                )
+        );
+
+        // CORALIUM TENDRILS
         context.register(
                 ModWorldgen.CORALIUM_TENDRILS_PLACED,
 
@@ -292,6 +594,7 @@ public final class ModWorldgenBootstrapper {
                         VegetationPlacements.treePlacement(
                                 PlacementUtils.countExtra(3, 0.2f, 2),
                                 Blocks.PALE_OAK_SAPLING
+                                //ModBlocks.WITHERWOOD_SAPLING.block().get()
                         )
                 )
         );
@@ -386,18 +689,19 @@ public final class ModWorldgenBootstrapper {
     }
 
     public static WeightedList.Builder<BlockState> leafLitterPatchBuilder(int minState, int maxState) {
-        return segmentedBlockPatchBuilder(Blocks.LEAF_LITTER, minState, maxState, LeafLitterBlock.AMOUNT, LeafLitterBlock.FACING);
-    }
-
-    private static WeightedList.Builder<BlockState> segmentedBlockPatchBuilder(Block block, int minState, int maxState, IntegerProperty amountProperty, EnumProperty<Direction> directionProperty) {
-        WeightedList.Builder<BlockState> segmentedBlockBuild = WeightedList.builder();
+        WeightedList.Builder<BlockState> builder = WeightedList.builder();
 
         for(int amount = minState; amount <= maxState; ++amount) {
             for(Direction direction : Direction.Plane.HORIZONTAL) {
-                segmentedBlockBuild.add((BlockState)((BlockState)block.defaultBlockState().setValue(amountProperty, amount)).setValue(directionProperty, direction), 1);
+                builder.add(
+                        Blocks.LEAF_LITTER.defaultBlockState()
+                                .setValue(LeafLitterBlock.AMOUNT, amount)
+                                .setValue(LeafLitterBlock.FACING, direction),
+                        1
+                );
             }
         }
 
-        return segmentedBlockBuild;
+        return builder;
     }
 }

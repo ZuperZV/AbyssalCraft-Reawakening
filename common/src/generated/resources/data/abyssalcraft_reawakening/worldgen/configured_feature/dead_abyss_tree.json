@@ -28,7 +28,7 @@
         "provider": {
           "type": "minecraft:simple_state_provider",
           "state": {
-            "Name": "minecraft:pale_oak_wood",
+            "Name": "abyssalcraft_reawakening:witherwood_wood",
             "Properties": {
               "axis": "y"
             }
@@ -203,7 +203,7 @@
     "trunk_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "minecraft:pale_oak_log",
+        "Name": "abyssalcraft_reawakening:witherwood_log",
         "Properties": {
           "axis": "y"
         }

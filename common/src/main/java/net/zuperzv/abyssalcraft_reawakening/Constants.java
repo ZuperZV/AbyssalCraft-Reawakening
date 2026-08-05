@@ -13,4 +13,6 @@ public class Constants {
 	public static Identifier id(String name) {
 		return Identifier.fromNamespaceAndPath(MOD_ID, name);
 	}
+	public static Identifier idWithDefaultNamespace(String name) {return Identifier.withDefaultNamespace(name);
+	}
 }

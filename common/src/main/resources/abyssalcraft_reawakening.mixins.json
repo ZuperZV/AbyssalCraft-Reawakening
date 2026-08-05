@@ -14,7 +14,9 @@
     "AdvancementTabMixin",
     "GuiGraphicsMixin",
     "ItemInHandRendererMixin",
-    "LocalPlayerMixin"
+    "LocalPlayerMixin",
+    "WorldOpenFlowsAccessor",
+    "WorldOpenFlowsMixin"
   ],
   "server": [],
   "injectors": {

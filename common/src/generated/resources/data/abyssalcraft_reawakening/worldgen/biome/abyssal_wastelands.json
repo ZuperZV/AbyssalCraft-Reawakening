@@ -25,10 +25,13 @@
     [
       "abyssalcraft_reawakening:coralium_tendrils",
       "abyssalcraft_reawakening:dead_abyss_tree",
-      "abyssalcraft_reawakening:wastite_spike"
+      "abyssalcraft_reawakening:wastite_spike",
+      "abyssalcraft_reawakening:fossil_patch",
+      "abyssalcraft_reawakening:fossil_disk_remove"
     ],
     [
-      "abyssalcraft_reawakening:abyssal_mud_disk"
+      "abyssalcraft_reawakening:abyssal_mud_disk",
+      "abyssalcraft_reawakening:fossil_disk"
     ]
   ],
   "has_precipitation": false,

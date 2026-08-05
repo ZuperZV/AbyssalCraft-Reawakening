@@ -50,6 +50,9 @@ public final class ModBlockTags {
     public static final TagKey<Block> WITHERWOOD_LOGS =
             create("witherwood_logs");
 
+    public static final TagKey<Block> RED_WOOL_REPLACEABLE =
+            create("red_wool_replaceable");
+
     public static TagKey<Block> create(String name) {
         return TagKey.create(Registries.BLOCK, Constants.id(name));
     }

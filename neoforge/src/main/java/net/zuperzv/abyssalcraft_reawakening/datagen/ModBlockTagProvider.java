@@ -142,5 +142,8 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
         this.tag(BlockTags.LOGS_THAT_BURN)
                 .addTags(ModBlockTags.WITHERWOOD_LOGS);
+
+        this.tag(ModBlockTags.RED_WOOL_REPLACEABLE)
+                .add(Blocks.RED_WOOL);
     }
 }
