@@ -1,5 +1,6 @@
 package net.zuperzv.abyssalcraft_reawakening.init.block.entity.renderer;
 
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -9,7 +10,6 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.state.SignRenderState;
-import net.minecraft.client.renderer.blockentity.state.StandingSignRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -22,11 +22,10 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.Unit;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.level.block.entity.SignBlockEntity;
+import net.minecraft.world.level.block.SignBlock;
 import net.minecraft.world.level.block.entity.SignText;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.phys.Vec3;
-import net.zuperzv.abyssalcraft_reawakening.init.block.custom.ModSignBlock;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.custom.ModSignBlockEntity;
 import org.jspecify.annotations.Nullable;
 
@@ -42,14 +41,6 @@ public abstract class ModAbstractSignRenderer<S extends SignRenderState> impleme
         this.font = context.font();
         this.sprites = context.sprites();
     }
-
-    public abstract void extractRenderState(
-            SignBlockEntity blockEntity,
-            StandingSignRenderState state,
-            float partialTicks,
-            Vec3 cameraPosition,
-            ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress
-    );
 
     protected abstract Model.Simple getSignModel(S var1);
 
@@ -131,13 +122,12 @@ public abstract class ModAbstractSignRenderer<S extends SignRenderState> impleme
     }
 
     public void extractRenderState(ModSignBlockEntity blockEntity, S state, float partialTicks, Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
-        BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
         state.maxTextLineWidth = blockEntity.getMaxTextLineWidth();
         state.textLineHeight = blockEntity.getTextLineHeight();
         state.frontText = blockEntity.getFrontText();
         state.backText = blockEntity.getBackText();
         state.isTextFilteringEnabled = Minecraft.getInstance().isTextFilteringEnabled();
         state.drawOutline = isOutlineVisible(blockEntity.getBlockPos());
-        state.woodType = ModSignBlock.getWoodType(blockEntity.getBlockState().getBlock());
+        state.woodType = SignBlock.getWoodType(blockEntity.getBlockState().getBlock());
     }
 }

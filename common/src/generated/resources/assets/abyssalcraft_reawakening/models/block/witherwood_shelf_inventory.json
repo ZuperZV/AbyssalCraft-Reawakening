@@ -2,6 +2,6 @@
   "parent": "minecraft:block/template_shelf_inventory",
   "textures": {
     "all": "abyssalcraft_reawakening:block/witherwood_shelf",
-    "particle": "abyssalcraft_reawakening:block/stripped_witherwood_wood"
+    "particle": "abyssalcraft_reawakening:block/stripped_witherwood_log"
   }
 }
