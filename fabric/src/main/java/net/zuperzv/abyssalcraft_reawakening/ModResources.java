@@ -15,7 +15,10 @@ import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.StandingSignRenderer;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -34,6 +37,7 @@ import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.StaffTooltipCompon
 import net.zuperzv.abyssalcraft_reawakening.init.network.SyncBookmarksPacket;
 import net.zuperzv.abyssalcraft_reawakening.init.screen.ModMenuTypes;
 import net.zuperzv.abyssalcraft_reawakening.init.screen.NecronomiconScreen;
+import net.zuperzv.abyssalcraft_reawakening.services.util.ModWoodTypes;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -59,6 +63,7 @@ public class ModResources implements ClientModInitializer {
                 (packet, context) -> SyncBookmarksPacket.handle(packet, context.client())
         );
 
+        Sheets.getSignSprite(ModWoodTypes.WITHERWOOD);
 
         BlockEntityRendererRegistry.register(
                 ModBlockEntities.STONE_RITUAL_ALTAR_BE.get(),
@@ -73,10 +78,9 @@ public class ModResources implements ClientModInitializer {
                 WitherwoodShelfBlockEntityRender::new
         );
         BlockEntityRendererRegistry.register(
-                ModBlockEntities.MOD_SIGN_BE.get(),
+                ModBlockEntities.MOD_SIGN.get(),
                 ModStandingSignRenderer::new
         );
-
 
         ModelLayerRegistry.registerModelLayer(
                 StoneRitualAltarBlockEntityRenderer.MAGIC_AURA_LAYER,

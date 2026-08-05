@@ -1,11 +1,14 @@
 package net.zuperzv.abyssalcraft_reawakening;
 
 
+import net.minecraft.client.renderer.Sheets;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RecipesReceivedEvent;
 import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
@@ -20,6 +23,7 @@ import net.zuperzv.abyssalcraft_reawakening.init.network.SetBookmarksPacket;
 import net.zuperzv.abyssalcraft_reawakening.init.network.SyncBookmarksPacket;
 import net.zuperzv.abyssalcraft_reawakening.init.recipe.ModRecipes;
 import net.zuperzv.abyssalcraft_reawakening.services.NeoForgeRegistryHelper;
+import net.zuperzv.abyssalcraft_reawakening.services.util.ModWoodTypes;
 
 import static net.zuperzv.abyssalcraft_reawakening.Constants.MOD_ID;
 
@@ -81,10 +85,12 @@ public class NeoForgeAbyssalCraft {
             );
         }
 
-        //@SubscribeEvent
-        //public static void init(FMLClientSetupEvent event) {
+        @SubscribeEvent
+        public static void init(FMLClientSetupEvent event) {
+            Sheets.addWoodType(ModWoodTypes.WITHERWOOD);
+
             //ItemDecoratorRegistry.register(
             //        new StaffOfRenderingOverlay(Identifier.fromNamespaceAndPath(MOD_ID, "textures/item/oblivion_shard.png")));
-        //}
+        }
     }
 }

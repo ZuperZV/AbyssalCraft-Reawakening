@@ -8,7 +8,6 @@ import net.minecraft.client.data.models.MultiVariant;
 import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
 import net.minecraft.client.data.models.blockstates.PropertyDispatch;
 import net.minecraft.client.data.models.model.*;
-import net.minecraft.client.renderer.block.BuiltInBlockModels;
 import net.minecraft.client.renderer.item.ClientItem;
 import net.minecraft.client.renderer.item.ConditionalItemModel;
 import net.minecraft.client.renderer.item.ItemModel;
@@ -16,19 +15,19 @@ import net.minecraft.client.renderer.item.properties.conditional.HasComponent;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.data.BlockFamily;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
-import net.zuperzv.abyssalcraft_reawakening.init.block.custom.ModWoodTypes;
+import net.zuperzv.abyssalcraft_reawakening.services.util.ModWoodTypes;
 import net.zuperzv.abyssalcraft_reawakening.init.block.custom.PortalActivatorBlock;
 import net.zuperzv.abyssalcraft_reawakening.init.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.init.data.DyedColorTintSource;
@@ -127,14 +126,17 @@ public class ModModelProvider extends ModelProvider {
         generatedBlocks.add(ModBlocks.WITHERWOOD_DOOR.block().get());
         generatedBlocks.add(ModBlocks.WITHERWOOD_TRAPDOOR.block().get());
 
-        createShelf(blockModels, ModBlocks.WITHERWOOD_SHELF.block().get(), ModBlocks.STRIPPED_WITHERWOOD_WOOD.block().get());
+        createShelf(blockModels, ModBlocks.WITHERWOOD_SHELF.block().get(), ModBlocks.STRIPPED_WITHERWOOD_LOG.block().get());
 
-        createSign(
+        addSigns(
                 blockModels,
-                ModBlocks.WITHERWOOD_SIGN.block().get(),
-                ModBlocks.WITHERWOOD_WALL_SIGN.block().get(),
-                ModWoodTypes.WITHERWOOD
+                ModBlocks.WITHERWOOD_PLANKS.block().get(),
+                ModBlocks.WITHERWOOD_SIGN.get(),
+                ModBlocks.WITHERWOOD_WALL_SIGN.get(),
+                ModBlocks.WITHERWOOD_HANGING_SIGN.get(),
+                ModBlocks.WITHERWOOD_WALL_HANGING_SIGN.get()
         );
+        itemModels.generateFlatItem(ModItems.WITHERWOOD_SIGN.get(), ModelTemplates.FLAT_ITEM);
 
         /*
         generateSapling(
@@ -149,7 +151,8 @@ public class ModModelProvider extends ModelProvider {
         //declareCustomModelItem(itemModels, ModItems.ABYSSALNITE_SWORD.get());
 
         for (Item item : getModItems()) {
-            if (!(item instanceof BlockItem) && !generatedItems.contains(item)) {
+            if (!(item instanceof BlockItem) &&
+                    !generatedItems.contains(item)) {
                 generateItem(itemModels, item);
             }
         }
@@ -161,35 +164,52 @@ public class ModModelProvider extends ModelProvider {
         }
     }
 
-    private void createSign(
+    private void addSign(
             BlockModelGenerators blockModels,
-            Block sign,
-            Block wallSign,
-            WoodType woodType
+            Block particleBlock,
+            Block standingSign,
+            Block wallSign
     ) {
-        generatedBlocks.add(sign);
+        generatedBlocks.add(standingSign);
         generatedBlocks.add(wallSign);
 
-        TextureMapping mapping = new TextureMapping()
-                .put(TextureSlot.PARTICLE, TextureMapping.getBlockTexture(sign));
+        TextureMapping textureMapping = TextureMapping.cube(particleBlock);
 
-        Identifier model = ModelTemplates.PARTICLE_ONLY.create(
-                sign,
-                mapping,
-                blockModels.modelOutput
-        );
-
-        MultiVariant variant = BlockModelGenerators.plainVariant(model);
-
-        blockModels.blockStateOutput.accept(
-                BlockModelGenerators.createSimpleBlock(sign, variant)
+        MultiVariant model = BlockModelGenerators.plainVariant(
+                ModelTemplates.PARTICLE_ONLY.create(
+                        standingSign,
+                        textureMapping,
+                        blockModels.modelOutput
+                )
         );
 
         blockModels.blockStateOutput.accept(
-                BlockModelGenerators.createSimpleBlock(wallSign, variant)
+                BlockModelGenerators.createSimpleBlock(standingSign, model)
         );
 
-        blockModels.registerSimpleFlatItemModel(sign.asItem());
+        blockModels.blockStateOutput.accept(
+                BlockModelGenerators.createSimpleBlock(wallSign, model)
+        );
+    }
+
+    private void addSigns(
+            BlockModelGenerators blockModels,
+            Block particleBlock,
+            Block standingSign,
+            Block wallSign,
+            Block hangingSign,
+            Block wallHangingSign
+    ) {
+        addSign(blockModels, particleBlock, standingSign, wallSign);
+
+        generatedBlocks.add(hangingSign);
+        generatedBlocks.add(wallHangingSign);
+
+        blockModels.createHangingSign(
+                particleBlock,
+                hangingSign,
+                wallHangingSign
+        );
     }
 
     private void createShelf(

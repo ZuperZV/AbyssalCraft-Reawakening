@@ -1,6 +1,5 @@
 {
-  "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "abyssalcraft_reawakening:block/witherwood_hanging_sign"
+    "particle": "abyssalcraft_reawakening:block/witherwood_planks"
   }
 }

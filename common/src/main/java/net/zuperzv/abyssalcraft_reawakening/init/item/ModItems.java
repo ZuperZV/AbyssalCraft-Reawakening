@@ -1,12 +1,10 @@
 package net.zuperzv.abyssalcraft_reawakening.init.item;
 
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.world.item.AxeItem;
-import net.minecraft.world.item.HoeItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ShovelItem;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.equipment.ArmorType;
+import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.init.component.CodexTierData;
 import net.zuperzv.abyssalcraft_reawakening.init.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.init.item.custom.NecronomiconItem;
@@ -140,6 +138,13 @@ public class ModItems {
 
     public static final RegistryHandle<Item> ABYSSALNITE_BOOTS = Services.REGISTRY.registerItem("abyssalnite_boots",
             properties -> new Item(properties.humanoidArmor(ModArmorMaterials.ABYSSALNITE_ARMOR_MATERIAL, ArmorType.BOOTS)));
+
+    //WITHERWOOD
+    public static final RegistryHandle<Item> WITHERWOOD_SIGN = Services.REGISTRY.registerItem("witherwood_sign",
+            properties -> new SignItem(ModBlocks.WITHERWOOD_SIGN.get(), ModBlocks.WITHERWOOD_WALL_SIGN.get(), properties.stacksTo(16)));
+
+    public static final RegistryHandle<Item> WITHERWOOD_HANGING_SIGN = Services.REGISTRY.registerItem("witherwood_hanging_sign",
+            properties -> new HangingSignItem(ModBlocks.WITHERWOOD_HANGING_SIGN.get(), ModBlocks.WITHERWOOD_WALL_HANGING_SIGN.get(), properties.stacksTo(16)));
 
 
     //Coralium

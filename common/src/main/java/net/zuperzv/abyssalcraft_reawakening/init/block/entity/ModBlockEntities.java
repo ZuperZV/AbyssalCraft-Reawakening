@@ -2,10 +2,7 @@ package net.zuperzv.abyssalcraft_reawakening.init.block.entity;
 
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
-import net.zuperzv.abyssalcraft_reawakening.init.block.entity.custom.ModSignBlockEntity;
-import net.zuperzv.abyssalcraft_reawakening.init.block.entity.custom.ModShelfBlockEntity;
-import net.zuperzv.abyssalcraft_reawakening.init.block.entity.custom.StoneRitualAltarBlockEntity;
-import net.zuperzv.abyssalcraft_reawakening.init.block.entity.custom.StoneRitualPedestalBlockEntity;
+import net.zuperzv.abyssalcraft_reawakening.init.block.entity.custom.*;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
 
@@ -35,11 +32,19 @@ public class ModBlockEntities {
                     ModBlocks.WITHERWOOD_SHELF.block()::get
             );
 
-    public static final RegistryHandle<BlockEntityType<ModSignBlockEntity>> MOD_SIGN_BE =
+    public static final RegistryHandle<BlockEntityType<ModSignBlockEntity>> MOD_SIGN =
             Services.REGISTRY.registerBlockEntityType(
                     "mod_sign",
                     ModSignBlockEntity::new,
-                    ModBlocks.WITHERWOOD_SIGN.block()::get,
-                    ModBlocks.WITHERWOOD_WALL_SIGN.block()::get
+                    ModBlocks.WITHERWOOD_SIGN::get,
+                    ModBlocks.WITHERWOOD_WALL_SIGN::get
+            );
+
+    public static final RegistryHandle<BlockEntityType<ModHangingSignBlockEntity>> MOD_HANGING_SIGN =
+            Services.REGISTRY.registerBlockEntityType(
+                    "mod_hanging_sign",
+                    ModHangingSignBlockEntity::new,
+                    ModBlocks.WITHERWOOD_HANGING_SIGN::get,
+                    ModBlocks.WITHERWOOD_WALL_HANGING_SIGN::get
             );
 }

@@ -68,12 +68,24 @@ public class ModLootTableProvider extends LootTableProvider {
             addDoorDrop(ModBlocks.WITHERWOOD_DOOR.block().get());
             addSlabDrop(ModBlocks.WITHERWOOD_SLAB.block().get());
 
+            addSingleItemTable(ModBlocks.WITHERWOOD_SIGN.get(), ModItems.WITHERWOOD_SIGN.get());
+            addSingleItemTable(ModBlocks.WITHERWOOD_WALL_SIGN.get(), ModItems.WITHERWOOD_SIGN.get());
+            addSingleItemTable(ModBlocks.WITHERWOOD_HANGING_SIGN.get(), ModItems.WITHERWOOD_HANGING_SIGN.get());
+            addSingleItemTable(ModBlocks.WITHERWOOD_WALL_HANGING_SIGN.get(), ModItems.WITHERWOOD_HANGING_SIGN.get());
+
+
             for (Block block : getKnownBlocks()) {
 
                 if (!generatedLoot.contains(block)) {
                     dropSelf(block);
                 }
             }
+        }
+
+        protected void addSingleItemTable(Block block, Item item) {
+            generatedLoot.add(block);
+            this.add(block, blockToMine ->
+                    createSingleItemTable(item));
         }
 
         protected void addOreDrop(Block block, Item item, float min, float max) {

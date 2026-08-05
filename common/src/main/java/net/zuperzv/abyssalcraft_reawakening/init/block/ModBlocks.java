@@ -7,14 +7,15 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
-import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.zuperzv.abyssalcraft_reawakening.init.block.custom.*;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
 import net.zuperzv.abyssalcraft_reawakening.services.util.BlockWithItemRegistryHandle;
+import net.zuperzv.abyssalcraft_reawakening.services.util.ModBlockSetTypes;
+import net.zuperzv.abyssalcraft_reawakening.services.util.ModWoodTypes;
+import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
 
 public final class ModBlocks {
     private ModBlocks() {}
@@ -65,20 +66,20 @@ public final class ModBlocks {
             properties -> new ModShelfBlock(properties.mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).sound(SoundType.SHELF)
                     .ignitedByLava().strength(2.0F, 3.0F)));
     
-    public static final BlockWithItemRegistryHandle<Block> WITHERWOOD_SIGN = Services.REGISTRY.registerBlockWithItem("witherwood_sign",
+    public static final RegistryHandle<Block> WITHERWOOD_SIGN = Services.REGISTRY.registerBlock("witherwood_sign",
             properties -> new ModStandingSignBlock(ModWoodTypes.WITHERWOOD, properties.mapColor(MapColor.WOOD).forceSolidOn().instrument(NoteBlockInstrument.BASS)
                     .noCollision().strength(1.0F).ignitedByLava()));
     
-    public static final BlockWithItemRegistryHandle<Block> WITHERWOOD_WALL_SIGN = Services.REGISTRY.registerBlockWithItem("witherwood_wall_sign",
+    public static final RegistryHandle<Block> WITHERWOOD_WALL_SIGN = Services.REGISTRY.registerBlock("witherwood_wall_sign",
             properties -> new ModWallSignBlock(ModWoodTypes.WITHERWOOD, properties.mapColor(MapColor.WOOD).forceSolidOn().instrument(NoteBlockInstrument.BASS)
                     .noCollision().strength(1.0F).ignitedByLava()));
     
-    public static final BlockWithItemRegistryHandle<Block> WITHERWOOD_HANGING_SIGN = Services.REGISTRY.registerBlockWithItem("witherwood_hanging_sign",
-            properties -> new CeilingHangingSignBlock(ModWoodTypes.WITHERWOOD, properties.mapColor(MapColor.WOOD).forceSolidOn().instrument(NoteBlockInstrument.BASS)
+    public static final RegistryHandle<Block> WITHERWOOD_HANGING_SIGN = Services.REGISTRY.registerBlock("witherwood_hanging_sign",
+            properties -> new ModHangingSignBlock(ModWoodTypes.WITHERWOOD, properties.mapColor(MapColor.WOOD).forceSolidOn().instrument(NoteBlockInstrument.BASS)
                     .noCollision().strength(1.0F).ignitedByLava()));
     
-    public static final BlockWithItemRegistryHandle<Block> WITHERWOOD_WALL_HANGING_SIGN = Services.REGISTRY.registerBlockWithItem("witherwood_wall_hanging_sign",
-            properties -> new WallHangingSignBlock(ModWoodTypes.WITHERWOOD, properties.mapColor(MapColor.WOOD).forceSolidOn().instrument(NoteBlockInstrument.BASS)
+    public static final RegistryHandle<Block> WITHERWOOD_WALL_HANGING_SIGN = Services.REGISTRY.registerBlock("witherwood_wall_hanging_sign",
+            properties -> new ModWallHangingSignBlock(ModWoodTypes.WITHERWOOD, properties.mapColor(MapColor.WOOD).forceSolidOn().instrument(NoteBlockInstrument.BASS)
                     .noCollision().strength(1.0F).ignitedByLava()));
 
     public static final BlockWithItemRegistryHandle<Block> WITHERWOOD_PRESSURE_PLATE = Services.REGISTRY.registerBlockWithItem("witherwood_pressure_plate",

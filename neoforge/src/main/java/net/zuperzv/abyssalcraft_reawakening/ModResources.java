@@ -1,6 +1,7 @@
 package net.zuperzv.abyssalcraft_reawakening;
 
 import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.StandingSignRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -17,7 +18,7 @@ import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
-import net.zuperzv.abyssalcraft_reawakening.init.block.custom.ModWoodTypes;
+import net.zuperzv.abyssalcraft_reawakening.services.util.ModWoodTypes;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.ModBlockEntities;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.renderer.*;
 import net.zuperzv.abyssalcraft_reawakening.init.data.CodexDataLoader;
@@ -64,12 +65,12 @@ public class ModResources {
 
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        Sheets.addWoodType(ModWoodTypes.WITHERWOOD);
-
         event.registerBlockEntityRenderer(ModBlockEntities.STONE_RITUAL_ALTAR_BE.get(), StoneRitualAltarBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.STONE_RITUAL_PEDESTAL_BE.get(), StoneRitualPedestalBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.MOD_SHELF_BE.get(), WitherwoodShelfBlockEntityRender::new);
-        event.registerBlockEntityRenderer(ModBlockEntities.MOD_SIGN_BE.get(), ModStandingSignRenderer::new);
+
+        event.registerBlockEntityRenderer(ModBlockEntities.MOD_SIGN.get(), context -> new StandingSignRenderer(context));
+        event.registerBlockEntityRenderer(ModBlockEntities.MOD_HANGING_SIGN.get(), context -> new HangingSignRenderer(context));
     }
 
     @SubscribeEvent
@@ -77,16 +78,6 @@ public class ModResources {
         event.registerLayerDefinition(
                 StoneRitualAltarBlockEntityRenderer.MAGIC_AURA_LAYER,
                 StoneRitualAltarBlockEntityRenderer::createMagicAuraLayer
-        );
-
-        event.registerLayerDefinition(
-                ModModelLayers.WITHERWOOD_SIGN,
-                () -> ModStandingSignRenderer.createSignLayer(true)
-        );
-
-        event.registerLayerDefinition(
-                ModModelLayers.WITHERWOOD_WALL_SIGN,
-                () -> ModStandingSignRenderer.createSignLayer(false)
         );
     }
 

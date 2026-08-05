@@ -6,7 +6,8 @@
   "mixins": [
     "AxeItemAccessor",
     "AxeItemMixin",
-    "DyedItemColorMixin"
+    "DyedItemColorMixin",
+    "WoodTypeAccessor"
   ],
   "client": [
     "AdvancementsScreenMixin",
