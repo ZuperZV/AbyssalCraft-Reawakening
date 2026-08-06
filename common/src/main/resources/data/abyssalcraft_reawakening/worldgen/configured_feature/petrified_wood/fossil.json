@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:fossil",
+  "config": {
+    "max_empty_corners_allowed": 7,
+    "fossil_structures": [
+      "abyssalcraft_reawakening:fossils/petrified_wood/small",
+      "abyssalcraft_reawakening:fossils/petrified_wood/small",
+      "abyssalcraft_reawakening:fossils/petrified_wood/small",
+      "abyssalcraft_reawakening:fossils/petrified_wood/small",
+      "abyssalcraft_reawakening:fossils/petrified_wood/small",
+      "abyssalcraft_reawakening:fossils/petrified_wood/large"
+    ],
+    "overlay_structures": [
+      "abyssalcraft_reawakening:fossils/petrified_wood/small_overlay",
+      "abyssalcraft_reawakening:fossils/petrified_wood/small_overlay",
+      "abyssalcraft_reawakening:fossils/petrified_wood/small_overlay",
+      "abyssalcraft_reawakening:fossils/petrified_wood/small_overlay",
+      "abyssalcraft_reawakening:fossils/petrified_wood/small_overlay",
+      "abyssalcraft_reawakening:fossils/petrified_wood/large_overlay"
+    ],
+    "fossil_processors": "abyssalcraft_reawakening:petrified_wood",
+    "overlay_processors": "abyssalcraft_reawakening:petrified_wood_overlay"
+  }
+}

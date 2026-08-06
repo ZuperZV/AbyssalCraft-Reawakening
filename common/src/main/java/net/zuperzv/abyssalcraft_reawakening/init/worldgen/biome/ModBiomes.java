@@ -1,7 +1,6 @@
 package net.zuperzv.abyssalcraft_reawakening.init.worldgen.biome;
 
 import net.minecraft.core.HolderGetter;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BiomeDefaultFeatures;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -48,14 +47,22 @@ public final class ModBiomes {
         biomeBuilder.addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, ModWorldgen.ABYSSAL_MUD_DISK_PLACED);
 
         biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModWorldgen.CORALIUM_TENDRILS_PLACED);
-        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModWorldgen.DEAD_ABYSS_TREE_PLACED);
+        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModWorldgen.WITHERWOOD_TREE_PLACED);
         biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModWorldgen.WASTITE_SPIKE_PLACED);
 
+        /*
         biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModWorldgen.FOSSIL_MARKER_PLACED);
         biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModWorldgen.FOSSIL_DISK_PLACED);
         biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModWorldgen.FOSSIL_PLACED);
         biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModWorldgen.FOSSIL_DISK_REMOVE_PLACED);
         biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModWorldgen.FOSSIL_MARKER_REMOVE_PLACED);
+         */
+
+        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ResourceKey.create(Registries.PLACED_FEATURE, Constants.id("petrified_wood/marker")));
+        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ResourceKey.create(Registries.PLACED_FEATURE, Constants.id("petrified_wood/disk")));
+        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ResourceKey.create(Registries.PLACED_FEATURE, Constants.id("petrified_wood/fossil")));
+        //biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ResourceKey.create(Registries.PLACED_FEATURE, Constants.id("petrified_wood/disk_cleanup")));
+        //biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ResourceKey.create(Registries.PLACED_FEATURE, Constants.id("petrified_wood/marker_cleanup")));
 
         return new Biome.BiomeBuilder()
                 .hasPrecipitation(false)

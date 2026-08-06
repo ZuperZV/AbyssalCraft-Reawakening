@@ -22,6 +22,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.WoodType;
@@ -100,12 +101,6 @@ public class ModModelProvider extends ModelProvider {
                 ModBlocks.STRIPPED_WITHERWOOD_WOOD.block().get()
         );
 
-        generateLeaves(
-                blockModels,
-                ModBlocks.WITHERWOOD_LEAVES.block().get(),
-                -12012255
-        );
-
         blockModels.family(ModBlocks.WITHERWOOD_PLANKS.block().get())
                 .stairs(ModBlocks.WITHERWOOD_STAIRS.block().get())
                 .slab(ModBlocks.WITHERWOOD_SLAB.block().get())
@@ -126,6 +121,15 @@ public class ModModelProvider extends ModelProvider {
         generatedBlocks.add(ModBlocks.WITHERWOOD_DOOR.block().get());
         generatedBlocks.add(ModBlocks.WITHERWOOD_TRAPDOOR.block().get());
 
+        blockModels.createLeafLitter(ModBlocks.WITHERWOOD_LEAF_LITTER.block().get());
+        generatedBlocks.add(ModBlocks.WITHERWOOD_LEAF_LITTER.block().get());
+
+        //generateLeaves(blockModels, ModBlocks.WITHERWOOD_LEAVES.block().get(), 0);
+
+        blockModels.createPlantWithDefaultItem(ModBlocks.WITHERWOOD_SAPLING.block().get(), ModBlocks.POTTED_WITHERWOOD_SAPLING.block().get(), BlockModelGenerators.PlantType.NOT_TINTED);
+        generatedBlocks.add(ModBlocks.WITHERWOOD_SAPLING.block().get());
+        generatedBlocks.add(ModBlocks.POTTED_WITHERWOOD_SAPLING.block().get());
+
         createShelf(blockModels, ModBlocks.WITHERWOOD_SHELF.block().get(), ModBlocks.STRIPPED_WITHERWOOD_LOG.block().get());
 
         addSigns(
@@ -137,14 +141,6 @@ public class ModModelProvider extends ModelProvider {
                 ModBlocks.WITHERWOOD_WALL_HANGING_SIGN.get()
         );
         itemModels.generateFlatItem(ModItems.WITHERWOOD_SIGN.get(), ModelTemplates.FLAT_ITEM);
-
-        /*
-        generateSapling(
-                blockModels,
-                ModBlocks.WITHERWOOD_SAPLING.block().get(),
-                ModBlocks.POTTED_WITHERWOOD_SAPLING.block().get()
-        );
-         */
 
         //Not Generated
         //generatedItems.add(ModItems.ABYSSALNITE_SWORD.get());

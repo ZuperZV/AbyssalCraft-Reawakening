@@ -1,5 +1,5 @@
 {
-  "feature": "abyssalcraft_reawakening:dead_abyss_tree",
+  "feature": "abyssalcraft_reawakening:witherwood_tree",
   "placement": [
     {
       "type": "minecraft:count",
@@ -36,7 +36,7 @@
       "predicate": {
         "type": "minecraft:would_survive",
         "state": {
-          "Name": "minecraft:pale_oak_sapling",
+          "Name": "abyssalcraft_reawakening:witherwood_sapling",
           "Properties": {
             "stage": "0"
           }

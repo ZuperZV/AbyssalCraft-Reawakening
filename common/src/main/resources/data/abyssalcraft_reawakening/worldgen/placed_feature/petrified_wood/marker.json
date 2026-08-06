@@ -1,0 +1,18 @@
+{
+  "feature": "abyssalcraft_reawakening:simple_block/marker",
+  "placement": [
+    {
+      "type": "minecraft:rarity_filter",
+      "chance": 8
+    },
+    {
+      "type": "minecraft:height_range",
+      "height": {
+        "absolute": 254
+      }
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

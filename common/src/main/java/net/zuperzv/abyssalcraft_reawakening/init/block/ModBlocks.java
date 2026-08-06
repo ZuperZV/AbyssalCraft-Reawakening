@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.zuperzv.abyssalcraft_reawakening.init.block.custom.*;
+import net.zuperzv.abyssalcraft_reawakening.init.worldgen.tree.ModTreeGrowers;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
 import net.zuperzv.abyssalcraft_reawakening.services.util.BlockWithItemRegistryHandle;
 import net.zuperzv.abyssalcraft_reawakening.services.util.ModBlockSetTypes;
@@ -101,66 +102,36 @@ public final class ModBlocks {
                                     .strength(2F)
                                     .ignitedByLava()));
 
-    public static final BlockWithItemRegistryHandle<Block> WITHERWOOD_SLAB =
-            Services.REGISTRY.registerBlockWithItem("witherwood_slab",
-                    properties -> new SlabBlock(
-                            properties.sound(SoundType.WOOD)
-                                    .strength(2F)
-                                    .ignitedByLava()));
+    public static final BlockWithItemRegistryHandle<Block> WITHERWOOD_SLAB = Services.REGISTRY.registerBlockWithItem("witherwood_slab",
+            properties -> new SlabBlock(properties.sound(SoundType.WOOD).strength(2F).ignitedByLava()));
 
-    public static final BlockWithItemRegistryHandle<Block> WITHERWOOD_FENCE =
-            Services.REGISTRY.registerBlockWithItem("witherwood_fence",
-                    properties -> new FenceBlock(
-                            properties.sound(SoundType.WOOD)
-                                    .strength(2F)
-                                    .ignitedByLava()));
+    public static final BlockWithItemRegistryHandle<Block> WITHERWOOD_FENCE = Services.REGISTRY.registerBlockWithItem("witherwood_fence",
+            properties -> new FenceBlock(properties.sound(SoundType.WOOD).strength(2F).ignitedByLava()));
 
-    public static final BlockWithItemRegistryHandle<Block> WITHERWOOD_FENCE_GATE =
-            Services.REGISTRY.registerBlockWithItem("witherwood_fence_gate",
-                    properties -> new FenceGateBlock(
-                            ModWoodTypes.WITHERWOOD,
-                            properties.sound(SoundType.WOOD)
-                                    .strength(2F)
-                                    .ignitedByLava()));
+    public static final BlockWithItemRegistryHandle<Block> WITHERWOOD_FENCE_GATE = Services.REGISTRY.registerBlockWithItem("witherwood_fence_gate",
+            properties -> new FenceGateBlock(ModWoodTypes.WITHERWOOD, properties.sound(SoundType.WOOD).strength(2F).ignitedByLava()));
 
-    public static final BlockWithItemRegistryHandle<Block> WITHERWOOD_BUTTON =
-            Services.REGISTRY.registerBlockWithItem("witherwood_button",
-                    properties -> new ModButtonBlock(
-                            ModBlockSetTypes.WITHERWOOD,
-                            30,
-                            properties.sound(SoundType.WOOD)
-                                    .noCollision()
-                                    .strength(0.5F)
-                                    .ignitedByLava()
-                                    .pushReaction(PushReaction.DESTROY)));
+    public static final BlockWithItemRegistryHandle<Block> WITHERWOOD_BUTTON = Services.REGISTRY.registerBlockWithItem("witherwood_button",
+            properties -> new ModButtonBlock(ModBlockSetTypes.WITHERWOOD, 30, properties.sound(SoundType.WOOD)
+                    .noCollision().strength(0.5F).ignitedByLava().pushReaction(PushReaction.DESTROY)));
 
-    public static final BlockWithItemRegistryHandle<Block> WITHERWOOD_DOOR =
-            Services.REGISTRY.registerBlockWithItem("witherwood_door",
-                    properties -> new ModDoorBlock(
-                            ModBlockSetTypes.WITHERWOOD,
-                            properties.sound(SoundType.WOOD)
-                                    .strength(3F)
-                                    .noOcclusion()
-                                    .ignitedByLava()));
+    public static final BlockWithItemRegistryHandle<Block> WITHERWOOD_DOOR = Services.REGISTRY.registerBlockWithItem("witherwood_door",
+            properties -> new ModDoorBlock(ModBlockSetTypes.WITHERWOOD, properties.sound(SoundType.WOOD).strength(3F).noOcclusion().ignitedByLava()));
 
-    public static final BlockWithItemRegistryHandle<Block> WITHERWOOD_LEAVES = Services.REGISTRY.registerBlockWithItem("witherwood_leaves",
-            properties -> new UntintedParticleLeavesBlock(0f, ParticleTypes.PALE_OAK_LEAVES,
-                    properties.mapColor(MapColor.PLANT).strength(0.2F)
-                            .randomTicks().sound(SoundType.CHERRY_LEAVES)
-                            .noOcclusion().isValidSpawn(ModBlocks::ocelotOrParrot)
-                            .isSuffocating((state, level, pos) -> false)
-                            .isViewBlocking((state, level, pos) -> false)
-                            .ignitedByLava().pushReaction(PushReaction.DESTROY)
-                            .isRedstoneConductor((state, level, pos) -> false)));
+    public static final BlockWithItemRegistryHandle<Block> WITHERWOOD_LEAVES = Services.REGISTRY.registerBlockWithItem("witherwood_leaves",properties -> new UntintedParticleLeavesBlock(0f,
+            ParticleTypes.PALE_OAK_LEAVES, properties.mapColor(MapColor.PLANT).strength(0.2F).randomTicks().sound(SoundType.CHERRY_LEAVES).noOcclusion().isValidSpawn(ModBlocks::ocelotOrParrot)
+            .isSuffocating((state, level, pos) -> false).isViewBlocking((state, level, pos) -> false).ignitedByLava().pushReaction(PushReaction.DESTROY)
+            .isRedstoneConductor((state, level, pos) -> false)));
 
-    /*
+    public static final BlockWithItemRegistryHandle<Block> WITHERWOOD_LEAF_LITTER = Services.REGISTRY.registerBlockWithItem("witherwood_leaf_litter",
+            properties -> new LeafLitterBlock(properties.mapColor(MapColor.COLOR_LIGHT_BLUE).replaceable().noCollision().sound(SoundType.LEAF_LITTER).pushReaction(PushReaction.DESTROY)));
+
     public static final BlockWithItemRegistryHandle<Block> WITHERWOOD_SAPLING = Services.REGISTRY.registerBlockWithItem("witherwood_sapling",
             properties -> new ModSaplingBlock(ModTreeGrowers.WITHERWOOD, properties.mapColor(MapColor.PLANT).noCollision()
-                    .randomTicks().instabreak().sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY), () -> Blocks.STONE));
-    public static final BlockWithItemRegistryHandle<Block> POTTED_WITHERWOOD_SAPLING = BLOCKS.Services.REGISTRY.registerBlockWithItem("potted_witherwood_sapling",
-            properties -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, WITHERWOOD_SAPLING,
-                    properties.noOcclusion().instabreak().pushReaction(PushReaction.DESTROY)));
-     */
+                    .randomTicks().instabreak().sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)));
+
+    public static final BlockWithItemRegistryHandle<Block> POTTED_WITHERWOOD_SAPLING = Services.REGISTRY.registerBlockWithItem("potted_witherwood_sapling",
+            properties -> new FlowerPotBlock(WITHERWOOD_SAPLING.block().get(), properties.noOcclusion().instabreak().pushReaction(PushReaction.DESTROY)));
 
 
 

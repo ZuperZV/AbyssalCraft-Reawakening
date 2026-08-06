@@ -24,13 +24,11 @@
     [],
     [
       "abyssalcraft_reawakening:coralium_tendrils",
-      "abyssalcraft_reawakening:dead_abyss_tree",
+      "abyssalcraft_reawakening:witherwood_tree",
       "abyssalcraft_reawakening:wastite_spike",
-      "abyssalcraft_reawakening:fossil_marker",
-      "abyssalcraft_reawakening:fossil_disk",
-      "abyssalcraft_reawakening:fossil",
-      "abyssalcraft_reawakening:fossil_disk_remove",
-      "abyssalcraft_reawakening:fossil_marker_remove"
+      "abyssalcraft_reawakening:petrified_wood/marker",
+      "abyssalcraft_reawakening:petrified_wood/disk",
+      "abyssalcraft_reawakening:petrified_wood/fossil"
     ],
     [
       "abyssalcraft_reawakening:abyssal_mud_disk"

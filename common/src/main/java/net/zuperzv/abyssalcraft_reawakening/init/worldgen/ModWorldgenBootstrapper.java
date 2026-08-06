@@ -1,7 +1,6 @@
 package net.zuperzv.abyssalcraft_reawakening.init.worldgen;
 
 import net.minecraft.core.*;
-import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.ProcessorLists;
@@ -14,6 +13,7 @@ import net.minecraft.util.valueproviders.BiasedToBottomInt;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.TrapezoidInt;
 import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeafLitterBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -192,10 +192,10 @@ public final class ModWorldgenBootstrapper {
         );
 
         PlaceOnGroundDecorator sparseLeafLitter = new PlaceOnGroundDecorator(
-                96, 4, 2, new WeightedStateProvider(leafLitterPatchBuilder(1, 3))
+                96, 4, 2, new WeightedStateProvider(leafLitterPatchBuilder(1, 3, ModBlocks.WITHERWOOD_LEAF_LITTER.block().get()))
         );
 
-        context.register(ModWorldgen.DEAD_ABYSS_TREE, new ConfiguredFeature<>(Feature.TREE,
+        context.register(ModWorldgen.WITHERWOOD_TREE, new ConfiguredFeature<>(Feature.TREE,
                         new TreeConfiguration.TreeConfigurationBuilder(
                                 BlockStateProvider.simple(ModBlocks.WITHERWOOD_LOG.block().get()),
                                 new FancyTrunkPlacer(
@@ -208,6 +208,34 @@ public final class ModWorldgenBootstrapper {
                                         UniformInt.of(0, 0),
                                         UniformInt.of(0, 0),
                                         0
+                                ),
+
+                                new TwoLayersFeatureSize(1, 0, 2))
+                                .decorators(
+                                        List.of(
+                                                new TinyRootDecorator(
+                                                        BlockStateProvider.simple(
+                                                                ModBlocks.WITHERWOOD_WOOD.block().get()
+                                                        ),
+                                                        0.75F
+                                                ),
+                                                sparseLeafLitter
+                                        )
+                                ).build()));
+
+        context.register(ModWorldgen.SAPLING_WITHERWOOD_TREE, new ConfiguredFeature<>(Feature.TREE,
+                        new TreeConfiguration.TreeConfigurationBuilder(
+                                BlockStateProvider.simple(ModBlocks.WITHERWOOD_LOG.block().get()),
+                                new FancyTrunkPlacer(
+                                        7,
+                                        4,
+                                        9),
+
+                                BlockStateProvider.simple(ModBlocks.WITHERWOOD_LEAVES.block().get()),
+                                new BlobFoliagePlacer(
+                                        UniformInt.of(2, 2),
+                                        UniformInt.of(2, 2),
+                                        2
                                 ),
 
                                 new TwoLayersFeatureSize(1, 0, 2))
@@ -573,13 +601,12 @@ public final class ModWorldgenBootstrapper {
         );
 
         context.register(
-                ModWorldgen.DEAD_ABYSS_TREE_PLACED,
+                ModWorldgen.WITHERWOOD_TREE_PLACED,
                 new PlacedFeature(
-                        configuredFeatures.getOrThrow(ModWorldgen.DEAD_ABYSS_TREE),
+                        configuredFeatures.getOrThrow(ModWorldgen.WITHERWOOD_TREE),
                         VegetationPlacements.treePlacement(
                                 PlacementUtils.countExtra(3, 0.2f, 2),
-                                Blocks.PALE_OAK_SAPLING
-                                //ModBlocks.WITHERWOOD_SAPLING.block().get()
+                                ModBlocks.WITHERWOOD_SAPLING.block().get()
                         )
                 )
         );
@@ -676,10 +703,18 @@ public final class ModWorldgenBootstrapper {
     public static WeightedList.Builder<BlockState> leafLitterPatchBuilder(int minState, int maxState) {
         WeightedList.Builder<BlockState> builder = WeightedList.builder();
 
+        leafLitterPatchBuilder(minState, maxState, Blocks.LEAF_LITTER);
+
+        return builder;
+    }
+
+    public static WeightedList.Builder<BlockState> leafLitterPatchBuilder(int minState, int maxState, Block leafLitter) {
+        WeightedList.Builder<BlockState> builder = WeightedList.builder();
+
         for(int amount = minState; amount <= maxState; ++amount) {
             for(Direction direction : Direction.Plane.HORIZONTAL) {
                 builder.add(
-                        Blocks.LEAF_LITTER.defaultBlockState()
+                        leafLitter.defaultBlockState()
                                 .setValue(LeafLitterBlock.AMOUNT, amount)
                                 .setValue(LeafLitterBlock.FACING, direction),
                         1
