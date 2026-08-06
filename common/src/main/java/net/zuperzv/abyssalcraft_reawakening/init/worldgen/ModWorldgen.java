@@ -10,13 +10,6 @@ public final class ModWorldgen {
     private ModWorldgen() {}
     public static void load() {}
 
-    public static final ResourceKey<ConfiguredFeature<?, ?>> FOSSIL = configuredFeatureKey("abyssal_fossil");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> FOSSIL_DISK = configuredFeatureKey("fossil_disk");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> FOSSIL_DISK_REMOVE = configuredFeatureKey("fossil_disk_remove");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> FOSSIL_DISK_AIR = configuredFeatureKey("fossil_disk_air");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> FOSSIL_MARKER = configuredFeatureKey("fossil_marker");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> FOSSIL_MARKER_REMOVE = configuredFeatureKey("fossil_marker_remove");
-
     public static final ResourceKey<ConfiguredFeature<?, ?>> CORALIUM_TENDRILS = configuredFeatureKey("coralium_tendrils");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> WITHERWOOD_TREE = configuredFeatureKey("witherwood_tree");
@@ -32,14 +25,6 @@ public final class ModWorldgen {
     public static final ResourceKey<ConfiguredFeature<?, ?>> ABYSSALNITE_NETHER_ORE = configuredFeatureKey("abyssalnite_nether_ore");
     public static final ResourceKey<ConfiguredFeature<?, ?>> ABYSSALNITE_END_ORE = configuredFeatureKey("abyssalnite_end_ore");
 
-
-
-    public static final ResourceKey<PlacedFeature> FOSSIL_PLACED = placedFeatureKey("fossil");
-    public static final ResourceKey<PlacedFeature> FOSSIL_DISK_PLACED = placedFeatureKey("fossil_disk");
-    public static final ResourceKey<PlacedFeature> FOSSIL_DISK_REMOVE_PLACED = placedFeatureKey("fossil_disk_remove");
-    public static final ResourceKey<PlacedFeature> FOSSIL_DISK_AIR_PLACED = placedFeatureKey("fossil_disk_air");
-    public static final ResourceKey<PlacedFeature> FOSSIL_MARKER_PLACED = placedFeatureKey("fossil_marker");
-    public static final ResourceKey<PlacedFeature> FOSSIL_MARKER_REMOVE_PLACED = placedFeatureKey("fossil_marker_remove");
 
     public static final ResourceKey<PlacedFeature> CORALIUM_TENDRILS_PLACED = placedFeatureKey("coralium_tendrils");
 
@@ -61,5 +46,46 @@ public final class ModWorldgen {
 
     private static ResourceKey<PlacedFeature> placedFeatureKey(String name) {
         return ResourceKey.create(Registries.PLACED_FEATURE, Constants.id(name));
+    }
+
+
+    public static ResourceKey<ConfiguredFeature<?, ?>> fossil(String name) {
+        return configuredFeatureKey(name + "_fossil");
+    }
+
+    public static ResourceKey<ConfiguredFeature<?, ?>> fossilDisk(String name) {
+        return configuredFeatureKey(name + "_disk");
+    }
+
+    public static ResourceKey<ConfiguredFeature<?, ?>> fossilCleanup(String name){
+        return configuredFeatureKey(name + "/disk_cleanup");
+    }
+
+    public static ResourceKey<ConfiguredFeature<?, ?>> fossilMarker(String name){
+        return configuredFeatureKey(name + "/marker");
+    }
+
+    public static ResourceKey<ConfiguredFeature<?, ?>> fossilMarkerCleanup(String name){
+        return configuredFeatureKey(name + "/marker_cleanup");
+    }
+
+    public static ResourceKey<PlacedFeature> fossilPlaced(String name) {
+        return placedFeatureKey(name + "/fossil");
+    }
+
+    public static ResourceKey<PlacedFeature> fossilDiskPlaced(String name) {
+        return placedFeatureKey(name + "/disk");
+    }
+
+    public static ResourceKey<PlacedFeature> fossilCleanupPlaced(String name) {
+        return placedFeatureKey(name + "/disk_cleanup");
+    }
+
+    public static ResourceKey<PlacedFeature> fossilMarkerPlaced(String name) {
+        return placedFeatureKey(name + "/marker");
+    }
+
+    public static ResourceKey<PlacedFeature> fossilMarkerCleanupPlaced(String name) {
+        return placedFeatureKey(name + "/marker_cleanup");
     }
 }

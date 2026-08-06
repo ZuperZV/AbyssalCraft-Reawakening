@@ -22,6 +22,8 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
+import net.minecraft.world.level.levelgen.placement.PlacementModifier;
+import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.services.util.BlockWithItemRegistryHandle;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
@@ -98,6 +100,11 @@ public interface IRegistryHelper {
     );
 
     <T extends TreeDecorator> RegistryHandle<TreeDecoratorType<T>> registerTreeDecoratorType(
+            String name,
+            MapCodec<T> codec
+    );
+
+    <T extends PlacementModifier> RegistryHandle<PlacementModifierType<T>> registerPlacementModifierType(
             String name,
             MapCodec<T> codec
     );

@@ -23,12 +23,14 @@
     [],
     [],
     [
+      "abyssalcraft_reawakening:vanila_fossil/marker",
+      "abyssalcraft_reawakening:vanila_fossil/disk",
+      "abyssalcraft_reawakening:vanila_fossil/fossil",
+      "abyssalcraft_reawakening:vanila_fossil/disk_cleanup",
+      "abyssalcraft_reawakening:vanila_fossil/marker_cleanup",
       "abyssalcraft_reawakening:coralium_tendrils",
       "abyssalcraft_reawakening:witherwood_tree",
-      "abyssalcraft_reawakening:wastite_spike",
-      "abyssalcraft_reawakening:petrified_wood/marker",
-      "abyssalcraft_reawakening:petrified_wood/disk",
-      "abyssalcraft_reawakening:petrified_wood/fossil"
+      "abyssalcraft_reawakening:wastite_spike"
     ],
     [
       "abyssalcraft_reawakening:abyssal_mud_disk"

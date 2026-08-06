@@ -27,6 +27,8 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
+import net.minecraft.world.level.levelgen.placement.PlacementModifier;
+import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.services.types.IRegistryHelper;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
@@ -264,6 +266,34 @@ public class FabricRegistryHelper implements IRegistryHelper {
 
             @Override
             public TreeDecoratorType<T> get() {
+                return registered;
+            }
+        };
+    }
+
+    @Override
+    public <T extends PlacementModifier> RegistryHandle<PlacementModifierType<T>> registerPlacementModifierType(
+            String name,
+            MapCodec<T> codec
+    ) {
+        Identifier id = Constants.id(name);
+
+        PlacementModifierType<T> registered =
+                Registry.register(
+                        BuiltInRegistries.PLACEMENT_MODIFIER_TYPE,
+                        id,
+                        () -> codec
+                );
+
+        return new RegistryHandle<>() {
+
+            @Override
+            public Identifier id() {
+                return id;
+            }
+
+            @Override
+            public PlacementModifierType<T> get() {
                 return registered;
             }
         };

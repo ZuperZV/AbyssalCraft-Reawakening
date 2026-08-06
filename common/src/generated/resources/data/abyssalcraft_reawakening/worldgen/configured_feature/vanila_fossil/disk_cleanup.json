@@ -6,16 +6,12 @@
     "state_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "minecraft:red_wool"
+        "Name": "minecraft:air"
       }
     },
     "target": {
       "type": "minecraft:matching_blocks",
-      "blocks": [
-        "abyssalcraft_reawakening:abyssal_stone",
-        "minecraft:mud",
-        "minecraft:air"
-      ]
+      "blocks": "minecraft:light"
     }
   }
 }

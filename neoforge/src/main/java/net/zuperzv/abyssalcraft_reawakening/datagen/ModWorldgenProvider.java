@@ -33,6 +33,7 @@ import java.util.concurrent.CompletableFuture;
 
 public final class ModWorldgenProvider extends DatapackBuiltinEntriesProvider {
     private static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
+            .add(Registries.PROCESSOR_LIST, ModWorldgenBootstrapper::bootstrapProcessorLists)
             .add(Registries.CONFIGURED_FEATURE, ModWorldgenBootstrapper::bootstrapConfiguredFeatures)
             .add(Registries.PLACED_FEATURE, ModWorldgenBootstrapper::bootstrapPlacedFeatures)
             .add(Registries.BIOME, ModBiomes::bootstrap)

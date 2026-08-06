@@ -3,7 +3,6 @@ package net.zuperzv.abyssalcraft_reawakening.init.worldgen;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
-import net.minecraft.data.worldgen.ProcessorLists;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.resources.Identifier;
@@ -22,7 +21,6 @@ import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FossilFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.*;
 import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlacer;
@@ -32,12 +30,14 @@ import net.minecraft.world.level.levelgen.feature.treedecorators.PlaceOnGroundDe
 import net.minecraft.world.level.levelgen.feature.trunkplacers.FancyTrunkPlacer;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
-import net.minecraft.world.level.levelgen.structure.templatesystem.GravityProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlockTags;
 import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.init.worldgen.gravity_fossils.FossilGenerator;
+import net.zuperzv.abyssalcraft_reawakening.init.worldgen.gravity_fossils.FossilRegistry;
+import net.zuperzv.abyssalcraft_reawakening.init.worldgen.gravity_fossils.FossilWorldgenHelper;
 import net.zuperzv.abyssalcraft_reawakening.init.worldgen.helpers.ModWorldgenPredicates;
 import net.zuperzv.abyssalcraft_reawakening.init.worldgen.tree.decorator.TinyRootDecorator;
 
@@ -47,135 +47,20 @@ public final class ModWorldgenBootstrapper {
     private ModWorldgenBootstrapper() {
     }
 
+    public static void bootstrapProcessorLists(BootstrapContext<StructureProcessorList> context) {
+        ModProcessorLists.bootstrap(context);
+    }
+
     public static void bootstrapConfiguredFeatures(BootstrapContext<ConfiguredFeature<?, ?>> context) {
+        for(FossilGenerator fossil : FossilRegistry.ALL){
+
+            FossilWorldgenHelper.register(
+                    context,
+                    fossil
+            );
+        }
         HolderGetter<PlacedFeature> placedFeatures =
                 context.lookup(Registries.PLACED_FEATURE);
-
-        HolderGetter<StructureProcessorList> processorLists =
-                context.lookup(Registries.PROCESSOR_LIST);
-
-        // FOSSIL
-
-        List<Identifier> fossils = List.of(
-                Constants.idWithDefaultNamespace("fossil/skull_1"),
-                Constants.idWithDefaultNamespace("fossil/spine_1")
-        );
-
-        List<Identifier> fossilsReplace = List.of(
-                Constants.idWithDefaultNamespace("fossil/skull_1"),
-                Constants.idWithDefaultNamespace("fossil/spine_1")
-        );
-
-        context.register(
-                ModWorldgen.FOSSIL,
-
-                new ConfiguredFeature<>(
-                        Feature.FOSSIL,
-
-                        new FossilFeatureConfiguration(
-                                fossils,
-                                fossilsReplace,
-
-                                Holder.direct(
-                                        new StructureProcessorList(
-                                                List.of(
-                                                        new GravityProcessor(
-                                                                Heightmap.Types.MOTION_BLOCKING,
-                                                                -1
-                                                        )
-                                                )
-                                        )
-                                ),
-
-                                processorLists.getOrThrow(
-                                        ProcessorLists.FOSSIL_COAL
-                                ),
-
-                                4
-                        )
-                )
-        );
-
-        context.register(
-                ModWorldgen.FOSSIL_DISK,
-
-                new ConfiguredFeature<>(
-                        Feature.DISK,
-
-                        new DiskConfiguration(
-                                BlockStateProvider.simple(
-                                        Blocks.RED_WOOL
-                                ),
-
-                                BlockPredicate.matchesBlocks(
-                                        ModBlocks.ABYSSAL_STONE.block().get(),
-                                        Blocks.MUD,
-                                        Blocks.AIR
-                                ),
-
-                                ConstantInt.of(5),
-                                1
-                        )
-                )
-        );
-
-        context.register(
-                ModWorldgen.FOSSIL_MARKER,
-
-                new ConfiguredFeature<>(
-                        Feature.SIMPLE_BLOCK,
-
-                        new SimpleBlockConfiguration(
-                                BlockStateProvider.simple(
-                                        Blocks.WHITE_WOOL
-                                )
-                        )
-                )
-        );
-
-        context.register(
-                ModWorldgen.FOSSIL_MARKER_REMOVE,
-
-                new ConfiguredFeature<>(
-                        Feature.SIMPLE_BLOCK,
-
-                        new SimpleBlockConfiguration(
-                                BlockStateProvider.simple(
-                                        Blocks.AIR
-                                )
-                        )
-                )
-        );
-
-        context.register(
-                ModWorldgen.FOSSIL_DISK_AIR,
-
-                new ConfiguredFeature<>(
-                        Feature.SIMPLE_BLOCK,
-
-                        new SimpleBlockConfiguration(
-                                BlockStateProvider.simple(
-                                        Blocks.AIR
-                                )
-                        )
-                )
-        );
-
-        // FOSSIL DISK REMOVE
-        context.register(
-                ModWorldgen.FOSSIL_DISK_REMOVE,
-
-                new ConfiguredFeature<>(
-                        Feature.SIMPLE_BLOCK,
-
-                        new SimpleBlockConfiguration(
-                                BlockStateProvider.simple(
-                                        Blocks.AIR
-                                )
-                        )
-                )
-        );
-
 
         // CORALIUM TENDRILS
         context.register(
@@ -405,165 +290,16 @@ public final class ModWorldgenBootstrapper {
     }
 
     public static void bootstrapPlacedFeatures(BootstrapContext<PlacedFeature> context) {
+        for(FossilGenerator fossil : FossilRegistry.ALL){
+
+            FossilWorldgenHelper.registerPlaced(
+                    context,
+                    fossil
+            );
+        }
+
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures =
                 context.lookup(Registries.CONFIGURED_FEATURE);
-
-        // FOSSIL
-        context.register(
-                ModWorldgen.FOSSIL_PLACED,
-
-                new PlacedFeature(
-                        configuredFeatures.getOrThrow(
-                                ModWorldgen.FOSSIL
-                        ),
-
-                        List.of(
-                                RarityFilter.onAverageOnceEvery(8),
-
-                                InSquarePlacement.spread(),
-
-                                HeightmapPlacement.onHeightmap(
-                                        Heightmap.Types.WORLD_SURFACE
-                                ),
-
-                                RandomOffsetPlacement.vertical(
-                                        ConstantInt.of(10)
-                                ),
-
-                                BiomeFilter.biome()
-                        )
-                )
-        );
-
-        context.register(
-                ModWorldgen.FOSSIL_MARKER_PLACED,
-
-                new PlacedFeature(
-                        configuredFeatures.getOrThrow(
-                                ModWorldgen.FOSSIL_MARKER
-                        ),
-
-                        List.of(
-                                RarityFilter.onAverageOnceEvery(8),
-
-                                InSquarePlacement.spread(),
-
-                                HeightmapPlacement.onHeightmap(
-                                        Heightmap.Types.WORLD_SURFACE
-                                ),
-
-                                RandomOffsetPlacement.vertical(
-                                        ConstantInt.of(10)
-                                ),
-
-                                BiomeFilter.biome()
-                        )
-                )
-        );
-
-        context.register(
-                ModWorldgen.FOSSIL_MARKER_REMOVE_PLACED,
-
-                new PlacedFeature(
-                        configuredFeatures.getOrThrow(
-                                ModWorldgen.FOSSIL_MARKER_REMOVE
-                        ),
-
-                        List.of(
-                                RarityFilter.onAverageOnceEvery(8),
-
-                                InSquarePlacement.spread(),
-
-                                HeightmapPlacement.onHeightmap(
-                                        Heightmap.Types.WORLD_SURFACE
-                                ),
-
-                                RandomOffsetPlacement.vertical(
-                                        ConstantInt.of(10)
-                                ),
-
-                                BiomeFilter.biome()
-                        )
-                )
-        );
-
-        context.register(
-                ModWorldgen.FOSSIL_DISK_PLACED,
-
-                new PlacedFeature(
-                        configuredFeatures.getOrThrow(
-                                ModWorldgen.FOSSIL_DISK
-                        ),
-
-                        List.of(
-                                RarityFilter.onAverageOnceEvery(8),
-
-                                InSquarePlacement.spread(),
-
-                                HeightmapPlacement.onHeightmap(
-                                        Heightmap.Types.WORLD_SURFACE
-                                ),
-
-                                RandomOffsetPlacement.vertical(
-                                        ConstantInt.of(10)
-                                ),
-
-                                BiomeFilter.biome()
-                        )
-                )
-        );
-
-        context.register(
-                ModWorldgen.FOSSIL_DISK_AIR_PLACED,
-
-                new PlacedFeature(
-                        configuredFeatures.getOrThrow(
-                                ModWorldgen.FOSSIL_DISK_AIR
-                        ),
-
-                        List.of(
-                                RarityFilter.onAverageOnceEvery(8),
-
-                                InSquarePlacement.spread(),
-
-                                HeightmapPlacement.onHeightmap(
-                                        Heightmap.Types.WORLD_SURFACE
-                                ),
-
-                                RandomOffsetPlacement.vertical(
-                                        ConstantInt.of(10)
-                                ),
-
-                                BiomeFilter.biome()
-                        )
-                )
-        );
-
-        context.register(
-                ModWorldgen.FOSSIL_DISK_REMOVE_PLACED,
-
-                new PlacedFeature(
-                        configuredFeatures.getOrThrow(
-                                ModWorldgen.FOSSIL_DISK_REMOVE
-                        ),
-
-                        List.of(
-                                RarityFilter.onAverageOnceEvery(8),
-
-                                InSquarePlacement.spread(),
-
-                                HeightmapPlacement.onHeightmap(
-                                        Heightmap.Types.WORLD_SURFACE
-                                ),
-
-                                RandomOffsetPlacement.vertical(
-                                        ConstantInt.of(10)
-                                ),
-
-                                BiomeFilter.biome()
-                        )
-                )
-        );
 
         // CORALIUM TENDRILS
         context.register(

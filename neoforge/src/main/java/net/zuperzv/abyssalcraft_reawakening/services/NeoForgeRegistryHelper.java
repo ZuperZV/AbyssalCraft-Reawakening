@@ -1,6 +1,5 @@
 package net.zuperzv.abyssalcraft_reawakening.services;
 
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentType;
@@ -24,6 +23,8 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
+import net.minecraft.world.level.levelgen.placement.PlacementModifier;
+import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -53,6 +54,8 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
             DeferredRegister.create(Registries.RECIPE_SERIALIZER, Constants.MOD_ID);
     private static final DeferredRegister<TreeDecoratorType<?>> TREE_DECORATORS =
             DeferredRegister.create(BuiltInRegistries.TREE_DECORATOR_TYPE, Constants.MOD_ID);
+    private static final DeferredRegister<PlacementModifierType<?>> PLACEMENT_MODIFIERS =
+            DeferredRegister.create(BuiltInRegistries.PLACEMENT_MODIFIER_TYPE.key(), Constants.MOD_ID);
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
@@ -64,6 +67,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
         RECIPE_TYPES.register(eventBus);
         RECIPE_SERIALIZERS.register(eventBus);
         TREE_DECORATORS.register(eventBus);
+        PLACEMENT_MODIFIERS.register(eventBus);
     }
 
     @Override
@@ -277,6 +281,38 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 
             @Override
             public TreeDecoratorType<T> get() {
+                return holder.get();
+            }
+        };
+    }
+
+    @Override
+    public <T extends PlacementModifier> RegistryHandle<PlacementModifierType<T>> registerPlacementModifierType(
+            String name,
+            MapCodec<T> codec
+    ) {
+
+        DeferredHolder<PlacementModifierType<?>, PlacementModifierType<T>> holder =
+                (DeferredHolder) PLACEMENT_MODIFIERS.register(
+                        name,
+                        () -> new PlacementModifierType<T>() {
+
+                            @Override
+                            public MapCodec<T> codec() {
+                                return (MapCodec<T>) codec;
+                            }
+                        }
+                );
+
+        return new RegistryHandle<>() {
+
+            @Override
+            public Identifier id() {
+                return Constants.id(name);
+            }
+
+            @Override
+            public PlacementModifierType<T> get() {
                 return holder.get();
             }
         };
