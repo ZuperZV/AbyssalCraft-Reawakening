@@ -12,9 +12,10 @@ public final class ModWorldgen {
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> FOSSIL = configuredFeatureKey("abyssal_fossil");
     public static final ResourceKey<ConfiguredFeature<?, ?>> FOSSIL_DISK = configuredFeatureKey("fossil_disk");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> FOSSIL_PATCH = configuredFeatureKey("fossil_patch");
     public static final ResourceKey<ConfiguredFeature<?, ?>> FOSSIL_DISK_REMOVE = configuredFeatureKey("fossil_disk_remove");
     public static final ResourceKey<ConfiguredFeature<?, ?>> FOSSIL_DISK_AIR = configuredFeatureKey("fossil_disk_air");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> FOSSIL_MARKER = configuredFeatureKey("fossil_marker");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> FOSSIL_MARKER_REMOVE = configuredFeatureKey("fossil_marker_remove");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> CORALIUM_TENDRILS = configuredFeatureKey("coralium_tendrils");
 
@@ -34,9 +35,10 @@ public final class ModWorldgen {
 
     public static final ResourceKey<PlacedFeature> FOSSIL_PLACED = placedFeatureKey("fossil");
     public static final ResourceKey<PlacedFeature> FOSSIL_DISK_PLACED = placedFeatureKey("fossil_disk");
-    public static final ResourceKey<PlacedFeature> FOSSIL_PATCH_PLACED = placedFeatureKey("fossil_patch");
     public static final ResourceKey<PlacedFeature> FOSSIL_DISK_REMOVE_PLACED = placedFeatureKey("fossil_disk_remove");
     public static final ResourceKey<PlacedFeature> FOSSIL_DISK_AIR_PLACED = placedFeatureKey("fossil_disk_air");
+    public static final ResourceKey<PlacedFeature> FOSSIL_MARKER_PLACED = placedFeatureKey("fossil_marker");
+    public static final ResourceKey<PlacedFeature> FOSSIL_MARKER_REMOVE_PLACED = placedFeatureKey("fossil_marker_remove");
 
     public static final ResourceKey<PlacedFeature> CORALIUM_TENDRILS_PLACED = placedFeatureKey("coralium_tendrils");
 

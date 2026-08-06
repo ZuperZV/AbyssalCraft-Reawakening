@@ -96,17 +96,6 @@ public final class ModWorldgenBootstrapper {
                 )
         );
 
-
-        // ============================================================
-        // FOSSIL DISK
-        //
-        // This is the RED_WOOL disk.
-        //
-        // IMPORTANT:
-        // It has NO placement here.
-        // The enclosing VEGETATION_PATCH controls its position.
-        // ============================================================
-
         context.register(
                 ModWorldgen.FOSSIL_DISK,
 
@@ -130,31 +119,33 @@ public final class ModWorldgenBootstrapper {
                 )
         );
 
+        context.register(
+                ModWorldgen.FOSSIL_MARKER,
 
-        // ============================================================
-        // FOSSIL DISK PLACED
-        //
-        // NO heightmap
-        // NO random offset
-        // NO spread
-        //
-        // The parent VEGETATION_PATCH gives it the position.
-        // ============================================================
+                new ConfiguredFeature<>(
+                        Feature.SIMPLE_BLOCK,
 
-        // NOTE:
-        // This is only a holder for the disk feature.
-        // It must not move itself.
+                        new SimpleBlockConfiguration(
+                                BlockStateProvider.simple(
+                                        Blocks.WHITE_WOOL
+                                )
+                        )
+                )
+        );
 
+        context.register(
+                ModWorldgen.FOSSIL_MARKER_REMOVE,
 
-        // ============================================================
-        // FOSSIL DISK AIR
-        //
-        // Vanilla SIMPLE_BLOCK that places AIR.
-        // It is used as the vegetation feature of the removal patch
-        // to clean up the disk after the fossil has gravitated to it.
-        // This must have same placement modifiers as FOSSIL_DISK_PLACED
-        // and FOSSIL_PATCH_PLACED to remove in the same location.
-        // ============================================================
+                new ConfiguredFeature<>(
+                        Feature.SIMPLE_BLOCK,
+
+                        new SimpleBlockConfiguration(
+                                BlockStateProvider.simple(
+                                        Blocks.AIR
+                                )
+                        )
+                )
+        );
 
         context.register(
                 ModWorldgen.FOSSIL_DISK_AIR,
@@ -169,30 +160,6 @@ public final class ModWorldgenBootstrapper {
                         )
                 )
         );
-
-
-        // ============================================================
-        // FOSSIL PATCH
-        //
-        // Simple placement of the fossil structure.
-        // Will only place if RED_WOOL disk exists below (checked via BlockPredicateFilter).
-        // GravityProcessor (MOTION_BLOCKING) pushes fossil UP to the disk.
-        // ============================================================
-
-        context.register(
-                ModWorldgen.FOSSIL_PATCH,
-
-                new ConfiguredFeature<>(
-                        Feature.SIMPLE_BLOCK,
-
-                        new SimpleBlockConfiguration(
-                                BlockStateProvider.simple(
-                                        Blocks.AIR
-                                )
-                        )
-                )
-        );
-
 
         // FOSSIL DISK REMOVE
         context.register(
@@ -423,26 +390,74 @@ public final class ModWorldgenBootstrapper {
                         ),
 
                         List.of(
-                                // Only place fossil if RED_WOOL disk exists below
-                                BlockPredicateFilter.forPredicate(
-                                        BlockPredicate.matchesBlocks(
-                                                new Vec3i(0, -1, 0),
-                                                Blocks.RED_WOOL
-                                        )
-                                )
+                                RarityFilter.onAverageOnceEvery(8),
+
+                                InSquarePlacement.spread(),
+
+                                HeightmapPlacement.onHeightmap(
+                                        Heightmap.Types.WORLD_SURFACE
+                                ),
+
+                                RandomOffsetPlacement.vertical(
+                                        ConstantInt.of(10)
+                                ),
+
+                                BiomeFilter.biome()
                         )
                 )
         );
 
+        context.register(
+                ModWorldgen.FOSSIL_MARKER_PLACED,
 
-        // ============================================================
-        // FOSSIL DISK PLACED
-        //
-        // NO placement modifiers here!
-        //
-        // This is only placed by the FOSSIL_PATCH vegetation patch
-        // as its surface layer. The vegetation patch handles all positioning.
-        // ============================================================
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(
+                                ModWorldgen.FOSSIL_MARKER
+                        ),
+
+                        List.of(
+                                RarityFilter.onAverageOnceEvery(8),
+
+                                InSquarePlacement.spread(),
+
+                                HeightmapPlacement.onHeightmap(
+                                        Heightmap.Types.WORLD_SURFACE
+                                ),
+
+                                RandomOffsetPlacement.vertical(
+                                        ConstantInt.of(10)
+                                ),
+
+                                BiomeFilter.biome()
+                        )
+                )
+        );
+
+        context.register(
+                ModWorldgen.FOSSIL_MARKER_REMOVE_PLACED,
+
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(
+                                ModWorldgen.FOSSIL_MARKER_REMOVE
+                        ),
+
+                        List.of(
+                                RarityFilter.onAverageOnceEvery(8),
+
+                                InSquarePlacement.spread(),
+
+                                HeightmapPlacement.onHeightmap(
+                                        Heightmap.Types.WORLD_SURFACE
+                                ),
+
+                                RandomOffsetPlacement.vertical(
+                                        ConstantInt.of(10)
+                                ),
+
+                                BiomeFilter.biome()
+                        )
+                )
+        );
 
         context.register(
                 ModWorldgen.FOSSIL_DISK_PLACED,
@@ -470,38 +485,12 @@ public final class ModWorldgenBootstrapper {
                 )
         );
 
-
-        // ============================================================
-        // FOSSIL AIR
-        // ============================================================
-
         context.register(
                 ModWorldgen.FOSSIL_DISK_AIR_PLACED,
 
                 new PlacedFeature(
                         configuredFeatures.getOrThrow(
                                 ModWorldgen.FOSSIL_DISK_AIR
-                        ),
-
-                        List.of()
-                )
-        );
-
-
-        // ============================================================
-        // FOSSIL PATCH (now places the actual FOSSIL)
-        //
-        // Places fossil at WORLD_SURFACE level.
-        // GravityProcessor with MOTION_BLOCKING will push it UP to the disk.
-        // Only places if RED_WOOL disk exists 10 blocks above (checked via BlockPredicateFilter).
-        // ============================================================
-
-        context.register(
-                ModWorldgen.FOSSIL_PATCH_PLACED,
-
-                new PlacedFeature(
-                        configuredFeatures.getOrThrow(
-                                ModWorldgen.FOSSIL
                         ),
 
                         List.of(
@@ -513,18 +502,14 @@ public final class ModWorldgenBootstrapper {
                                         Heightmap.Types.WORLD_SURFACE
                                 ),
 
+                                RandomOffsetPlacement.vertical(
+                                        ConstantInt.of(10)
+                                ),
+
                                 BiomeFilter.biome()
                         )
                 )
         );
-
-
-        // ============================================================
-        // FOSSIL DISK REMOVE
-        //
-        // Removes the RED_WOOL disk after fossil is placed.
-        // Must use SAME placement as FOSSIL_DISK_PLACED to remove from correct location.
-        // ============================================================
 
         context.register(
                 ModWorldgen.FOSSIL_DISK_REMOVE_PLACED,
