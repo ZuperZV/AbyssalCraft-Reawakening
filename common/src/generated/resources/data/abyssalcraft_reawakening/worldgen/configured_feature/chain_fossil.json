@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:fossil",
+  "config": {
+    "fossil_processors": "abyssalcraft_reawakening:gravity_fossil_processors",
+    "fossil_structures": [
+      "abyssalcraft_reawakening:chain/chain_1",
+      "abyssalcraft_reawakening:chain/chain_2",
+      "abyssalcraft_reawakening:chain/chain_3",
+      "abyssalcraft_reawakening:chain/chain_4",
+      "abyssalcraft_reawakening:chain/chain_5"
+    ],
+    "max_empty_corners_allowed": 7,
+    "overlay_processors": "abyssalcraft_reawakening:gravity_fossil_processors",
+    "overlay_structures": [
+      "abyssalcraft_reawakening:chain/chain_1",
+      "abyssalcraft_reawakening:chain/chain_2",
+      "abyssalcraft_reawakening:chain/chain_3",
+      "abyssalcraft_reawakening:chain/chain_4",
+      "abyssalcraft_reawakening:chain/chain_5"
+    ]
+  }
+}

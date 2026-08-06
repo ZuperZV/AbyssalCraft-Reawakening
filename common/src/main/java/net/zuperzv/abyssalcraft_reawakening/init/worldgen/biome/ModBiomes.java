@@ -55,6 +55,9 @@ public final class ModBiomes {
         biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModWorldgen.WITHERWOOD_TREE_PLACED);
         biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModWorldgen.WASTITE_SPIKE_PLACED);
 
+        //SKY
+            //LAST THING SO NOTHING GETS ONTO IT
+        FossilBiomeHelper.add(biomeBuilder, FossilRegistry.CHAIN);
 
         return new Biome.BiomeBuilder()
                 .hasPrecipitation(false)

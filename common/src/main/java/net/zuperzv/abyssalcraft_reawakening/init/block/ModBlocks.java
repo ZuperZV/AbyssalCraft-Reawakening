@@ -35,6 +35,9 @@ public final class ModBlocks {
     public static final BlockWithItemRegistryHandle<Block> ABYSSAL_STONE = Services.REGISTRY.registerBlockWithItem("abyssal_stone",
             properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.STONE)));
 
+    public static final BlockWithItemRegistryHandle<Block> ABYSSAL_COBBLESTONE = Services.REGISTRY.registerBlockWithItem("abyssal_cobblestone",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.STONE)));
+
     public static final BlockWithItemRegistryHandle<Block> CORRUPTED_SOIL = Services.REGISTRY.registerBlockWithItem("corrupted_soil",
             properties -> new Block(properties.mapColor(MapColor.COLOR_BLUE).requiresCorrectToolForDrops().strength(3.0F, 4.0F).sound(SoundType.MUD)));
 
@@ -153,11 +156,15 @@ public final class ModBlocks {
     public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_END_ORE = createOreBlock("abyssalnite_end_ore");
 
     //Coralium
-    public static final BlockWithItemRegistryHandle<Block> REFINED_CORALIUM_BLOCK = Services.REGISTRY.registerBlockWithItem("refined_coralium_block",
-            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 7.0F).sound(SoundType.METAL)));
 
     public static final BlockWithItemRegistryHandle<Block> CORALIUM_STONE = Services.REGISTRY.registerBlockWithItem("coralium_stone",
             properties -> new Block(properties.mapColor(MapColor.COLOR_BLUE).requiresCorrectToolForDrops().strength(5.0F, 4.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> CORALIUM_COBBLESTONE = Services.REGISTRY.registerBlockWithItem("coralium_cobblestone",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> REFINED_CORALIUM_BLOCK = Services.REGISTRY.registerBlockWithItem("refined_coralium_block",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 7.0F).sound(SoundType.METAL)));
 
     public static final BlockWithItemRegistryHandle<Block> CORALIUM_BRICKS = Services.REGISTRY.registerBlockWithItem("coralium_bricks",
             properties -> new Block(properties.mapColor(MapColor.COLOR_BLUE).requiresCorrectToolForDrops().strength(6.0F, 8.0F).sound(SoundType.STONE)));

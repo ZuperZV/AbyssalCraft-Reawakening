@@ -23,6 +23,11 @@
     [],
     [],
     [
+      "abyssalcraft_reawakening:chain/marker",
+      "abyssalcraft_reawakening:chain/disk",
+      "abyssalcraft_reawakening:chain/fossil",
+      "abyssalcraft_reawakening:chain/disk_cleanup",
+      "abyssalcraft_reawakening:chain/marker_cleanup",
       "abyssalcraft_reawakening:vanila_fossil/marker",
       "abyssalcraft_reawakening:vanila_fossil/disk",
       "abyssalcraft_reawakening:vanila_fossil/fossil",

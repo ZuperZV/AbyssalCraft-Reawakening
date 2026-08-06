@@ -51,9 +51,37 @@ public class FossilRegistry {
                     ModProcessorLists.GRAVITY_FOSSIL_PROCESSORS
             );
 
+    public static final FossilGenerator CHAIN =
+            new FossilGenerator(
+                    "chain",
+
+                    RarityFilter.onAverageOnceEvery(30),
+
+                    List.of(
+                            Constants.id("chain/chain_1"),
+                            Constants.id("chain/chain_2"),
+                            Constants.id("chain/chain_3"),
+                            Constants.id("chain/chain_4"),
+                            Constants.id("chain/chain_5")
+                    ),
+
+                    List.of(
+                            Constants.id("chain/chain_1"),
+                            Constants.id("chain/chain_2"),
+                            Constants.id("chain/chain_3"),
+                            Constants.id("chain/chain_4"),
+                            Constants.id("chain/chain_5")
+                    ),
+
+                    ModProcessorLists.GRAVITY_FOSSIL_PROCESSORS,
+
+                    ModProcessorLists.GRAVITY_FOSSIL_PROCESSORS
+            );
+
     public static final List<FossilGenerator> ALL =
             List.of(
-                    VANILA_FOSSIL
+                    VANILA_FOSSIL,
+                    CHAIN
             );
 
     private static ResourceKey<StructureProcessorList> createKey(String name) {
