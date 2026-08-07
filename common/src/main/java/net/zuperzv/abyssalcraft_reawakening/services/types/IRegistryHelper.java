@@ -6,6 +6,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
@@ -48,13 +50,16 @@ public interface IRegistryHelper {
 
     <T extends BlockItem> RegistryHandle<T> registerBlockItem(String name, RegistryHandle<? extends Block> block, BiFunction<Block, Item.Properties, T> item);
 
-
     static ResourceKey<Item> itemKey(String name) {
         return ResourceKey.create(Registries.ITEM, Constants.id(name));
     }
 
     static ResourceKey<Block> blockKey(String name) {
         return ResourceKey.create(Registries.BLOCK, Constants.id(name));
+    }
+
+    static ResourceKey<EntityType<?>> entityTypeKey(String name) {
+        return ResourceKey.create(Registries.ENTITY_TYPE, Constants.id(name));
     }
 
     @FunctionalInterface
@@ -108,4 +113,6 @@ public interface IRegistryHelper {
             String name,
             MapCodec<T> codec
     );
+
+    <T extends Entity> RegistryHandle<EntityType<T>> registerEntityType(String name, EntityType.Builder<T> builder);
 }

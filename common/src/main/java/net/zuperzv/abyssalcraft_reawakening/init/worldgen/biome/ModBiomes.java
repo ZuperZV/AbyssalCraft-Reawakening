@@ -51,9 +51,12 @@ public final class ModBiomes {
             // VEGETAL DECORATION
         FossilBiomeHelper.add(biomeBuilder, FossilRegistry.VANILA_FOSSIL);
 
-        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModWorldgen.CORALIUM_TENDRILS_PLACED);
         biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModWorldgen.WITHERWOOD_TREE_PLACED);
         biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModWorldgen.WASTITE_SPIKE_PLACED);
+
+        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModWorldgen.CORALIUM_TENDRILS_PLACED);
+        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModWorldgen.LUMINOUS_THISTLE_PLACED);
+        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModWorldgen.WASTELANDS_THORN_PLACED);
 
         //SKY
             //LAST THING SO NOTHING GETS ONTO IT

@@ -12,18 +12,32 @@ import java.util.List;
 
 public class ModProcessorLists {
 
-    public static final ResourceKey<StructureProcessorList> GRAVITY_FOSSIL_PROCESSORS =
+    public static final ResourceKey<StructureProcessorList> GRAVITY_FOSSIL_PROCESSORS_GROUND =
             ResourceKey.create(Registries.PROCESSOR_LIST, Identifier.fromNamespaceAndPath("abyssalcraft_reawakening", "gravity_fossil_processors"));
+    public static final ResourceKey<StructureProcessorList> GRAVITY_FOSSIL_PROCESSORS_UP =
+            ResourceKey.create(Registries.PROCESSOR_LIST, Identifier.fromNamespaceAndPath("abyssalcraft_reawakening", "gravity_fossil_processors_up"));
 
     public static void bootstrap(BootstrapContext<StructureProcessorList> context) {
 
         context.register(
-                GRAVITY_FOSSIL_PROCESSORS,
+                GRAVITY_FOSSIL_PROCESSORS_GROUND,
                 new StructureProcessorList(
                         List.of(
                                 new GravityProcessor(
                                         Heightmap.Types.WORLD_SURFACE,
                                         -9
+                                )
+                        )
+                )
+        );
+
+        context.register(
+                GRAVITY_FOSSIL_PROCESSORS_UP,
+                new StructureProcessorList(
+                        List.of(
+                                new GravityProcessor(
+                                        Heightmap.Types.WORLD_SURFACE,
+                                        75
                                 )
                         )
                 )

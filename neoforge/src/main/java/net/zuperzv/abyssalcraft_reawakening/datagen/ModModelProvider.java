@@ -86,6 +86,8 @@ public class ModModelProvider extends ModelProvider {
 
         //Plants
         createCrossBlockWithItem(blockModels, itemModels, ModBlocks.CORALIUM_TENDRILS.block().get(), BlockModelGenerators.PlantType.NOT_TINTED);
+        createCrossBlockWithItem(blockModels, itemModels, ModBlocks.LUMINOUS_THISTLE.block().get(), BlockModelGenerators.PlantType.NOT_TINTED);
+        createCrossBlockWithItem(blockModels, itemModels, ModBlocks.WASTELANDS_THORN.block().get(), BlockModelGenerators.PlantType.NOT_TINTED);
         
         //Tree
             //WITHERWOOD

@@ -53,6 +53,9 @@ public final class ModBlockTags {
     public static final TagKey<Block> RED_WOOL_REPLACEABLE =
             create("red_wool_replaceable");
 
+    public static final TagKey<Block> SUPPORTS_ABYSS_VEGETATION =
+            create("supports_abyss_vegetation");
+
     public static TagKey<Block> create(String name) {
         return TagKey.create(Registries.BLOCK, Constants.id(name));
     }

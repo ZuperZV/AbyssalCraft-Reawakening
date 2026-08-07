@@ -4,6 +4,8 @@ import net.zuperzv.abyssalcraft_reawakening.init.ModCreativeTabs;
 import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.ModBlockEntities;
 import net.zuperzv.abyssalcraft_reawakening.init.component.ModDataComponentTypes;
+import net.zuperzv.abyssalcraft_reawakening.init.entity.ModEntityTypes;
+import net.zuperzv.abyssalcraft_reawakening.init.entity.render.ModEntityRenderers;
 import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.init.recipe.ModRecipes;
 import net.zuperzv.abyssalcraft_reawakening.init.screen.ModMenuTypes;
@@ -22,6 +24,8 @@ public class CommonClass {
             Constants.LOG.info("Hello to " + Constants.MOD_ID);
         }
 
+        ModEntityTypes.load();
+        ModEntityRenderers.load();
         ModItems.load();
         ModBlocks.load();
         ModDataComponentTypes.load();

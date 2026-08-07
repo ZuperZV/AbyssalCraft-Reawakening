@@ -3,6 +3,8 @@ package net.zuperzv.abyssalcraft_reawakening.init.block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.*;
@@ -46,14 +48,20 @@ public final class ModBlocks {
 
     public static final BlockWithItemRegistryHandle<Block> STARITE = Services.REGISTRY.registerBlockWithItem("starite",
             properties -> new RotatedPillarBlock(properties.mapColor(MapColor.GLOW_LICHEN).strength(0.3F).lightLevel(statex -> 15).sound(SoundType.FROGLIGHT)));
-
-    public static final BlockWithItemRegistryHandle<Block> CORALIUM_TENDRILS = Services.REGISTRY.registerBlockWithItem("coralium_tendrils",
-            properties -> new FireflyBushBlock(properties.mapColor(MapColor.PLANT).ignitedByLava().lightLevel((statex) -> 2).noCollision().noOcclusion().instabreak().sound(SoundType.SWEET_BERRY_BUSH).pushReaction(PushReaction.DESTROY)));
-
     public static final BlockWithItemRegistryHandle<Block> ABYSSAL_WASTELAND_ACTIVATOR = Services.REGISTRY.registerBlockWithItem("abyssal_wasteland_activator",
             properties -> new PortalActivatorBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(9.0F, 13.0F).sound(SoundType.VAULT)));
 
-        //Abyssal Witherwood Tree
+    public static final BlockWithItemRegistryHandle<Block> CORALIUM_TENDRILS = Services.REGISTRY.registerBlockWithItem("coralium_tendrils",
+            properties -> new ModPlantBlock(ParticleTypes.FIREFLY, 0.8f, properties.mapColor(MapColor.PLANT).ignitedByLava().lightLevel((statex) -> 2).noCollision().noOcclusion().instabreak().sound(SoundType.SWEET_BERRY_BUSH).pushReaction(PushReaction.DESTROY)));
+
+    public static final BlockWithItemRegistryHandle<Block> LUMINOUS_THISTLE = Services.REGISTRY.registerBlockWithItem("luminous_thistle",
+            properties -> new ModPlantBlock(ParticleTypes.OMINOUS_SPAWNING, 0.9f, MobEffects.NAUSEA, true, properties.mapColor(MapColor.PLANT).ignitedByLava().lightLevel((statex) -> 2).noCollision().noOcclusion().instabreak().sound(SoundType.SWEET_BERRY_BUSH).pushReaction(PushReaction.DESTROY)));
+
+    public static final BlockWithItemRegistryHandle<Block> WASTELANDS_THORN = Services.REGISTRY.registerBlockWithItem("wastelands_thorn",
+            properties -> new ModPlantBlock(ParticleTypes.ASH, 0.95f, MobEffects.INSTANT_DAMAGE, true, properties.mapColor(MapColor.PLANT).ignitedByLava().lightLevel((statex) -> 2).noCollision().noOcclusion().instabreak().sound(SoundType.SWEET_BERRY_BUSH).pushReaction(PushReaction.DESTROY)));
+
+
+    //Abyssal Witherwood Tree
     public static final BlockWithItemRegistryHandle<Block> WITHERWOOD_LOG = Services.REGISTRY.registerBlockWithItem("witherwood_log",
             properties -> new RotatedPillarBlock(properties.mapColor(MapColor.WOOD).sound(SoundType.WOOD).strength(2f).ignitedByLava()));
     

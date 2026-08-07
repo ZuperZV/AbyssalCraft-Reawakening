@@ -62,7 +62,7 @@ public final class ModWorldgenBootstrapper {
         HolderGetter<PlacedFeature> placedFeatures =
                 context.lookup(Registries.PLACED_FEATURE);
 
-        // CORALIUM TENDRILS
+        // PLANTS
         context.register(
                 ModWorldgen.CORALIUM_TENDRILS,
 
@@ -71,6 +71,32 @@ public final class ModWorldgenBootstrapper {
                         new SimpleBlockConfiguration(
                                 BlockStateProvider.simple(
                                         ModBlocks.CORALIUM_TENDRILS.block().get()
+                                )
+                        )
+                )
+        );
+
+        context.register(
+                ModWorldgen.LUMINOUS_THISTLE,
+
+                new ConfiguredFeature<>(
+                        Feature.SIMPLE_BLOCK,
+                        new SimpleBlockConfiguration(
+                                BlockStateProvider.simple(
+                                        ModBlocks.LUMINOUS_THISTLE.block().get()
+                                )
+                        )
+                )
+        );
+
+        context.register(
+                ModWorldgen.WASTELANDS_THORN,
+
+                new ConfiguredFeature<>(
+                        Feature.SIMPLE_BLOCK,
+                        new SimpleBlockConfiguration(
+                                BlockStateProvider.simple(
+                                        ModBlocks.WASTELANDS_THORN.block().get()
                                 )
                         )
                 )
@@ -301,7 +327,7 @@ public final class ModWorldgenBootstrapper {
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures =
                 context.lookup(Registries.CONFIGURED_FEATURE);
 
-        // CORALIUM TENDRILS
+        // PLANTS
         context.register(
                 ModWorldgen.CORALIUM_TENDRILS_PLACED,
 
@@ -328,6 +354,68 @@ public final class ModWorldgenBootstrapper {
                                                 3
                                         )
                                 ),
+
+                                BlockPredicateFilter.forPredicate(
+                                        BlockPredicate.ONLY_IN_AIR_PREDICATE
+                                )
+                        )
+                )
+        );
+
+        context.register(
+                ModWorldgen.LUMINOUS_THISTLE_PLACED,
+
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(
+                                ModWorldgen.LUMINOUS_THISTLE
+                        ),
+
+                        List.of(
+                                CountPlacement.of(1),
+
+                                RandomOffsetPlacement.ofTriangle(5, 3),
+
+                                HeightmapPlacement.onHeightmap(
+                                        Heightmap.Types.WORLD_SURFACE
+                                ),
+
+                                BlockPredicateFilter.forPredicate(
+                                        BlockPredicate.allOf(
+                                                BlockPredicate.ONLY_IN_AIR_PREDICATE,
+
+                                                BlockPredicate.wouldSurvive(
+                                                        ModBlocks.LUMINOUS_THISTLE.block()
+                                                                .get()
+                                                                .defaultBlockState(),
+                                                        BlockPos.ZERO
+                                                )
+                                        )
+                                ),
+
+                                BiomeFilter.biome()
+                        )
+                )
+        );
+
+        context.register(
+                ModWorldgen.WASTELANDS_THORN_PLACED,
+
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(
+                                ModWorldgen.WASTELANDS_THORN
+                        ),
+
+                        List.of(
+                                CountPlacement.of(1),
+                                InSquarePlacement.spread(),
+
+                                HeightRangePlacement.uniform(
+                                        VerticalAnchor.absolute(55),
+                                        VerticalAnchor.absolute(66)
+                                ),
+
+                                PlacementUtils.HEIGHTMAP_NO_LEAVES,
+                                BiomeFilter.biome(),
 
                                 BlockPredicateFilter.forPredicate(
                                         BlockPredicate.ONLY_IN_AIR_PREDICATE

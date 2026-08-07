@@ -1,6 +1,5 @@
 package net.zuperzv.abyssalcraft_reawakening.services;
 
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
@@ -11,6 +10,8 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -294,6 +295,24 @@ public class FabricRegistryHelper implements IRegistryHelper {
 
             @Override
             public PlacementModifierType<T> get() {
+                return registered;
+            }
+        };
+    }
+
+    @Override
+    public <T extends Entity> RegistryHandle<EntityType<T>> registerEntityType(String name, EntityType.Builder<T> builder) {
+        ResourceKey<EntityType<?>> key = IRegistryHelper.entityTypeKey(name);
+        Identifier id = key.identifier();
+        EntityType<T> registered = Registry.register(BuiltInRegistries.ENTITY_TYPE, id, builder.build(key));
+        return new RegistryHandle<>() {
+            @Override
+            public Identifier id() {
+                return id;
+            }
+
+            @Override
+            public EntityType<T> get() {
                 return registered;
             }
         };

@@ -7,6 +7,7 @@ import net.minecraft.world.item.equipment.ArmorType;
 import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.init.component.CodexTierData;
 import net.zuperzv.abyssalcraft_reawakening.init.component.ModDataComponentTypes;
+import net.zuperzv.abyssalcraft_reawakening.init.entity.ModEntityTypes;
 import net.zuperzv.abyssalcraft_reawakening.init.item.custom.NecronomiconItem;
 import net.zuperzv.abyssalcraft_reawakening.init.item.custom.StaffOfRendingItem;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
@@ -145,6 +146,12 @@ public class ModItems {
 
     public static final RegistryHandle<Item> WITHERWOOD_HANGING_SIGN = Services.REGISTRY.registerItem("witherwood_hanging_sign",
             properties -> new HangingSignItem(ModBlocks.WITHERWOOD_HANGING_SIGN.get(), ModBlocks.WITHERWOOD_WALL_HANGING_SIGN.get(), properties.stacksTo(16)));
+
+    public static final RegistryHandle<Item> WITHERWOOD_BOAT = Services.REGISTRY.registerItem("witherwood_boat",
+            properties -> new BoatItem(ModEntityTypes.WITHERWOOD_BOAT.get(), properties.stacksTo(1)));
+
+    public static final RegistryHandle<Item> WITHERWOOD_CHEST_BOAT = Services.REGISTRY.registerItem("witherwood_chest_boat",
+            properties -> new BoatItem(ModEntityTypes.WITHERWOOD_CHEST_BOAT.get(), properties.stacksTo(1)));
 
 
     //Coralium

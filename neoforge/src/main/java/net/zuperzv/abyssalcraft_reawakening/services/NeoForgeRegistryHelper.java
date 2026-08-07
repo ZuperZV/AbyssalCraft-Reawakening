@@ -7,6 +7,9 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -56,6 +59,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
             DeferredRegister.create(BuiltInRegistries.TREE_DECORATOR_TYPE, Constants.MOD_ID);
     private static final DeferredRegister<PlacementModifierType<?>> PLACEMENT_MODIFIERS =
             DeferredRegister.create(BuiltInRegistries.PLACEMENT_MODIFIER_TYPE.key(), Constants.MOD_ID);
+    public static final DeferredRegister.Entities ENTITIES = DeferredRegister.createEntities(Constants.MOD_ID);
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
@@ -314,6 +318,24 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
             @Override
             public PlacementModifierType<T> get() {
                 return holder.get();
+            }
+        };
+    }
+
+    @Override
+    public <T extends Entity> RegistryHandle<EntityType<T>> registerEntityType(String name, EntityType.Builder<T> builder) {
+        ResourceKey<EntityType<?>> key = IRegistryHelper.entityTypeKey(name);
+        Identifier id = key.identifier();
+        DeferredHolder<EntityType<?>, EntityType<T>> deferredEntityType = ENTITIES.register(name, () -> builder.build(key));
+        return new RegistryHandle<>() {
+            @Override
+            public Identifier id() {
+                return id;
+            }
+
+            @Override
+            public EntityType<T> get() {
+                return deferredEntityType.get();
             }
         };
     }

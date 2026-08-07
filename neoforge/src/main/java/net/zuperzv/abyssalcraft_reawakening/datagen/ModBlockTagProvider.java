@@ -145,5 +145,9 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
         this.tag(ModBlockTags.RED_WOOL_REPLACEABLE)
                 .add(Blocks.RED_WOOL);
+
+        this.tag(ModBlockTags.SUPPORTS_ABYSS_VEGETATION)
+                .addTags(BlockTags.SUPPORTS_VEGETATION)
+                .add(ModBlocks.CORRUPTED_SOIL.block().get());
     }
 }

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "abyssalcraft_reawakening:block/wastelands_thorn"
+  }
+}
