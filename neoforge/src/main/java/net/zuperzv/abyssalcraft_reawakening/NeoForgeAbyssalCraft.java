@@ -23,6 +23,7 @@ import net.zuperzv.abyssalcraft_reawakening.init.network.SetBookmarksPacket;
 import net.zuperzv.abyssalcraft_reawakening.init.network.SyncBookmarksPacket;
 import net.zuperzv.abyssalcraft_reawakening.init.recipe.ModRecipes;
 import net.zuperzv.abyssalcraft_reawakening.services.NeoForgeRegistryHelper;
+import net.zuperzv.abyssalcraft_reawakening.services.Services;
 import net.zuperzv.abyssalcraft_reawakening.services.util.ModWoodTypes;
 
 import static net.zuperzv.abyssalcraft_reawakening.Constants.MOD_ID;
@@ -57,6 +58,15 @@ public class NeoForgeAbyssalCraft {
 
     @EventBusSubscriber(modid = MOD_ID, value = Dist.CLIENT)
     public class ClientInit {
+
+        @SubscribeEvent
+        public static void registerEntityRenderers(
+                EntityRenderersEvent.RegisterRenderers event
+        ) {
+            Services.CLIENT_REGISTRY.applyEntityRendererRegistrations(
+                    event::registerEntityRenderer
+            );
+        }
 
         @SubscribeEvent
         public static void onRecipeReceived(RecipesReceivedEvent event) {

@@ -13,6 +13,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.zuperzv.abyssalcraft_reawakening.services.types.client.IClientRegistryHelper;
+import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
 import org.apache.commons.lang3.function.TriFunction;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public final class FabricClientRegistryHelper implements IClientRegistryHelper {
 
     @Override
     public <T extends Entity> void registerEntityRenderer(
-            Supplier<EntityType<T>> entityType,
+            RegistryHandle<EntityType<T>> entityType,
             EntityRendererProvider<T> provider
     ) {
         this.entityRenderers.add(new EntityRendererEntry<>(entityType, provider));

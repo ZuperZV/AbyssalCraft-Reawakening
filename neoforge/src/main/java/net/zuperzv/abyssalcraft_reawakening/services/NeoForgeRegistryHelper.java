@@ -62,6 +62,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
     public static final DeferredRegister.Entities ENTITIES = DeferredRegister.createEntities(Constants.MOD_ID);
 
     public static void register(IEventBus eventBus) {
+        ENTITIES.register(eventBus);
         ITEMS.register(eventBus);
         BLOCKS.register(eventBus);
         CREATIVE_MODE_TABS.register(eventBus);

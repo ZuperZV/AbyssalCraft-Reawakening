@@ -2,7 +2,7 @@ package net.zuperzv.abyssalcraft_reawakening.init.entity.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.object.boat.BoatModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -10,10 +10,12 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.BoatRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
+import net.minecraft.util.Unit;
 import net.zuperzv.abyssalcraft_reawakening.init.entity.custom.WitherwoodChestBoat;
 import org.joml.Quaternionf;
 
@@ -22,6 +24,8 @@ public class WitherwoodChestBoatRenderer
 
     private final Identifier texture;
     private final BoatModel model;
+
+    private final Model.Simple waterPatchModel;
 
     public WitherwoodChestBoatRenderer(
             EntityRendererProvider.Context context,
@@ -33,7 +37,12 @@ public class WitherwoodChestBoatRenderer
         this.shadowRadius = 0.8F;
 
         this.model = new BoatModel(
-                context.bakeLayer(ModelLayers.ACACIA_BOAT)
+                context.bakeLayer(ModelLayers.ACACIA_CHEST_BOAT)
+        );
+
+        this.waterPatchModel = new Model.Simple(
+                context.bakeLayer(ModelLayers.BOAT_WATER_PATCH),
+                (t) -> RenderTypes.waterMask()
         );
     }
 
@@ -53,14 +62,24 @@ public class WitherwoodChestBoatRenderer
         state.yRot = entity.getYRot(partialTicks);
         state.hurtTime = (float) entity.getHurtTime() - partialTicks;
         state.hurtDir = entity.getHurtDir();
+
         state.damageTime = Math.max(
                 entity.getDamage() - partialTicks,
                 0.0F
         );
+
         state.bubbleAngle = entity.getBubbleAngle(partialTicks);
         state.isUnderWater = entity.isUnderWater();
-        state.rowingTimeLeft = entity.getRowingTime(0, partialTicks);
-        state.rowingTimeRight = entity.getRowingTime(1, partialTicks);
+
+        state.rowingTimeLeft = entity.getRowingTime(
+                0,
+                partialTicks
+        );
+
+        state.rowingTimeRight = entity.getRowingTime(
+                1,
+                partialTicks
+        );
     }
 
     @Override
@@ -72,10 +91,16 @@ public class WitherwoodChestBoatRenderer
     ) {
         poseStack.pushPose();
 
-        poseStack.translate(0.0F, 0.375F, 0.0F);
+        poseStack.translate(
+                0.0F,
+                0.375F,
+                0.0F
+        );
 
         poseStack.mulPose(
-                Axis.YP.rotationDegrees(180.0F - state.yRot)
+                Axis.YP.rotationDegrees(
+                        180.0F - state.yRot
+                )
         );
 
         float hurt = state.hurtTime;
@@ -107,7 +132,11 @@ public class WitherwoodChestBoatRenderer
             );
         }
 
-        poseStack.scale(-1.0F, -1.0F, 1.0F);
+        poseStack.scale(
+                -1.0F,
+                -1.0F,
+                1.0F
+        );
 
         poseStack.mulPose(
                 Axis.YP.rotationDegrees(90.0F)
@@ -123,6 +152,19 @@ public class WitherwoodChestBoatRenderer
                 state.outlineColor,
                 (ModelFeatureRenderer.CrumblingOverlay) null
         );
+
+        if (!state.isUnderWater) {
+            submitNodeCollector.submitModel(
+                    this.waterPatchModel,
+                    Unit.INSTANCE,
+                    poseStack,
+                    this.texture,
+                    state.lightCoords,
+                    OverlayTexture.NO_OVERLAY,
+                    state.outlineColor,
+                    (ModelFeatureRenderer.CrumblingOverlay) null
+            );
+        }
 
         poseStack.popPose();
 

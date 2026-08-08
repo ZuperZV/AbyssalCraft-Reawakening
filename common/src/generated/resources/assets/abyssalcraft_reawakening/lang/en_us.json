@@ -1,6 +1,8 @@
 {
   "block.abyssalcraft_reawakening.abyssalnite_block": "Block of Abyssalnite",
   "block.abyssalcraft_reawakening.raw_abyssalnite_block": "Block of Raw Abyssalnite",
+  "entity.abyssalcraft_reawakening.witherwood_boat": "Witherwood Boat",
+  "entity.abyssalcraft_reawakening.witherwood_chest_boat": "Witherwood Chest Boat",
   "item.abyssalcraft_reawakening.abyssal_cobblestone": "Abyssal Cobblestone",
   "item.abyssalcraft_reawakening.abyssal_ghoul_flesh": "Abyssal Ghoul Flesh",
   "item.abyssalcraft_reawakening.abyssal_stone": "Abyssal Stone",
@@ -71,7 +73,9 @@
   "item.abyssalcraft_reawakening.transmutation_gem": "Transmutation Gem",
   "item.abyssalcraft_reawakening.wastelands_thorn": "Wastelands Thorn",
   "item.abyssalcraft_reawakening.wastite": "Wastite",
+  "item.abyssalcraft_reawakening.witherwood_boat": "Witherwood Boat",
   "item.abyssalcraft_reawakening.witherwood_button": "Witherwood Button",
+  "item.abyssalcraft_reawakening.witherwood_chest_boat": "Witherwood Chest Boat",
   "item.abyssalcraft_reawakening.witherwood_door": "Witherwood Door",
   "item.abyssalcraft_reawakening.witherwood_fence": "Witherwood Fence",
   "item.abyssalcraft_reawakening.witherwood_fence_gate": "Witherwood Fence Gate",
