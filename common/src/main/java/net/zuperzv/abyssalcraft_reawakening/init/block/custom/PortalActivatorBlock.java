@@ -38,7 +38,7 @@ public class PortalActivatorBlock extends Block {
 
     @Override
     protected InteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if (itemStack.getItem() == ModItems.SHADOW_GEM.get()) {
+        if (itemStack.getItem() == ModItems.GATEWAY_KEY.get()) {
 
             if (inPortalDimension(level)) {
                 Optional<BasePortalShape> optionalShape =

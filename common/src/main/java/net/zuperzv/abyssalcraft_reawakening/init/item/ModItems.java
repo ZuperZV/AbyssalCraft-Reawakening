@@ -23,7 +23,6 @@ public class ModItems {
                     .component(ModDataComponentTypes.CODEX_TIER.get(), new CodexTierData(1))
                     .component(DataComponents.DYED_COLOR, new DyedItemColor(0x643732))));
 
-
     //Shadow items
     public static final RegistryHandle<Item> SHADOW_FRAGMENT = Services.REGISTRY.registerItem("shadow_fragment",
             properties -> new Item(properties));
@@ -35,6 +34,9 @@ public class ModItems {
             properties -> new Item(properties));
 
     public static final RegistryHandle<Item> OBLIVION_SHARD = Services.REGISTRY.registerItem("oblivion_shard",
+            properties -> new Item(properties));
+
+    public static final RegistryHandle<Item> OBLIVION_CATALYST = Services.REGISTRY.registerItem("oblivion_catalyst",
             properties -> new Item(properties));
 
 
@@ -99,6 +101,9 @@ public class ModItems {
 
 
     //Abyssalnite
+    public static final RegistryHandle<Item> GATEWAY_KEY = Services.REGISTRY.registerItem("gateway_key",
+            properties -> new Item(properties.stacksTo(1)));
+
     public static final RegistryHandle<Item> ABYSSALNITE_INGOT = Services.REGISTRY.registerItem("abyssalnite_ingot",
             properties -> new Item(properties));
 

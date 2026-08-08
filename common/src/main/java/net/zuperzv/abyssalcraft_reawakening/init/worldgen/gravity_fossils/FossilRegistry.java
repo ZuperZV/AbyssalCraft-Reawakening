@@ -55,7 +55,7 @@ public class FossilRegistry {
             new FossilGenerator(
                     "chain",
 
-                    RarityFilter.onAverageOnceEvery(30),
+                    RarityFilter.onAverageOnceEvery(13),
 
                     List.of(
                             Constants.id("chain/chain_1"),

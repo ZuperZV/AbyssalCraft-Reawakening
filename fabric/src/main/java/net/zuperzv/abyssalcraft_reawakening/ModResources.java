@@ -18,6 +18,7 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.StandingSignRenderer;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
@@ -34,6 +35,7 @@ import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.StaffTooltipCompon
 import net.zuperzv.abyssalcraft_reawakening.init.network.SyncBookmarksPacket;
 import net.zuperzv.abyssalcraft_reawakening.init.screen.ModMenuTypes;
 import net.zuperzv.abyssalcraft_reawakening.init.screen.NecronomiconScreen;
+import net.zuperzv.abyssalcraft_reawakening.services.Services;
 import net.zuperzv.abyssalcraft_reawakening.services.util.ModWoodTypes;
 
 import java.util.concurrent.CompletableFuture;
@@ -44,6 +46,10 @@ public class ModResources implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        Services.CLIENT_REGISTRY.applyEntityRendererRegistrations(
+                EntityRenderers::register
+        );
+
         ModContainer container = FabricLoader.getInstance()
                 .getModContainer(Constants.MOD_ID)
                 .orElseThrow();

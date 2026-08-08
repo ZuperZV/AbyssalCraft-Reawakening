@@ -23,7 +23,7 @@ public class ModEntityTypes {
             Services.REGISTRY.registerEntityType(
                     "witherwood_boat",
                     EntityType.Builder.of(
-                                    boatFactory(ModItems.WITHERWOOD_BOAT::get),
+                                    boatFactory(() -> ModItems.WITHERWOOD_BOAT.get()),
                                     MobCategory.MISC
                             )
                             .noLootTable()
@@ -36,7 +36,7 @@ public class ModEntityTypes {
             Services.REGISTRY.registerEntityType(
                     "witherwood_chest_boat",
                     EntityType.Builder.of(
-                                    chestBoatFactory(ModItems.WITHERWOOD_CHEST_BOAT::get),
+                                    chestBoatFactory(() -> ModItems.WITHERWOOD_CHEST_BOAT.get()),
                                     MobCategory.MISC
                             )
                             .noLootTable()

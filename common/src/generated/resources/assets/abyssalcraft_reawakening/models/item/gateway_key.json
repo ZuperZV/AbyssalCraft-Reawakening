@@ -1,0 +1,6 @@
+{
+  "parent": "abyssalcraft_reawakening:item/reversed_handheldt",
+  "textures": {
+    "layer0": "abyssalcraft_reawakening:item/gateway_key"
+  }
+}

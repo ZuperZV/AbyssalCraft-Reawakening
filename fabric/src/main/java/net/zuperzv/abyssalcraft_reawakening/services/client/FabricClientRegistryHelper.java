@@ -56,7 +56,7 @@ public final class FabricClientRegistryHelper implements IClientRegistryHelper {
         MenuScreens.register(menuType, screenFactory::apply);
     }
 
-    private record EntityRendererEntry<T extends Entity>(Supplier<EntityType<T>> entityType, EntityRendererProvider<T> provider) {
+    private record EntityRendererEntry<T extends Entity>(RegistryHandle<EntityType<T>> entityType, EntityRendererProvider<T> provider) {
         private void register(EntityRendererRegistrar registrar) {
             registrar.register(this.entityType.get(), this.provider);
         }

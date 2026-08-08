@@ -13,6 +13,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.datagen.custom.StoneRitualAltarRecipeBuilder;
 import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
@@ -31,7 +32,28 @@ public class ModRecipeProvider extends RecipeProvider {
     @Override
     protected void buildRecipes() {
         //Necronomicon
+
+        shaped(RecipeCategory.MISC, ModItems.NECRONOMICON.get(),
+                new String[]{
+                        "AAC",
+                        "ABA",
+                        "AAC"
+                },
+                new Key('A', Items.ROTTEN_FLESH),
+                new Key('B', Items.BOOK),
+                new Key('C', Items.IRON_INGOT));
+
         dyedItem(ModItems.NECRONOMICON.get(), "dyed_item");
+
+        shaped(RecipeCategory.MISC, ModItems.GATEWAY_KEY.get(),
+                new String[]{
+                        " BA",
+                        " CB",
+                        "C  "
+                },
+                new Key('A', ModItems.OBLIVION_CATALYST.get()),
+                new Key('B', ModItems.CORALIUM_PEARL.get()),
+                new Key('C', Items.BLAZE_ROD));
 
 
         //Skin Of
@@ -77,6 +99,27 @@ public class ModRecipeProvider extends RecipeProvider {
                 },
                 new Key('A', ModItems.SHADOW_GEM.get()),
                 new Key('B', ModItems.TRANSMUTATION_GEM.get()));
+
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC, ModItems.OBLIVION_CATALYST.get(),
+                        Ingredient.of(Items.ENDER_EYE)
+                )
+                .addIngredient(Ingredient.of(Items.REDSTONE)) //Venster
+                .addIngredient(Ingredient.of(Items.REDSTONE)) //Up
+                .addIngredient(Ingredient.of(Items.REDSTONE)) //Højere
+                .addIngredient(Ingredient.of(Items.REDSTONE)) //Ned
+                .addIngredient(Ingredient.of(ModItems.OBLIVION_SHARD.get())) //Venster Up
+                .addIngredient(Ingredient.of(ModItems.OBLIVION_SHARD.get())) //Højere Up
+                .addIngredient(Ingredient.of(ModItems.OBLIVION_SHARD.get())) //Højere Ned
+                .addIngredient(Ingredient.of(ModItems.OBLIVION_SHARD.get())) //Venster Ned
+                .time(TimeOfDay.BOTH)
+                .duration(1000)
+                .potentialEnergy(5000)
+                .unlockedBy(
+                        "has_oblivion_shard",
+                        has(ModItems.OBLIVION_SHARD.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("oblivion_catalyst")));
 
         //Staf of rendering
         shaped(RecipeCategory.MISC, ModItems.STAFF_OF_RENDING.get(),

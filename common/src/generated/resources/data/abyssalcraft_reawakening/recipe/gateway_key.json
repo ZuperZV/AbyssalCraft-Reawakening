@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": "abyssalcraft_reawakening:oblivion_catalyst",
+    "B": "abyssalcraft_reawakening:coralium_pearl",
+    "C": "minecraft:blaze_rod"
+  },
+  "pattern": [
+    " BA",
+    " CB",
+    "C  "
+  ],
+  "result": {
+    "id": "abyssalcraft_reawakening:gateway_key"
+  }
+}

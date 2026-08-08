@@ -103,6 +103,8 @@ public class NecronomiconItem extends Item {
                 max
         );
 
+        if (newAmount > max) newAmount = max;
+
         energyData.setPotentialEnergy(newAmount);
 
         stack.set(
@@ -117,7 +119,7 @@ public class NecronomiconItem extends Item {
         );
 
         if (tier == null) {
-            return 500;
+            return 5000;
         }
 
         return getMaxPotentialEnergy(tier.getTier());
@@ -125,12 +127,12 @@ public class NecronomiconItem extends Item {
 
     public static int getMaxPotentialEnergy(int tier) {
         return switch (tier) {
-            case 1 -> 500;
-            case 2 -> 10_000;
-            case 3 -> 20_000;
-            case 4 -> 40_000;
-            case 5 -> 100_000;
-            default -> 500;
+            //case 1 -> 5000;
+            case 2 -> 10000;
+            case 3 -> 20000;
+            case 4 -> 40000;
+            case 5 -> 100000;
+            default -> 5000;
         };
     }
 

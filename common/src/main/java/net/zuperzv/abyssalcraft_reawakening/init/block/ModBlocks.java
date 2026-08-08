@@ -48,6 +48,7 @@ public final class ModBlocks {
 
     public static final BlockWithItemRegistryHandle<Block> STARITE = Services.REGISTRY.registerBlockWithItem("starite",
             properties -> new RotatedPillarBlock(properties.mapColor(MapColor.GLOW_LICHEN).strength(0.3F).lightLevel(statex -> 15).sound(SoundType.FROGLIGHT)));
+
     public static final BlockWithItemRegistryHandle<Block> ABYSSAL_WASTELAND_ACTIVATOR = Services.REGISTRY.registerBlockWithItem("abyssal_wasteland_activator",
             properties -> new PortalActivatorBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(9.0F, 13.0F).sound(SoundType.VAULT)));
 
@@ -61,7 +62,7 @@ public final class ModBlocks {
             properties -> new ModPlantBlock(ParticleTypes.ASH, 0.95f, MobEffects.INSTANT_DAMAGE, true, properties.mapColor(MapColor.PLANT).ignitedByLava().lightLevel((statex) -> 2).noCollision().noOcclusion().instabreak().sound(SoundType.SWEET_BERRY_BUSH).pushReaction(PushReaction.DESTROY)));
 
 
-    //Abyssal Witherwood Tree
+        //Abyssal Witherwood Tree
     public static final BlockWithItemRegistryHandle<Block> WITHERWOOD_LOG = Services.REGISTRY.registerBlockWithItem("witherwood_log",
             properties -> new RotatedPillarBlock(properties.mapColor(MapColor.WOOD).sound(SoundType.WOOD).strength(2f).ignitedByLava()));
     

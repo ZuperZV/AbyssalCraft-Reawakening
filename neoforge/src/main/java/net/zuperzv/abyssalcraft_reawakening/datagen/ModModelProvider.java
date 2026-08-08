@@ -11,6 +11,7 @@ import net.minecraft.client.data.models.model.*;
 import net.minecraft.client.renderer.item.ClientItem;
 import net.minecraft.client.renderer.item.ConditionalItemModel;
 import net.minecraft.client.renderer.item.ItemModel;
+import net.minecraft.client.renderer.item.ItemModels;
 import net.minecraft.client.renderer.item.properties.conditional.HasComponent;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.Direction;
@@ -57,6 +58,9 @@ public class ModModelProvider extends ModelProvider {
     protected void registerModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
 
         generateItemWithTintedOverlay(itemModels, ModItems.NECRONOMICON.get(), new DyedColorTintSource());
+
+        //Gateway key
+        generateReversedHandheldtItem(itemModels, ModItems.GATEWAY_KEY.get());
 
         //Sword in hand
         generateInHand(itemModels, ModItems.ABYSSALNITE_SWORD.get(), ModelTemplates.FLAT_ITEM, SWORD_IN_HAND);
@@ -396,6 +400,16 @@ public class ModModelProvider extends ModelProvider {
         itemModels.generateFlatItem(item, ModelTemplates.FLAT_ITEM);
     }
 
+    private void generateReversedHandheldtItem(ItemModelGenerators itemModels, Item item) {
+        generatedItems.add(item);
+        itemModels.generateFlatItem(item, REVERSED_HANDHELDT);
+    }
+
+    private void generateHandheldItem(ItemModelGenerators itemModels, Item item) {
+        generatedItems.add(item);
+        itemModels.generateFlatItem(item, ModelTemplates.FLAT_HANDHELD_ITEM);
+    }
+
     private void generateItem(ItemModelGenerators itemModels, Item item, String suffix, DataComponentType<?> componentType) {
         generateItem(itemModels, item, suffix, componentType, ModelTemplates.FLAT_ITEM);
     }
@@ -697,8 +711,10 @@ public class ModModelProvider extends ModelProvider {
                     TextureSlot.LAYER1
             );
     public static final ModelTemplate SWORD_IN_HAND;
+    public static final ModelTemplate REVERSED_HANDHELDT;
     static {
         SWORD_IN_HAND = createItem("in_hand", "in_hand", TextureSlot.LAYER0);
+        REVERSED_HANDHELDT = createItem("reversed_handheldt", "reversed_handheldt", TextureSlot.LAYER0);
     }
 
     public static ModelTemplate createItem(String id, String suffix, TextureSlot... slots) {

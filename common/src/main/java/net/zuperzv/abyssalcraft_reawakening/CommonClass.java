@@ -1,6 +1,6 @@
 package net.zuperzv.abyssalcraft_reawakening;
 
-import net.zuperzv.abyssalcraft_reawakening.init.ModCreativeTabs;
+import net.zuperzv.abyssalcraft_reawakening.init.creativetab.ModCreativeTabs;
 import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.init.block.entity.ModBlockEntities;
 import net.zuperzv.abyssalcraft_reawakening.init.component.ModDataComponentTypes;

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": "minecraft:rotten_flesh",
+    "B": "minecraft:book",
+    "C": "minecraft:iron_ingot"
+  },
+  "pattern": [
+    "AAC",
+    "ABA",
+    "AAC"
+  ],
+  "result": {
+    "id": "abyssalcraft_reawakening:necronomicon"
+  }
+}
