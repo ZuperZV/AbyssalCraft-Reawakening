@@ -5,7 +5,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
-import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.random.WeightedList;
 import net.minecraft.util.valueproviders.BiasedToBottomInt;
@@ -32,7 +31,6 @@ import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
-import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlockTags;
 import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.init.worldgen.gravity_fossils.FossilGenerator;
@@ -175,6 +173,7 @@ public final class ModWorldgenBootstrapper {
 
                                 BlockPredicate.matchesBlocks(
                                         ModBlocks.ABYSSAL_STONE.block().get(),
+                                        ModBlocks.ABYSSAL_SAND.block().get(),
                                         Blocks.MUD
                                 ),
 
@@ -215,20 +214,6 @@ public final class ModWorldgenBootstrapper {
 
 
         //Spike generation
-        WeightedStateProvider WASTITESpikeProvider =
-                new WeightedStateProvider(
-                        WeightedList.<BlockState>builder()
-                                .add(
-                                        ModBlocks.WASTITE.block().get().defaultBlockState(),
-                                        19
-                                )
-                                .add(
-                                        ModBlocks.STARITE.block().get().defaultBlockState(),
-                                        1
-                                )
-                                .build()
-                );
-
 
 //     air at  0,-2,-1
 //     AND air at  0,-2, 1
@@ -258,8 +243,23 @@ public final class ModWorldgenBootstrapper {
                         )
                 );
 
-        BlockPredicate WASTITESpikePlacement =
+        BlockPredicate SpikePlacement =
                 BlockPredicate.not(surroundingAir);
+
+        //WASTITE
+        WeightedStateProvider WASTITESpikeProvider =
+                new WeightedStateProvider(
+                        WeightedList.<BlockState>builder()
+                                .add(
+                                        ModBlocks.WASTITE.block().get().defaultBlockState(),
+                                        19
+                                )
+                                .add(
+                                        ModBlocks.STARITE.block().get().defaultBlockState(),
+                                        1
+                                )
+                                .build()
+                );
 
         context.register(
                 ModWorldgen.WASTITE_SPIKE_COLUMN,
@@ -277,7 +277,7 @@ public final class ModWorldgenBootstrapper {
 
                                 Direction.UP,
 
-                                WASTITESpikePlacement,
+                                SpikePlacement,
 
                                 false
                         )
@@ -303,6 +303,74 @@ public final class ModWorldgenBootstrapper {
                                 ),
 
                                 WASTITESpikeColumn,
+                                CaveSurface.FLOOR,
+                                ConstantInt.of(7),
+                                0.3F,
+                                27,
+                                1.0F,
+                                UniformInt.of(0, 2),
+                                0.5F
+                        )
+                )
+        );
+
+        //Abyssal Stone Spike generation
+        WeightedStateProvider ABYSSAL_STONESpikeProvider =
+                new WeightedStateProvider(
+                        WeightedList.<BlockState>builder()
+                                .add(
+                                        ModBlocks.ABYSSAL_STONE.block().get().defaultBlockState(),
+                                        19
+                                )
+                                .add(
+                                        ModBlocks.ABYSSAL_COBBLESTONE.block().get().defaultBlockState(),
+                                        1
+                                )
+                                .build()
+                );
+
+        context.register(
+                ModWorldgen.ABYSSAL_STONE_SPIKE_COLUMN,
+
+                new ConfiguredFeature<>(
+                        Feature.BLOCK_COLUMN,
+
+                        new BlockColumnConfiguration(
+                                List.of(
+                                        BlockColumnConfiguration.layer(
+                                                BiasedToBottomInt.of(1, 3),
+                                                ABYSSAL_STONESpikeProvider
+                                        )
+                                ),
+
+                                Direction.UP,
+
+                                SpikePlacement,
+
+                                false
+                        )
+                )
+        );
+
+        Holder<PlacedFeature> ABYSSAL_STONESpikeColumn =
+                placedFeatures.getOrThrow(
+                        ModWorldgen.ABYSSAL_STONE_SPIKE_COLUMN_PLACED
+                );
+
+        context.register(
+                ModWorldgen.ABYSSAL_STONE_SPIKE_PATCH,
+
+                new ConfiguredFeature<>(
+                        Feature.VEGETATION_PATCH,
+
+                        new VegetationPatchConfiguration(
+                                ModBlockTags.ABYSSAL_WAISTLAND_SURFACES,
+
+                                BlockStateProvider.simple(
+                                        ModBlocks.ABYSSAL_STONE.block().get().defaultBlockState()
+                                ),
+
+                                ABYSSAL_STONESpikeColumn,
                                 CaveSurface.FLOOR,
                                 ConstantInt.of(7),
                                 0.3F,
@@ -450,6 +518,21 @@ public final class ModWorldgenBootstrapper {
                 )
         );
 
+        context.register(ModWorldgen.RARE_ABYSSAL_MUD_DISK_PLACED,
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(ModWorldgen.ABYSSAL_MUD_DISK),
+                        List.of(
+                                CountPlacement.of(ConstantInt.of(2)),
+                                InSquarePlacement.spread(),
+                                HeightRangePlacement.uniform(
+                                        VerticalAnchor.absolute(30),
+                                        VerticalAnchor.absolute(120)
+                                ),
+                                BiomeFilter.biome()
+                        )
+                )
+        );
+
         context.register(ModWorldgen.ABYSSALNITE_ORE_PLACED, new PlacedFeature(
                 configuredFeatures.getOrThrow(ModWorldgen.ABYSSALNITE_ORE),
                 List.of(
@@ -509,6 +592,67 @@ public final class ModWorldgenBootstrapper {
 
                         List.of(
                                 RarityFilter.onAverageOnceEvery(5),
+
+                                InSquarePlacement.spread(),
+
+                                CountPlacement.of(10),
+
+                                HeightmapPlacement.onHeightmap(
+                                        Heightmap.Types.WORLD_SURFACE
+                                ),
+
+                                BiomeFilter.biome()
+                        )
+                )
+        );
+
+        //Abyssal stone Spike Gen
+        context.register(
+                ModWorldgen.ABYSSAL_STONE_SPIKE_COLUMN_PLACED,
+
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(
+                                ModWorldgen.ABYSSAL_STONE_SPIKE_COLUMN
+                        ),
+                        List.of()
+                )
+        );
+
+        context.register(
+                ModWorldgen.ABYSSAL_STONE_SPIKE_PLACED,
+
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(
+                                ModWorldgen.ABYSSAL_STONE_SPIKE_PATCH
+                        ),
+
+                        List.of(
+                                RarityFilter.onAverageOnceEvery(5),
+
+                                InSquarePlacement.spread(),
+
+                                CountPlacement.of(10),
+
+                                HeightmapPlacement.onHeightmap(
+                                        Heightmap.Types.WORLD_SURFACE
+                                ),
+
+                                BiomeFilter.biome()
+                        )
+                )
+        );
+
+        //FOREST_ROCK
+        context.register(
+                ModWorldgen.ABYSSAL_STONE_FOREST_ROCK_PLACED,
+
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(
+                                ModWorldgen.ABYSSAL_STONE_FOREST_ROCK
+                        ),
+
+                        List.of(
+                                RarityFilter.onAverageOnceEvery(7),
 
                                 InSquarePlacement.spread(),
 

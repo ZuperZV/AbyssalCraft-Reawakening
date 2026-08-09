@@ -6,9 +6,9 @@
   ],
   "downfall": 0.0,
   "effects": {
-    "foliage_color": "#463e57",
-    "grass_color": "#1b1b1b",
-    "water_color": "#130f1c"
+    "foliage_color": "#4a304a",
+    "grass_color": "#3b293f",
+    "water_color": "#25152c"
   },
   "features": [
     [],
@@ -23,24 +23,27 @@
     [],
     [],
     [
-      "abyssalcraft_reawakening:witherwood_tree",
-      "abyssalcraft_reawakening:wastite_spike",
+      "abyssalcraft_reawakening:abyssal_stone_spike",
       "abyssalcraft_reawakening:vanila_fossil/marker",
       "abyssalcraft_reawakening:vanila_fossil/disk",
       "abyssalcraft_reawakening:vanila_fossil/fossil",
       "abyssalcraft_reawakening:vanila_fossil/disk_cleanup",
       "abyssalcraft_reawakening:vanila_fossil/marker_cleanup",
       "abyssalcraft_reawakening:coralium_tendrils",
-      "abyssalcraft_reawakening:luminous_thistle",
       "abyssalcraft_reawakening:wastelands_thorn",
       "abyssalcraft_reawakening:chain/marker",
       "abyssalcraft_reawakening:chain/disk",
       "abyssalcraft_reawakening:chain/fossil",
       "abyssalcraft_reawakening:chain/disk_cleanup",
-      "abyssalcraft_reawakening:chain/marker_cleanup"
+      "abyssalcraft_reawakening:chain/marker_cleanup",
+      "abyssalcraft_reawakening:fallen_chain/marker",
+      "abyssalcraft_reawakening:fallen_chain/disk",
+      "abyssalcraft_reawakening:fallen_chain/fossil",
+      "abyssalcraft_reawakening:fallen_chain/disk_cleanup",
+      "abyssalcraft_reawakening:fallen_chain/marker_cleanup"
     ],
     [
-      "abyssalcraft_reawakening:abyssal_mud_disk"
+      "abyssalcraft_reawakening:rare_abyssal_mud_disk"
     ]
   ],
   "has_precipitation": false,
@@ -55,5 +58,5 @@
     "water_ambient": [],
     "water_creature": []
   },
-  "temperature": 0.6
+  "temperature": 1.2
 }

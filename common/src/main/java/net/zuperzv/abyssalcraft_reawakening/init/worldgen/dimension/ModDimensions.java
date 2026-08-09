@@ -90,42 +90,125 @@ public class ModDimensions {
                 new FixedBiomeSource(biomes.getOrThrow(ModBiomes.ABYSSAL_WASTELANDS_BIOME)),
                 noiseGenSettings.getOrThrow(ABYSSAL_WASTELAND_NOISE));
 
-        NoiseBasedChunkGenerator multiBiomeGenerator = new NoiseBasedChunkGenerator(
-                MultiNoiseBiomeSource.createFromList(
-                        new Climate.ParameterList<>(List.of(
+        NoiseBasedChunkGenerator multiBiomeGenerator =
+                new NoiseBasedChunkGenerator(
 
-                                // Dybt ocean (lav continentalness)
-                                Pair.of(
-                                        Climate.parameters(-1.0f, -0.5f, 0f, 0f, 0f, 0f, 0f),
-                                        biomes.getOrThrow(ModBiomes.ABYSSAL_WASTELANDS_BIOME)
-                                ),
+                        MultiNoiseBiomeSource.createFromList(
+                                new Climate.ParameterList<>(List.of(
 
-                                // Kyst / strand overgang
-                                Pair.of(
-                                        Climate.parameters(-0.5f, -0.1f, 0f, 0f, 0f, 0f, 0f),
-                                        biomes.getOrThrow(ModBiomes.ABYSSAL_WASTELANDS_BIOME)
-                                ),
+                                        Pair.of(
+                                                Climate.parameters(
+                                                        -1.0f,
+                                                        -0.45f,
+                                                        0.8f,
+                                                        0.0f,
+                                                        0.0f,
+                                                        0.0f,
+                                                        0.0f
+                                                ),
+                                                biomes.getOrThrow(
+                                                        ModBiomes.CORALLIUM_LAKE
+                                                )
+                                        ),
 
-                                // Normalt land
-                                Pair.of(
-                                        Climate.parameters(-0.1f, 0.3f, 0f, 0f, 0f, 0f, 0f),
-                                        biomes.getOrThrow(ModBiomes.ABYSSAL_WASTELANDS_BIOME)
-                                ),
+                                        Pair.of(
+                                                Climate.parameters(
+                                                        -0.45f,
+                                                        -0.05f,
+                                                        0.7f,
+                                                        0.5f,
+                                                        0.0f,
+                                                        0.0f,
+                                                        0.0f
+                                                ),
+                                                biomes.getOrThrow(
+                                                        ModBiomes.ABYSSAL_SWAMP
+                                                )
+                                        ),
 
-                                Pair.of(
-                                        Climate.parameters(0.3f, 0.6f, 0f, 0f, 0f, 0f, 0f),
-                                        biomes.getOrThrow(ModBiomes.ABYSSAL_WASTELANDS_BIOME)
-                                ),
+                                        Pair.of(
+                                                Climate.parameters(
+                                                        -0.05f,
+                                                        0.25f,
+                                                        1.0f,
+                                                        -0.8f,
+                                                        0.0f,
+                                                        0.0f,
+                                                        0.0f
+                                                ),
+                                                biomes.getOrThrow(
+                                                        ModBiomes.ABYSSAL_DESERT
+                                                )
+                                        ),
 
-                                Pair.of(
-                                        Climate.parameters(0.6f, 1.0f, 0f, 0f, 0f, 0f, 0f),
-                                        biomes.getOrThrow(ModBiomes.ABYSSAL_WASTELANDS_BIOME)
-                                )
-                        ))
-                ),
-                noiseGenSettings.getOrThrow(ABYSSAL_WASTELAND_NOISE));
+                                        Pair.of(
+                                                Climate.parameters(
+                                                        0.0f,
+                                                        0.55f,
+                                                        0.55f,
+                                                        0.65f,
+                                                        0.0f,
+                                                        0.0f,
+                                                        0.0f
+                                                ),
+                                                biomes.getOrThrow(
+                                                        ModBiomes.DARKLANDS_FOREST
+                                                )
+                                        ),
 
-        context.register(THE_ABYSSAL_WASTELAND_KEY, new LevelStem(dimensionTypes.getOrThrow(ModDimensions.THE_ABYSSAL_WASTELAND_DIM_TYPE_KEY), singleBiomeGenerator));
+                                        Pair.of(
+                                                Climate.parameters(
+                                                        0.2f,
+                                                        0.7f,
+                                                        0.45f,
+                                                        -0.25f,
+                                                        0.0f,
+                                                        0.0f,
+                                                        0.0f
+                                                ),
+                                                biomes.getOrThrow(
+                                                        ModBiomes.ABYSSAL_WASTELANDS_BIOME
+                                                )
+                                        ),
+
+                                        Pair.of(
+                                                Climate.parameters(
+                                                        0.45f,
+                                                        0.85f,
+                                                        0.2f,
+                                                        -0.35f,
+                                                        0.5f,
+                                                        0.0f,
+                                                        0.0f
+                                                ),
+                                                biomes.getOrThrow(
+                                                        ModBiomes.ABYSSAL_PLATEAU
+                                                )
+                                        ),
+
+                                        Pair.of(
+                                                Climate.parameters(
+                                                        0.35f,
+                                                        1.0f,
+                                                        -0.1f,
+                                                        -0.1f,
+                                                        1.0f,
+                                                        0.0f,
+                                                        0.0f
+                                                ),
+                                                biomes.getOrThrow(
+                                                        ModBiomes.DARKLANDS_MOUNTAINS
+                                                )
+                                        )
+                                ))
+                        ),
+
+                        noiseGenSettings.getOrThrow(
+                                ABYSSAL_WASTELAND_NOISE
+                        )
+                );
+
+        context.register(THE_ABYSSAL_WASTELAND_KEY, new LevelStem(dimensionTypes.getOrThrow(ModDimensions.THE_ABYSSAL_WASTELAND_DIM_TYPE_KEY), multiBiomeGenerator));
     }
 
 

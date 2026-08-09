@@ -38,6 +38,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         tag(ModBlockTags.ABYSSAL_WAISTLAND_SURFACES)
                 .add(ModBlocks.ABYSSAL_STONE.block().get())
                 .add(ModBlocks.CORRUPTED_SOIL.block().get())
+                .add(ModBlocks.ABYSSAL_SAND.block().get())
                 .add(ModBlocks.WASTITE.block().get())
                 .add(Blocks.MUD);
 

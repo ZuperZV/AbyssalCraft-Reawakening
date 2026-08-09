@@ -6,9 +6,9 @@
   ],
   "downfall": 0.0,
   "effects": {
-    "foliage_color": "#463e57",
-    "grass_color": "#1b1b1b",
-    "water_color": "#130f1c"
+    "foliage_color": "#3c354a",
+    "grass_color": "#2b2734",
+    "water_color": "#171321"
   },
   "features": [
     [],
@@ -37,7 +37,12 @@
       "abyssalcraft_reawakening:chain/disk",
       "abyssalcraft_reawakening:chain/fossil",
       "abyssalcraft_reawakening:chain/disk_cleanup",
-      "abyssalcraft_reawakening:chain/marker_cleanup"
+      "abyssalcraft_reawakening:chain/marker_cleanup",
+      "abyssalcraft_reawakening:fallen_chain/marker",
+      "abyssalcraft_reawakening:fallen_chain/disk",
+      "abyssalcraft_reawakening:fallen_chain/fossil",
+      "abyssalcraft_reawakening:fallen_chain/disk_cleanup",
+      "abyssalcraft_reawakening:fallen_chain/marker_cleanup"
     ],
     [
       "abyssalcraft_reawakening:abyssal_mud_disk"

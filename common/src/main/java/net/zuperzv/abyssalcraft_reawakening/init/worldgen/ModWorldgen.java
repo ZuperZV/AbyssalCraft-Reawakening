@@ -14,11 +14,17 @@ public final class ModWorldgen {
     public static final ResourceKey<ConfiguredFeature<?, ?>> LUMINOUS_THISTLE = configuredFeatureKey("luminous_thistle");
     public static final ResourceKey<ConfiguredFeature<?, ?>> WASTELANDS_THORN = configuredFeatureKey("wastelands_thorn");
 
+
     public static final ResourceKey<ConfiguredFeature<?, ?>> WITHERWOOD_TREE = configuredFeatureKey("witherwood_tree");
     public static final ResourceKey<ConfiguredFeature<?, ?>> SAPLING_WITHERWOOD_TREE = configuredFeatureKey("sapling_witherwood_tree");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> WASTITE_SPIKE_PATCH = configuredFeatureKey("wastite_spike_patch");
     public static final ResourceKey<ConfiguredFeature<?, ?>> WASTITE_SPIKE_COLUMN = configuredFeatureKey("wastite_spike_column");
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> ABYSSAL_STONE_SPIKE_PATCH = configuredFeatureKey("abyssal_stone_spike_patch");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> ABYSSAL_STONE_SPIKE_COLUMN = configuredFeatureKey("abyssal_stone_spike_column");
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> ABYSSAL_STONE_FOREST_ROCK = configuredFeatureKey("abyssal_stone_forest_rock");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> ABYSSAL_MUD_DISK = configuredFeatureKey("abyssal_mud_disk");
     public static final ResourceKey<ConfiguredFeature<?, ?>> ABYSSALNITE_ORE = configuredFeatureKey("abyssalnite_ore");
@@ -37,7 +43,13 @@ public final class ModWorldgen {
     public static final ResourceKey<PlacedFeature> WASTITE_SPIKE_COLUMN_PLACED = placedFeatureKey("wastite_spike_column");
     public static final ResourceKey<PlacedFeature> WASTITE_SPIKE_PLACED = placedFeatureKey("wastite_spike");
 
+    public static final ResourceKey<PlacedFeature> ABYSSAL_STONE_SPIKE_COLUMN_PLACED = placedFeatureKey("abyssal_stone_spike_column");
+    public static final ResourceKey<PlacedFeature> ABYSSAL_STONE_SPIKE_PLACED = placedFeatureKey("abyssal_stone_spike");
+
+    public static final ResourceKey<PlacedFeature> ABYSSAL_STONE_FOREST_ROCK_PLACED = placedFeatureKey("abyssal_stone_forest_rock");
+
     public static final ResourceKey<PlacedFeature> ABYSSAL_MUD_DISK_PLACED = placedFeatureKey("abyssal_mud_disk");
+    public static final ResourceKey<PlacedFeature> RARE_ABYSSAL_MUD_DISK_PLACED = placedFeatureKey("rare_abyssal_mud_disk");
     public static final ResourceKey<PlacedFeature> ABYSSALNITE_ORE_PLACED = placedFeatureKey("abyssalnite_ore");
 
     public static final ResourceKey<PlacedFeature> ABYSSALNITE_OVERWORLD_ORE_PLACED = placedFeatureKey("abyssalnite_overworld_ore");

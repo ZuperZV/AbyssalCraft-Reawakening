@@ -1,10 +1,6 @@
 {
-  "feature": "abyssalcraft_reawakening:chain/marker",
+  "feature": "abyssalcraft_reawakening:fallen_chain/marker_cleanup",
   "placement": [
-    {
-      "type": "minecraft:rarity_filter",
-      "chance": 60
-    },
     {
       "type": "minecraft:height_range",
       "height": {

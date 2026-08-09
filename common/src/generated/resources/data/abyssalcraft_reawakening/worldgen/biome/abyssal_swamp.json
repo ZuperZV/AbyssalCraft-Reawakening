@@ -4,11 +4,11 @@
     "minecraft:cave_extra_underground",
     "minecraft:canyon"
   ],
-  "downfall": 0.0,
+  "downfall": 1.0,
   "effects": {
-    "foliage_color": "#463e57",
-    "grass_color": "#1b1b1b",
-    "water_color": "#130f1c"
+    "foliage_color": "#304d38",
+    "grass_color": "#263c2d",
+    "water_color": "#111c24"
   },
   "features": [
     [],
@@ -43,7 +43,7 @@
       "abyssalcraft_reawakening:abyssal_mud_disk"
     ]
   ],
-  "has_precipitation": false,
+  "has_precipitation": true,
   "spawn_costs": {},
   "spawners": {
     "ambient": [],
@@ -55,5 +55,5 @@
     "water_ambient": [],
     "water_creature": []
   },
-  "temperature": 0.6
+  "temperature": 0.8
 }

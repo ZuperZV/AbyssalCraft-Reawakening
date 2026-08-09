@@ -6,9 +6,9 @@
   ],
   "downfall": 0.0,
   "effects": {
-    "foliage_color": "#463e57",
-    "grass_color": "#1b1b1b",
-    "water_color": "#130f1c"
+    "foliage_color": "#302e3a",
+    "grass_color": "#25232d",
+    "water_color": "#11101a"
   },
   "features": [
     [],
@@ -55,5 +55,5 @@
     "water_ambient": [],
     "water_creature": []
   },
-  "temperature": 0.6
+  "temperature": 0.35
 }

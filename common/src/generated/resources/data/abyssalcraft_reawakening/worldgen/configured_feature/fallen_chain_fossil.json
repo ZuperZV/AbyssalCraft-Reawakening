@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:fossil",
+  "config": {
+    "fossil_processors": "abyssalcraft_reawakening:gravity_fossil_processors_ground_abyssal_stone_to_cobblestone",
+    "fossil_structures": [
+      "abyssalcraft_reawakening:fallen_chain/fallen_chain_1",
+      "abyssalcraft_reawakening:fallen_chain/fallen_chain_2",
+      "abyssalcraft_reawakening:fallen_chain/fallen_chain_3",
+      "abyssalcraft_reawakening:fallen_chain/fallen_chain_4",
+      "abyssalcraft_reawakening:fallen_chain/fallen_chain_5",
+      "abyssalcraft_reawakening:fallen_chain/fallen_chain_6",
+      "abyssalcraft_reawakening:fallen_chain/fallen_chain_7"
+    ],
+    "max_empty_corners_allowed": 7,
+    "overlay_processors": "abyssalcraft_reawakening:gravity_fossil_processors_ground_abyssal_stone_to_cobblestone",
+    "overlay_structures": [
+      "abyssalcraft_reawakening:empty",
+      "abyssalcraft_reawakening:empty",
+      "abyssalcraft_reawakening:empty",
+      "abyssalcraft_reawakening:empty",
+      "abyssalcraft_reawakening:empty",
+      "abyssalcraft_reawakening:empty",
+      "abyssalcraft_reawakening:empty"
+    ]
+  }
+}

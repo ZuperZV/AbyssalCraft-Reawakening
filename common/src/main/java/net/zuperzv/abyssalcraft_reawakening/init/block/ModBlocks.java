@@ -2,6 +2,7 @@ package net.zuperzv.abyssalcraft_reawakening.init.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.util.ColorRGBA;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
@@ -40,8 +41,11 @@ public final class ModBlocks {
     public static final BlockWithItemRegistryHandle<Block> ABYSSAL_COBBLESTONE = Services.REGISTRY.registerBlockWithItem("abyssal_cobblestone",
             properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.STONE)));
 
+    public static final BlockWithItemRegistryHandle<Block> ABYSSAL_SAND = Services.REGISTRY.registerBlockWithItem("abyssal_sand",
+            properties -> new SandBlock(new ColorRGBA(14406560), properties.instrument(NoteBlockInstrument.SNARE).strength(0.5F, 4.0F).sound(SoundType.SAND)));
+
     public static final BlockWithItemRegistryHandle<Block> CORRUPTED_SOIL = Services.REGISTRY.registerBlockWithItem("corrupted_soil",
-            properties -> new Block(properties.mapColor(MapColor.COLOR_BLUE).requiresCorrectToolForDrops().strength(3.0F, 4.0F).sound(SoundType.MUD)));
+            properties -> new Block(properties.mapColor(MapColor.COLOR_BLUE).strength(3.0F, 4.0F).sound(SoundType.MUD)));
 
     public static final BlockWithItemRegistryHandle<Block> WASTITE = Services.REGISTRY.registerBlockWithItem("wastite",
             properties -> new Block(properties.mapColor(MapColor.COLOR_BLUE).requiresCorrectToolForDrops().strength(8.0F, 7.0F).sound(SoundType.DEEPSLATE)));
