@@ -1,0 +1,36 @@
+{
+  "feature": "abyssalcraft_reawakening:wastite_cluster_block",
+  "placement": [
+    {
+      "type": "minecraft:count",
+      "count": 1
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "minecraft:block_predicate_filter",
+      "predicate": {
+        "type": "minecraft:all_of",
+        "predicates": [
+          {
+            "type": "minecraft:matching_block_tag",
+            "tag": "abyssalcraft_reawakening:wastite_spike_replaceable"
+          },
+          {
+            "type": "minecraft:not",
+            "predicate": {
+              "type": "minecraft:matching_blocks",
+              "blocks": "minecraft:air",
+              "offset": [
+                0,
+                -1,
+                0
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

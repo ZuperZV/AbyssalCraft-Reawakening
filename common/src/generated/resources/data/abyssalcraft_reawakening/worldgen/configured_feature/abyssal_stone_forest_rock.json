@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:block_blob",
+  "config": {
+    "can_place_on": {
+      "type": "minecraft:matching_block_tag",
+      "tag": "abyssalcraft_reawakening:abyssal_waistland_surfaces"
+    },
+    "state": {
+      "Name": "abyssalcraft_reawakening:abyssal_stone"
+    }
+  }
+}

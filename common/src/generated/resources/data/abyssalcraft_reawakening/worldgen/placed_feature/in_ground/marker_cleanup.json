@@ -1,0 +1,20 @@
+{
+  "feature": "abyssalcraft_reawakening:in_ground/marker_cleanup",
+  "placement": [
+    {
+      "type": "minecraft:height_range",
+      "height": {
+        "type": "minecraft:uniform",
+        "max_inclusive": {
+          "absolute": 254
+        },
+        "min_inclusive": {
+          "absolute": 254
+        }
+      }
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

@@ -53,6 +53,9 @@ public class ModNoiseRouter {
     public static final ResourceKey<NormalNoise.NoiseParameters> ABYSSAL_GROUND =
             ResourceKey.create(Registries.NOISE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "abyssal_ground"));
 
+    public static final ResourceKey<NormalNoise.NoiseParameters> ABYSSAL_DESERT_GROUND =
+            ResourceKey.create(Registries.NOISE, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "abyssal_desert_ground"));
+
 
     public static NoiseRouter abyssalWasteland(
             HolderGetter<DensityFunction> functions,

@@ -54,11 +54,19 @@ public final class ModWorldgenProvider extends DatapackBuiltinEntriesProvider {
     }
 
     public static void bootstrapNoise(BootstrapContext<NormalNoise.NoiseParameters> context) {
-
         context.register(
                 ModNoiseRouter.ABYSSAL_GROUND,
                 new NormalNoise.NoiseParameters(
                         -4,
+                        2,
+                        3
+                )
+        );
+
+        context.register(
+                ModNoiseRouter.ABYSSAL_DESERT_GROUND,
+                new NormalNoise.NoiseParameters(
+                        -6,
                         2,
                         3
                 )

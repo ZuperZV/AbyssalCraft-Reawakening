@@ -66,9 +66,9 @@ public class FossilRegistry {
                             Constants.id("empty")
                     ),
 
-                    ModProcessorLists.GRAVITY_FOSSIL_PROCESSORS_GROUND_ABYSSAL_STONE_TO_COBBLESTONE,
+                    ModProcessorLists.GRAVITY_FOSSIL_PROCESSORS_GROUND_ABYSSAL_STONE_TO_COBBLESTONE_LOW,
 
-                    ModProcessorLists.GRAVITY_FOSSIL_PROCESSORS_GROUND_ABYSSAL_STONE_TO_COBBLESTONE
+                    ModProcessorLists.GRAVITY_FOSSIL_PROCESSORS_GROUND_ABYSSAL_STONE_TO_COBBLESTONE_LOW
             );
 
     public static final FossilGenerator VANILA_FOSSIL =
@@ -104,11 +104,43 @@ public class FossilRegistry {
                     ModProcessorLists.GRAVITY_FOSSIL_PROCESSORS_GROUND
             );
 
+    public static final FossilGenerator IN_GROUND =
+            new FossilGenerator(
+                    "in_ground",
+
+                    RarityFilter.onAverageOnceEvery(130),
+
+                    List.of(
+                            Constants.idWithDefaultNamespace("in_ground/in_ground_1"),
+                            Constants.idWithDefaultNamespace("in_ground/in_ground_2"),
+                            Constants.idWithDefaultNamespace("in_ground/in_ground_3"),
+                            Constants.idWithDefaultNamespace("in_ground/in_ground_4"),
+                            Constants.idWithDefaultNamespace("in_ground/in_ground_5"),
+                            Constants.idWithDefaultNamespace("in_ground/in_ground_6"),
+                            Constants.idWithDefaultNamespace("in_ground/in_ground_7")
+                    ),
+
+                    List.of(
+                            Constants.idWithDefaultNamespace("empty"),
+                            Constants.idWithDefaultNamespace("empty"),
+                            Constants.idWithDefaultNamespace("empty"),
+                            Constants.idWithDefaultNamespace("empty"),
+                            Constants.idWithDefaultNamespace("empty"),
+                            Constants.idWithDefaultNamespace("empty"),
+                            Constants.idWithDefaultNamespace("empty")
+                    ),
+
+                    ModProcessorLists.GRAVITY_FOSSIL_PROCESSORS_GROUND_ABYSSAL_STONE_TO_COBBLESTONE,
+
+                    ModProcessorLists.GRAVITY_FOSSIL_PROCESSORS_GROUND_ABYSSAL_STONE_TO_COBBLESTONE
+            );
+
     public static final List<FossilGenerator> ALL =
             List.of(
                     CHAIN,
                     FALLEN_CHAIN,
-                    VANILA_FOSSIL
+                    VANILA_FOSSIL,
+                    IN_GROUND
             );
 
     private static ResourceKey<StructureProcessorList> createKey(String name) {

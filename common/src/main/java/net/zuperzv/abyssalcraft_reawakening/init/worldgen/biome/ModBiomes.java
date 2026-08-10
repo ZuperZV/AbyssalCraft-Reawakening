@@ -5,6 +5,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BiomeDefaultFeatures;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.Carvers;
+import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.Music;
@@ -110,17 +111,29 @@ public final class ModBiomes {
         );
 
         // SURFACE
+            //ground elevation
+        biomeBuilder.addFeature(
+                GenerationStep.Decoration.VEGETAL_DECORATION,
+                ModWorldgen.ABYSSAL_STONE_SPIKE_PLACED
+        );
+
+        biomeBuilder.addFeature(
+                GenerationStep.Decoration.VEGETAL_DECORATION,
+                ModWorldgen.ABYSSAL_STONE_FOREST_ROCK_PLACED
+        );
+
+            //Top layer
         biomeBuilder.addFeature(
                 GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
                 ModWorldgen.RARE_ABYSSAL_MUD_DISK_PLACED
         );
 
         biomeBuilder.addFeature(
-                GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModWorldgen.ABYSSAL_STONE_SPIKE_PLACED
+                GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
+                ModWorldgen.WASTITE_CLUSTER_PLACED
         );
 
-        //FOSSILS
+            //FOSSILS
         FossilBiomeHelper.add(
                 biomeBuilder,
                 FossilRegistry.VANILA_FOSSIL
@@ -137,6 +150,12 @@ public final class ModBiomes {
                 ModWorldgen.WASTELANDS_THORN_PLACED
         );
 
+        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
+                ModWorldgen.ABYSSAL_DRY_GRASS_PLACED);
+
+        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
+                ModWorldgen.ABYSSAL_DEAD_BUSH_PLACED);
+
         //SKY LAST THING
         FossilBiomeHelper.add(
                 biomeBuilder,
@@ -146,6 +165,11 @@ public final class ModBiomes {
         FossilBiomeHelper.add(
                 biomeBuilder,
                 FossilRegistry.FALLEN_CHAIN
+        );
+
+        FossilBiomeHelper.add(
+                biomeBuilder,
+                FossilRegistry.IN_GROUND
         );
 
         return new Biome.BiomeBuilder()

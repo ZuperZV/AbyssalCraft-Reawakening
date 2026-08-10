@@ -3,6 +3,7 @@ package net.zuperzv.abyssalcraft_reawakening.init.worldgen;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.data.worldgen.features.VegetationFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.tags.BlockTags;
@@ -37,6 +38,7 @@ import net.zuperzv.abyssalcraft_reawakening.init.worldgen.gravity_fossils.Fossil
 import net.zuperzv.abyssalcraft_reawakening.init.worldgen.gravity_fossils.FossilRegistry;
 import net.zuperzv.abyssalcraft_reawakening.init.worldgen.gravity_fossils.FossilWorldgenHelper;
 import net.zuperzv.abyssalcraft_reawakening.init.worldgen.helpers.ModWorldgenPredicates;
+import net.zuperzv.abyssalcraft_reawakening.init.worldgen.placement.WastiteClusterPlacement;
 import net.zuperzv.abyssalcraft_reawakening.init.worldgen.tree.decorator.TinyRootDecorator;
 
 import java.util.List;
@@ -159,6 +161,50 @@ public final class ModWorldgenBootstrapper {
                                                 sparseLeafLitter
                                         )
                                 ).build()));
+
+
+        context.register(
+                ModWorldgen.WASTITE_CLUSTER_BLOCK,
+
+                new ConfiguredFeature<>(
+                        Feature.SIMPLE_BLOCK,
+                        new SimpleBlockConfiguration(
+                                BlockStateProvider.simple(
+                                        ModBlocks.WASTITE.block().get()
+                                )
+                        )
+                )
+        );
+
+        Holder<PlacedFeature> WASTITE_cluster_block_placed=
+                placedFeatures.getOrThrow(
+                        ModWorldgen.WASTITE_CLUSTER_BLOCK_PLACED
+                );
+
+        context.register(
+                ModWorldgen.WASTITE_CLUSTER,
+
+                new ConfiguredFeature<>(
+                        Feature.VEGETATION_PATCH,
+
+                        new VegetationPatchConfiguration(
+                                ModBlockTags.WASTITE_SPIKE_REPLACEABLE,
+
+                                BlockStateProvider.simple(
+                                        ModBlocks.WASTITE.block().get().defaultBlockState()
+                                ),
+
+                                WASTITE_cluster_block_placed,
+                                CaveSurface.FLOOR,
+                                ConstantInt.of(4),
+                                0.3F,
+                                27,
+                                1.0F,
+                                UniformInt.of(0, 2),
+                                0.5F
+                        )
+                )
+        );
 
         context.register(
                 ModWorldgen.ABYSSAL_MUD_DISK,
@@ -381,6 +427,18 @@ public final class ModWorldgenBootstrapper {
                         )
                 )
         );
+
+        context.register(
+                ModWorldgen.ABYSSAL_STONE_FOREST_ROCK,
+
+                new ConfiguredFeature<>(
+                        Feature.BLOCK_BLOB,
+                        new BlockBlobConfiguration(
+                                ModBlocks.ABYSSAL_STONE.block().get().defaultBlockState(),
+                                BlockPredicate.matchesTag(ModBlockTags.ABYSSAL_WAISTLAND_SURFACES)
+                        )
+                )
+        );
     }
 
     public static void bootstrapPlacedFeatures(BootstrapContext<PlacedFeature> context) {
@@ -493,12 +551,112 @@ public final class ModWorldgenBootstrapper {
         );
 
         context.register(
+                ModWorldgen.ABYSSAL_DRY_GRASS_PLACED,
+
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(
+                                VegetationFeatures.DRY_GRASS
+                        ),
+
+                        List.of(
+                                RarityFilter.onAverageOnceEvery(1),
+                                InSquarePlacement.spread(),
+                                PlacementUtils.HEIGHTMAP,
+                                BiomeFilter.biome(),
+
+                                CountPlacement.of(2),
+                                RandomOffsetPlacement.ofTriangle(5, 2),
+
+                                BlockPredicateFilter.forPredicate(
+                                        BlockPredicate.ONLY_IN_AIR_PREDICATE
+                                )
+                        )
+                )
+        );
+
+        context.register(
+                ModWorldgen.ABYSSAL_DEAD_BUSH_PLACED,
+
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(
+                                VegetationFeatures.DEAD_BUSH
+                        ),
+
+                        List.of(
+                                RarityFilter.onAverageOnceEvery(2),
+                                InSquarePlacement.spread(),
+                                PlacementUtils.HEIGHTMAP,
+                                BiomeFilter.biome(),
+
+                                CountPlacement.of(2),
+                                RandomOffsetPlacement.ofTriangle(5, 2),
+
+                                BlockPredicateFilter.forPredicate(
+                                        BlockPredicate.ONLY_IN_AIR_PREDICATE
+                                )
+                        )
+                )
+        );
+
+        context.register(
                 ModWorldgen.WITHERWOOD_TREE_PLACED,
                 new PlacedFeature(
                         configuredFeatures.getOrThrow(ModWorldgen.WITHERWOOD_TREE),
                         VegetationPlacements.treePlacement(
                                 PlacementUtils.countExtra(3, 0.2f, 2),
                                 ModBlocks.WITHERWOOD_SAPLING.block().get()
+                        )
+                )
+        );
+
+        context.register(
+                ModWorldgen.WASTITE_CLUSTER_PLACED,
+
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(
+                                ModWorldgen.WASTITE_CLUSTER
+                        ),
+
+                        List.of(
+                                RarityFilter.onAverageOnceEvery(3),
+
+                                InSquarePlacement.spread(),
+                                CountPlacement.of(1),
+                                HeightmapPlacement.onHeightmap(
+                                        Heightmap.Types.WORLD_SURFACE
+                                ),
+                                BiomeFilter.biome()
+                        )
+                )
+        );
+
+        context.register(
+                ModWorldgen.WASTITE_CLUSTER_BLOCK_PLACED,
+
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(
+                                ModWorldgen.WASTITE_CLUSTER_BLOCK
+                        ),
+
+                        List.of(
+                                CountPlacement.of(1),
+                                InSquarePlacement.spread(),
+
+                                BlockPredicateFilter.forPredicate(
+                                        BlockPredicate.allOf(
+
+                                                BlockPredicate.matchesTag(
+                                                        ModBlockTags.WASTITE_SPIKE_REPLACEABLE
+                                                ),
+
+                                                BlockPredicate.not(
+                                                        BlockPredicate.matchesBlocks(
+                                                                new Vec3i(0, -1, 0),
+                                                                Blocks.AIR
+                                                        )
+                                                )
+                                        )
+                                )
                         )
                 )
         );
@@ -656,7 +814,7 @@ public final class ModWorldgenBootstrapper {
 
                                 InSquarePlacement.spread(),
 
-                                CountPlacement.of(10),
+                                CountPlacement.of(7),
 
                                 HeightmapPlacement.onHeightmap(
                                         Heightmap.Types.WORLD_SURFACE

@@ -14,9 +14,11 @@ public final class ModWorldgen {
     public static final ResourceKey<ConfiguredFeature<?, ?>> LUMINOUS_THISTLE = configuredFeatureKey("luminous_thistle");
     public static final ResourceKey<ConfiguredFeature<?, ?>> WASTELANDS_THORN = configuredFeatureKey("wastelands_thorn");
 
-
     public static final ResourceKey<ConfiguredFeature<?, ?>> WITHERWOOD_TREE = configuredFeatureKey("witherwood_tree");
     public static final ResourceKey<ConfiguredFeature<?, ?>> SAPLING_WITHERWOOD_TREE = configuredFeatureKey("sapling_witherwood_tree");
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> WASTITE_CLUSTER_BLOCK = configuredFeatureKey("wastite_cluster_block");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> WASTITE_CLUSTER = configuredFeatureKey("wastite_cluster");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> WASTITE_SPIKE_PATCH = configuredFeatureKey("wastite_spike_patch");
     public static final ResourceKey<ConfiguredFeature<?, ?>> WASTITE_SPIKE_COLUMN = configuredFeatureKey("wastite_spike_column");
@@ -38,7 +40,13 @@ public final class ModWorldgen {
     public static final ResourceKey<PlacedFeature> LUMINOUS_THISTLE_PLACED = placedFeatureKey("luminous_thistle");
     public static final ResourceKey<PlacedFeature> WASTELANDS_THORN_PLACED = placedFeatureKey("wastelands_thorn");
 
+    public static final ResourceKey<PlacedFeature> ABYSSAL_DRY_GRASS_PLACED = placedFeatureKey("abyssal_dry_grass_placed");
+    public static final ResourceKey<PlacedFeature> ABYSSAL_DEAD_BUSH_PLACED = placedFeatureKey("abyssal_dead_bush_placed");
+
     public static final ResourceKey<PlacedFeature> WITHERWOOD_TREE_PLACED = placedFeatureKey("witherwood_tree");
+
+    public static final ResourceKey<PlacedFeature> WASTITE_CLUSTER_BLOCK_PLACED = placedFeatureKey("wastite_cluster_block");
+    public static final ResourceKey<PlacedFeature> WASTITE_CLUSTER_PLACED = placedFeatureKey("wastite_cluster_column");
 
     public static final ResourceKey<PlacedFeature> WASTITE_SPIKE_COLUMN_PLACED = placedFeatureKey("wastite_spike_column");
     public static final ResourceKey<PlacedFeature> WASTITE_SPIKE_PLACED = placedFeatureKey("wastite_spike");
@@ -104,4 +112,6 @@ public final class ModWorldgen {
     public static ResourceKey<PlacedFeature> fossilMarkerCleanupPlaced(String name) {
         return placedFeatureKey(name + "/marker_cleanup");
     }
+
+    //LOOC os si tahT
 }

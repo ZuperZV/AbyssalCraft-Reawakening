@@ -71,21 +71,58 @@ public class ModSurfaceRules {
 
                                 SurfaceRules.ifTrue(
                                         SurfaceRules.noiseCondition(
-                                                ModNoiseRouter.ABYSSAL_GROUND,
+                                                ModNoiseRouter.ABYSSAL_DESERT_GROUND,
                                                 -1.0,
-                                                0.3
+                                                -0.8
+                                        ),
+                                        CORRUPTED_SOIL
+                                ),
+
+                                SurfaceRules.ifTrue(
+                                        SurfaceRules.noiseCondition(
+                                                ModNoiseRouter.ABYSSAL_DESERT_GROUND,
+                                                -0.8,
+                                                -0.1
                                         ),
                                         ABYSSAL_SAND_SANDSTONE
                                 ),
 
                                 SurfaceRules.ifTrue(
                                         SurfaceRules.noiseCondition(
-                                                ModNoiseRouter.ABYSSAL_GROUND,
+                                                ModNoiseRouter.ABYSSAL_DESERT_GROUND,
+                                                -0.1,
+                                                0.2
+                                        ),
+                                        CORRUPTED_SOIL
+                                ),
+
+                                SurfaceRules.ifTrue(
+                                        SurfaceRules.noiseCondition(
+                                                ModNoiseRouter.ABYSSAL_DESERT_GROUND,
                                                 0.2,
+                                                0.4
+                                        ),
+                                        ABYSSAL_MUD
+                                ),
+
+                                SurfaceRules.ifTrue(
+                                        SurfaceRules.noiseCondition(
+                                                ModNoiseRouter.ABYSSAL_DESERT_GROUND,
+                                                0.4,
                                                 0.5
                                         ),
                                         CORRUPTED_SOIL
                                 ),
+
+                                SurfaceRules.ifTrue(
+                                        SurfaceRules.noiseCondition(
+                                                ModNoiseRouter.ABYSSAL_DESERT_GROUND,
+                                                0.5,
+                                                1.0
+                                        ),
+                                        ABYSSAL_SAND_SANDSTONE
+                                ),
+
 
                                 ABYSSAL_SAND_SANDSTONE
                         )
@@ -98,7 +135,29 @@ public class ModSurfaceRules {
                                 false,
                                 CaveSurface.FLOOR
                         ),
-                        ABYSSAL_SAND_SANDSTONE
+
+                        SurfaceRules.sequence(
+
+                                SurfaceRules.ifTrue(
+                                        SurfaceRules.noiseCondition(
+                                                ModNoiseRouter.ABYSSAL_DESERT_GROUND,
+                                                -1.0,
+                                                0.3
+                                        ),
+                                        ABYSSAL_SAND_SANDSTONE
+                                ),
+
+                                SurfaceRules.ifTrue(
+                                        SurfaceRules.noiseCondition(
+                                                ModNoiseRouter.ABYSSAL_DESERT_GROUND,
+                                                -0.1,
+                                                0.5
+                                        ),
+                                        CORRUPTED_SOIL
+                                ),
+
+                                ABYSSAL_SAND_SANDSTONE
+                        )
                 ),
 
                 ABYSSAL_STONE

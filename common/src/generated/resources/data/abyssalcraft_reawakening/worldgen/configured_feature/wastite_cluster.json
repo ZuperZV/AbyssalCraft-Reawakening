@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:vegetation_patch",
+  "config": {
+    "depth": 4,
+    "extra_bottom_block_chance": 0.3,
+    "extra_edge_column_chance": 0.5,
+    "ground_state": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "abyssalcraft_reawakening:wastite"
+      }
+    },
+    "replaceable": "#abyssalcraft_reawakening:wastite_spike_replaceable",
+    "surface": "floor",
+    "vegetation_chance": 1.0,
+    "vegetation_feature": "abyssalcraft_reawakening:wastite_cluster_block",
+    "vertical_range": 27,
+    "xz_radius": {
+      "type": "minecraft:uniform",
+      "max_inclusive": 2,
+      "min_inclusive": 0
+    }
+  }
+}

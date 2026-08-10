@@ -2,7 +2,7 @@
   "processors": [
     {
       "heightmap": "WORLD_SURFACE",
-      "offset": -9,
+      "offset": -11,
       "processor_type": "minecraft:gravity"
     },
     {

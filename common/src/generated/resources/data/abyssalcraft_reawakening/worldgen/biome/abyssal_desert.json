@@ -24,6 +24,7 @@
     [],
     [
       "abyssalcraft_reawakening:abyssal_stone_spike",
+      "abyssalcraft_reawakening:abyssal_stone_forest_rock",
       "abyssalcraft_reawakening:vanila_fossil/marker",
       "abyssalcraft_reawakening:vanila_fossil/disk",
       "abyssalcraft_reawakening:vanila_fossil/fossil",
@@ -31,6 +32,8 @@
       "abyssalcraft_reawakening:vanila_fossil/marker_cleanup",
       "abyssalcraft_reawakening:coralium_tendrils",
       "abyssalcraft_reawakening:wastelands_thorn",
+      "abyssalcraft_reawakening:abyssal_dry_grass_placed",
+      "abyssalcraft_reawakening:abyssal_dead_bush_placed",
       "abyssalcraft_reawakening:chain/marker",
       "abyssalcraft_reawakening:chain/disk",
       "abyssalcraft_reawakening:chain/fossil",
@@ -40,10 +43,16 @@
       "abyssalcraft_reawakening:fallen_chain/disk",
       "abyssalcraft_reawakening:fallen_chain/fossil",
       "abyssalcraft_reawakening:fallen_chain/disk_cleanup",
-      "abyssalcraft_reawakening:fallen_chain/marker_cleanup"
+      "abyssalcraft_reawakening:fallen_chain/marker_cleanup",
+      "abyssalcraft_reawakening:in_ground/marker",
+      "abyssalcraft_reawakening:in_ground/disk",
+      "abyssalcraft_reawakening:in_ground/fossil",
+      "abyssalcraft_reawakening:in_ground/disk_cleanup",
+      "abyssalcraft_reawakening:in_ground/marker_cleanup"
     ],
     [
-      "abyssalcraft_reawakening:rare_abyssal_mud_disk"
+      "abyssalcraft_reawakening:rare_abyssal_mud_disk",
+      "abyssalcraft_reawakening:wastite_cluster_column"
     ]
   ],
   "has_precipitation": false,
