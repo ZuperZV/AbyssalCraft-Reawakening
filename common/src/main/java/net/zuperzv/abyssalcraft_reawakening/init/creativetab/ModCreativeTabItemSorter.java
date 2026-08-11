@@ -842,7 +842,8 @@ public final class ModCreativeTabItemSorter {
                 "debug",
                 "internal",
                 "test",
-                "dummy"
+                "dummy",
+                "portal_block"
         );
     }
 
@@ -855,7 +856,6 @@ public final class ModCreativeTabItemSorter {
                 key.getNamespace()
         );
     }
-
 
     private static String getPath(Item item) {
 
@@ -872,7 +872,6 @@ public final class ModCreativeTabItemSorter {
                 .toLowerCase(Locale.ROOT)
                 .replace('-', '_');
     }
-
 
     private static String removePrefixes(
             String value,
@@ -905,7 +904,6 @@ public final class ModCreativeTabItemSorter {
         return value;
     }
 
-
     private static boolean containsAny(
             String value,
             String... values
@@ -932,7 +930,6 @@ public final class ModCreativeTabItemSorter {
     private static final int FORM_BLOCK = 8;
 
     private static final int MIN_RELATION_SCORE = 450;
-
 
     private record BlockPlacement(
             Item block,

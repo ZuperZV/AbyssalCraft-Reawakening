@@ -1,6 +1,14 @@
 {
   "values": [
     "abyssalcraft_reawakening:abyssalnite_block",
+    "abyssalcraft_reawakening:abyssalnite_ore",
+    "abyssalcraft_reawakening:abyssal_stone",
+    "abyssalcraft_reawakening:abyssal_cobblestone",
+    "abyssalcraft_reawakening:coralium_stone",
+    "abyssalcraft_reawakening:coralium_cobblestone",
+    "abyssalcraft_reawakening:corrupted_soil",
+    "abyssalcraft_reawakening:wastite",
+    "abyssalcraft_reawakening:starite",
     "#abyssalcraft_reawakening:abyssalcraft_ores"
   ]
 }

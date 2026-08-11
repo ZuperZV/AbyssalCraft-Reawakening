@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_abyssalnite_overworld_ore": {
+    "has_stripped_logs": {
       "conditions": {
         "items": [
           {
-            "items": "abyssalcraft_reawakening:abyssalnite_overworld_ore"
+            "items": "abyssalcraft_reawakening:stripped_witherwood_log"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "abyssalcraft_reawakening:abyssalnite_ingot_from_abyssalnite_overworld_ore_with_smelting"
+        "recipe": "abyssalcraft_reawakening:witherwood_hanging_sign"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_abyssalnite_overworld_ore"
+      "has_stripped_logs"
     ]
   ],
   "rewards": {
     "recipes": [
-      "abyssalcraft_reawakening:abyssalnite_ingot_from_abyssalnite_overworld_ore_with_smelting"
+      "abyssalcraft_reawakening:witherwood_hanging_sign"
     ]
   }
 }

@@ -7,6 +7,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CookingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -17,6 +18,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.datagen.custom.StoneRitualAltarRecipeBuilder;
 import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.init.item.ModItemTags;
 import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.init.recipe.helper.TimeOfDay;
 import org.jspecify.annotations.NonNull;
@@ -231,7 +233,53 @@ public class ModRecipeProvider extends RecipeProvider {
                 ModBlocks.RAW_ABYSSALNITE_BLOCK.item().get());
 
         rawToIngot(ModItems.RAW_ABYSSALNITE.get(), RecipeCategory.MISC, ModItems.ABYSSALNITE_INGOT.get(), 0.7f, 200, output);
-        rawToIngot(ModBlocks.ABYSSALNITE_OVERWORLD_ORE.item().get(), RecipeCategory.MISC, ModItems.ABYSSALNITE_INGOT.get(), 0.9f, 200, output);
+        rawToIngot(ModBlocks.ABYSSALNITE_ORE.item().get(), RecipeCategory.MISC, ModItems.ABYSSALNITE_INGOT.get(), 0.9f, 200, output);
+
+        //WITHERWOOD
+
+        this.planksFromLogs(ModBlocks.WITHERWOOD_PLANKS.block().get(), ModItemTags.WITHERWOOD_LOGS, 4);
+        this.woodFromLogs(ModBlocks.WITHERWOOD_WOOD.block().get(), ModBlocks.WITHERWOOD_LOG.block().get());
+        this.woodFromLogs(ModBlocks.STRIPPED_WITHERWOOD_WOOD.block().get(), ModBlocks.STRIPPED_WITHERWOOD_LOG.block().get());
+        this.shelf(ModBlocks.WITHERWOOD_SHELF.block().get(), ModBlocks.STRIPPED_WITHERWOOD_LOG.block().get());
+        this.woodenBoat(ModItems.WITHERWOOD_BOAT.get(), ModBlocks.WITHERWOOD_PLANKS.block().get());
+        this.chestBoat(ModItems.WITHERWOOD_CHEST_BOAT.get(), ModItems.WITHERWOOD_BOAT.get());
+        this.hangingSign(ModItems.WITHERWOOD_HANGING_SIGN.get(), ModBlocks.STRIPPED_WITHERWOOD_LOG.block().get());
+
+        this.stairBuilder(ModBlocks.WITHERWOOD_STAIRS.block().get(), Ingredient.of(ModBlocks.WITHERWOOD_PLANKS.block().get()))
+                .unlockedBy(getHasName(ModBlocks.WITHERWOOD_PLANKS.block().get()), this.has(ModBlocks.WITHERWOOD_PLANKS.block().get()))
+                .save(this.output);
+        this.slabBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.WITHERWOOD_SLAB.block().get(), Ingredient.of(ModBlocks.WITHERWOOD_PLANKS.block().get()))
+                .unlockedBy(getHasName(ModBlocks.WITHERWOOD_PLANKS.block().get()), this.has(ModBlocks.WITHERWOOD_PLANKS.block().get()))
+                .save(this.output);
+
+        this.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.WITHERWOOD_TRAPDOOR.block().get())
+                .define('#', ModBlocks.WITHERWOOD_PLANKS.block().get())
+                .pattern("###")
+                .unlockedBy(getHasName(ModBlocks.WITHERWOOD_PLANKS.block().get()), this.has(ModBlocks.WITHERWOOD_PLANKS.block().get()))
+                .save(this.output);
+
+        this.doorBuilder(ModBlocks.WITHERWOOD_DOOR.block().get(), Ingredient.of(ModBlocks.WITHERWOOD_PLANKS.block().get()))
+                .unlockedBy(getHasName(ModBlocks.WITHERWOOD_PLANKS.block().get()), this.has(ModBlocks.WITHERWOOD_PLANKS.block().get()))
+                .save(this.output);
+
+        this.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.WITHERWOOD_SIGN.get(), 3)
+                .define('#', ModBlocks.WITHERWOOD_PLANKS.block().get())
+                .define('A', Items.STICK)
+                .pattern("###")
+                .pattern("###")
+                .pattern(" A ")
+                .unlockedBy(getHasName(ModBlocks.WITHERWOOD_PLANKS.block().get()), this.has(ModBlocks.WITHERWOOD_PLANKS.block().get()))
+                .save(this.output);
+
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.WITHERWOOD_BUTTON.block().get())
+                .requires(ModBlocks.WITHERWOOD_PLANKS.block().get())
+                .unlockedBy(getHasName(ModBlocks.WITHERWOOD_PLANKS.block().get()), this.has(ModBlocks.WITHERWOOD_PLANKS.block().get()))
+                .save(this.output);
+
+        this.pressurePlate(ModBlocks.WITHERWOOD_PRESSURE_PLATE.block().get(), ModBlocks.WITHERWOOD_PLANKS.block().get());
+
+        this.fenceBuilder(ModBlocks.WITHERWOOD_FENCE.block().get(), Ingredient.of(ModBlocks.WITHERWOOD_PLANKS.block().get()));
+        this.fenceGateBuilder(ModBlocks.WITHERWOOD_FENCE.block().get(), Ingredient.of(ModBlocks.WITHERWOOD_PLANKS.block().get()));
     }
 
     public static class Runner extends RecipeProvider.Runner {

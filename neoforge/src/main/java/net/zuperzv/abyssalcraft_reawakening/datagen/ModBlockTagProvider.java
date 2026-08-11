@@ -30,6 +30,14 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(ModBlocks.ABYSSALNITE_BLOCK.block().get())
+                .add(ModBlocks.ABYSSALNITE_ORE.block().get())
+                .add(ModBlocks.ABYSSAL_STONE.block().get())
+                .add(ModBlocks.ABYSSAL_COBBLESTONE.block().get())
+                .add(ModBlocks.CORALIUM_STONE.block().get())
+                .add(ModBlocks.CORALIUM_COBBLESTONE.block().get())
+                .add(ModBlocks.CORRUPTED_SOIL.block().get())
+                .add(ModBlocks.WASTITE.block().get())
+                .add(ModBlocks.STARITE.block().get())
                 .addTag(ModBlockTags.ABYSSALCRAFT_ORES);
 
         tag(Tags.Blocks.ORES)

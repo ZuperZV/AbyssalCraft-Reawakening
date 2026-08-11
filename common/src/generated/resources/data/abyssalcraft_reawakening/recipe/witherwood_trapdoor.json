@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": "abyssalcraft_reawakening:witherwood_planks"
+  },
+  "pattern": [
+    "###"
+  ],
+  "result": {
+    "id": "abyssalcraft_reawakening:witherwood_trapdoor"
+  }
+}

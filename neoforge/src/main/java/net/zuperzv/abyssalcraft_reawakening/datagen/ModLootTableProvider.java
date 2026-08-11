@@ -75,6 +75,9 @@ public class ModLootTableProvider extends LootTableProvider {
             addOreDrop(ModBlocks.ABYSSALNITE_END_ORE.block().get(),
                     ModItems.RAW_ABYSSALNITE.get(), 1.0F, 3.0F);
 
+            addOreDrop(ModBlocks.ABYSSALNITE_ORE.block().get(),
+                    ModItems.RAW_ABYSSALNITE.get(), 1.0F, 3.0F);
+
             noDrop(ModBlocks.ABYSSAL_WASTELAND_PORTAL_BLOCK.block().get());
 
             addDoorDrop(ModBlocks.WITHERWOOD_DOOR.block().get());

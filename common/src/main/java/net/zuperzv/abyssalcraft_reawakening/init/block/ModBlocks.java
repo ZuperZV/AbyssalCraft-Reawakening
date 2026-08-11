@@ -44,6 +44,9 @@ public final class ModBlocks {
     public static final BlockWithItemRegistryHandle<Block> ABYSSAL_SAND = Services.REGISTRY.registerBlockWithItem("abyssal_sand",
             properties -> new SandBlock(new ColorRGBA(14406560), properties.instrument(NoteBlockInstrument.SNARE).strength(0.5F, 4.0F).sound(SoundType.SAND)));
 
+    public static final BlockWithItemRegistryHandle<Block> FUSED_ABYSSAL_SAND = Services.REGISTRY.registerBlockWithItem("fused_abyssal_sand",
+            properties -> new SandBlock(new ColorRGBA(14406560), properties.instrument(NoteBlockInstrument.SNARE).strength(0.5F, 4.0F).sound(SoundType.SAND)));
+
     public static final BlockWithItemRegistryHandle<Block> CORRUPTED_SOIL = Services.REGISTRY.registerBlockWithItem("corrupted_soil",
             properties -> new Block(properties.mapColor(MapColor.COLOR_BLUE).strength(3.0F, 4.0F).sound(SoundType.MUD)));
 
@@ -110,13 +113,8 @@ public final class ModBlocks {
     public static final BlockWithItemRegistryHandle<Block> WITHERWOOD_PLANKS = Services.REGISTRY.registerBlockWithItem("witherwood_planks",
             properties -> new Block(properties.sound(SoundType.WOOD).strength(2f).ignitedByLava()));
 
-    public static final BlockWithItemRegistryHandle<Block> WITHERWOOD_STAIRS =
-            Services.REGISTRY.registerBlockWithItem("witherwood_stairs",
-                    properties -> new ModStairBlock(
-                            WITHERWOOD_PLANKS.block().get().defaultBlockState(),
-                            properties.sound(SoundType.WOOD)
-                                    .strength(2F)
-                                    .ignitedByLava()));
+    public static final BlockWithItemRegistryHandle<Block> WITHERWOOD_STAIRS = Services.REGISTRY.registerBlockWithItem("witherwood_stairs",
+                    properties -> new ModStairBlock(WITHERWOOD_PLANKS.block().get().defaultBlockState(), properties.sound(SoundType.WOOD).strength(2F).ignitedByLava()));
 
     public static final BlockWithItemRegistryHandle<Block> WITHERWOOD_SLAB = Services.REGISTRY.registerBlockWithItem("witherwood_slab",
             properties -> new SlabBlock(properties.sound(SoundType.WOOD).strength(2F).ignitedByLava()));

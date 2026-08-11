@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": "abyssalcraft_reawakening:witherwood_planks",
+    "A": "minecraft:stick"
+  },
+  "pattern": [
+    "###",
+    "###",
+    " A "
+  ],
+  "result": {
+    "count": 3,
+    "id": "abyssalcraft_reawakening:witherwood_sign"
+  }
+}
