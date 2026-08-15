@@ -14,7 +14,7 @@ import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactori
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
-import net.zuperzv.abyssalcraft_reawakening.init.api.jei.custom.JEIPlugin;
+import net.zuperzv.abyssalcraft_reawakening.init.api.jei.JEIPlugin;
 import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.NecronomiconClientTooltip;
 import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.NecronomiconTooltipComponent;
 import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.StaffClientTooltip;

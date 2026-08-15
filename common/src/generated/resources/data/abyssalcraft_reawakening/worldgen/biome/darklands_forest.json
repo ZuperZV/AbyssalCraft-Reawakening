@@ -23,7 +23,7 @@
     [],
     [],
     [
-      "abyssalcraft_reawakening:witherwood_tree",
+      "abyssalcraft_reawakening:forest_witherwood_tree",
       "abyssalcraft_reawakening:wastite_spike",
       "abyssalcraft_reawakening:vanila_fossil/marker",
       "abyssalcraft_reawakening:vanila_fossil/disk",
@@ -40,6 +40,8 @@
       "abyssalcraft_reawakening:chain/marker_cleanup"
     ],
     [
+      "abyssalcraft_reawakening:abyssal_sand_disk",
+      "abyssalcraft_reawakening:fused_abyssal_sand_disk",
       "abyssalcraft_reawakening:abyssal_mud_disk"
     ]
   ],

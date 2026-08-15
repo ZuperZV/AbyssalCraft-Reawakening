@@ -19,7 +19,7 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
-import net.zuperzv.abyssalcraft_reawakening.init.api.jei.custom.ModJEIRecipeTypes;
+import net.zuperzv.abyssalcraft_reawakening.init.api.jei.ModJEIRecipeTypes;
 import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.init.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.init.component.PotentialEnergyData;

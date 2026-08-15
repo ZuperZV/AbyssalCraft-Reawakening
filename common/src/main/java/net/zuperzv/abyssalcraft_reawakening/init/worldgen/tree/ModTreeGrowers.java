@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public class ModTreeGrowers {
     public static final TreeGrower WITHERWOOD = new TreeGrower(Constants.MOD_ID + ":witherwood",
-            Optional.empty(), Optional.of(ModWorldgen.SAPLING_WITHERWOOD_TREE), Optional.empty());
+            Optional.empty(), Optional.of(ModWorldgen.LEAVES_WITHERWOOD_TREE), Optional.empty());
 }

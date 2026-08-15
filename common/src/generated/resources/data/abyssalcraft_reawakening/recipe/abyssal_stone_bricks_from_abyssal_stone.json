@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "abyssalcraft_reawakening:abyssal_stone"
+  ],
+  "result": {
+    "count": 4,
+    "id": "abyssalcraft_reawakening:abyssal_stone_bricks"
+  }
+}

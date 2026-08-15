@@ -110,9 +110,21 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(
                         ModBlocks.WITHERWOOD_STAIRS.block().get()
                 );
+        this.tag(BlockTags.STAIRS)
+                .add(
+                        ModBlocks.ABYSSAL_STONE_BRICKS_STAIRS.block().get()
+                );
         this.tag(BlockTags.WOODEN_SLABS)
                 .add(
                         ModBlocks.WITHERWOOD_SLAB.block().get()
+                );
+        this.tag(BlockTags.SLABS)
+                .add(
+                        ModBlocks.ABYSSAL_STONE_BRICKS_SLAB.block().get()
+                );
+        this.tag(BlockTags.FENCES)
+                .add(
+                        ModBlocks.ABYSSAL_STONE_BRICKS_FENCE.block().get()
                 );
         this.tag(BlockTags.WOODEN_FENCES)
                 .add(

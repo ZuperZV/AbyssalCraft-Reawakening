@@ -1,0 +1,46 @@
+{
+  "name": "abyssalcraft_reawakening:staircase_down",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 50,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "abyssalcraft_reawakening:ruins/staircase_down_1",
+        "processors": "minecraft:mossify_10_percent",
+        "override_liquid_settings": "ignore_waterlogging"
+      }
+    },
+    {
+      "weight": 40,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "abyssalcraft_reawakening:ruins/staircase_down_2",
+        "processors": "minecraft:mossify_10_percent",
+        "override_liquid_settings": "ignore_waterlogging"
+      }
+    },
+    {
+      "weight": 10,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "abyssalcraft_reawakening:ruins/staircase_down_3",
+        "processors": "minecraft:mossify_10_percent",
+        "override_liquid_settings": "ignore_waterlogging"
+      }
+    },
+    {
+      "weight": 40,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "abyssalcraft_reawakening:ruins/staircase_down_4",
+        "processors": "minecraft:mossify_10_percent",
+        "override_liquid_settings": "ignore_waterlogging"
+      }
+    }
+  ]
+}

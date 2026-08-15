@@ -15,7 +15,7 @@ public final class ModWorldgen {
     public static final ResourceKey<ConfiguredFeature<?, ?>> WASTELANDS_THORN = configuredFeatureKey("wastelands_thorn");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> WITHERWOOD_TREE = configuredFeatureKey("witherwood_tree");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> SAPLING_WITHERWOOD_TREE = configuredFeatureKey("sapling_witherwood_tree");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> LEAVES_WITHERWOOD_TREE = configuredFeatureKey("leaves_witherwood_tree");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> WASTITE_CLUSTER_BLOCK = configuredFeatureKey("wastite_cluster_block");
     public static final ResourceKey<ConfiguredFeature<?, ?>> WASTITE_CLUSTER = configuredFeatureKey("wastite_cluster");
@@ -29,6 +29,9 @@ public final class ModWorldgen {
     public static final ResourceKey<ConfiguredFeature<?, ?>> ABYSSAL_STONE_FOREST_ROCK = configuredFeatureKey("abyssal_stone_forest_rock");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> ABYSSAL_MUD_DISK = configuredFeatureKey("abyssal_mud_disk");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> ABYSSAL_SAND_DISK = configuredFeatureKey("abyssal_sand_disk");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> FUSED_ABYSSAL_SAND_DISK = configuredFeatureKey("fused_abyssal_sand_disk");
+
     public static final ResourceKey<ConfiguredFeature<?, ?>> ABYSSALNITE_ORE = configuredFeatureKey("abyssalnite_ore");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> ABYSSALNITE_OVERWORLD_ORE = configuredFeatureKey("abyssalnite_overworld_ore");
@@ -44,6 +47,7 @@ public final class ModWorldgen {
     public static final ResourceKey<PlacedFeature> ABYSSAL_DEAD_BUSH_PLACED = placedFeatureKey("abyssal_dead_bush_placed");
 
     public static final ResourceKey<PlacedFeature> WITHERWOOD_TREE_PLACED = placedFeatureKey("witherwood_tree");
+    public static final ResourceKey<PlacedFeature> FOREST_WITHERWOOD_TREE_PLACED = placedFeatureKey("forest_witherwood_tree");
 
     public static final ResourceKey<PlacedFeature> WASTITE_CLUSTER_BLOCK_PLACED = placedFeatureKey("wastite_cluster_block");
     public static final ResourceKey<PlacedFeature> WASTITE_CLUSTER_PLACED = placedFeatureKey("wastite_cluster_column");
@@ -57,6 +61,9 @@ public final class ModWorldgen {
     public static final ResourceKey<PlacedFeature> ABYSSAL_STONE_FOREST_ROCK_PLACED = placedFeatureKey("abyssal_stone_forest_rock");
 
     public static final ResourceKey<PlacedFeature> ABYSSAL_MUD_DISK_PLACED = placedFeatureKey("abyssal_mud_disk");
+    public static final ResourceKey<PlacedFeature> ABYSSAL_SAND_DISK_PLACED = placedFeatureKey("abyssal_sand_disk");
+    public static final ResourceKey<PlacedFeature> FUSED_ABYSSAL_SAND_DISK_PLACED = placedFeatureKey("fused_abyssal_sand_disk");
+
     public static final ResourceKey<PlacedFeature> RARE_ABYSSAL_MUD_DISK_PLACED = placedFeatureKey("rare_abyssal_mud_disk");
     public static final ResourceKey<PlacedFeature> ABYSSALNITE_ORE_PLACED = placedFeatureKey("abyssalnite_ore");
 

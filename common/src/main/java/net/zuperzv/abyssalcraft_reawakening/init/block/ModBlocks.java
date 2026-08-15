@@ -41,11 +41,23 @@ public final class ModBlocks {
     public static final BlockWithItemRegistryHandle<Block> ABYSSAL_COBBLESTONE = Services.REGISTRY.registerBlockWithItem("abyssal_cobblestone",
             properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.STONE)));
 
+    public static final BlockWithItemRegistryHandle<Block> ABYSSAL_STONE_BRICKS = Services.REGISTRY.registerBlockWithItem("abyssal_stone_bricks",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> ABYSSAL_STONE_BRICKS_STAIRS = Services.REGISTRY.registerBlockWithItem("abyssal_stone_bricks_stairs",
+            properties -> new ModStairBlock(ABYSSAL_STONE_BRICKS.block().get().defaultBlockState(), properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> ABYSSAL_STONE_BRICKS_SLAB = Services.REGISTRY.registerBlockWithItem("abyssal_stone_bricks_slab",
+            properties -> new SlabBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> ABYSSAL_STONE_BRICKS_FENCE = Services.REGISTRY.registerBlockWithItem("abyssal_stone_bricks_fence",
+            properties -> new FenceBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
+
     public static final BlockWithItemRegistryHandle<Block> ABYSSAL_SAND = Services.REGISTRY.registerBlockWithItem("abyssal_sand",
             properties -> new SandBlock(new ColorRGBA(14406560), properties.instrument(NoteBlockInstrument.SNARE).strength(0.5F, 4.0F).sound(SoundType.SAND)));
 
     public static final BlockWithItemRegistryHandle<Block> FUSED_ABYSSAL_SAND = Services.REGISTRY.registerBlockWithItem("fused_abyssal_sand",
-            properties -> new SandBlock(new ColorRGBA(14406560), properties.instrument(NoteBlockInstrument.SNARE).strength(0.5F, 4.0F).sound(SoundType.SAND)));
+            properties -> new GrassSandBlock(new ColorRGBA(14406560), properties.instrument(NoteBlockInstrument.SNARE).strength(0.7F, 5.0F).sound(SoundType.SAND)));
 
     public static final BlockWithItemRegistryHandle<Block> CORRUPTED_SOIL = Services.REGISTRY.registerBlockWithItem("corrupted_soil",
             properties -> new Block(properties.mapColor(MapColor.COLOR_BLUE).strength(3.0F, 4.0F).sound(SoundType.MUD)));

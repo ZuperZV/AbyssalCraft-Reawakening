@@ -38,7 +38,6 @@ import net.zuperzv.abyssalcraft_reawakening.init.worldgen.gravity_fossils.Fossil
 import net.zuperzv.abyssalcraft_reawakening.init.worldgen.gravity_fossils.FossilRegistry;
 import net.zuperzv.abyssalcraft_reawakening.init.worldgen.gravity_fossils.FossilWorldgenHelper;
 import net.zuperzv.abyssalcraft_reawakening.init.worldgen.helpers.ModWorldgenPredicates;
-import net.zuperzv.abyssalcraft_reawakening.init.worldgen.placement.WastiteClusterPlacement;
 import net.zuperzv.abyssalcraft_reawakening.init.worldgen.tree.decorator.TinyRootDecorator;
 
 import java.util.List;
@@ -134,7 +133,7 @@ public final class ModWorldgenBootstrapper {
                                         )
                                 ).build()));
 
-        context.register(ModWorldgen.SAPLING_WITHERWOOD_TREE, new ConfiguredFeature<>(Feature.TREE,
+        context.register(ModWorldgen.LEAVES_WITHERWOOD_TREE, new ConfiguredFeature<>(Feature.TREE,
                         new TreeConfiguration.TreeConfigurationBuilder(
                                 BlockStateProvider.simple(ModBlocks.WITHERWOOD_LOG.block().get()),
                                 new FancyTrunkPlacer(
@@ -223,6 +222,74 @@ public final class ModWorldgenBootstrapper {
                                         Blocks.MUD
                                 ),
 
+                                ConstantInt.of(5),
+
+                                2
+                        )
+                )
+        );
+
+        context.register(
+                ModWorldgen.ABYSSAL_SAND_DISK,
+
+                new ConfiguredFeature<>(
+                        Feature.DISK,
+
+                        new DiskConfiguration(
+                                BlockStateProvider.simple(
+                                        ModBlocks.ABYSSAL_SAND.block().get()
+                                ),
+
+                                BlockPredicate.allOf(
+                                        BlockPredicate.matchesBlocks(
+                                        ModBlocks.ABYSSAL_STONE.block().get(),
+                                        ModBlocks.ABYSSAL_SAND.block().get(),
+                                        Blocks.MUD
+                                        ),
+
+                                        BlockPredicate.not(
+                                                BlockPredicate.matchesTag(
+                                                        new Vec3i(0, -1, 0),
+                                                        BlockTags.AIR
+                                                )
+                                        )
+                                ),
+
+                                ConstantInt.of(7),
+
+                                3
+                        )
+                )
+        );
+
+        context.register(
+                ModWorldgen.FUSED_ABYSSAL_SAND_DISK,
+
+                new ConfiguredFeature<>(
+                        Feature.DISK,
+
+                        new DiskConfiguration(
+                                BlockStateProvider.simple(
+                                        ModBlocks.FUSED_ABYSSAL_SAND.block().get()
+                                ),
+
+                                BlockPredicate.allOf(
+                                        BlockPredicate.matchesBlocks(
+                                                ModBlocks.ABYSSAL_SAND.block().get()
+                                        ),
+
+                                        BlockPredicate.matchesTag(
+                                                new Vec3i(0, 1, 0),
+                                                BlockTags.AIR
+                                        ),
+
+                                        BlockPredicate.not(
+                                                BlockPredicate.matchesTag(
+                                                        new Vec3i(0, -1, 0),
+                                                        BlockTags.AIR
+                                                )
+                                        )
+                                ),
                                 ConstantInt.of(5),
 
                                 2
@@ -610,6 +677,17 @@ public final class ModWorldgenBootstrapper {
         );
 
         context.register(
+                ModWorldgen.FOREST_WITHERWOOD_TREE_PLACED,
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(ModWorldgen.LEAVES_WITHERWOOD_TREE),
+                        VegetationPlacements.treePlacement(
+                                PlacementUtils.countExtra(16, 0.2f, 2),
+                                ModBlocks.WITHERWOOD_SAPLING.block().get()
+                        )
+                )
+        );
+
+        context.register(
                 ModWorldgen.WASTITE_CLUSTER_PLACED,
 
                 new PlacedFeature(
@@ -685,6 +763,36 @@ public final class ModWorldgenBootstrapper {
                                 HeightRangePlacement.uniform(
                                         VerticalAnchor.absolute(30),
                                         VerticalAnchor.absolute(120)
+                                ),
+                                BiomeFilter.biome()
+                        )
+                )
+        );
+
+        context.register(ModWorldgen.ABYSSAL_SAND_DISK_PLACED,
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(ModWorldgen.ABYSSAL_SAND_DISK),
+                        List.of(
+                                CountPlacement.of(ConstantInt.of(25)),
+                                InSquarePlacement.spread(),
+                                HeightRangePlacement.uniform(
+                                        VerticalAnchor.absolute(40),
+                                        VerticalAnchor.absolute(100)
+                                ),
+                                BiomeFilter.biome()
+                        )
+                )
+        );
+
+        context.register(ModWorldgen.FUSED_ABYSSAL_SAND_DISK_PLACED,
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(ModWorldgen.FUSED_ABYSSAL_SAND_DISK),
+                        List.of(
+                                CountPlacement.of(ConstantInt.of(18)),
+                                InSquarePlacement.spread(),
+                                HeightRangePlacement.uniform(
+                                        VerticalAnchor.absolute(40),
+                                        VerticalAnchor.absolute(100)
                                 ),
                                 BiomeFilter.biome()
                         )

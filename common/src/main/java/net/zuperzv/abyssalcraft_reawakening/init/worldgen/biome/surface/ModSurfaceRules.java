@@ -57,6 +57,54 @@ public class ModSurfaceRules {
                 ABYSSAL_STONE
         );
 
+        SurfaceRules.RuleSource abyssalForestGround = SurfaceRules.sequence(
+
+                // Noise < 0.0
+                SurfaceRules.ifTrue(
+                        SurfaceRules.noiseCondition(
+                                ModNoiseRouter.ABYSSAL_GROUND,
+                                -1.0,
+                                0.0
+                        ),
+                        ABYSSAL_STONE
+                        //ABYSSAL_MUD
+                ),
+
+                // Noise 0.0 - 0.5
+                SurfaceRules.ifTrue(
+                        SurfaceRules.noiseCondition(
+                                ModNoiseRouter.ABYSSAL_GROUND,
+                                0.0,
+                                0.5
+                        ),
+                        CORRUPTED_SOIL
+                ),
+
+                // 4 BLOCKS UNDER SURFACE
+                SurfaceRules.ifTrue(
+                        SurfaceRules.stoneDepthCheck(
+                                3,
+                                false,
+                                CaveSurface.FLOOR
+                        ),
+
+                        SurfaceRules.sequence(
+
+                                SurfaceRules.ifTrue(
+                                        SurfaceRules.noiseCondition(
+                                                ModNoiseRouter.ABYSSAL_GROUND,
+                                                0.0,
+                                                0.5
+                                        ),
+                                        ABYSSAL_SAND_SANDSTONE
+                                )
+                        )
+                ),
+
+                // Noise >= 0.5
+                ABYSSAL_STONE
+        );
+
         SurfaceRules.RuleSource abyssalDesertGround = SurfaceRules.sequence(
 
                 // TOP BLOCK
@@ -184,6 +232,18 @@ public class ModSurfaceRules {
                         SurfaceRules.ifTrue(
                                 SurfaceRules.ON_FLOOR,
                                 abyssalGround
+                        )
+                ),
+
+                // Darklands Forest
+                SurfaceRules.ifTrue(
+                        SurfaceRules.isBiome(
+                                ModBiomes.DARKLANDS_FOREST
+                        ),
+
+                        SurfaceRules.ifTrue(
+                                SurfaceRules.ON_FLOOR,
+                                abyssalForestGround
                         )
                 ),
 

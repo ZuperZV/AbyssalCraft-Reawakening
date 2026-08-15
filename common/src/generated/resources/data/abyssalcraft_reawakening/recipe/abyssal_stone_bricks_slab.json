@@ -2,13 +2,13 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "#": "abyssalcraft_reawakening:witherwood_planks"
+    "#": "abyssalcraft_reawakening:abyssal_stone_bricks"
   },
   "pattern": [
     "###"
   ],
   "result": {
     "count": 6,
-    "id": "abyssalcraft_reawakening:witherwood_slab"
+    "id": "abyssalcraft_reawakening:abyssal_stone_bricks_slab"
   }
 }

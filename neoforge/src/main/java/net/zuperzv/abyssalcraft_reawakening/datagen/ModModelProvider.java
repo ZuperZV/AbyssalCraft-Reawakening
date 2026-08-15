@@ -92,6 +92,10 @@ public class ModModelProvider extends ModelProvider {
         createCrossBlockWithItem(blockModels, itemModels, ModBlocks.CORALIUM_TENDRILS.block().get(), BlockModelGenerators.PlantType.NOT_TINTED);
         createCrossBlockWithItem(blockModels, itemModels, ModBlocks.LUMINOUS_THISTLE.block().get(), BlockModelGenerators.PlantType.NOT_TINTED);
         createCrossBlockWithItem(blockModels, itemModels, ModBlocks.WASTELANDS_THORN.block().get(), BlockModelGenerators.PlantType.NOT_TINTED);
+
+        //Grass
+        createGrassLikeBlock(blockModels, ModBlocks.FUSED_ABYSSAL_SAND.block().get(), ModBlocks.ABYSSAL_SAND.block().get(),
+                new Material(Constants.id("block/fused_abyssal_sand_top")), new Material(Constants.id("block/fused_abyssal_sand_side")));
         
         //Tree
             //WITHERWOOD
@@ -148,6 +152,17 @@ public class ModModelProvider extends ModelProvider {
         );
         itemModels.generateFlatItem(ModItems.WITHERWOOD_SIGN.get(), ModelTemplates.FLAT_ITEM);
 
+        //Abyssal  Stone
+        generatedBlocks.add(ModBlocks.ABYSSAL_STONE_BRICKS.block().get());
+        generatedBlocks.add(ModBlocks.ABYSSAL_STONE_BRICKS_STAIRS.block().get());
+        generatedBlocks.add(ModBlocks.ABYSSAL_STONE_BRICKS_SLAB.block().get());
+        generatedBlocks.add(ModBlocks.ABYSSAL_STONE_BRICKS_FENCE.block().get());
+
+        blockModels.family(ModBlocks.ABYSSAL_STONE_BRICKS.block().get())
+                .stairs(ModBlocks.ABYSSAL_STONE_BRICKS_STAIRS.block().get())
+                .slab(ModBlocks.ABYSSAL_STONE_BRICKS_SLAB.block().get())
+                .fence(ModBlocks.ABYSSAL_STONE_BRICKS_FENCE.block().get());
+
         //Not Generated
         //generatedItems.add(ModItems.ABYSSALNITE_SWORD.get());
         //declareCustomModelItem(itemModels, ModItems.ABYSSALNITE_SWORD.get());
@@ -164,6 +179,38 @@ public class ModModelProvider extends ModelProvider {
                 generateCubeBlock(blockModels, block);
             }
         }
+    }
+
+    private void createGrassLikeBlock(
+            BlockModelGenerators blockModels,
+            Block block,
+            Block bottomBlock,
+            Material topTexture,
+            Material sideTexture
+    ) {
+        generatedBlocks.add(block);
+
+        Material bottomTexture =
+                TextureMapping.getBlockTexture(bottomBlock);
+
+        TextureMapping mapping = new TextureMapping()
+                .put(TextureSlot.BOTTOM, bottomTexture)
+                .copyForced(TextureSlot.BOTTOM, TextureSlot.PARTICLE)
+                .put(TextureSlot.TOP, topTexture)
+                .put(TextureSlot.SIDE, sideTexture);
+
+        blockModels.blockStateOutput.accept(
+                MultiVariantGenerator.dispatch(
+                        block,
+                        plainVariant(
+                                ModelTemplates.CUBE_BOTTOM_TOP.create(
+                                        block,
+                                        mapping,
+                                        blockModels.modelOutput
+                                )
+                        )
+                )
+        );
     }
 
     private void addSign(

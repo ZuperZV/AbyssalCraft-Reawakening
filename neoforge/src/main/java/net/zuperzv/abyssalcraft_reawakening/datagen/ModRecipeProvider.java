@@ -248,9 +248,6 @@ public class ModRecipeProvider extends RecipeProvider {
         this.stairBuilder(ModBlocks.WITHERWOOD_STAIRS.block().get(), Ingredient.of(ModBlocks.WITHERWOOD_PLANKS.block().get()))
                 .unlockedBy(getHasName(ModBlocks.WITHERWOOD_PLANKS.block().get()), this.has(ModBlocks.WITHERWOOD_PLANKS.block().get()))
                 .save(this.output);
-        this.slabBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.WITHERWOOD_SLAB.block().get(), Ingredient.of(ModBlocks.WITHERWOOD_PLANKS.block().get()))
-                .unlockedBy(getHasName(ModBlocks.WITHERWOOD_PLANKS.block().get()), this.has(ModBlocks.WITHERWOOD_PLANKS.block().get()))
-                .save(this.output);
 
         this.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.WITHERWOOD_TRAPDOOR.block().get())
                 .define('#', ModBlocks.WITHERWOOD_PLANKS.block().get())
@@ -280,6 +277,19 @@ public class ModRecipeProvider extends RecipeProvider {
 
         this.fenceBuilder(ModBlocks.WITHERWOOD_FENCE.block().get(), Ingredient.of(ModBlocks.WITHERWOOD_PLANKS.block().get()));
         this.fenceGateBuilder(ModBlocks.WITHERWOOD_FENCE.block().get(), Ingredient.of(ModBlocks.WITHERWOOD_PLANKS.block().get()));
+
+        //Abyssal Stone
+        fourBlockStorageRecipes(output, RecipeCategory.MISC, ModBlocks.ABYSSAL_STONE_BRICKS.block().get(), RecipeCategory.MISC,
+                ModBlocks.ABYSSAL_STONE.block().get());
+
+        this.fenceBuilder(ModBlocks.ABYSSAL_STONE_BRICKS_FENCE.block().get(), Ingredient.of(ModBlocks.ABYSSAL_STONE.block().get()));
+
+        this.stairBuilder(ModBlocks.ABYSSAL_STONE_BRICKS_STAIRS.block().get(), Ingredient.of(ModBlocks.ABYSSAL_STONE_BRICKS.block().get()))
+                .unlockedBy(getHasName(ModBlocks.ABYSSAL_STONE_BRICKS.block().get()), this.has(ModBlocks.ABYSSAL_STONE_BRICKS.block().get()))
+                .save(this.output);
+        this.slabBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.ABYSSAL_STONE_BRICKS_SLAB.block().get(), Ingredient.of(ModBlocks.ABYSSAL_STONE_BRICKS.block().get()))
+                .unlockedBy(getHasName(ModBlocks.ABYSSAL_STONE_BRICKS.block().get()), this.has(ModBlocks.ABYSSAL_STONE_BRICKS.block().get()))
+                .save(this.output);
     }
 
     public static class Runner extends RecipeProvider.Runner {

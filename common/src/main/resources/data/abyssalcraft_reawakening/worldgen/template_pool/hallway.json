@@ -1,0 +1,66 @@
+{
+  "name": "abyssalcraft_reawakening:hallway",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 20,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "abyssalcraft_reawakening:ruins/hallway/hallway_1",
+        "processors": "minecraft:mossify_10_percent",
+        "override_liquid_settings": "ignore_waterlogging"
+      }
+    },
+    {
+      "weight": 60,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "abyssalcraft_reawakening:ruins/hallway/hallway_2",
+        "processors": "minecraft:mossify_10_percent",
+        "override_liquid_settings": "ignore_waterlogging"
+      }
+    },
+    {
+      "weight": 65,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "abyssalcraft_reawakening:ruins/hallway/hallway_3",
+        "processors": "minecraft:mossify_10_percent",
+        "override_liquid_settings": "ignore_waterlogging"
+      }
+    },
+    {
+      "weight": 40,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "abyssalcraft_reawakening:ruins/hallway/hallway_4",
+        "processors": "minecraft:mossify_10_percent",
+        "override_liquid_settings": "ignore_waterlogging"
+      }
+    },
+    {
+      "weight": 30,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "abyssalcraft_reawakening:ruins/hallway/hallway_5",
+        "processors": "minecraft:mossify_10_percent",
+        "override_liquid_settings": "ignore_waterlogging"
+      }
+    },
+    {
+      "weight": 25,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "abyssalcraft_reawakening:ruins/hallway/hallway_5",
+        "processors": "minecraft:mossify_10_percent",
+        "override_liquid_settings": "ignore_waterlogging"
+      }
+    }
+  ]
+}

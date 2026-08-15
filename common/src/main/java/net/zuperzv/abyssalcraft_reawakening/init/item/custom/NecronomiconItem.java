@@ -1,6 +1,12 @@
 package net.zuperzv.abyssalcraft_reawakening.init.item.custom;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
@@ -9,10 +15,15 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 import net.zuperzv.abyssalcraft_reawakening.init.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.init.component.PotentialEnergyData;
 import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.NecronomiconTooltipComponent;
+import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.init.screen.NecronomiconMenu;
 
 import java.util.Optional;
@@ -31,6 +42,101 @@ public class NecronomiconItem extends Item {
         System.out.println("Potential Energy: " + itemStack.get(ModDataComponentTypes.POTENTIAL_ENERGY.get()).getPotentialEnergy());
     }
      */
+
+    @Override
+    public InteractionResult useOn(UseOnContext context) {
+        Level level = context.getLevel();
+
+        if (level.isClientSide()) {
+            return InteractionResult.SUCCESS;
+        }
+
+        if (!(level instanceof ServerLevel serverLevel)) {
+            return InteractionResult.PASS;
+        }
+
+        BlockPos clickedPos = context.getClickedPos();
+
+        StructureTemplateManager structureManager =
+                serverLevel.getStructureManager();
+
+        Identifier structureId = Identifier.fromNamespaceAndPath(
+                "abyssalcraft_reawakening",
+                "stone_alter_done"
+        );
+
+        Optional<StructureTemplate> optional =
+                structureManager.get(structureId);
+
+        if (optional.isEmpty()) {
+            return InteractionResult.PASS;
+        }
+
+        StructureTemplate structure = optional.get();
+
+        StructurePlaceSettings settings =
+                new StructurePlaceSettings();
+
+        BlockPos placementPos = clickedPos.offset(
+                -structure.getSize().getX() / 2,
+                -structure.getSize().getY() / 2,
+                -structure.getSize().getZ() / 2
+        );
+
+        boolean placed = structure.placeInWorld(
+                serverLevel,
+                placementPos,
+                placementPos,
+                settings,
+                serverLevel.getRandom(),
+                2
+        );
+
+        if (!placed) {
+            return InteractionResult.PASS;
+        }
+
+        double centerX = placementPos.getX() + structure.getSize().getX() / 2.0;
+        double centerY = placementPos.getY() + structure.getSize().getY() / 2.0;
+        double centerZ = placementPos.getZ() + structure.getSize().getZ() / 2.0;
+
+        serverLevel.playSound(
+                null,
+                centerX,
+                centerY,
+                centerZ,
+                SoundEvents.SOUL_ESCAPE,
+                SoundSource.BLOCKS,
+                1.0F,
+                0.6F
+        );
+
+        serverLevel.sendParticles(
+                ParticleTypes.SOUL,
+                placementPos.getX() + structure.getSize().getX() / 2.0,
+                placementPos.getY() + 1.0,
+                placementPos.getZ() + structure.getSize().getZ() / 2.0,
+                40,
+                structure.getSize().getX() / 3.0,
+                structure.getSize().getY() / 3.0,
+                structure.getSize().getZ() / 3.0,
+                0.05
+        );
+
+        serverLevel.sendParticles(
+                ParticleTypes.SMOKE,
+                placementPos.getX() + structure.getSize().getX() / 2.0,
+                placementPos.getY() + 0.5,
+                placementPos.getZ() + structure.getSize().getZ() / 2.0,
+                25,
+                structure.getSize().getX() / 4.0,
+                0.5,
+                structure.getSize().getZ() / 4.0,
+                0.02
+        );
+
+        return InteractionResult.SUCCESS;
+    }
 
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/fence_inventory",
+  "textures": {
+    "texture": "abyssalcraft_reawakening:block/abyssal_stone_bricks"
+  }
+}

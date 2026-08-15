@@ -215,12 +215,22 @@ public final class ModBiomes {
         // SURFACE
         biomeBuilder.addFeature(
                 GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
+                ModWorldgen.ABYSSAL_SAND_DISK_PLACED
+        );
+
+        biomeBuilder.addFeature(
+                GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
+                ModWorldgen.FUSED_ABYSSAL_SAND_DISK_PLACED
+        );
+
+        biomeBuilder.addFeature(
+                GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
                 ModWorldgen.ABYSSAL_MUD_DISK_PLACED
         );
 
         biomeBuilder.addFeature(
                 GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModWorldgen.WITHERWOOD_TREE_PLACED
+                ModWorldgen.FOREST_WITHERWOOD_TREE_PLACED
         );
 
         biomeBuilder.addFeature(

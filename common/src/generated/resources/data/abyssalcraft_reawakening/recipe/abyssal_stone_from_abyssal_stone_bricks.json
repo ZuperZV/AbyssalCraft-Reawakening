@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "abyssalcraft_reawakening:abyssal_stone_bricks"
+  },
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "result": {
+    "id": "abyssalcraft_reawakening:abyssal_stone"
+  }
+}
