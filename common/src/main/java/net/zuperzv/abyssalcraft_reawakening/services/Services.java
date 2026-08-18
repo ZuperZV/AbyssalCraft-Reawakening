@@ -11,6 +11,7 @@ public class Services {
     public static final IRegistryHelper REGISTRY = load(IRegistryHelper.class);
     public static final IServerHelper SERVER = load(IServerHelper.class);
     public static final INetworkHelper NETWORK = load(INetworkHelper.class);
+    public static final IMultiblockInput I_MULTIBLOCK_INPUT = load(IMultiblockInput.class);
     public static final IItemFactory ITEM_FACTORY = load(IItemFactory.class);
     public static final IClientRegistryHelper CLIENT_REGISTRY = load(IClientRegistryHelper.class);
 

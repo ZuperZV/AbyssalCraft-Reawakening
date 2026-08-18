@@ -17,6 +17,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
@@ -26,6 +27,9 @@ import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.NecronomiconToolti
 import net.zuperzv.abyssalcraft_reawakening.init.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.init.screen.NecronomiconMenu;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class NecronomiconItem extends Item {
@@ -60,33 +64,51 @@ public class NecronomiconItem extends Item {
         StructureTemplateManager structureManager =
                 serverLevel.getStructureManager();
 
-        Identifier structureId = Identifier.fromNamespaceAndPath(
+        Identifier inputId = Identifier.fromNamespaceAndPath(
+                "abyssalcraft_reawakening",
+                "stone_alter"
+        );
+
+        Optional<StructureTemplate> inputOptional =
+                structureManager.get(inputId);
+
+        if (inputOptional.isEmpty()) {
+            return InteractionResult.PASS;
+        }
+
+        StructureTemplate inputStructure = inputOptional.get();
+
+        BlockPos structureOrigin = findStructureOrigin(
+                serverLevel,
+                inputStructure,
+                clickedPos
+        );
+
+        if (structureOrigin == null) {
+            return InteractionResult.PASS;
+        }
+
+        Identifier outputId = Identifier.fromNamespaceAndPath(
                 "abyssalcraft_reawakening",
                 "stone_alter_done"
         );
 
-        Optional<StructureTemplate> optional =
-                structureManager.get(structureId);
+        Optional<StructureTemplate> outputOptional =
+                structureManager.get(outputId);
 
-        if (optional.isEmpty()) {
+        if (outputOptional.isEmpty()) {
             return InteractionResult.PASS;
         }
 
-        StructureTemplate structure = optional.get();
+        StructureTemplate outputStructure = outputOptional.get();
 
         StructurePlaceSettings settings =
                 new StructurePlaceSettings();
 
-        BlockPos placementPos = clickedPos.offset(
-                -structure.getSize().getX() / 2,
-                -structure.getSize().getY() / 2,
-                -structure.getSize().getZ() / 2
-        );
-
-        boolean placed = structure.placeInWorld(
+        boolean placed = outputStructure.placeInWorld(
                 serverLevel,
-                placementPos,
-                placementPos,
+                structureOrigin,
+                structureOrigin,
                 settings,
                 serverLevel.getRandom(),
                 2
@@ -96,9 +118,17 @@ public class NecronomiconItem extends Item {
             return InteractionResult.PASS;
         }
 
-        double centerX = placementPos.getX() + structure.getSize().getX() / 2.0;
-        double centerY = placementPos.getY() + structure.getSize().getY() / 2.0;
-        double centerZ = placementPos.getZ() + structure.getSize().getZ() / 2.0;
+        double centerX =
+                structureOrigin.getX()
+                        + outputStructure.getSize().getX() / 2.0;
+
+        double centerY =
+                structureOrigin.getY()
+                        + outputStructure.getSize().getY() / 2.0;
+
+        double centerZ =
+                structureOrigin.getZ()
+                        + outputStructure.getSize().getZ() / 2.0;
 
         serverLevel.playSound(
                 null,
@@ -113,29 +143,116 @@ public class NecronomiconItem extends Item {
 
         serverLevel.sendParticles(
                 ParticleTypes.SOUL,
-                placementPos.getX() + structure.getSize().getX() / 2.0,
-                placementPos.getY() + 1.0,
-                placementPos.getZ() + structure.getSize().getZ() / 2.0,
+                centerX,
+                structureOrigin.getY() + 1.0,
+                centerZ,
                 40,
-                structure.getSize().getX() / 3.0,
-                structure.getSize().getY() / 3.0,
-                structure.getSize().getZ() / 3.0,
+                outputStructure.getSize().getX() / 3.0,
+                outputStructure.getSize().getY() / 3.0,
+                outputStructure.getSize().getZ() / 3.0,
                 0.05
         );
 
         serverLevel.sendParticles(
                 ParticleTypes.SMOKE,
-                placementPos.getX() + structure.getSize().getX() / 2.0,
-                placementPos.getY() + 0.5,
-                placementPos.getZ() + structure.getSize().getZ() / 2.0,
+                centerX,
+                structureOrigin.getY() + 0.5,
+                centerZ,
                 25,
-                structure.getSize().getX() / 4.0,
+                outputStructure.getSize().getX() / 4.0,
                 0.5,
-                structure.getSize().getZ() / 4.0,
+                outputStructure.getSize().getZ() / 4.0,
                 0.02
         );
 
         return InteractionResult.SUCCESS;
+    }
+
+    private boolean isStructureCorrect(
+            ServerLevel level,
+            StructureTemplate structure,
+            BlockPos origin
+    ) {
+        List<StructureTemplate.StructureBlockInfo> blocks =
+                getAllStructureBlocks(structure);
+
+        if (blocks.isEmpty()) {
+            return false;
+        }
+
+        for (StructureTemplate.StructureBlockInfo info : blocks) {
+
+            BlockPos worldPos = origin.offset(info.pos());
+
+            BlockState expectedState = info.state();
+            BlockState actualState = level.getBlockState(worldPos);
+
+            if (!actualState.equals(expectedState)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private BlockPos findStructureOrigin(
+            ServerLevel level,
+            StructureTemplate structure,
+            BlockPos clickedPos
+    ) {
+        List<StructureTemplate.StructureBlockInfo> blocks =
+                getAllStructureBlocks(structure);
+
+        if (blocks.isEmpty()) {
+            return null;
+        }
+
+        for (StructureTemplate.StructureBlockInfo info : blocks) {
+
+            BlockPos possibleOrigin = clickedPos.offset(
+                    -info.pos().getX(),
+                    -info.pos().getY(),
+                    -info.pos().getZ()
+            );
+
+            if (isStructureCorrect(
+                    level,
+                    structure,
+                    possibleOrigin
+            )) {
+                return possibleOrigin;
+            }
+        }
+
+        return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    private List<StructureTemplate.StructureBlockInfo> getAllStructureBlocks(
+            StructureTemplate structure
+    ) {
+        List<StructureTemplate.StructureBlockInfo> result =
+                new ArrayList<>();
+
+        try {
+            Field palettesField =
+                    StructureTemplate.class.getDeclaredField("palettes");
+
+            palettesField.setAccessible(true);
+
+            List<StructureTemplate.Palette> palettes =
+                    (List<StructureTemplate.Palette>)
+                            palettesField.get(structure);
+
+            for (StructureTemplate.Palette palette : palettes) {
+                result.addAll(palette.blocks());
+            }
+
+        } catch (ReflectiveOperationException e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 
     @Override

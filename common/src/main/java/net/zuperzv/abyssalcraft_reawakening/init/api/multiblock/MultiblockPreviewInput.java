@@ -35,10 +35,34 @@ public final class MultiblockPreviewInput {
     private static float zoom = 1.0f;
 
     private static boolean dragging = false;
+    private static double dragDistance = 0.0;
 
     private static ViewMode viewMode = ViewMode.FULL;
 
     private MultiblockPreviewInput() {
+    }
+
+    private static int screenOffsetX;
+    private static int screenOffsetY;
+
+    public static void setScreenOffset(
+            int x,
+            int y
+    ) {
+        screenOffsetX = x;
+        screenOffsetY = y;
+    }
+
+    private static double localMouseX(
+            double mouseX
+    ) {
+        return mouseX - screenOffsetX;
+    }
+
+    private static double localMouseY(
+            double mouseY
+    ) {
+        return mouseY - screenOffsetY;
     }
 
     public static void setBounds(
@@ -245,6 +269,12 @@ public final class MultiblockPreviewInput {
             return false;
         }
 
+        mouseX =
+                localMouseX(mouseX);
+
+        mouseY =
+                localMouseY(mouseY);
+
         if (isInsideControls(mouseX, mouseY)) {
 
             int leftButtonX =
@@ -308,15 +338,8 @@ public final class MultiblockPreviewInput {
         }
 
         if (isInsidePreview(mouseX, mouseY)) {
-
-            if (MultiblockPreviewRenderer.handlePreviewClick(
-                    mouseX,
-                    mouseY
-            )) {
-                return true;
-            }
-
             dragging = true;
+            dragDistance = 0.0;
             return true;
         }
 
@@ -345,6 +368,10 @@ public final class MultiblockPreviewInput {
             return false;
         }
 
+        dragDistance +=
+                Math.abs(dragX) +
+                        Math.abs(dragY);
+
         rotationY += (float) dragX * 0.8f;
         rotationX += (float) dragY * 0.6f;
 
@@ -365,12 +392,37 @@ public final class MultiblockPreviewInput {
             double mouseY,
             int button
     ) {
-        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-            dragging = false;
-            return true;
+        if (button != GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+            return false;
         }
 
-        return false;
+        if (!dragging) {
+            return false;
+        }
+
+        mouseX =
+                localMouseX(mouseX);
+
+        mouseY =
+                localMouseY(mouseY);
+
+        dragging = false;
+
+        if (dragDistance <= 3.0
+                && isInsidePreview(
+                mouseX,
+                mouseY
+        )) {
+            dragDistance = 0.0;
+
+            return MultiblockPreviewRenderer.handlePreviewClick(
+                    mouseX,
+                    mouseY
+            );
+        }
+
+        dragDistance = 0.0;
+        return true;
     }
 
     public static boolean mouseScrolled(
@@ -378,6 +430,12 @@ public final class MultiblockPreviewInput {
             double mouseY,
             double scrollY
     ) {
+        mouseX =
+                localMouseX(mouseX);
+
+        mouseY =
+                localMouseY(mouseY);
+
         if (isInsidePreview(mouseX, mouseY)) {
 
             zoom += (float) scrollY * 0.10f;

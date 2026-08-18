@@ -85,7 +85,9 @@ public final class MultiblockRecipeCategory
                 0,
                 MultiblockPreviewRenderer.WIDTH,
                 MultiblockPreviewRenderer.HEIGHT,
-                recipe.structure()
+                recipe.structure(),
+                mouseX,
+                mouseY
         );
     }
 

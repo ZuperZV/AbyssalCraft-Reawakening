@@ -3,6 +3,9 @@ package net.zuperzv.abyssalcraft_reawakening.init.api.multiblock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -12,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.zuperzv.abyssalcraft_reawakening.init.access.GuiGraphicsExtractorAccess;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -37,6 +41,9 @@ public final class MultiblockPreviewRenderer {
     private static List<Map.Entry<Block, Integer>> currentListEntries =
             List.of();
 
+    private static final Map<BlockState, BlockFaceSprites> SPRITE_CACHE =
+            new HashMap<>();
+
     private MultiblockPreviewRenderer() {
     }
 
@@ -50,6 +57,40 @@ public final class MultiblockPreviewRenderer {
     ) {
         Minecraft mc =
                 Minecraft.getInstance();
+
+        render(
+                graphics,
+                x,
+                y,
+                width,
+                height,
+                structureId,
+                scaledMouseX(mc),
+                scaledMouseY(mc)
+        );
+    }
+
+    public static void render(
+            GuiGraphicsExtractor graphics,
+            int x,
+            int y,
+            int width,
+            int height,
+            Identifier structureId,
+            double mouseX,
+            double mouseY
+    ) {
+        Minecraft mc =
+                Minecraft.getInstance();
+
+        MultiblockPreviewInput.setScreenOffset(
+                (int) Math.round(
+                        scaledMouseX(mc) - mouseX
+                ),
+                (int) Math.round(
+                        scaledMouseY(mc) - mouseY
+                )
+        );
 
         MultiblockStructure structure =
                 MultiblockStructure.load(structureId);
@@ -126,7 +167,9 @@ public final class MultiblockPreviewRenderer {
                 x + 2,
                 y + 2,
                 Math.max(1, previewWidth - 4),
-                Math.max(1, height - 22)
+                Math.max(1, height - 22),
+                mouseX,
+                mouseY
         );
 
         drawStructure(
@@ -154,12 +197,6 @@ public final class MultiblockPreviewRenderer {
                 controlsY,
                 width
         );
-
-        double mouseX =
-                scaledMouseX(mc);
-
-        double mouseY =
-                scaledMouseY(mc);
 
         drawTooltip(
                 graphics,
@@ -303,12 +340,6 @@ public final class MultiblockPreviewRenderer {
         ) * MultiblockPreviewInput.getZoom();
     }
 
-    /**
-     * 26.1-compatible GUI representation of the multiblock.
-     *
-     * Instead of the removed BlockRenderDispatcher path, blocks
-     * are submitted through GuiGraphicsExtractor.item(...).
-     */
     private static void drawStructure(
             GuiGraphicsExtractor graphics,
             MultiblockStructure structure,
@@ -337,44 +368,31 @@ public final class MultiblockPreviewRenderer {
         float originY =
                 y + height / 2.0f;
 
-        /*
-         * Render bottom blocks first.
-         */
         List<MultiblockStructure.BlockEntry> sorted =
                 new ArrayList<>(blocks);
 
         sorted.sort(
                 Comparator
-                        .comparingInt(
+                        .comparingDouble(
                                 (MultiblockStructure.BlockEntry entry) ->
+                                        project(
+                                                entry,
+                                                structure,
+                                                originX,
+                                                originY,
+                                                scale
+                                        )[1]
+                        )
+                        .thenComparingInt(
+                                entry ->
                                         entry.pos().getY()
-                        )
-                        .thenComparingInt(
-                                entry ->
-                                        entry.pos().getX()
-                                                + entry.pos().getZ()
-                        )
-                        .thenComparingInt(
-                                entry ->
-                                        entry.pos().getX()
                         )
         );
 
-        for (
-                MultiblockStructure.BlockEntry entry
-                : sorted
-        ) {
+        for (MultiblockStructure.BlockEntry entry : sorted) {
+
             BlockState state =
                     entry.state();
-
-            ItemStack stack =
-                    getRecipeItem(
-                            state.getBlock()
-                    );
-
-            if (stack.isEmpty()) {
-                continue;
-            }
 
             float[] point =
                     project(
@@ -385,31 +403,87 @@ public final class MultiblockPreviewRenderer {
                             scale
                     );
 
-            int drawX =
-                    Math.round(point[0] - 8.0f);
+            int centerX =
+                    Math.round(point[0]);
 
-            int drawY =
-                    Math.round(point[1] - 16.0f);
+            int centerY =
+                    Math.round(point[1]);
 
-            graphics.item(
-                    stack,
-                    drawX,
-                    drawY
+            int blockSize =
+                    Math.max(
+                            8,
+                            Math.min(
+                                    24,
+                                    Math.round(scale * 0.55f)
+                            )
+                    );
+
+            int half =
+                    blockSize / 2;
+
+            int topCenterY =
+                    centerY - half;
+
+            int bottomY =
+                    centerY + half;
+
+            graphics.fill(
+                    centerX - half - 1,
+                    topCenterY - 1,
+                    centerX + half + 1,
+                    bottomY + 1,
+                    0x22000000
             );
 
-            /*
-             * Highlight selected/hovered block.
-             */
+            drawBlockCube(
+                    graphics,
+                    state,
+                    centerX,
+                    centerY,
+                    blockSize
+            );
+
             if (entry == hoveredBlock) {
+
                 graphics.outline(
-                        drawX - 1,
-                        drawY - 1,
-                        18,
-                        18,
+                        centerX - half - 2,
+                        topCenterY - 2,
+                        blockSize + 4,
+                        blockSize + half + 4,
                         0xFFFFFFFF
                 );
             }
         }
+    }
+
+    private static void drawBlockCube(
+            GuiGraphicsExtractor graphics,
+            BlockState state,
+            int centerX,
+            int centerY,
+            int size
+    ) {
+        Minecraft mc = Minecraft.getInstance();
+
+        BlockStateModel model =
+                mc.getModelManager()
+                        .getBlockStateModelSet()
+                        .get(state);
+
+        if (model == null) {
+            return;
+        }
+
+        GuiGraphicsExtractorAccess.of(graphics)
+                .abyssalcraft$addGuiElement(
+                        new BlockPreviewRenderState(
+                                state,
+                                model,
+                                centerX,
+                                centerY,
+                                size
+                        )
+                );
     }
 
     /**
@@ -447,9 +521,6 @@ public final class MultiblockPreviewRenderer {
         float pz =
                 entry.pos().getZ() - cz;
 
-        /*
-         * Horizontal rotation.
-         */
         double yaw =
                 Math.toRadians(
                         MultiblockPreviewInput.getRotationY()
@@ -469,24 +540,40 @@ public final class MultiblockPreviewRenderer {
                                 pz * Math.cos(yaw)
                 );
 
-        /*
-         * Simple isometric projection.
-         */
+        double pitch =
+                Math.toRadians(
+                        MultiblockPreviewInput.getRotationX()
+                );
+
+        float pitchedY =
+                (float) (
+                        py * Math.cos(pitch)
+                                -
+                                rotatedZ * Math.sin(pitch)
+                );
+
+        float pitchedZ =
+                (float) (
+                        py * Math.sin(pitch)
+                                +
+                                rotatedZ * Math.cos(pitch)
+                );
+
         float screenX =
                 originX
                         +
-                        (rotatedX - rotatedZ)
+                        (rotatedX - pitchedZ)
                                 * scale
                                 * 0.5f;
 
         float screenY =
                 originY
                         +
-                        (rotatedX + rotatedZ)
+                        (rotatedX + pitchedZ)
                                 * scale
                                 * 0.25f
                         -
-                        py * scale * 0.75f;
+                        pitchedY * scale * 0.75f;
 
         return new float[]{
                 screenX,
@@ -824,17 +911,10 @@ public final class MultiblockPreviewRenderer {
             int previewX,
             int previewY,
             int width,
-            int height
+            int height,
+            double mouseX,
+            double mouseY
     ) {
-        Minecraft mc =
-                Minecraft.getInstance();
-
-        double mouseX =
-                scaledMouseX(mc);
-
-        double mouseY =
-                scaledMouseY(mc);
-
         if (MultiblockPreviewInput.isInsideList(
                 mouseX,
                 mouseY
@@ -903,13 +983,13 @@ public final class MultiblockPreviewRenderer {
                     point[0] - 9;
 
             float top =
-                    point[1] - 17;
+                    point[1] - 20;
 
             float right =
-                    point[0] + 9;
+                    point[0] + 13;
 
             float bottom =
-                    point[1] + 1;
+                    point[1] + 13;
 
             if (mouseX < left
                     || mouseX > right
@@ -1082,5 +1162,25 @@ public final class MultiblockPreviewRenderer {
     ) {
         return mc.mouseHandler.ypos()
                 / mc.getWindow().getGuiScale();
+    }
+
+    private record BlockFaceSprites(
+            TextureAtlasSprite top,
+            TextureAtlasSprite north,
+            TextureAtlasSprite east,
+            TextureAtlasSprite south,
+            TextureAtlasSprite west
+    ) {
+        private TextureAtlasSprite get(
+                Direction direction
+        ) {
+            return switch (direction) {
+                case EAST -> east;
+                case SOUTH -> south;
+                case WEST -> west;
+                case NORTH -> north;
+                default -> top;
+            };
+        }
     }
 }

@@ -47,6 +47,8 @@ public class ModResources implements ClientModInitializer {
                 EntityRenderers::register
         );
 
+        Services.I_MULTIBLOCK_INPUT.register();
+
         ModContainer container = FabricLoader.getInstance()
                 .getModContainer(Constants.MOD_ID)
                 .orElseThrow();

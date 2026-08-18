@@ -12,6 +12,7 @@
   "client": [
     "AdvancementsScreenMixin",
     "AdvancementTabMixin",
+    "GuiGraphicsExtractorMixin",
     "GuiGraphicsMixin",
     "ItemInHandRendererMixin",
     "LocalPlayerMixin",

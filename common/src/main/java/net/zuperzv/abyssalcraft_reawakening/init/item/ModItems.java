@@ -4,12 +4,15 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.equipment.ArmorType;
+import net.minecraft.world.level.Level;
 import net.zuperzv.abyssalcraft_reawakening.init.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.init.component.CodexTierData;
 import net.zuperzv.abyssalcraft_reawakening.init.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.init.entity.ModEntityTypes;
+import net.zuperzv.abyssalcraft_reawakening.init.item.custom.GatewayKeyItem;
 import net.zuperzv.abyssalcraft_reawakening.init.item.custom.NecronomiconItem;
 import net.zuperzv.abyssalcraft_reawakening.init.item.custom.StaffOfRendingItem;
+import net.zuperzv.abyssalcraft_reawakening.init.worldgen.dimension.ModDimensions;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
 
@@ -102,7 +105,7 @@ public class ModItems {
 
     //Abyssalnite
     public static final RegistryHandle<Item> GATEWAY_KEY = Services.REGISTRY.registerItem("gateway_key",
-            properties -> new Item(properties.stacksTo(1)));
+            properties -> new GatewayKeyItem(Level.OVERWORLD, ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY, properties.stacksTo(1)));
 
     public static final RegistryHandle<Item> ABYSSALNITE_INGOT = Services.REGISTRY.registerItem("abyssalnite_ingot",
             properties -> new Item(properties));
