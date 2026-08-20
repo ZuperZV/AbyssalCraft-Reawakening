@@ -2,6 +2,9 @@ package net.zuperzv.abyssalcraft_reawakening;
 
 
 import net.minecraft.client.renderer.Sheets;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -12,18 +15,20 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RecipesReceivedEvent;
 import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
-import net.zuperzv.abyssalcraft_reawakening.init.api.jei.JEIPlugin;
-import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.NecronomiconClientTooltip;
-import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.NecronomiconTooltipComponent;
-import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.StaffClientTooltip;
-import net.zuperzv.abyssalcraft_reawakening.init.data.tooltip.StaffTooltipComponent;
-import net.zuperzv.abyssalcraft_reawakening.init.network.SetBookmarksPacket;
-import net.zuperzv.abyssalcraft_reawakening.init.network.SyncBookmarksPacket;
-import net.zuperzv.abyssalcraft_reawakening.init.recipe.ModRecipes;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.api.jei.JEIPlugin;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.NecronomiconClientTooltip;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.NecronomiconTooltipComponent;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.StaffClientTooltip;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.StaffTooltipComponent;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.network.SetBookmarksPacket;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.network.SyncBookmarksPacket;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.ModRecipes;
 import net.zuperzv.abyssalcraft_reawakening.services.NeoForgeRegistryHelper;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
+import net.zuperzv.abyssalcraft_reawakening.services.types.IAttributeRegistryHelper;
 import net.zuperzv.abyssalcraft_reawakening.services.util.ModWoodTypes;
 
 import static net.zuperzv.abyssalcraft_reawakening.Constants.MOD_ID;
@@ -36,6 +41,7 @@ public class NeoForgeAbyssalCraft {
         CommonClass.init();
 
         eventBus.addListener(this::registerPayloadHandlers);
+        eventBus.addListener(this::onEntityAttributeCreation);
 
         NeoForgeRegistryHelper.register(eventBus);
     }
@@ -54,6 +60,15 @@ public class NeoForgeAbyssalCraft {
                 SyncBookmarksPacket.STREAM_CODEC,
                 (packet, context) -> SyncBookmarksPacket.handle(packet, net.minecraft.client.Minecraft.getInstance())
         );
+    }
+
+    private void onEntityAttributeCreation(EntityAttributeCreationEvent event) {
+        Services.ATTRIBUTES.applyEntityAttributeRegistrations(new IAttributeRegistryHelper.EntityAttributeRegistrar() {
+            @Override
+            public <T extends LivingEntity> void register(EntityType<T> entityType, AttributeSupplier.Builder builder) {
+                event.put(entityType, builder.build());
+            }
+        });
     }
 
     @EventBusSubscriber(modid = MOD_ID, value = Dist.CLIENT)

@@ -13,6 +13,7 @@ public class Services {
     public static final INetworkHelper NETWORK = load(INetworkHelper.class);
     public static final IMultiblockInput I_MULTIBLOCK_INPUT = load(IMultiblockInput.class);
     public static final IItemFactory ITEM_FACTORY = load(IItemFactory.class);
+    public static final IAttributeRegistryHelper ATTRIBUTES = load(IAttributeRegistryHelper.class);
     public static final IClientRegistryHelper CLIENT_REGISTRY = load(IClientRegistryHelper.class);
 
     public static <T> T load(Class<T> clazz) {

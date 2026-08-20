@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "net.zuperzv.abyssalcraft_reawakening.init.mixin",
+  "package": "net.zuperzv.abyssalcraft_reawakening.commonCode.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [],
   "client": [

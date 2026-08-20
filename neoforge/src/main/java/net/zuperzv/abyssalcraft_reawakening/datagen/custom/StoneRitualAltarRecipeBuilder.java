@@ -16,8 +16,8 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.zuperzv.abyssalcraft_reawakening.init.recipe.StoneRitualAltarRecipe;
-import net.zuperzv.abyssalcraft_reawakening.init.recipe.helper.TimeOfDay;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.StoneRitualAltarRecipe;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.helper.TimeOfDay;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;

@@ -3,7 +3,7 @@ package net.zuperzv.abyssalcraft_reawakening.services;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.ScreenEvent;
 import net.neoforged.neoforge.common.NeoForge;
-import net.zuperzv.abyssalcraft_reawakening.init.api.multiblock.MultiblockPreviewInput;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.api.multiblock.MultiblockPreviewInput;
 import net.zuperzv.abyssalcraft_reawakening.services.types.IMultiblockInput;
 
 public final class NeoForgeMultiblockInput implements IMultiblockInput {

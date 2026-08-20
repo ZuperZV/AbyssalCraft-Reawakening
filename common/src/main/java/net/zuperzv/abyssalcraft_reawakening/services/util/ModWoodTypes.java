@@ -4,7 +4,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
-import net.zuperzv.abyssalcraft_reawakening.init.mixin.WoodTypeAccessor;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.mixin.WoodTypeAccessor;
 
 public final class ModWoodTypes {
 

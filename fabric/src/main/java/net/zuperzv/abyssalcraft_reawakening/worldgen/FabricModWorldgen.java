@@ -3,7 +3,7 @@ package net.zuperzv.abyssalcraft_reawakening.worldgen;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.minecraft.world.level.levelgen.GenerationStep;
-import net.zuperzv.abyssalcraft_reawakening.init.worldgen.ModWorldgen;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.ModWorldgen;
 
 public final class FabricModWorldgen {
     private FabricModWorldgen() {

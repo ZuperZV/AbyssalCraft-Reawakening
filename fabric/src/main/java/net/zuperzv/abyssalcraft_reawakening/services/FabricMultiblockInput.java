@@ -2,7 +2,7 @@ package net.zuperzv.abyssalcraft_reawakening.services;
 
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenMouseEvents;
-import net.zuperzv.abyssalcraft_reawakening.init.api.multiblock.MultiblockPreviewInput;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.api.multiblock.MultiblockPreviewInput;
 import net.zuperzv.abyssalcraft_reawakening.services.types.IMultiblockInput;
 
 public final class FabricMultiblockInput implements IMultiblockInput {
