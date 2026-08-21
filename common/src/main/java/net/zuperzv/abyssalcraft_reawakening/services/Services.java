@@ -2,7 +2,7 @@ package net.zuperzv.abyssalcraft_reawakening.services;
 
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.services.types.*;
-import net.zuperzv.abyssalcraft_reawakening.services.types.client.IClientRegistryHelper;
+import net.zuperzv.abyssalcraft_reawakening.services.types.IClientRegistryHelper;
 
 import java.util.ServiceLoader;
 

@@ -23,6 +23,7 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.data.CodexDataLoader;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.DyedColorTintSource;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.screen.ModMenuTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.screen.NecronomiconScreen;
+import net.zuperzv.abyssalcraft_reawakening.services.Services;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -82,6 +83,7 @@ public class ModResources {
     @SubscribeEvent
     public static void onServerStarted(ServerStartedEvent event) {
         CodexDataLoader.load();
+        Services.I_MULTIBLOCK_INPUT.register();
     }
 
     @SubscribeEvent

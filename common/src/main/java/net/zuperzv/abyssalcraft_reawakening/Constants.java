@@ -13,6 +13,7 @@ public class Constants {
 	public static Identifier id(String name) {
 		return Identifier.fromNamespaceAndPath(MOD_ID, name);
 	}
+	public static Identifier entityId(String name) {return Identifier.fromNamespaceAndPath(MOD_ID, "textures/entity/" + name + ".png");}
 	public static Identifier idWithDefaultNamespace(String name) {return Identifier.withDefaultNamespace(name);
 	}
 }

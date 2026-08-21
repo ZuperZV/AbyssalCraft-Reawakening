@@ -1,4 +1,4 @@
-package net.zuperzv.abyssalcraft_reawakening.services.types.client;
+package net.zuperzv.abyssalcraft_reawakening.services.types;
 
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;

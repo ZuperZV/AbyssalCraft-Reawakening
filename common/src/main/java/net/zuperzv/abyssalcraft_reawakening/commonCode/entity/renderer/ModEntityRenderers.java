@@ -1,4 +1,4 @@
-package net.zuperzv.abyssalcraft_reawakening.commonCode.entity.render;
+package net.zuperzv.abyssalcraft_reawakening.commonCode.entity.renderer;
 
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.ModEntityTypes;
@@ -10,6 +10,14 @@ public final class ModEntityRenderers {
     }
 
     public static void load() {
+
+        Services.CLIENT_REGISTRY.registerEntityRenderer(
+                ModEntityTypes.ABYSSAL_ZOMBIE,
+                context -> new AbyssalZombieRenderer(
+                        context,
+                        0.4f
+                )
+        );
 
         Services.CLIENT_REGISTRY.registerEntityRenderer(
                 ModEntityTypes.WITHERWOOD_BOAT,

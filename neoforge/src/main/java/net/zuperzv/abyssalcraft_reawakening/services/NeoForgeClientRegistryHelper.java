@@ -1,4 +1,4 @@
-package net.zuperzv.abyssalcraft_reawakening.services.client;
+package net.zuperzv.abyssalcraft_reawakening.services;
 
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
@@ -11,7 +11,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
-import net.zuperzv.abyssalcraft_reawakening.services.types.client.IClientRegistryHelper;
+import net.zuperzv.abyssalcraft_reawakening.services.types.IClientRegistryHelper;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
 import org.apache.commons.lang3.function.TriFunction;
 

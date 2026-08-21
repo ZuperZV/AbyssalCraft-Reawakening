@@ -2,9 +2,8 @@ package net.zuperzv.abyssalcraft_reawakening.commonCode.entity;
 
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.monster.zombie.Zombie;
 import net.minecraft.world.item.Item;
-import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.custom.AbyssalZombie;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.custom.AbyssalZombieEntity;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.custom.WitherwoodBoat;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.custom.WitherwoodChestBoat;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
@@ -18,9 +17,9 @@ public class ModEntityTypes {
     public static void load() {
     }
 
-    public static final RegistryHandle<EntityType<AbyssalZombie>> ABYSSAL_ZOMBIE =
-            Services.REGISTRY.registerEntityType("ABYSSAL_ZOMBIE",
-                    EntityType.Builder.of(AbyssalZombie::new, MobCategory.MONSTER)
+    public static final RegistryHandle<EntityType<AbyssalZombieEntity>> ABYSSAL_ZOMBIE =
+            Services.REGISTRY.registerEntityType("abyssal_zombie",
+                    EntityType.Builder.of(AbyssalZombieEntity::new, MobCategory.MONSTER)
                             .sized(0.6F, 1.95F)
                             .eyeHeight(1.74F)
                             .passengerAttachments(2.0125F)

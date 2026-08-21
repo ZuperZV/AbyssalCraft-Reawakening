@@ -43,6 +43,7 @@ public class ModResources implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        Services.CLIENT_REGISTRY.applyModelLayerRegistrations((location, supplier) -> ModelLayerRegistry.registerModelLayer(location, supplier::get));
         Services.CLIENT_REGISTRY.applyEntityRendererRegistrations(
                 EntityRenderers::register
         );

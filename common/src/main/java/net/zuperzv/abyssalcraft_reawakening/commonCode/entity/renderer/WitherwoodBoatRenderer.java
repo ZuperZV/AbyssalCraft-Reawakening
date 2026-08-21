@@ -1,4 +1,4 @@
-package net.zuperzv.abyssalcraft_reawakening.commonCode.entity.render;
+package net.zuperzv.abyssalcraft_reawakening.commonCode.entity.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -13,21 +13,21 @@ import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.util.Unit;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
-import net.minecraft.util.Unit;
-import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.custom.WitherwoodChestBoat;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.custom.WitherwoodBoat;
 import org.joml.Quaternionf;
 
-public class WitherwoodChestBoatRenderer
-        extends EntityRenderer<WitherwoodChestBoat, BoatRenderState> {
+public class WitherwoodBoatRenderer
+        extends EntityRenderer<WitherwoodBoat, BoatRenderState> {
 
     private final Identifier texture;
     private final BoatModel model;
 
     private final Model.Simple waterPatchModel;
 
-    public WitherwoodChestBoatRenderer(
+    public WitherwoodBoatRenderer(
             EntityRendererProvider.Context context,
             Identifier texture
     ) {
@@ -37,7 +37,7 @@ public class WitherwoodChestBoatRenderer
         this.shadowRadius = 0.8F;
 
         this.model = new BoatModel(
-                context.bakeLayer(ModelLayers.ACACIA_CHEST_BOAT)
+                context.bakeLayer(ModelLayers.ACACIA_BOAT)
         );
 
         this.waterPatchModel = new Model.Simple(
@@ -53,7 +53,7 @@ public class WitherwoodChestBoatRenderer
 
     @Override
     public void extractRenderState(
-            WitherwoodChestBoat entity,
+            WitherwoodBoat entity,
             BoatRenderState state,
             float partialTicks
     ) {

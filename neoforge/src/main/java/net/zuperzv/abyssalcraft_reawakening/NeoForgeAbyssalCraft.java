@@ -75,12 +75,13 @@ public class NeoForgeAbyssalCraft {
     public class ClientInit {
 
         @SubscribeEvent
-        public static void registerEntityRenderers(
-                EntityRenderersEvent.RegisterRenderers event
-        ) {
-            Services.CLIENT_REGISTRY.applyEntityRendererRegistrations(
-                    event::registerEntityRenderer
-            );
+        public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+            Services.CLIENT_REGISTRY.applyEntityRendererRegistrations(event::registerEntityRenderer);
+        }
+
+        @SubscribeEvent
+        public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
+            Services.CLIENT_REGISTRY.applyModelLayerRegistrations(event::registerLayerDefinition);
         }
 
         @SubscribeEvent

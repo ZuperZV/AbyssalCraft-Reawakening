@@ -1,6 +1,7 @@
 {
   "block.abyssalcraft_reawakening.abyssalnite_block": "Block of Abyssalnite",
   "block.abyssalcraft_reawakening.raw_abyssalnite_block": "Block of Raw Abyssalnite",
+  "entity.abyssalcraft_reawakening.abyssal_zombie": "Abyssal Zombie",
   "entity.abyssalcraft_reawakening.witherwood_boat": "Witherwood Boat",
   "entity.abyssalcraft_reawakening.witherwood_chest_boat": "Witherwood Chest Boat",
   "item.abyssalcraft_reawakening.abyssal_cobblestone": "Abyssal Cobblestone",
@@ -15,6 +16,7 @@
   "item.abyssalcraft_reawakening.abyssal_wasteland_essence": "Abyssal Wasteland Essence",
   "item.abyssalcraft_reawakening.abyssal_wasteland_portal_block": "Abyssal Wasteland Portal Block",
   "item.abyssalcraft_reawakening.abyssal_wasteland_staff_of_rending": "Abyssal Wasteland Staff Of Rending",
+  "item.abyssalcraft_reawakening.abyssal_zombie_spawn_egg": "Abyssal Zombie Spawn Egg",
   "item.abyssalcraft_reawakening.abyssalnite_axe": "Abyssalnite Axe",
   "item.abyssalcraft_reawakening.abyssalnite_block": "Abyssalnite Block",
   "item.abyssalcraft_reawakening.abyssalnite_boots": "Abyssalnite Boots",

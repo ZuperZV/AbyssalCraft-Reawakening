@@ -24,7 +24,6 @@ import net.minecraft.world.entity.monster.zombie.ZombifiedPiglin;
 import net.minecraft.world.entity.npc.villager.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
@@ -32,9 +31,9 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
 
 import java.util.Objects;
 
-public class AbyssalZombie extends Zombie {
+public class AbyssalZombieEntity extends Zombie {
 
-    public AbyssalZombie(EntityType<? extends Zombie> type, Level level) {
+    public AbyssalZombieEntity(EntityType<? extends Zombie> type, Level level) {
         super(type, level);
     }
 
@@ -113,13 +112,13 @@ public class AbyssalZombie extends Zombie {
 
     private class ZombieAttackTurtleEggGoal extends RemoveBlockGoal {
         ZombieAttackTurtleEggGoal(PathfinderMob mob, double speedModifier, int verticalSearchRange) {
-            Objects.requireNonNull(AbyssalZombie.this);
-            Objects.requireNonNull(AbyssalZombie.this);
+            Objects.requireNonNull(AbyssalZombieEntity.this);
+            Objects.requireNonNull(AbyssalZombieEntity.this);
             super(Blocks.TURTLE_EGG, mob, speedModifier, verticalSearchRange);
         }
 
         public void playDestroyProgressSound(LevelAccessor level, BlockPos pos) {
-            level.playSound((Entity)null, pos, SoundEvents.ZOMBIE_DESTROY_EGG, SoundSource.HOSTILE, 0.5F, 0.9F + AbyssalZombie.this.random.nextFloat() * 0.2F);
+            level.playSound((Entity)null, pos, SoundEvents.ZOMBIE_DESTROY_EGG, SoundSource.HOSTILE, 0.5F, 0.9F + AbyssalZombieEntity.this.random.nextFloat() * 0.2F);
         }
 
         public void playBreakSound(Level level, BlockPos pos) {

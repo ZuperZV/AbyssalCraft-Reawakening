@@ -1,6 +1,9 @@
 package net.zuperzv.abyssalcraft_reawakening.commonCode.item;
 
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.equipment.ArmorType;
@@ -106,6 +109,9 @@ public class ModItems {
     //Abyssalnite
     public static final RegistryHandle<Item> GATEWAY_KEY = Services.REGISTRY.registerItem("gateway_key",
             properties -> new GatewayKeyItem(Level.OVERWORLD, ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY, properties.stacksTo(1)));
+
+    public static final RegistryHandle<Item> ABYSSAL_ZOMBIE_SPAWN_EGG = Services.REGISTRY.registerItem("abyssal_zombie_spawn_egg",
+                    properties -> new SpawnEggItem(properties.spawnEgg(ModEntityTypes.ABYSSAL_ZOMBIE.get())));
 
     public static final RegistryHandle<Item> ABYSSALNITE_INGOT = Services.REGISTRY.registerItem("abyssalnite_ingot",
             properties -> new Item(properties));
