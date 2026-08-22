@@ -1,5 +1,6 @@
 package net.zuperzv.abyssalcraft_reawakening.commonCode.entity;
 
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.Item;

@@ -2,6 +2,7 @@ package net.zuperzv.abyssalcraft_reawakening.commonCode.entity.renderer;
 
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.ModEntityTypes;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.custom.AbyssalZombieEntity;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
 
 public final class ModEntityRenderers {
@@ -13,10 +14,7 @@ public final class ModEntityRenderers {
 
         Services.CLIENT_REGISTRY.registerEntityRenderer(
                 ModEntityTypes.ABYSSAL_ZOMBIE,
-                context -> new AbyssalZombieRenderer(
-                        context,
-                        0.4f
-                )
+                AbyssalZombieRenderer::new
         );
 
         Services.CLIENT_REGISTRY.registerEntityRenderer(

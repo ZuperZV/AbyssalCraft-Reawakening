@@ -1,11 +1,13 @@
 package net.zuperzv.abyssalcraft_reawakening.commonCode.entity.custom;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.SpecialDates;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -24,12 +26,18 @@ import net.minecraft.world.entity.monster.zombie.ZombifiedPiglin;
 import net.minecraft.world.entity.npc.villager.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
+import net.zuperzv.abyssalcraft_reawakening.services.util.ModSpecialDates;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class AbyssalZombieEntity extends Zombie {
 
@@ -128,5 +136,37 @@ public class AbyssalZombieEntity extends Zombie {
         public double acceptedDistance() {
             return 1.14;
         }
+    }
+
+    @Override
+    public @Nullable SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, EntitySpawnReason spawnReason, @Nullable SpawnGroupData groupData) {
+        groupData = super.finalizeSpawn(level, difficulty, spawnReason, groupData);
+        float difficultyModifier = difficulty.getSpecialMultiplier();
+
+        if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()
+                && (ModSpecialDates.isShinoowsBithday() || ModSpecialDates.isSZuperZsBithday() || true)
+                && random.nextFloat() < 0.25F) {
+
+            UUID playerUUID;
+
+            if (ModSpecialDates.isShinoowsBithday()) {
+                playerUUID = UUID.fromString("a5d8abca-0979-4bb0-825a-f1ccda0b350b");
+            } else {
+                playerUUID = UUID.fromString("9db76f94-4138-4e77-9e81-0c1203e0d424");
+            }
+
+            ItemStack head = new ItemStack(Items.PLAYER_HEAD);
+
+            head.set(
+                    DataComponents.PROFILE,
+                    ResolvableProfile.createUnresolved(playerUUID)
+            );
+
+            this.setItemSlot(EquipmentSlot.HEAD, head);
+            this.setDropChance(EquipmentSlot.HEAD, 0.0F);
+        }
+
+        this.handleAttributes(difficultyModifier, spawnReason);
+        return groupData;
     }
 }
