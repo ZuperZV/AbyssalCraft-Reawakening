@@ -38,8 +38,8 @@ public final class ModBlockTags {
     public static final TagKey<Block> ABYSSAL_STONE_ORE_REPLACEABLES =
             create("abyssal_stone_ore_replaceables");
 
-    public static final TagKey<Block> ABYSSAL_DEEPSLATE_ORE_REPLACEABLES =
-            create("abyssal_deepslate_ore_replaceables");
+    public static final TagKey<Block> GRIMSTONE_ORE_REPLACEABLES =
+            create("grimstone_ore_replaceables");
 
     public static final TagKey<Block> ABYSSAL_WAISTLAND_SURFACES =
             create("abyssal_waistland_surfaces");

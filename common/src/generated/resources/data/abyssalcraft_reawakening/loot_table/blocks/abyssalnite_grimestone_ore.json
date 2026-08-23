@@ -26,7 +26,7 @@
                   }
                 }
               ],
-              "name": "abyssalcraft_reawakening:abyssalnite_nether_ore"
+              "name": "abyssalcraft_reawakening:abyssalnite_grimestone_ore"
             },
             {
               "type": "minecraft:item",
@@ -57,5 +57,5 @@
       "rolls": 1.0
     }
   ],
-  "random_sequence": "abyssalcraft_reawakening:blocks/abyssalnite_nether_ore"
+  "random_sequence": "abyssalcraft_reawakening:blocks/abyssalnite_grimestone_ore"
 }

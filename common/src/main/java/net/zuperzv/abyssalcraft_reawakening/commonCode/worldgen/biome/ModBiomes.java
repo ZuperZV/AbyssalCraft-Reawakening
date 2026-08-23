@@ -109,6 +109,11 @@ public final class ModBiomes {
                 ModWorldgen.ABYSSALNITE_ORE_PLACED
         );
 
+        biomeBuilder.addFeature(
+                GenerationStep.Decoration.UNDERGROUND_ORES,
+                ModWorldgen.CORALIUM_ORE_PLACED
+        );
+
         // SURFACE
             //ground elevation
         biomeBuilder.addFeature(
@@ -211,6 +216,12 @@ public final class ModBiomes {
                 ModWorldgen.ABYSSALNITE_ORE_PLACED
         );
 
+
+        biomeBuilder.addFeature(
+                GenerationStep.Decoration.UNDERGROUND_ORES,
+                ModWorldgen.CORALIUM_ORE_PLACED
+        );
+
         // SURFACE
         biomeBuilder.addFeature(
                 GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
@@ -303,6 +314,11 @@ public final class ModBiomes {
         biomeBuilder.addFeature(
                 GenerationStep.Decoration.UNDERGROUND_ORES,
                 ModWorldgen.ABYSSALNITE_ORE_PLACED
+        );
+
+        biomeBuilder.addFeature(
+                GenerationStep.Decoration.UNDERGROUND_ORES,
+                ModWorldgen.CORALIUM_ORE_PLACED
         );
 
         // SURFACE
@@ -559,6 +575,11 @@ public final class ModBiomes {
                 ModWorldgen.ABYSSALNITE_ORE_PLACED
         );
 
+        biomeBuilder.addFeature(
+                GenerationStep.Decoration.UNDERGROUND_ORES,
+                ModWorldgen.CORALIUM_ORE_PLACED
+        );
+
         // SURFACE
         biomeBuilder.addFeature(
                 GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
@@ -640,6 +661,11 @@ public final class ModBiomes {
         biomeBuilder.addFeature(
                 GenerationStep.Decoration.UNDERGROUND_ORES,
                 ModWorldgen.ABYSSALNITE_ORE_PLACED
+        );
+
+        biomeBuilder.addFeature(
+                GenerationStep.Decoration.UNDERGROUND_ORES,
+                ModWorldgen.CORALIUM_ORE_PLACED
         );
 
         // SURFACE

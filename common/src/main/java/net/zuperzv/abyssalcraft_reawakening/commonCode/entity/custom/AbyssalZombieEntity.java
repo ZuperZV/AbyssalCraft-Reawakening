@@ -144,7 +144,7 @@ public class AbyssalZombieEntity extends Zombie {
         float difficultyModifier = difficulty.getSpecialMultiplier();
 
         if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()
-                && (ModSpecialDates.isShinoowsBithday() || ModSpecialDates.isSZuperZsBithday() || true)
+                && (ModSpecialDates.isShinoowsBithday() || ModSpecialDates.isSZuperZsBithday())
                 && random.nextFloat() < 0.25F) {
 
             UUID playerUUID;

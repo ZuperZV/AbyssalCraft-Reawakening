@@ -33,10 +33,7 @@ public final class ModWorldgen {
     public static final ResourceKey<ConfiguredFeature<?, ?>> FUSED_ABYSSAL_SAND_DISK = configuredFeatureKey("fused_abyssal_sand_disk");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> ABYSSALNITE_ORE = configuredFeatureKey("abyssalnite_ore");
-
-    public static final ResourceKey<ConfiguredFeature<?, ?>> ABYSSALNITE_OVERWORLD_ORE = configuredFeatureKey("abyssalnite_overworld_ore");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> ABYSSALNITE_NETHER_ORE = configuredFeatureKey("abyssalnite_nether_ore");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> ABYSSALNITE_END_ORE = configuredFeatureKey("abyssalnite_end_ore");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> CORALIUM_ORE = configuredFeatureKey("coralium_ore");
 
 
     public static final ResourceKey<PlacedFeature> CORALIUM_TENDRILS_PLACED = placedFeatureKey("coralium_tendrils");
@@ -65,11 +62,9 @@ public final class ModWorldgen {
     public static final ResourceKey<PlacedFeature> FUSED_ABYSSAL_SAND_DISK_PLACED = placedFeatureKey("fused_abyssal_sand_disk");
 
     public static final ResourceKey<PlacedFeature> RARE_ABYSSAL_MUD_DISK_PLACED = placedFeatureKey("rare_abyssal_mud_disk");
-    public static final ResourceKey<PlacedFeature> ABYSSALNITE_ORE_PLACED = placedFeatureKey("abyssalnite_ore");
 
-    public static final ResourceKey<PlacedFeature> ABYSSALNITE_OVERWORLD_ORE_PLACED = placedFeatureKey("abyssalnite_overworld_ore");
-    public static final ResourceKey<PlacedFeature> ABYSSALNITE_NETHER_ORE_PLACED = placedFeatureKey("abyssalnite_nether_ore");
-    public static final ResourceKey<PlacedFeature> ABYSSALNITE_END_ORE_PLACED = placedFeatureKey("abyssalnite_end_ore");
+    public static final ResourceKey<PlacedFeature> ABYSSALNITE_ORE_PLACED = placedFeatureKey("abyssalnite_ore");
+    public static final ResourceKey<PlacedFeature> CORALIUM_ORE_PLACED = placedFeatureKey("coralium_ore");
 
     private static ResourceKey<ConfiguredFeature<?, ?>> configuredFeatureKey(String name) {
         return ResourceKey.create(Registries.CONFIGURED_FEATURE, Constants.id(name));

@@ -1,9 +1,14 @@
 {
-  "feature": "abyssalcraft_reawakening:abyssalnite_nether_ore",
+  "feature": "abyssalcraft_reawakening:coralium_ore",
   "placement": [
     {
       "type": "minecraft:count",
-      "count": 14
+      "count": {
+        "type": "minecraft:trapezoid",
+        "max": 15,
+        "min": 1,
+        "plateau": 6
+      }
     },
     {
       "type": "minecraft:in_square"
@@ -11,12 +16,12 @@
     {
       "type": "minecraft:height_range",
       "height": {
-        "type": "minecraft:uniform",
+        "type": "minecraft:trapezoid",
         "max_inclusive": {
-          "below_top": 0
+          "below_top": 180
         },
         "min_inclusive": {
-          "above_bottom": 0
+          "above_bottom": 30
         }
       }
     },

@@ -444,6 +444,25 @@
       {
         "type": "minecraft:condition",
         "if_true": {
+          "type": "minecraft:vertical_gradient",
+          "false_at_and_above": {
+            "absolute": 12
+          },
+          "random_name": "minecraft:grimstone",
+          "true_at_and_below": {
+            "absolute": -12
+          }
+        },
+        "then_run": {
+          "type": "minecraft:block",
+          "result_state": {
+            "Name": "abyssalcraft_reawakening:grimstone"
+          }
+        }
+      },
+      {
+        "type": "minecraft:condition",
+        "if_true": {
           "type": "minecraft:biome",
           "biome_is": [
             "abyssalcraft_reawakening:abyssal_wastelands"

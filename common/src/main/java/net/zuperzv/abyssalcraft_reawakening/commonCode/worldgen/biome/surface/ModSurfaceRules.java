@@ -17,6 +17,9 @@ public class ModSurfaceRules {
     private static final SurfaceRules.RuleSource ABYSSAL_STONE =
             makeStateRule(ModBlocks.ABYSSAL_STONE.block().get());
 
+    private static final SurfaceRules.RuleSource GRIMSTONE =
+            makeStateRule(ModBlocks.GRIMSTONE.block().get());
+
     private static final SurfaceRules.RuleSource CORRUPTED_SOIL =
             makeStateRule(ModBlocks.CORRUPTED_SOIL.block().get());
 
@@ -221,6 +224,15 @@ public class ModSurfaceRules {
                                 VerticalAnchor.aboveBottom(5)
                         ),
                         BEDROCK
+                ),
+
+                SurfaceRules.ifTrue(
+                        SurfaceRules.verticalGradient(
+                                "grimstone",
+                                VerticalAnchor.absolute(-12),
+                                VerticalAnchor.absolute(12)
+                        ),
+                        GRIMSTONE
                 ),
 
                 // Abyssal Wastelands

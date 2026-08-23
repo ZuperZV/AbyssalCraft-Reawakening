@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "abyssalcraft_reawakening:abyssal_cobblestone"
+          "name": "abyssalcraft_reawakening:grimstone"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "abyssalcraft_reawakening:blocks/abyssal_stone"
+  "random_sequence": "abyssalcraft_reawakening:blocks/grimstone"
 }

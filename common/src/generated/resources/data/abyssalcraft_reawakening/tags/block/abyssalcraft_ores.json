@@ -1,9 +1,10 @@
 {
   "values": [
     "abyssalcraft_reawakening:abyssalnite_ore",
-    "abyssalcraft_reawakening:abyssalnite_overworld_ore",
-    "abyssalcraft_reawakening:abyssalnite_deepslate_ore",
-    "abyssalcraft_reawakening:abyssalnite_nether_ore",
-    "abyssalcraft_reawakening:abyssalnite_end_ore"
+    "abyssalcraft_reawakening:abyssalnite_grimestone_ore",
+    "abyssalcraft_reawakening:coralium_ore",
+    "abyssalcraft_reawakening:coralium_deepslate_ore",
+    "abyssalcraft_reawakening:coralium_abyssal_ore",
+    "abyssalcraft_reawakening:coralium_grimestone_ore"
   ]
 }

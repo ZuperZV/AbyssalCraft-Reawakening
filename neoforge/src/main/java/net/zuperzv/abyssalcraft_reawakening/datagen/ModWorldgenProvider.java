@@ -48,6 +48,7 @@ public final class ModWorldgenProvider extends DatapackBuiltinEntriesProvider {
     private static final ResourceKey<BiomeModifier> ABYSSALNITE_OVERWORLD_ORE_MODIFIER = biomeModifierKey("abyssalnite_overworld_ore");
     private static final ResourceKey<BiomeModifier> ABYSSALNITE_NETHER_ORE_MODIFIER = biomeModifierKey("abyssalnite_nether_ore");
     private static final ResourceKey<BiomeModifier> ABYSSALNITE_END_ORE_MODIFIER = biomeModifierKey("abyssalnite_end_ore");
+    private static final ResourceKey<BiomeModifier> CORALIUM_ORE_MODIFIER = biomeModifierKey("coralium_ore");
 
     public ModWorldgenProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
         super(output, registries, BUILDER, Set.of(Constants.MOD_ID));
@@ -97,17 +98,9 @@ public final class ModWorldgenProvider extends DatapackBuiltinEntriesProvider {
         HolderGetter<Biome> biomes = context.lookup(Registries.BIOME);
         HolderGetter<PlacedFeature> placedFeatures = context.lookup(Registries.PLACED_FEATURE);
 
-        context.register(ABYSSALNITE_OVERWORLD_ORE_MODIFIER, new BiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(CORALIUM_ORE_MODIFIER, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
-                HolderSet.direct(placedFeatures.getOrThrow(ModWorldgen.ABYSSALNITE_OVERWORLD_ORE_PLACED)),
-                GenerationStep.Decoration.UNDERGROUND_ORES));
-        context.register(ABYSSALNITE_NETHER_ORE_MODIFIER, new BiomeModifiers.AddFeaturesBiomeModifier(
-                biomes.getOrThrow(BiomeTags.IS_NETHER),
-                HolderSet.direct(placedFeatures.getOrThrow(ModWorldgen.ABYSSALNITE_NETHER_ORE_PLACED)),
-                GenerationStep.Decoration.UNDERGROUND_ORES));
-        context.register(ABYSSALNITE_END_ORE_MODIFIER, new BiomeModifiers.AddFeaturesBiomeModifier(
-                biomes.getOrThrow(BiomeTags.IS_END),
-                HolderSet.direct(placedFeatures.getOrThrow(ModWorldgen.ABYSSALNITE_END_ORE_PLACED)),
+                HolderSet.direct(placedFeatures.getOrThrow(ModWorldgen.CORALIUM_ORE_PLACED)),
                 GenerationStep.Decoration.UNDERGROUND_ORES));
     }
 

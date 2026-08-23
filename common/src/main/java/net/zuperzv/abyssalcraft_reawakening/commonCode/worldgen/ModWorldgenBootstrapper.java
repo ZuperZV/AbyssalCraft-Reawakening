@@ -300,31 +300,22 @@ public final class ModWorldgenBootstrapper {
         context.register(ModWorldgen.ABYSSALNITE_ORE, new ConfiguredFeature<>(Feature.SCATTERED_ORE,
                 new OreConfiguration(List.of(
                         OreConfiguration.target(new TagMatchTest(ModBlockTags.ABYSSAL_STONE_ORE_REPLACEABLES), ModBlocks.ABYSSALNITE_ORE.block().get().defaultBlockState()),
-                        OreConfiguration.target(new TagMatchTest(ModBlockTags.ABYSSAL_DEEPSLATE_ORE_REPLACEABLES), ModBlocks.ABYSSALNITE_DEEPSLATE_ORE.block().get().defaultBlockState())
+                        OreConfiguration.target(new TagMatchTest(ModBlockTags.GRIMSTONE_ORE_REPLACEABLES), ModBlocks.ABYSSALNITE_GRIMESTONE_ORE.block().get().defaultBlockState())
                 ),
                         7,
                         0.0F)
         ));
 
-        context.register(ModWorldgen.ABYSSALNITE_OVERWORLD_ORE, new ConfiguredFeature<>(Feature.SCATTERED_ORE,
+        context.register(ModWorldgen.CORALIUM_ORE, new ConfiguredFeature<>(Feature.SCATTERED_ORE,
                 new OreConfiguration(List.of(
-                        OreConfiguration.target(new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES), ModBlocks.ABYSSALNITE_OVERWORLD_ORE.block().get().defaultBlockState()),
-                        OreConfiguration.target(new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES), ModBlocks.ABYSSALNITE_DEEPSLATE_ORE.block().get().defaultBlockState())
+                        OreConfiguration.target(new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES), ModBlocks.CORALIUM_ORE.block().get().defaultBlockState()),
+                        OreConfiguration.target(new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES), ModBlocks.CORALIUM_DEEPSLATE_ORE.block().get().defaultBlockState()),
+                        OreConfiguration.target(new TagMatchTest(ModBlockTags.ABYSSAL_STONE_ORE_REPLACEABLES), ModBlocks.CORALIUM_ABYSSAL_ORE.block().get().defaultBlockState()),
+                        OreConfiguration.target(new TagMatchTest(ModBlockTags.GRIMSTONE_ORE_REPLACEABLES), ModBlocks.CORALIUM_GRIMESTONE_ORE.block().get().defaultBlockState())
                 ),
-                        9,
-                        0.0F)
+                        5,
+                        0.4F)
         ));
-        context.register(ModWorldgen.ABYSSALNITE_NETHER_ORE, new ConfiguredFeature<>(Feature.ORE,
-                new OreConfiguration(List.of(
-                        OreConfiguration.target(new BlockMatchTest(Blocks.NETHERRACK), ModBlocks.ABYSSALNITE_NETHER_ORE.block().get().defaultBlockState())),
-                        10,
-                        0.0F)));
-        context.register(ModWorldgen.ABYSSALNITE_END_ORE, new ConfiguredFeature<>(Feature.ORE,
-                new OreConfiguration(List.of(
-                        OreConfiguration.target(new BlockMatchTest(Blocks.END_STONE), ModBlocks.ABYSSALNITE_END_ORE.block().get().defaultBlockState())),
-                        7,
-                        0.0F)));
-
 
         //Spike generation
 
@@ -809,31 +800,15 @@ public final class ModWorldgenBootstrapper {
                 )
         ));
 
-        context.register(ModWorldgen.ABYSSALNITE_OVERWORLD_ORE_PLACED, new PlacedFeature(
-                configuredFeatures.getOrThrow(ModWorldgen.ABYSSALNITE_OVERWORLD_ORE),
+        context.register(ModWorldgen.CORALIUM_ORE_PLACED, new PlacedFeature(
+                configuredFeatures.getOrThrow(ModWorldgen.CORALIUM_ORE),
                 List.of(
-                        CountPlacement.of(ConstantInt.of(18)),
+                        CountPlacement.of(TrapezoidInt.of(1, 15, 6)),
                         InSquarePlacement.spread(),
-                        HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(10), VerticalAnchor.belowTop(100)),
+                        HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(30), VerticalAnchor.belowTop(180)),
                         BiomeFilter.biome()
                 )
         ));
-        
-        context.register(ModWorldgen.ABYSSALNITE_NETHER_ORE_PLACED, new PlacedFeature(
-                configuredFeatures.getOrThrow(ModWorldgen.ABYSSALNITE_NETHER_ORE),
-                List.of(
-                        CountPlacement.of(ConstantInt.of(14)),
-                        InSquarePlacement.spread(),
-                        HeightRangePlacement.uniform(VerticalAnchor.bottom(), VerticalAnchor.top()),
-                        BiomeFilter.biome())));
-        
-        context.register(ModWorldgen.ABYSSALNITE_END_ORE_PLACED, new PlacedFeature(
-                configuredFeatures.getOrThrow(ModWorldgen.ABYSSALNITE_END_ORE),
-                List.of(
-                        CountPlacement.of(TrapezoidInt.of(0, 30, 15)),
-                        InSquarePlacement.spread(),
-                        HeightRangePlacement.uniform(VerticalAnchor.aboveBottom(20), VerticalAnchor.absolute(80)),
-                        BiomeFilter.biome())));
 
 
         //Spike Gen

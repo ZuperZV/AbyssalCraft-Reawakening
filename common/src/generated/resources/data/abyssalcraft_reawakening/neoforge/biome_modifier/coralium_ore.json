@@ -1,6 +1,6 @@
 {
   "type": "neoforge:add_features",
   "biomes": "#minecraft:is_overworld",
-  "features": "abyssalcraft_reawakening:abyssalnite_overworld_ore",
+  "features": "abyssalcraft_reawakening:coralium_ore",
   "step": "underground_ores"
 }

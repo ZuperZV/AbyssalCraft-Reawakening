@@ -13,17 +13,7 @@ public final class FabricModWorldgen {
         BiomeModifications.addFeature(
                 BiomeSelectors.foundInOverworld(),
                 GenerationStep.Decoration.UNDERGROUND_ORES,
-                ModWorldgen.ABYSSALNITE_OVERWORLD_ORE_PLACED
-        );
-        BiomeModifications.addFeature(
-                BiomeSelectors.foundInTheNether(),
-                GenerationStep.Decoration.UNDERGROUND_ORES,
-                ModWorldgen.ABYSSALNITE_NETHER_ORE_PLACED
-        );
-        BiomeModifications.addFeature(
-                BiomeSelectors.foundInTheEnd(),
-                GenerationStep.Decoration.UNDERGROUND_ORES,
-                ModWorldgen.ABYSSALNITE_END_ORE_PLACED
+                ModWorldgen.CORALIUM_ORE_PLACED
         );
     }
 }

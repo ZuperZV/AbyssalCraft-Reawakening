@@ -55,25 +55,33 @@ public class ModLootTableProvider extends LootTableProvider {
         @Override
         protected void generate() {
 
-            dropSelf(ModBlocks.ABYSSALNITE_BLOCK.block().get());
-            dropSelf(ModBlocks.RAW_ABYSSALNITE_BLOCK.block().get());
-
-            addOreDrop(ModBlocks.ABYSSALNITE_OVERWORLD_ORE.block().get(),
-                    ModItems.RAW_ABYSSALNITE.get(), 1.0F, 3.0F);
-
-            addOreDrop(ModBlocks.ABYSSALNITE_DEEPSLATE_ORE.block().get(),
-                    ModItems.RAW_ABYSSALNITE.get(), 1.0F, 3.0F);
-
-            addOreDrop(ModBlocks.ABYSSALNITE_NETHER_ORE.block().get(),
-                    ModItems.RAW_ABYSSALNITE.get(), 1.0F, 3.0F);
-
-            addOreDrop(ModBlocks.ABYSSALNITE_END_ORE.block().get(),
-                    ModItems.RAW_ABYSSALNITE.get(), 1.0F, 3.0F);
+            //Stone
+            addSingleItemTable(ModBlocks.ABYSSAL_STONE.block().get(), ModBlocks.ABYSSAL_COBBLESTONE.block().get());
+            addSingleItemTable(ModBlocks.CORALIUM_STONE.block().get(), ModBlocks.CORALIUM_COBBLESTONE.block().get());
 
             addOreDrop(ModBlocks.ABYSSALNITE_ORE.block().get(),
                     ModItems.RAW_ABYSSALNITE.get(), 1.0F, 3.0F);
 
-            noDrop(ModBlocks.ABYSSAL_WASTELAND_PORTAL_BLOCK.block().get());
+            addOreDrop(ModBlocks.ABYSSALNITE_GRIMESTONE_ORE.block().get(),
+                    ModItems.RAW_ABYSSALNITE.get(), 1.0F, 3.0F);
+
+            addOreDrop(ModBlocks.CORALIUM_ORE.block().get(),
+                    ModItems.CORALIUM_PEARL.get(), 1.0F, 2.0F);
+
+            addOreDrop(ModBlocks.CORALIUM_DEEPSLATE_ORE.block().get(),
+                    ModItems.CORALIUM_PEARL.get(), 1.0F, 2.0F);
+
+            addOreDrop(ModBlocks.CORALIUM_ABYSSAL_ORE.block().get(),
+                    ModItems.CORALIUM_PEARL.get(), 1.0F, 2.0F);
+
+            addOreDrop(ModBlocks.CORALIUM_GRIMESTONE_ORE.block().get(),
+                    ModItems.CORALIUM_PEARL.get(), 1.0F, 2.0F);
+
+            //Block of
+            dropSelf(ModBlocks.ABYSSALNITE_BLOCK.block().get());
+            dropSelf(ModBlocks.RAW_ABYSSALNITE_BLOCK.block().get());
+
+            //Tree
 
             addDoorDrop(ModBlocks.WITHERWOOD_DOOR.block().get());
             addSlabDrop(ModBlocks.WITHERWOOD_SLAB.block().get());
@@ -89,6 +97,9 @@ public class ModLootTableProvider extends LootTableProvider {
             );
 
             addLeavesDrops(ModBlocks.WITHERWOOD_LEAVES.block().get(), ModBlocks.WITHERWOOD_SAPLING.block().get());
+
+            //No drop
+            noDrop(ModBlocks.ABYSSAL_WASTELAND_PORTAL_BLOCK.block().get());
 
             for (Block block : getKnownBlocks()) {
 
@@ -154,10 +165,16 @@ public class ModLootTableProvider extends LootTableProvider {
                     this.createLeavesDrops(blockToMine, item, NORMAL_LEAVES_SAPLING_CHANCES));
         }
 
-        protected void addSingleItemTable(Block block, Item item) {
+        protected void addSingleItemTable(Block block, Item drop) {
             generatedLoot.add(block);
             this.add(block, blockToMine ->
-                    createSingleItemTable(item));
+                    createSingleItemTable(drop));
+        }
+
+        protected void addSingleItemTable(Block block, Block drop) {
+            generatedLoot.add(block);
+            this.add(block, blockToMine ->
+                    createSingleItemTable(drop));
         }
 
         protected void addOreDrop(Block block, Item item, float min, float max) {

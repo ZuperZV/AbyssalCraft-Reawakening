@@ -15,11 +15,11 @@
       },
       {
         "state": {
-          "Name": "abyssalcraft_reawakening:abyssalnite_deepslate_ore"
+          "Name": "abyssalcraft_reawakening:abyssalnite_grimestone_ore"
         },
         "target": {
           "predicate_type": "minecraft:tag_match",
-          "tag": "abyssalcraft_reawakening:abyssal_deepslate_ore_replaceables"
+          "tag": "abyssalcraft_reawakening:grimstone_ore_replaceables"
         }
       }
     ]

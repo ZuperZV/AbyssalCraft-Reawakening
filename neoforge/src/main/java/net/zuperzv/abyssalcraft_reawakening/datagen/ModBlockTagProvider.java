@@ -22,16 +22,17 @@ public class ModBlockTagProvider extends BlockTagsProvider {
     protected void addTags(HolderLookup.@NonNull Provider provider) {
         tag(ModBlockTags.ABYSSALCRAFT_ORES)
                 .add(ModBlocks.ABYSSALNITE_ORE.block().get())
-                .add(ModBlocks.ABYSSALNITE_OVERWORLD_ORE.block().get())
-                .add(ModBlocks.ABYSSALNITE_DEEPSLATE_ORE.block().get())
-                .add(ModBlocks.ABYSSALNITE_NETHER_ORE.block().get())
-                .add(ModBlocks.ABYSSALNITE_END_ORE.block().get());
+                .add(ModBlocks.ABYSSALNITE_GRIMESTONE_ORE.block().get())
+                .add(ModBlocks.CORALIUM_ORE.block().get())
+                .add(ModBlocks.CORALIUM_DEEPSLATE_ORE.block().get())
+                .add(ModBlocks.CORALIUM_ABYSSAL_ORE.block().get())
+                .add(ModBlocks.CORALIUM_GRIMESTONE_ORE.block().get());
 
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(ModBlocks.ABYSSALNITE_BLOCK.block().get())
-                .add(ModBlocks.ABYSSALNITE_ORE.block().get())
                 .add(ModBlocks.ABYSSAL_STONE.block().get())
                 .add(ModBlocks.ABYSSAL_COBBLESTONE.block().get())
+                .add(ModBlocks.GRIMSTONE.block().get())
                 .add(ModBlocks.CORALIUM_STONE.block().get())
                 .add(ModBlocks.CORALIUM_COBBLESTONE.block().get())
                 .add(ModBlocks.CORRUPTED_SOIL.block().get())
@@ -60,8 +61,8 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         tag(ModBlockTags.ABYSSAL_STONE_ORE_REPLACEABLES)
                 .add(ModBlocks.ABYSSAL_STONE.block().get());
 
-        tag(ModBlockTags.ABYSSAL_DEEPSLATE_ORE_REPLACEABLES)
-                .add(ModBlocks.ABYSSAL_STONE.block().get());
+        tag(ModBlockTags.GRIMSTONE_ORE_REPLACEABLES)
+                .add(ModBlocks.GRIMSTONE.block().get());
 
 
         tag(BlockTags.NEEDS_IRON_TOOL)

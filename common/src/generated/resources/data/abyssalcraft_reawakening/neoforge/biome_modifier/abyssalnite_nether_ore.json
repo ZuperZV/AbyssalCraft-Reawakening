@@ -1,6 +1,0 @@
-{
-  "type": "neoforge:add_features",
-  "biomes": "#minecraft:is_nether",
-  "features": "abyssalcraft_reawakening:abyssalnite_nether_ore",
-  "step": "underground_ores"
-}

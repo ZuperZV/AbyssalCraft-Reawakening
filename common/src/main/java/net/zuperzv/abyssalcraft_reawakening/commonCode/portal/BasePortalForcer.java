@@ -154,7 +154,7 @@ public class BasePortalForcer {
                     if (width == 0 && height == -1) {
                         this.level.setBlock(
                                 mutable,
-                                ModBlocks.ABYSSAL_WASTELAND_ACTIVATOR.block().get().defaultBlockState(), //Activator Block
+                                ModBlocks.ABYSSAL_STONE.block().get().defaultBlockState(), //Activator Block
                                 3
                         );
                     } else {

@@ -26,7 +26,7 @@
                   }
                 }
               ],
-              "name": "abyssalcraft_reawakening:abyssalnite_overworld_ore"
+              "name": "abyssalcraft_reawakening:coralium_deepslate_ore"
             },
             {
               "type": "minecraft:item",
@@ -35,7 +35,7 @@
                   "add": false,
                   "count": {
                     "type": "minecraft:uniform",
-                    "max": 3.0,
+                    "max": 2.0,
                     "min": 1.0
                   },
                   "function": "minecraft:set_count"
@@ -49,7 +49,7 @@
                   "function": "minecraft:explosion_decay"
                 }
               ],
-              "name": "abyssalcraft_reawakening:raw_abyssalnite"
+              "name": "abyssalcraft_reawakening:coralium_pearl"
             }
           ]
         }
@@ -57,5 +57,5 @@
       "rolls": 1.0
     }
   ],
-  "random_sequence": "abyssalcraft_reawakening:blocks/abyssalnite_overworld_ore"
+  "random_sequence": "abyssalcraft_reawakening:blocks/coralium_deepslate_ore"
 }

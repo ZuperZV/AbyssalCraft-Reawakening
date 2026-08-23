@@ -37,6 +37,9 @@ public final class ModBlocks {
     public static final BlockWithItemRegistryHandle<Block> ABYSSAL_STONE = Services.REGISTRY.registerBlockWithItem("abyssal_stone",
             properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.STONE)));
 
+    public static final BlockWithItemRegistryHandle<Block> GRIMSTONE = Services.REGISTRY.registerBlockWithItem("grimstone",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.STONE)));
+
     public static final BlockWithItemRegistryHandle<Block> ABYSSAL_COBBLESTONE = Services.REGISTRY.registerBlockWithItem("abyssal_cobblestone",
             properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.STONE)));
 
@@ -171,13 +174,13 @@ public final class ModBlocks {
             properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.METAL)));
 
     public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_ORE = createOreBlock("abyssalnite_ore");
-
-    public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_OVERWORLD_ORE = createOreBlock("abyssalnite_overworld_ore");
-    public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_DEEPSLATE_ORE = createOreBlock("abyssalnite_deepslate_ore");
-    public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_NETHER_ORE = createOreBlock("abyssalnite_nether_ore");
-    public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_END_ORE = createOreBlock("abyssalnite_end_ore");
+    public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_GRIMESTONE_ORE = createOreBlock("abyssalnite_grimestone_ore");
 
     //Coralium
+    public static final BlockWithItemRegistryHandle<Block> CORALIUM_ORE = createOreBlock("coralium_ore");
+    public static final BlockWithItemRegistryHandle<Block> CORALIUM_DEEPSLATE_ORE = createOreBlock("coralium_deepslate_ore");
+    public static final BlockWithItemRegistryHandle<Block> CORALIUM_ABYSSAL_ORE = createOreBlock("coralium_abyssal_ore");
+    public static final BlockWithItemRegistryHandle<Block> CORALIUM_GRIMESTONE_ORE = createOreBlock("coralium_grimestone_ore");
 
     public static final BlockWithItemRegistryHandle<Block> CORALIUM_STONE = Services.REGISTRY.registerBlockWithItem("coralium_stone",
             properties -> new Block(properties.mapColor(MapColor.COLOR_BLUE).requiresCorrectToolForDrops().strength(5.0F, 4.0F).sound(SoundType.STONE)));
