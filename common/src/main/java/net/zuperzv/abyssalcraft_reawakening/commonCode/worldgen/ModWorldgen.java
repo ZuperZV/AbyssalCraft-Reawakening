@@ -28,12 +28,17 @@ public final class ModWorldgen {
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> ABYSSAL_STONE_FOREST_ROCK = configuredFeatureKey("abyssal_stone_forest_rock");
 
+    public static final ResourceKey<ConfiguredFeature<?, ?>> SCARLET_SHALE_DISK = configuredFeatureKey("scarlet_shale_disk");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> AZURE_WASTE_STONE_DISK = configuredFeatureKey("azure_waste_stone_disk");
+
     public static final ResourceKey<ConfiguredFeature<?, ?>> ABYSSAL_MUD_DISK = configuredFeatureKey("abyssal_mud_disk");
     public static final ResourceKey<ConfiguredFeature<?, ?>> ABYSSAL_SAND_DISK = configuredFeatureKey("abyssal_sand_disk");
     public static final ResourceKey<ConfiguredFeature<?, ?>> FUSED_ABYSSAL_SAND_DISK = configuredFeatureKey("fused_abyssal_sand_disk");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> ABYSSALNITE_ORE = configuredFeatureKey("abyssalnite_ore");
     public static final ResourceKey<ConfiguredFeature<?, ?>> CORALIUM_ORE = configuredFeatureKey("coralium_ore");
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> ABYSSAL_MONSTER_ROOM = configuredFeatureKey("abyssal_monster_room");
 
 
     public static final ResourceKey<PlacedFeature> CORALIUM_TENDRILS_PLACED = placedFeatureKey("coralium_tendrils");
@@ -57,6 +62,9 @@ public final class ModWorldgen {
 
     public static final ResourceKey<PlacedFeature> ABYSSAL_STONE_FOREST_ROCK_PLACED = placedFeatureKey("abyssal_stone_forest_rock");
 
+    public static final ResourceKey<PlacedFeature> SCARLET_SHALE_DISK_PLACED = placedFeatureKey("scarlet_shale_disk");
+    public static final ResourceKey<PlacedFeature> AZURE_WASTE_STONE_DISK_PLACED = placedFeatureKey("azure_waste_stone_disk");
+
     public static final ResourceKey<PlacedFeature> ABYSSAL_MUD_DISK_PLACED = placedFeatureKey("abyssal_mud_disk");
     public static final ResourceKey<PlacedFeature> ABYSSAL_SAND_DISK_PLACED = placedFeatureKey("abyssal_sand_disk");
     public static final ResourceKey<PlacedFeature> FUSED_ABYSSAL_SAND_DISK_PLACED = placedFeatureKey("fused_abyssal_sand_disk");
@@ -65,6 +73,8 @@ public final class ModWorldgen {
 
     public static final ResourceKey<PlacedFeature> ABYSSALNITE_ORE_PLACED = placedFeatureKey("abyssalnite_ore");
     public static final ResourceKey<PlacedFeature> CORALIUM_ORE_PLACED = placedFeatureKey("coralium_ore");
+
+    public static final ResourceKey<PlacedFeature> ABYSSAL_MONSTER_ROOM_PLACED = placedFeatureKey("abyssal_monster_room");
 
     private static ResourceKey<ConfiguredFeature<?, ?>> configuredFeatureKey(String name) {
         return ResourceKey.create(Registries.CONFIGURED_FEATURE, Constants.id(name));

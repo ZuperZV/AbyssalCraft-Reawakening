@@ -1,0 +1,8 @@
+{
+  "type": "abyssalcraft_reawakening:monster_room",
+  "config": {
+    "structures": [
+      "abyssalcraft_reawakening:monster_room/abyssal/monster_room_1"
+    ]
+  }
+}

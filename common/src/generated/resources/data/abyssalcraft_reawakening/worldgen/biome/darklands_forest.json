@@ -14,14 +14,19 @@
     [],
     [],
     [],
-    [],
+    [
+      "abyssalcraft_reawakening:abyssal_monster_room"
+    ],
     [],
     [],
     [
       "abyssalcraft_reawakening:abyssalnite_ore",
       "abyssalcraft_reawakening:coralium_ore"
     ],
-    [],
+    [
+      "abyssalcraft_reawakening:scarlet_shale_disk",
+      "abyssalcraft_reawakening:azure_waste_stone_disk"
+    ],
     [],
     [
       "abyssalcraft_reawakening:forest_witherwood_tree",
@@ -41,9 +46,7 @@
       "abyssalcraft_reawakening:chain/marker_cleanup"
     ],
     [
-      "abyssalcraft_reawakening:abyssal_sand_disk",
-      "abyssalcraft_reawakening:fused_abyssal_sand_disk",
-      "abyssalcraft_reawakening:abyssal_mud_disk"
+      "abyssalcraft_reawakening:abyssal_sand_disk"
     ]
   ],
   "has_precipitation": false,

@@ -18,7 +18,10 @@ public class ModSurfaceRules {
             makeStateRule(ModBlocks.ABYSSAL_STONE.block().get());
 
     private static final SurfaceRules.RuleSource GRIMSTONE =
-            makeStateRule(ModBlocks.GRIMSTONE.block().get());
+            makeStateRule(ModBlocks.GRIMESTONE.block().get());
+
+    private static final SurfaceRules.RuleSource SCARLET_SHALE =
+            makeStateRule(ModBlocks.SCARLET_SHALE.block().get());
 
     private static final SurfaceRules.RuleSource CORRUPTED_SOIL =
             makeStateRule(ModBlocks.CORRUPTED_SOIL.block().get());
@@ -224,6 +227,15 @@ public class ModSurfaceRules {
                                 VerticalAnchor.aboveBottom(5)
                         ),
                         BEDROCK
+                ),
+
+                SurfaceRules.ifTrue(
+                        SurfaceRules.verticalGradient(
+                                "scarlet_shale",
+                                VerticalAnchor.bottom(),
+                                VerticalAnchor.aboveBottom(7)
+                        ),
+                        SCARLET_SHALE
                 ),
 
                 SurfaceRules.ifTrue(

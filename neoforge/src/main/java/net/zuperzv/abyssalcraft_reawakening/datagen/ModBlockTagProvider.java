@@ -32,7 +32,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.ABYSSALNITE_BLOCK.block().get())
                 .add(ModBlocks.ABYSSAL_STONE.block().get())
                 .add(ModBlocks.ABYSSAL_COBBLESTONE.block().get())
-                .add(ModBlocks.GRIMSTONE.block().get())
+                .add(ModBlocks.GRIMESTONE.block().get())
                 .add(ModBlocks.CORALIUM_STONE.block().get())
                 .add(ModBlocks.CORALIUM_COBBLESTONE.block().get())
                 .add(ModBlocks.CORRUPTED_SOIL.block().get())
@@ -48,6 +48,16 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.CORRUPTED_SOIL.block().get())
                 .add(ModBlocks.ABYSSAL_SAND.block().get())
                 .add(ModBlocks.WASTITE.block().get())
+                .add(ModBlocks.SCARLET_SHALE.block().get())
+                .add(ModBlocks.AZURE_WASTE_STONE.block().get())
+                .add(Blocks.MUD);
+
+        tag(BlockTags.OVERWORLD_CARVER_REPLACEABLES)
+                .add(ModBlocks.ABYSSAL_STONE.block().get())
+                .add(ModBlocks.GRIMESTONE.block().get())
+                .add(ModBlocks.SCARLET_SHALE.block().get())
+                .add(ModBlocks.AZURE_WASTE_STONE.block().get())
+                .add(ModBlocks.WASTITE.block().get())
                 .add(Blocks.MUD);
 
         tag(BlockTags.SUPPORTS_DRY_VEGETATION)
@@ -62,7 +72,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.ABYSSAL_STONE.block().get());
 
         tag(ModBlockTags.GRIMSTONE_ORE_REPLACEABLES)
-                .add(ModBlocks.GRIMSTONE.block().get());
+                .add(ModBlocks.GRIMESTONE.block().get());
 
 
         tag(BlockTags.NEEDS_IRON_TOOL)

@@ -4,10 +4,7 @@
     "Name": "abyssalcraft_reawakening:abyssal_stone"
   },
   "default_fluid": {
-    "Name": "minecraft:water",
-    "Properties": {
-      "level": "0"
-    }
+    "Name": "minecraft:air"
   },
   "disable_mob_generation": false,
   "legacy_random_source": false,
@@ -446,6 +443,25 @@
         "if_true": {
           "type": "minecraft:vertical_gradient",
           "false_at_and_above": {
+            "above_bottom": 7
+          },
+          "random_name": "minecraft:scarlet_shale",
+          "true_at_and_below": {
+            "above_bottom": 0
+          }
+        },
+        "then_run": {
+          "type": "minecraft:block",
+          "result_state": {
+            "Name": "abyssalcraft_reawakening:scarlet_shale"
+          }
+        }
+      },
+      {
+        "type": "minecraft:condition",
+        "if_true": {
+          "type": "minecraft:vertical_gradient",
+          "false_at_and_above": {
             "absolute": 12
           },
           "random_name": "minecraft:grimstone",
@@ -456,7 +472,7 @@
         "then_run": {
           "type": "minecraft:block",
           "result_state": {
-            "Name": "abyssalcraft_reawakening:grimstone"
+            "Name": "abyssalcraft_reawakening:grimestone"
           }
         }
       },

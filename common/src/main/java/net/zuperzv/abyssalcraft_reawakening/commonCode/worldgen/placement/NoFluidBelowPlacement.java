@@ -50,7 +50,6 @@ public class NoFluidBelowPlacement extends PlacementFilter {
                 continue;
             }
 
-            System.out.println("return true at: " + checkPos);
             return true;
         }
 

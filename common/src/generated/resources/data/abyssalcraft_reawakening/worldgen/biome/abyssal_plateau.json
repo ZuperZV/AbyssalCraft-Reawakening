@@ -14,13 +14,18 @@
     [],
     [],
     [],
-    [],
+    [
+      "abyssalcraft_reawakening:abyssal_monster_room"
+    ],
     [],
     [],
     [
       "abyssalcraft_reawakening:abyssalnite_ore"
     ],
-    [],
+    [
+      "abyssalcraft_reawakening:scarlet_shale_disk",
+      "abyssalcraft_reawakening:azure_waste_stone_disk"
+    ],
     [],
     [
       "abyssalcraft_reawakening:witherwood_tree",

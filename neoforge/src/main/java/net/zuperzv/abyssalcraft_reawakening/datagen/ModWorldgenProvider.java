@@ -45,9 +45,6 @@ public final class ModWorldgenProvider extends DatapackBuiltinEntriesProvider {
             .add(Registries.DIMENSION_TYPE, ModDimensions::bootstrapType)
             .add(Registries.LEVEL_STEM, ModDimensions::bootstrapStem);
 
-    private static final ResourceKey<BiomeModifier> ABYSSALNITE_OVERWORLD_ORE_MODIFIER = biomeModifierKey("abyssalnite_overworld_ore");
-    private static final ResourceKey<BiomeModifier> ABYSSALNITE_NETHER_ORE_MODIFIER = biomeModifierKey("abyssalnite_nether_ore");
-    private static final ResourceKey<BiomeModifier> ABYSSALNITE_END_ORE_MODIFIER = biomeModifierKey("abyssalnite_end_ore");
     private static final ResourceKey<BiomeModifier> CORALIUM_ORE_MODIFIER = biomeModifierKey("coralium_ore");
 
     public ModWorldgenProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {

@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "abyssalcraft_reawakening:grimstone"
+          "name": "abyssalcraft_reawakening:azure_waste_stone"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "abyssalcraft_reawakening:blocks/grimstone"
+  "random_sequence": "abyssalcraft_reawakening:blocks/azure_waste_stone"
 }

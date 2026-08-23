@@ -29,14 +29,15 @@ import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStatePr
 import net.minecraft.world.level.levelgen.feature.treedecorators.PlaceOnGroundDecorator;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.FancyTrunkPlacer;
 import net.minecraft.world.level.levelgen.placement.*;
-import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
+import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlockTags;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
-import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.gravity_fossils.FossilGenerator;
-import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.gravity_fossils.FossilRegistry;
-import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.gravity_fossils.FossilWorldgenHelper;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.feature.MonsterRoomFeatureConfiguration;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.gravityFossils.FossilGenerator;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.gravityFossils.FossilRegistry;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.gravityFossils.FossilWorldgenHelper;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.helpers.ModWorldgenPredicates;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.tree.decorator.TinyRootDecorator;
 
@@ -60,6 +61,22 @@ public final class ModWorldgenBootstrapper {
         }
         HolderGetter<PlacedFeature> placedFeatures =
                 context.lookup(Registries.PLACED_FEATURE);
+
+        context.register(
+                ModWorldgen.ABYSSAL_MONSTER_ROOM,
+
+                new ConfiguredFeature<>(
+                        ModFeatures.MONSTER_ROOM.get(),
+                        new MonsterRoomFeatureConfiguration(
+                                List.of(
+                                        Constants.id("monster_room/abyssal/monster_room_1")
+                                        //Constants.id("monster_room/abyssal/monster_room_2"),
+                                        //Constants.id("monster_room/abyssal/monster_room_3")
+                                ),
+                                5
+                        )
+                )
+        );
 
         // PLANTS
         context.register(
@@ -135,6 +152,7 @@ public final class ModWorldgenBootstrapper {
 
         context.register(ModWorldgen.LEAVES_WITHERWOOD_TREE, new ConfiguredFeature<>(Feature.TREE,
                         new TreeConfiguration.TreeConfigurationBuilder(
+
                                 BlockStateProvider.simple(ModBlocks.WITHERWOOD_LOG.block().get()),
                                 new FancyTrunkPlacer(
                                         7,
@@ -218,6 +236,7 @@ public final class ModWorldgenBootstrapper {
 
                                 BlockPredicate.matchesBlocks(
                                         ModBlocks.ABYSSAL_STONE.block().get(),
+                                        ModBlocks.GRIMESTONE.block().get(),
                                         ModBlocks.ABYSSAL_SAND.block().get(),
                                         Blocks.MUD
                                 ),
@@ -225,6 +244,56 @@ public final class ModWorldgenBootstrapper {
                                 ConstantInt.of(5),
 
                                 2
+                        )
+                )
+        );
+
+        context.register(
+                ModWorldgen.SCARLET_SHALE_DISK,
+
+                new ConfiguredFeature<>(
+                        Feature.DISK,
+
+                        new DiskConfiguration(
+                                BlockStateProvider.simple(
+                                        ModBlocks.SCARLET_SHALE.block().get()
+                                ),
+
+                                BlockPredicate.matchesBlocks(
+                                        ModBlocks.ABYSSAL_STONE.block().get(),
+                                        ModBlocks.GRIMESTONE.block().get(),
+                                        ModBlocks.ABYSSAL_SAND.block().get(),
+                                        Blocks.MUD
+                                ),
+
+                                ConstantInt.of(4),
+
+                                4
+                        )
+                )
+        );
+
+        context.register(
+                ModWorldgen.AZURE_WASTE_STONE_DISK,
+
+                new ConfiguredFeature<>(
+                        Feature.DISK,
+
+                        new DiskConfiguration(
+                                BlockStateProvider.simple(
+                                        ModBlocks.AZURE_WASTE_STONE.block().get()
+                                ),
+
+                                BlockPredicate.matchesBlocks(
+                                        ModBlocks.ABYSSAL_STONE.block().get(),
+                                        ModBlocks.GRIMESTONE.block().get(),
+                                        ModBlocks.ABYSSAL_SAND.block().get(),
+                                        Blocks.MUD
+                                ),
+
+                                ConstantInt.of(6),
+
+                                3
                         )
                 )
         );
@@ -511,6 +580,25 @@ public final class ModWorldgenBootstrapper {
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures =
                 context.lookup(Registries.CONFIGURED_FEATURE);
 
+        context.register(
+                ModWorldgen.ABYSSAL_MONSTER_ROOM_PLACED,
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(
+                                ModWorldgen.ABYSSAL_MONSTER_ROOM
+                        ),
+
+                        List.of(
+                                RarityFilter.onAverageOnceEvery(8),
+                                InSquarePlacement.spread(),
+                                HeightRangePlacement.uniform(
+                                        VerticalAnchor.absolute(-40),
+                                        VerticalAnchor.absolute(30)
+                                ),
+                                BiomeFilter.biome()
+                        )
+                )
+        );
+
         // PLANTS
         context.register(
                 ModWorldgen.CORALIUM_TENDRILS_PLACED,
@@ -671,8 +759,9 @@ public final class ModWorldgenBootstrapper {
                 ModWorldgen.FOREST_WITHERWOOD_TREE_PLACED,
                 new PlacedFeature(
                         configuredFeatures.getOrThrow(ModWorldgen.LEAVES_WITHERWOOD_TREE),
+
                         VegetationPlacements.treePlacement(
-                                PlacementUtils.countExtra(16, 0.2f, 2),
+                                PlacementUtils.countExtra(80, 0.2f, 2),
                                 ModBlocks.WITHERWOOD_SAPLING.block().get()
                         )
                 )
@@ -739,6 +828,36 @@ public final class ModWorldgenBootstrapper {
                                 HeightRangePlacement.uniform(
                                         VerticalAnchor.absolute(50),
                                         VerticalAnchor.absolute(100)
+                                ),
+                                BiomeFilter.biome()
+                        )
+                )
+        );
+
+        context.register(ModWorldgen.SCARLET_SHALE_DISK_PLACED,
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(ModWorldgen.SCARLET_SHALE_DISK),
+                        List.of(
+                                CountPlacement.of(ConstantInt.of(13)),
+                                InSquarePlacement.spread(),
+                                HeightRangePlacement.uniform(
+                                        VerticalAnchor.absolute(-78),
+                                        VerticalAnchor.absolute(50)
+                                ),
+                                BiomeFilter.biome()
+                        )
+                )
+        );
+
+        context.register(ModWorldgen.AZURE_WASTE_STONE_DISK_PLACED,
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(ModWorldgen.AZURE_WASTE_STONE_DISK),
+                        List.of(
+                                CountPlacement.of(ConstantInt.of(9)),
+                                InSquarePlacement.spread(),
+                                HeightRangePlacement.uniform(
+                                        VerticalAnchor.absolute(-78),
+                                        VerticalAnchor.absolute(50)
                                 ),
                                 BiomeFilter.biome()
                         )

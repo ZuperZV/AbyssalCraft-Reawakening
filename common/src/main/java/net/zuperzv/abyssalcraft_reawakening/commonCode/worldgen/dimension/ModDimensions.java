@@ -75,7 +75,7 @@ public class ModDimensions {
                         .set(EnvironmentAttributes.AMBIENT_LIGHT_COLOR, -4212331)
                         .set(EnvironmentAttributes.CLOUD_COLOR, ARGB.color(155, 200, 31, 25))
                         .build(),
-                timelines.getOrThrow(TimelineTags.IN_OVERWORLD),
+                timelines.getOrThrow(TimelineTags.UNIVERSAL),
                 Optional.of(clocks.getOrThrow(WorldClocks.OVERWORLD))));
     }
 

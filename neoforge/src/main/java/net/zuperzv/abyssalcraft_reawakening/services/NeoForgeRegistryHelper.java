@@ -24,6 +24,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
@@ -60,6 +62,8 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
     private static final DeferredRegister<PlacementModifierType<?>> PLACEMENT_MODIFIERS =
             DeferredRegister.create(BuiltInRegistries.PLACEMENT_MODIFIER_TYPE.key(), Constants.MOD_ID);
     public static final DeferredRegister.Entities ENTITIES = DeferredRegister.createEntities(Constants.MOD_ID);
+    private static final DeferredRegister<Feature<?>> FEATURES =
+            DeferredRegister.create(Registries.FEATURE, Constants.MOD_ID);
 
     public static void register(IEventBus eventBus) {
         ENTITIES.register(eventBus);
@@ -73,6 +77,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
         RECIPE_SERIALIZERS.register(eventBus);
         TREE_DECORATORS.register(eventBus);
         PLACEMENT_MODIFIERS.register(eventBus);
+        FEATURES.register(eventBus);
     }
 
     @Override
@@ -337,6 +342,33 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
             @Override
             public EntityType<T> get() {
                 return deferredEntityType.get();
+            }
+        };
+    }
+
+    @Override
+    public <T extends FeatureConfiguration, F extends Feature<T>>
+    RegistryHandle<F> registerFeature(
+            String name,
+            F feature
+    ) {
+        Identifier id = Constants.id(name);
+
+        DeferredHolder<Feature<?>, F> holder =
+                (DeferredHolder<Feature<?>, F>) FEATURES.register(
+                        name,
+                        () -> feature
+                );
+
+        return new RegistryHandle<>() {
+            @Override
+            public Identifier id() {
+                return id;
+            }
+
+            @Override
+            public F get() {
+                return holder.get();
             }
         };
     }

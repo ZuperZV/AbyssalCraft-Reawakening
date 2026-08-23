@@ -11,6 +11,7 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.renderer.ModEntity
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.ModRecipes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.screen.ModMenuTypes;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.ModFeatures;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.placement.ModPlacementModifierTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.tree.decorator.ModTreeDecorators;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
@@ -39,6 +40,7 @@ public class CommonClass {
         ModPlacementModifierTypes.load();
         ModTreeDecorators.load();
         ModWorldgen.load();
+        ModFeatures.load();
         ModBlockEntities.load();
         ModRecipes.load(Services.REGISTRY);
     }

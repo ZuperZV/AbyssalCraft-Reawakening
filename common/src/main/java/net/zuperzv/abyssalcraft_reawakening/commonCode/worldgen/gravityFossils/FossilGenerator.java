@@ -1,4 +1,4 @@
-package net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.gravity_fossils;
+package net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.gravityFossils;
 
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;

@@ -14,8 +14,8 @@ import net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarver;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.ModWorldgen;
-import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.gravity_fossils.FossilBiomeHelper;
-import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.gravity_fossils.FossilRegistry;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.gravityFossils.FossilBiomeHelper;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.gravityFossils.FossilRegistry;
 
 public final class ModBiomes {
 
@@ -102,6 +102,11 @@ public final class ModBiomes {
         biomeBuilder.addCarver(Carvers.CAVE);
         biomeBuilder.addCarver(Carvers.CAVE_EXTRA_UNDERGROUND);
         biomeBuilder.addCarver(Carvers.CANYON);
+
+        biomeBuilder.addFeature(
+                GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
+                ModWorldgen.AZURE_WASTE_STONE_DISK_PLACED
+        );
 
         // ORES
         biomeBuilder.addFeature(
@@ -210,6 +215,22 @@ public final class ModBiomes {
         biomeBuilder.addCarver(Carvers.CAVE_EXTRA_UNDERGROUND);
         biomeBuilder.addCarver(Carvers.CANYON);
 
+        biomeBuilder.addFeature(
+                GenerationStep.Decoration.UNDERGROUND_DECORATION,
+                ModWorldgen.SCARLET_SHALE_DISK_PLACED
+        );
+
+        biomeBuilder.addFeature(
+                GenerationStep.Decoration.UNDERGROUND_DECORATION,
+                ModWorldgen.AZURE_WASTE_STONE_DISK_PLACED
+        );
+
+        biomeBuilder.addFeature(
+                GenerationStep.Decoration.UNDERGROUND_STRUCTURES,
+                ModWorldgen.ABYSSAL_MONSTER_ROOM_PLACED
+        );
+
+
         // ORES
         biomeBuilder.addFeature(
                 GenerationStep.Decoration.UNDERGROUND_ORES,
@@ -226,16 +247,6 @@ public final class ModBiomes {
         biomeBuilder.addFeature(
                 GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
                 ModWorldgen.ABYSSAL_SAND_DISK_PLACED
-        );
-
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
-                ModWorldgen.FUSED_ABYSSAL_SAND_DISK_PLACED
-        );
-
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
-                ModWorldgen.ABYSSAL_MUD_DISK_PLACED
         );
 
         biomeBuilder.addFeature(
@@ -309,6 +320,21 @@ public final class ModBiomes {
         biomeBuilder.addCarver(Carvers.CAVE);
         biomeBuilder.addCarver(Carvers.CAVE_EXTRA_UNDERGROUND);
         biomeBuilder.addCarver(Carvers.CANYON);
+
+        biomeBuilder.addFeature(
+                GenerationStep.Decoration.UNDERGROUND_DECORATION,
+                ModWorldgen.SCARLET_SHALE_DISK_PLACED
+        );
+
+        biomeBuilder.addFeature(
+                GenerationStep.Decoration.UNDERGROUND_DECORATION,
+                ModWorldgen.AZURE_WASTE_STONE_DISK_PLACED
+        );
+
+        biomeBuilder.addFeature(
+                GenerationStep.Decoration.UNDERGROUND_STRUCTURES,
+                ModWorldgen.ABYSSAL_MONSTER_ROOM_PLACED
+        );
 
         // ORES
         biomeBuilder.addFeature(
@@ -398,6 +424,21 @@ public final class ModBiomes {
         biomeBuilder.addCarver(Carvers.CAVE_EXTRA_UNDERGROUND);
         biomeBuilder.addCarver(Carvers.CANYON);
 
+        biomeBuilder.addFeature(
+                GenerationStep.Decoration.UNDERGROUND_DECORATION,
+                ModWorldgen.SCARLET_SHALE_DISK_PLACED
+        );
+
+        biomeBuilder.addFeature(
+                GenerationStep.Decoration.UNDERGROUND_DECORATION,
+                ModWorldgen.AZURE_WASTE_STONE_DISK_PLACED
+        );
+
+        biomeBuilder.addFeature(
+                GenerationStep.Decoration.UNDERGROUND_STRUCTURES,
+                ModWorldgen.ABYSSAL_MONSTER_ROOM_PLACED
+        );
+
         // ORES
         biomeBuilder.addFeature(
                 GenerationStep.Decoration.UNDERGROUND_ORES,
@@ -485,6 +526,21 @@ public final class ModBiomes {
         biomeBuilder.addCarver(Carvers.CAVE);
         biomeBuilder.addCarver(Carvers.CAVE_EXTRA_UNDERGROUND);
         biomeBuilder.addCarver(Carvers.CANYON);
+
+        biomeBuilder.addFeature(
+                GenerationStep.Decoration.UNDERGROUND_DECORATION,
+                ModWorldgen.SCARLET_SHALE_DISK_PLACED
+        );
+
+        biomeBuilder.addFeature(
+                GenerationStep.Decoration.UNDERGROUND_DECORATION,
+                ModWorldgen.AZURE_WASTE_STONE_DISK_PLACED
+        );
+
+        biomeBuilder.addFeature(
+                GenerationStep.Decoration.UNDERGROUND_STRUCTURES,
+                ModWorldgen.ABYSSAL_MONSTER_ROOM_PLACED
+        );
 
         // ORES
         biomeBuilder.addFeature(
@@ -656,6 +712,21 @@ public final class ModBiomes {
         biomeBuilder.addCarver(Carvers.CAVE);
         biomeBuilder.addCarver(Carvers.CAVE_EXTRA_UNDERGROUND);
         biomeBuilder.addCarver(Carvers.CANYON);
+
+        biomeBuilder.addFeature(
+                GenerationStep.Decoration.UNDERGROUND_DECORATION,
+                ModWorldgen.SCARLET_SHALE_DISK_PLACED
+        );
+
+        biomeBuilder.addFeature(
+                GenerationStep.Decoration.UNDERGROUND_DECORATION,
+                ModWorldgen.AZURE_WASTE_STONE_DISK_PLACED
+        );
+
+        biomeBuilder.addFeature(
+                GenerationStep.Decoration.UNDERGROUND_STRUCTURES,
+                ModWorldgen.ABYSSAL_MONSTER_ROOM_PLACED
+        );
 
         // ORES
         biomeBuilder.addFeature(

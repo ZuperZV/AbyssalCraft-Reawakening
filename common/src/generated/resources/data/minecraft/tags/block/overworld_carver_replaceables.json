@@ -1,11 +1,10 @@
 {
   "values": [
     "abyssalcraft_reawakening:abyssal_stone",
-    "abyssalcraft_reawakening:corrupted_soil",
-    "abyssalcraft_reawakening:abyssal_sand",
-    "abyssalcraft_reawakening:wastite",
+    "abyssalcraft_reawakening:grimestone",
     "abyssalcraft_reawakening:scarlet_shale",
     "abyssalcraft_reawakening:azure_waste_stone",
+    "abyssalcraft_reawakening:wastite",
     "minecraft:mud"
   ]
 }

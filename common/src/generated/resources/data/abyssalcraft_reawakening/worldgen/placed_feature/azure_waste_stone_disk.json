@@ -1,0 +1,27 @@
+{
+  "feature": "abyssalcraft_reawakening:azure_waste_stone_disk",
+  "placement": [
+    {
+      "type": "minecraft:count",
+      "count": 9
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "minecraft:height_range",
+      "height": {
+        "type": "minecraft:uniform",
+        "max_inclusive": {
+          "absolute": 50
+        },
+        "min_inclusive": {
+          "absolute": -78
+        }
+      }
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

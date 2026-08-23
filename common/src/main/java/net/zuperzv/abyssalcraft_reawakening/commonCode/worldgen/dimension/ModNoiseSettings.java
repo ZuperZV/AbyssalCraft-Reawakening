@@ -32,8 +32,7 @@ public class ModNoiseSettings {
                 ),
 
                 ModBlocks.ABYSSAL_STONE.block().get().defaultBlockState(),
-                Blocks.WATER.defaultBlockState(),
-
+                Blocks.AIR.defaultBlockState(), //WATER/FLUID //TODO MAKE Coralium fluid and make the caves air to make monnster room
                 router,
 
                 ModSurfaceRules.makeRules(),

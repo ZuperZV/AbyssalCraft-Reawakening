@@ -1,4 +1,4 @@
-package net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.gravity_fossils;
+package net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.gravityFossils;
 
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;

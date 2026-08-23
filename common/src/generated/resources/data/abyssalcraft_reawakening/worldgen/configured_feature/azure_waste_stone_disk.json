@@ -1,12 +1,12 @@
 {
   "type": "minecraft:disk",
   "config": {
-    "half_height": 2,
-    "radius": 5,
+    "half_height": 3,
+    "radius": 6,
     "state_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "minecraft:mud"
+        "Name": "abyssalcraft_reawakening:azure_waste_stone"
       }
     },
     "target": {

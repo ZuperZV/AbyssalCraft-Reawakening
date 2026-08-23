@@ -35,10 +35,16 @@ public final class ModBlocks {
 
     //Abyssal
     public static final BlockWithItemRegistryHandle<Block> ABYSSAL_STONE = Services.REGISTRY.registerBlockWithItem("abyssal_stone",
-            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.STONE)));
+            properties -> new Block(properties.mapColor(MapColor.COLOR_GREEN).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.STONE)));
 
-    public static final BlockWithItemRegistryHandle<Block> GRIMSTONE = Services.REGISTRY.registerBlockWithItem("grimstone",
-            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.STONE)));
+    public static final BlockWithItemRegistryHandle<Block> GRIMESTONE = Services.REGISTRY.registerBlockWithItem("grimestone",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(8.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> SCARLET_SHALE = Services.REGISTRY.registerBlockWithItem("scarlet_shale",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_RED).requiresCorrectToolForDrops().strength(7.0F, 14.0F).sound(SoundType.CALCITE)));
+
+    public static final BlockWithItemRegistryHandle<Block> AZURE_WASTE_STONE = Services.REGISTRY.registerBlockWithItem("azure_waste_stone",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_LIGHT_BLUE).requiresCorrectToolForDrops().strength(6.0F, 13.0F).sound(SoundType.CALCITE)));
 
     public static final BlockWithItemRegistryHandle<Block> ABYSSAL_COBBLESTONE = Services.REGISTRY.registerBlockWithItem("abyssal_cobblestone",
             properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.STONE)));
@@ -173,14 +179,14 @@ public final class ModBlocks {
     public static final BlockWithItemRegistryHandle<Block> RAW_ABYSSALNITE_BLOCK = Services.REGISTRY.registerBlockWithItem("raw_abyssalnite_block",
             properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.METAL)));
 
-    public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_ORE = createOreBlock("abyssalnite_ore");
+    public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_ORE = createOreBlock("abyssalnite_ore", 6.0F);
     public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_GRIMESTONE_ORE = createOreBlock("abyssalnite_grimestone_ore");
 
     //Coralium
-    public static final BlockWithItemRegistryHandle<Block> CORALIUM_ORE = createOreBlock("coralium_ore");
-    public static final BlockWithItemRegistryHandle<Block> CORALIUM_DEEPSLATE_ORE = createOreBlock("coralium_deepslate_ore");
-    public static final BlockWithItemRegistryHandle<Block> CORALIUM_ABYSSAL_ORE = createOreBlock("coralium_abyssal_ore");
-    public static final BlockWithItemRegistryHandle<Block> CORALIUM_GRIMESTONE_ORE = createOreBlock("coralium_grimestone_ore");
+    public static final BlockWithItemRegistryHandle<Block> CORALIUM_ORE = createOreBlock("coralium_ore", 4.0F);
+    public static final BlockWithItemRegistryHandle<Block> CORALIUM_DEEPSLATE_ORE = createOreBlock("coralium_deepslate_ore", 7.0F);
+    public static final BlockWithItemRegistryHandle<Block> CORALIUM_ABYSSAL_ORE = createOreBlock("coralium_abyssal_ore", 6.0F);
+    public static final BlockWithItemRegistryHandle<Block> CORALIUM_GRIMESTONE_ORE = createOreBlock("coralium_grimestone_ore", 9.0F);
 
     public static final BlockWithItemRegistryHandle<Block> CORALIUM_STONE = Services.REGISTRY.registerBlockWithItem("coralium_stone",
             properties -> new Block(properties.mapColor(MapColor.COLOR_BLUE).requiresCorrectToolForDrops().strength(5.0F, 4.0F).sound(SoundType.STONE)));
@@ -214,8 +220,12 @@ public final class ModBlocks {
 
 
     private static BlockWithItemRegistryHandle<Block> createOreBlock(String name) {
+        return createOreBlock(name, 3.0F);
+    }
+
+    private static BlockWithItemRegistryHandle<Block> createOreBlock(String name, Float destroyTime) {
         return Services.REGISTRY.registerBlockWithItem(name,
-                properties -> new DropExperienceBlock(UniformInt.of(0, 2), properties.strength(3.0F, 3.0F).requiresCorrectToolForDrops()));
+                properties -> new DropExperienceBlock(UniformInt.of(0, 2), properties.strength(destroyTime, 3.0F).requiresCorrectToolForDrops()));
     }
 
     private static Boolean ocelotOrParrot(BlockState state, BlockGetter blockGetter, BlockPos blockPos, EntityType<?> entityType) {
