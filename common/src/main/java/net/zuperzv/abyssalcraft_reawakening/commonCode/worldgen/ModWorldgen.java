@@ -5,11 +5,13 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
+import net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarver;
 
 public final class ModWorldgen {
     private ModWorldgen() {}
     public static void load() {}
 
+    // Configured Features
     public static final ResourceKey<ConfiguredFeature<?, ?>> CORALIUM_TENDRILS = configuredFeatureKey("coralium_tendrils");
     public static final ResourceKey<ConfiguredFeature<?, ?>> LUMINOUS_THISTLE = configuredFeatureKey("luminous_thistle");
     public static final ResourceKey<ConfiguredFeature<?, ?>> WASTELANDS_THORN = configuredFeatureKey("wastelands_thorn");
@@ -41,6 +43,7 @@ public final class ModWorldgen {
     public static final ResourceKey<ConfiguredFeature<?, ?>> ABYSSAL_MONSTER_ROOM = configuredFeatureKey("abyssal_monster_room");
 
 
+    // Configured Features
     public static final ResourceKey<PlacedFeature> CORALIUM_TENDRILS_PLACED = placedFeatureKey("coralium_tendrils");
     public static final ResourceKey<PlacedFeature> LUMINOUS_THISTLE_PLACED = placedFeatureKey("luminous_thistle");
     public static final ResourceKey<PlacedFeature> WASTELANDS_THORN_PLACED = placedFeatureKey("wastelands_thorn");
@@ -76,6 +79,11 @@ public final class ModWorldgen {
 
     public static final ResourceKey<PlacedFeature> ABYSSAL_MONSTER_ROOM_PLACED = placedFeatureKey("abyssal_monster_room");
 
+    // Configured Carvers
+    public static final ResourceKey<ConfiguredWorldCarver<?>> CAVE = configuredCarverKey("cave");
+    public static final ResourceKey<ConfiguredWorldCarver<?>> CAVE_EXTRA_UNDERGROUND = configuredCarverKey("cave_extra_underground");
+    public static final ResourceKey<ConfiguredWorldCarver<?>> CANYON = configuredCarverKey("canyon");
+
     private static ResourceKey<ConfiguredFeature<?, ?>> configuredFeatureKey(String name) {
         return ResourceKey.create(Registries.CONFIGURED_FEATURE, Constants.id(name));
     }
@@ -84,6 +92,9 @@ public final class ModWorldgen {
         return ResourceKey.create(Registries.PLACED_FEATURE, Constants.id(name));
     }
 
+    private static ResourceKey<ConfiguredWorldCarver<?>> configuredCarverKey(String name) {
+        return ResourceKey.create(Registries.CONFIGURED_CARVER, Constants.id(name));
+    }
 
     public static ResourceKey<ConfiguredFeature<?, ?>> fossil(String name) {
         return configuredFeatureKey(name + "_fossil");

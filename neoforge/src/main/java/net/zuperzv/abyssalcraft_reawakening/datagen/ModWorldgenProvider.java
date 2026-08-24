@@ -20,6 +20,7 @@ import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.common.world.BiomeModifiers;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.ModCarvers;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.ModWorldgenBootstrapper;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.biome.ModBiomes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.dimension.ModDimensions;
@@ -36,6 +37,7 @@ public final class ModWorldgenProvider extends DatapackBuiltinEntriesProvider {
             .add(Registries.PROCESSOR_LIST, ModWorldgenBootstrapper::bootstrapProcessorLists)
             .add(Registries.CONFIGURED_FEATURE, ModWorldgenBootstrapper::bootstrapConfiguredFeatures)
             .add(Registries.PLACED_FEATURE, ModWorldgenBootstrapper::bootstrapPlacedFeatures)
+            .add(Registries.CONFIGURED_CARVER, ModCarvers::bootstrap)
             .add(Registries.BIOME, ModBiomes::bootstrap)
             .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ModWorldgenProvider::bootstrapBiomeModifiers)
 

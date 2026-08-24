@@ -85,7 +85,7 @@ public final class ModBiomes {
         );
     }
 
-
+    //Done
     public static Biome AbyssalDesertBiome(
             BootstrapContext<Biome> context) {
 
@@ -99,9 +99,9 @@ public final class ModBiomes {
                 );
 
         // UNDERGROUND
-        biomeBuilder.addCarver(Carvers.CAVE);
-        biomeBuilder.addCarver(Carvers.CAVE_EXTRA_UNDERGROUND);
-        biomeBuilder.addCarver(Carvers.CANYON);
+        biomeBuilder.addCarver(ModWorldgen.CAVE);
+        biomeBuilder.addCarver(ModWorldgen.CAVE_EXTRA_UNDERGROUND);
+        biomeBuilder.addCarver(ModWorldgen.CANYON);
 
         biomeBuilder.addFeature(
                 GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
@@ -197,7 +197,7 @@ public final class ModBiomes {
                 .build();
     }
 
-
+    //Okay done
     public static Biome DarklandsForestBiome(
             BootstrapContext<Biome> context) {
 
@@ -211,9 +211,9 @@ public final class ModBiomes {
                 );
 
         // UNDERGROUND
-        biomeBuilder.addCarver(Carvers.CAVE);
-        biomeBuilder.addCarver(Carvers.CAVE_EXTRA_UNDERGROUND);
-        biomeBuilder.addCarver(Carvers.CANYON);
+        biomeBuilder.addCarver(ModWorldgen.CAVE);
+        biomeBuilder.addCarver(ModWorldgen.CAVE_EXTRA_UNDERGROUND);
+        biomeBuilder.addCarver(ModWorldgen.CANYON);
 
         biomeBuilder.addFeature(
                 GenerationStep.Decoration.UNDERGROUND_DECORATION,
@@ -303,7 +303,7 @@ public final class ModBiomes {
                 .build();
     }
 
-
+    //TODO
     public static Biome CoralliumLakeBiome(
             BootstrapContext<Biome> context) {
 
@@ -317,9 +317,9 @@ public final class ModBiomes {
                 );
 
         // UNDERGROUND
-        biomeBuilder.addCarver(Carvers.CAVE);
-        biomeBuilder.addCarver(Carvers.CAVE_EXTRA_UNDERGROUND);
-        biomeBuilder.addCarver(Carvers.CANYON);
+        biomeBuilder.addCarver(ModWorldgen.CAVE);
+        biomeBuilder.addCarver(ModWorldgen.CAVE_EXTRA_UNDERGROUND);
+        biomeBuilder.addCarver(ModWorldgen.CANYON);
 
         biomeBuilder.addFeature(
                 GenerationStep.Decoration.UNDERGROUND_DECORATION,
@@ -407,6 +407,7 @@ public final class ModBiomes {
                 .build();
     }
 
+    //TODO
     public static Biome AbyssalPlateauBiome(
             BootstrapContext<Biome> context) {
 
@@ -420,9 +421,9 @@ public final class ModBiomes {
                 );
 
         // UNDERGROUND
-        biomeBuilder.addCarver(Carvers.CAVE);
-        biomeBuilder.addCarver(Carvers.CAVE_EXTRA_UNDERGROUND);
-        biomeBuilder.addCarver(Carvers.CANYON);
+        biomeBuilder.addCarver(ModWorldgen.CAVE);
+        biomeBuilder.addCarver(ModWorldgen.CAVE_EXTRA_UNDERGROUND);
+        biomeBuilder.addCarver(ModWorldgen.CANYON);
 
         biomeBuilder.addFeature(
                 GenerationStep.Decoration.UNDERGROUND_DECORATION,
@@ -510,6 +511,7 @@ public final class ModBiomes {
                 .build();
     }
 
+    //TODO
     public static Biome DarklandsMountainsBiome(
             BootstrapContext<Biome> context) {
 
@@ -523,9 +525,9 @@ public final class ModBiomes {
                 );
 
         // UNDERGROUND
-        biomeBuilder.addCarver(Carvers.CAVE);
-        biomeBuilder.addCarver(Carvers.CAVE_EXTRA_UNDERGROUND);
-        biomeBuilder.addCarver(Carvers.CANYON);
+        biomeBuilder.addCarver(ModWorldgen.CAVE);
+        biomeBuilder.addCarver(ModWorldgen.CAVE_EXTRA_UNDERGROUND);
+        biomeBuilder.addCarver(ModWorldgen.CANYON);
 
         biomeBuilder.addFeature(
                 GenerationStep.Decoration.UNDERGROUND_DECORATION,
@@ -608,6 +610,7 @@ public final class ModBiomes {
                 .build();
     }
 
+    //TODO
     public static Biome AbyssalSwampBiome(
             BootstrapContext<Biome> context) {
 
@@ -621,9 +624,9 @@ public final class ModBiomes {
                 );
 
         // UNDERGROUND
-        biomeBuilder.addCarver(Carvers.CAVE);
-        biomeBuilder.addCarver(Carvers.CAVE_EXTRA_UNDERGROUND);
-        biomeBuilder.addCarver(Carvers.CANYON);
+        biomeBuilder.addCarver(ModWorldgen.CAVE);
+        biomeBuilder.addCarver(ModWorldgen.CAVE_EXTRA_UNDERGROUND);
+        biomeBuilder.addCarver(ModWorldgen.CANYON);
 
         // ORES
         biomeBuilder.addFeature(
@@ -696,6 +699,7 @@ public final class ModBiomes {
                 .build();
     }
 
+    //Done
     public static Biome AbyssalWastelandsBiome(
             BootstrapContext<Biome> context) {
 
@@ -709,9 +713,9 @@ public final class ModBiomes {
                 );
 
         // UNDERGROUND
-        biomeBuilder.addCarver(Carvers.CAVE);
-        biomeBuilder.addCarver(Carvers.CAVE_EXTRA_UNDERGROUND);
-        biomeBuilder.addCarver(Carvers.CANYON);
+        biomeBuilder.addCarver(ModWorldgen.CAVE);
+        biomeBuilder.addCarver(ModWorldgen.CAVE_EXTRA_UNDERGROUND);
+        biomeBuilder.addCarver(ModWorldgen.CANYON);
 
         biomeBuilder.addFeature(
                 GenerationStep.Decoration.UNDERGROUND_DECORATION,
@@ -809,9 +813,9 @@ public final class ModBiomes {
                         context.lookup(Registries.CONFIGURED_CARVER)
                 );
 
-        biomeBuilder.addCarver(Carvers.CAVE);
-        biomeBuilder.addCarver(Carvers.CAVE_EXTRA_UNDERGROUND);
-        biomeBuilder.addCarver(Carvers.CANYON);
+        biomeBuilder.addCarver(ModWorldgen.CAVE);
+        biomeBuilder.addCarver(ModWorldgen.CAVE_EXTRA_UNDERGROUND);
+        biomeBuilder.addCarver(ModWorldgen.CANYON);
 
         biomeBuilder.addFeature(
                 GenerationStep.Decoration.UNDERGROUND_ORES,

@@ -55,7 +55,7 @@ public class ModDimensions {
         var timelines = context.lookup(Registries.TIMELINE);
         var clocks = context.lookup(Registries.WORLD_CLOCK);
 
-        context.register(THE_ABYSSAL_WASTELAND_DIM_TYPE_KEY, new DimensionType(
+        context.register(THE_ABYSSAL_WASTELAND_DIM_TYPE_KEY, new DimensionType( //TODO no rain
                 false,
                 true,
                 false,

@@ -41,8 +41,8 @@ public final class ModBlockTags {
     public static final TagKey<Block> GRIMSTONE_ORE_REPLACEABLES =
             create("grimstone_ore_replaceables");
 
-    public static final TagKey<Block> ABYSSAL_WAISTLAND_SURFACES =
-            create("abyssal_waistland_surfaces");
+    public static final TagKey<Block> ABYSSALWASTELAND_SURFACES =
+            create("abyssalwasteland_surfaces");
 
     public static final TagKey<Block> WASTITE_SPIKE_REPLACEABLE =
             create("wastite_spike_replaceable");
@@ -55,6 +55,9 @@ public final class ModBlockTags {
 
     public static final TagKey<Block> SUPPORTS_ABYSS_VEGETATION =
             create("supports_abyss_vegetation");
+
+    public static final TagKey<Block> ABYSSALWASTELAND_CARVER_REPLACEABLES =
+            create("abyssalwasteland_carver_replaceables");
 
     public static TagKey<Block> create(String name) {
         return TagKey.create(Registries.BLOCK, Constants.id(name));

@@ -8,10 +8,7 @@ import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.random.WeightedList;
-import net.minecraft.util.valueproviders.BiasedToBottomInt;
-import net.minecraft.util.valueproviders.ConstantInt;
-import net.minecraft.util.valueproviders.TrapezoidInt;
-import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.util.valueproviders.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeafLitterBlock;
@@ -19,6 +16,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
+import net.minecraft.world.level.levelgen.carver.CanyonCarverConfiguration;
+import net.minecraft.world.level.levelgen.carver.CarverDebugSettings;
+import net.minecraft.world.level.levelgen.carver.CaveCarverConfiguration;
+import net.minecraft.world.level.levelgen.carver.WorldCarver;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.*;
@@ -28,6 +29,7 @@ import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvi
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 import net.minecraft.world.level.levelgen.feature.treedecorators.PlaceOnGroundDecorator;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.FancyTrunkPlacer;
+import net.minecraft.world.level.levelgen.heightproviders.UniformHeight;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
@@ -62,6 +64,10 @@ public final class ModWorldgenBootstrapper {
         HolderGetter<PlacedFeature> placedFeatures =
                 context.lookup(Registries.PLACED_FEATURE);
 
+        HolderGetter<Block> blocks =
+                context.lookup(Registries.BLOCK);
+
+        //monster room
         context.register(
                 ModWorldgen.ABYSSAL_MONSTER_ROOM,
 
@@ -537,7 +543,7 @@ public final class ModWorldgenBootstrapper {
                         Feature.VEGETATION_PATCH,
 
                         new VegetationPatchConfiguration(
-                                ModBlockTags.ABYSSAL_WAISTLAND_SURFACES,
+                                ModBlockTags.ABYSSALWASTELAND_SURFACES,
 
                                 BlockStateProvider.simple(
                                         ModBlocks.ABYSSAL_STONE.block().get().defaultBlockState()
@@ -562,7 +568,7 @@ public final class ModWorldgenBootstrapper {
                         Feature.BLOCK_BLOB,
                         new BlockBlobConfiguration(
                                 ModBlocks.ABYSSAL_STONE.block().get().defaultBlockState(),
-                                BlockPredicate.matchesTag(ModBlockTags.ABYSSAL_WAISTLAND_SURFACES)
+                                BlockPredicate.matchesTag(ModBlockTags.ABYSSALWASTELAND_SURFACES)
                         )
                 )
         );

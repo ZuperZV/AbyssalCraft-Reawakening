@@ -1,8 +1,8 @@
 {
   "carvers": [
-    "minecraft:cave",
-    "minecraft:cave_extra_underground",
-    "minecraft:canyon"
+    "abyssalcraft_reawakening:cave",
+    "abyssalcraft_reawakening:cave_extra_underground",
+    "abyssalcraft_reawakening:canyon"
   ],
   "downfall": 0.8,
   "effects": {

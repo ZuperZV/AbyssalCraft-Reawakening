@@ -95,9 +95,15 @@ public class ModNoiseRouter {
 
     protected static NoiseRouter AbyssalWasteland(HolderGetter<DensityFunction> functions, HolderGetter<NormalNoise.NoiseParameters> noises, boolean largeBiomes, boolean amplified) {
         DensityFunction barrierNoise = DensityFunctions.noise(noises.getOrThrow(Noises.AQUIFER_BARRIER), (double)0.5F);
-        DensityFunction fluidLevelFloodednessNoise = DensityFunctions.noise(noises.getOrThrow(Noises.AQUIFER_FLUID_LEVEL_FLOODEDNESS), 0.67);
-        DensityFunction fluidLevelSpreadNoise = DensityFunctions.noise(noises.getOrThrow(Noises.AQUIFER_FLUID_LEVEL_SPREAD), 0.7142857142857143);
-        DensityFunction lavaNoise = DensityFunctions.noise(noises.getOrThrow(Noises.AQUIFER_LAVA));
+
+        DensityFunction fluidLevelFloodednessNoise =
+                DensityFunctions.constant(-1.0);
+
+        DensityFunction fluidLevelSpreadNoise = DensityFunctions.noise(
+                noises.getOrThrow(Noises.AQUIFER_FLUID_LEVEL_SPREAD), 0.1);
+
+        DensityFunction lavaNoise = DensityFunctions.noise(
+                noises.getOrThrow(Noises.AQUIFER_LAVA), 1.0);
 
         DensityFunction shiftX = DensityFunctions.mul(
                 getFunction(functions, SHIFT_X),

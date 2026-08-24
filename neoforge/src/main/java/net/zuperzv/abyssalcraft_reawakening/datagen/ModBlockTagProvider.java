@@ -43,7 +43,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         tag(Tags.Blocks.ORES)
                 .addTag(ModBlockTags.ABYSSALCRAFT_ORES);
 
-        tag(ModBlockTags.ABYSSAL_WAISTLAND_SURFACES)
+        tag(ModBlockTags.ABYSSALWASTELAND_SURFACES)
                 .add(ModBlocks.ABYSSAL_STONE.block().get())
                 .add(ModBlocks.CORRUPTED_SOIL.block().get())
                 .add(ModBlocks.ABYSSAL_SAND.block().get())
@@ -52,7 +52,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.AZURE_WASTE_STONE.block().get())
                 .add(Blocks.MUD);
 
-        tag(BlockTags.OVERWORLD_CARVER_REPLACEABLES)
+        tag(ModBlockTags.ABYSSALWASTELAND_CARVER_REPLACEABLES)
                 .add(ModBlocks.ABYSSAL_STONE.block().get())
                 .add(ModBlocks.GRIMESTONE.block().get())
                 .add(ModBlocks.SCARLET_SHALE.block().get())
@@ -66,7 +66,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
         tag(ModBlockTags.WASTITE_SPIKE_REPLACEABLE)
                 .add(ModBlocks.WASTITE.block().get())
-                .addTag(ModBlockTags.ABYSSAL_WAISTLAND_SURFACES);
+                .addTag(ModBlockTags.ABYSSALWASTELAND_SURFACES);
 
         tag(ModBlockTags.ABYSSAL_STONE_ORE_REPLACEABLES)
                 .add(ModBlocks.ABYSSAL_STONE.block().get());

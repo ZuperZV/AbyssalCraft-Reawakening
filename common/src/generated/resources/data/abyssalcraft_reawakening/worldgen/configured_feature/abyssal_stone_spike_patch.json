@@ -10,7 +10,7 @@
         "Name": "abyssalcraft_reawakening:abyssal_stone"
       }
     },
-    "replaceable": "#abyssalcraft_reawakening:abyssal_waistland_surfaces",
+    "replaceable": "#abyssalcraft_reawakening:abyssalwasteland_surfaces",
     "surface": "floor",
     "vegetation_chance": 1.0,
     "vegetation_feature": "abyssalcraft_reawakening:abyssal_stone_spike_column",
