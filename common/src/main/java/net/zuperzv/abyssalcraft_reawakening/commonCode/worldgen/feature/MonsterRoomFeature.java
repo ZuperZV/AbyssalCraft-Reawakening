@@ -666,7 +666,7 @@ public class MonsterRoomFeature extends Feature<MonsterRoomFeatureConfiguration>
                     ModEntityTypes.ABYSSAL_ZOMBIE.get();
 
             case 2 ->
-                    EntityType.SKELETON;
+                    ModEntityTypes.GROUNDLING.get();
 
             case 3 ->
                     EntityType.SPIDER;

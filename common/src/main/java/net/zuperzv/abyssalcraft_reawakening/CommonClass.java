@@ -4,11 +4,14 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.creativetab.ModCreativeTa
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.ModBlockEntities;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.ModDataComponentTypes;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.data.loader.DataItemJsonLoader;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.ModEntityAttributes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.ModEntityTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.model.ModModelLayer;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.renderer.ModEntityRenderers;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModDataItem;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.dataDrivenItems.DataItemRegistry;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.ModRecipes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.screen.ModMenuTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.ModFeatures;
@@ -31,6 +34,11 @@ public class CommonClass {
         ModEntityRenderers.load();
         ModModelLayer.load();
         ModEntityAttributes.load();
+
+        DataItemJsonLoader.load();
+
+        DataItemRegistry registry = DataItemRegistry.getInstance();
+        ModDataItem.registerAll(registry);
 
         ModItems.load();
         ModBlocks.load();

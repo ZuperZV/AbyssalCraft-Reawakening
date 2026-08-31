@@ -29,7 +29,7 @@ import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.CodexTierData;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.CodexBookmarksData;
-import net.zuperzv.abyssalcraft_reawakening.commonCode.data.CodexDataLoader;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.data.loader.CodexDataLoader;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.mixin.AdvancementTabMixin;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.mixin.AdvancementsScreenMixin;

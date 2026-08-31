@@ -25,6 +25,15 @@ public class ModBlockEntities {
                     ModBlocks.STONE_RITUAL_PEDESTAL.block()::get
             );
 
+    /*
+    public static final RegistryHandle<BlockEntityType<StoneRitualPedestalBlockEntity>> PE_STATUE_BE =
+            Services.REGISTRY.registerBlockEntityType(
+                    "pe_statue_pe",
+                    StoneRitualPedestalBlockEntity::new,
+                    ModBlocks..block()::get
+            );
+     */
+
     public static final RegistryHandle<BlockEntityType<ModShelfBlockEntity>> MOD_SHELF_BE =
             Services.REGISTRY.registerBlockEntityType(
                     "mod_shelf",

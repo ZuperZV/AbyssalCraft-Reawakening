@@ -10,6 +10,9 @@ public final class ModModelLayer {
     public static void load() {
 
         Services.CLIENT_REGISTRY.registerModelLayer(
+                GroundlingModel.LAYER_LOCATION, GroundlingModel::createBodyLayer);
+
+        Services.CLIENT_REGISTRY.registerModelLayer(
                 AbyssalZombieModel.LAYER_LOCATION, AbyssalZombieModel::createBodyLayer);
         Services.CLIENT_REGISTRY.registerModelLayer(
                 AbyssalZombieBabyModel.LAYER_LOCATION, AbyssalZombieBabyModel::createBodyLayer);

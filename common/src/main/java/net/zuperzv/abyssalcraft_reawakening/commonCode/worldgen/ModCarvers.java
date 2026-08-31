@@ -46,7 +46,7 @@ public final class ModCarvers {
 
                                 CarverDebugSettings.of(
                                         false,
-                                        Blocks.CAVE_AIR.defaultBlockState()
+                                        Blocks.DIAMOND_BLOCK.defaultBlockState()
                                 ),
 
                                 blocks.getOrThrow(
@@ -79,7 +79,7 @@ public final class ModCarvers {
 
                                 CarverDebugSettings.of(
                                         false,
-                                        Blocks.CAVE_AIR.defaultBlockState()
+                                        Blocks.DIAMOND_BLOCK.defaultBlockState()
                                 ),
 
                                 blocks.getOrThrow(
@@ -112,7 +112,7 @@ public final class ModCarvers {
 
                                 CarverDebugSettings.of(
                                         false,
-                                        Blocks.CAVE_AIR.defaultBlockState()
+                                        Blocks.DIAMOND_BLOCK.defaultBlockState()
                                 ),
 
                                 blocks.getOrThrow(

@@ -5,6 +5,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.Item;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.custom.AbyssalZombieEntity;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.custom.GroundlingEntity;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.custom.WitherwoodBoat;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.custom.WitherwoodChestBoat;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
@@ -17,6 +18,17 @@ public class ModEntityTypes {
 
     public static void load() {
     }
+
+    public static final RegistryHandle<EntityType<GroundlingEntity>> GROUNDLING =
+            Services.REGISTRY.registerEntityType("groundling",
+                    EntityType.Builder.of(GroundlingEntity::new, MobCategory.MONSTER)
+                            .sized(0.5F, 1.4F)
+                            .eyeHeight(1.1F)
+                            .passengerAttachments(2.0125F)
+                            .ridingOffset(-0.7F)
+                            .clientTrackingRange(10)
+                            .notInPeaceful()
+            );
 
     public static final RegistryHandle<EntityType<AbyssalZombieEntity>> ABYSSAL_ZOMBIE =
             Services.REGISTRY.registerEntityType("abyssal_zombie",

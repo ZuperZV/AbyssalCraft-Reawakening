@@ -1,4 +1,4 @@
-package net.zuperzv.abyssalcraft_reawakening.commonCode.data;
+package net.zuperzv.abyssalcraft_reawakening.commonCode.data.loader;
 
 import com.google.gson.*;
 import net.minecraft.core.registries.BuiltInRegistries;

@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/cube_bottom_top",
-  "textures": {
-    "bottom": "abyssalcraft_reawakening:block/coralium_bricks",
-    "side": "abyssalcraft_reawakening:block/abyssal_wasteland_activator_side",
-    "top": "abyssalcraft_reawakening:block/abyssal_wasteland_activator_top_no_key"
-  }
-}

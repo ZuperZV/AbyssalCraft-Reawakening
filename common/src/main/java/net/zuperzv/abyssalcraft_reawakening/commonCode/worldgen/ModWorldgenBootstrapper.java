@@ -928,7 +928,7 @@ public final class ModWorldgenBootstrapper {
         context.register(ModWorldgen.CORALIUM_ORE_PLACED, new PlacedFeature(
                 configuredFeatures.getOrThrow(ModWorldgen.CORALIUM_ORE),
                 List.of(
-                        CountPlacement.of(TrapezoidInt.of(1, 15, 6)),
+                        CountPlacement.of(TrapezoidInt.of(1, 22, 7)),
                         InSquarePlacement.spread(),
                         HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(30), VerticalAnchor.belowTop(180)),
                         BiomeFilter.biome()

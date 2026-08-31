@@ -41,7 +41,7 @@ public class ModDimensions {
     public static final ResourceKey<NoiseGeneratorSettings> ABYSSAL_WASTELAND_NOISE = ResourceKey.create(Registries.NOISE_SETTINGS,
             Identifier.fromNamespaceAndPath(Constants.MOD_ID, "abyssal_wasteland"));
 
-    protected static final NoiseSettings ABYSSAL_WASTELAND_SETTINGS = create(-64, 384, 1, 2);
+    protected static final NoiseSettings ABYSSAL_WASTELAND_SETTINGS = create(-80, 368, 1, 2);
 
     public static NoiseSettings create(int minY, int height, int noiseSizeHorizontal, int noiseSizeVertical) {
         NoiseSettings noiseSettings = new NoiseSettings(minY, height, noiseSizeHorizontal, noiseSizeVertical);

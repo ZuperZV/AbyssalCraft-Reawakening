@@ -19,8 +19,9 @@ import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.ModBlockEntities;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.renderer.*;
-import net.zuperzv.abyssalcraft_reawakening.commonCode.data.CodexDataLoader;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.data.loader.CodexDataLoader;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.DyedColorTintSource;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.data.loader.DataItemJsonLoader;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.screen.ModMenuTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.screen.NecronomiconScreen;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
@@ -83,6 +84,7 @@ public class ModResources {
     @SubscribeEvent
     public static void onServerStarted(ServerStartedEvent event) {
         CodexDataLoader.load();
+        DataItemJsonLoader.load();
         Services.I_MULTIBLOCK_INPUT.register();
     }
 
@@ -105,6 +107,7 @@ public class ModResources {
                             ResourceManager manager = sharedState.resourceManager();
 
                             CodexDataLoader.loadFromResourceManager(manager);
+                            DataItemJsonLoader.loadFromResourceManager(manager);
 
                         }, backgroundExecutor).thenCompose(barrier::wait);
                     }

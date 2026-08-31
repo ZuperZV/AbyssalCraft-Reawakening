@@ -94,16 +94,18 @@ public class ModNoiseRouter {
     }
 
     protected static NoiseRouter AbyssalWasteland(HolderGetter<DensityFunction> functions, HolderGetter<NormalNoise.NoiseParameters> noises, boolean largeBiomes, boolean amplified) {
-        DensityFunction barrierNoise = DensityFunctions.noise(noises.getOrThrow(Noises.AQUIFER_BARRIER), (double)0.5F);
+
+        DensityFunction barrierNoise =
+                DensityFunctions.constant(0.0);
 
         DensityFunction fluidLevelFloodednessNoise =
                 DensityFunctions.constant(-1.0);
 
-        DensityFunction fluidLevelSpreadNoise = DensityFunctions.noise(
-                noises.getOrThrow(Noises.AQUIFER_FLUID_LEVEL_SPREAD), 0.1);
+        DensityFunction fluidLevelSpreadNoise =
+                DensityFunctions.constant(-1.0);
 
-        DensityFunction lavaNoise = DensityFunctions.noise(
-                noises.getOrThrow(Noises.AQUIFER_LAVA), 1.0);
+        DensityFunction lavaNoise =
+                DensityFunctions.constant(0.0);
 
         DensityFunction shiftX = DensityFunctions.mul(
                 getFunction(functions, SHIFT_X),
@@ -136,8 +138,7 @@ public class ModNoiseRouter {
                 DensityFunctions.constant(1)
         );
 
-        DensityFunction preliminarySurfaceLevel =
-                preliminarySurfaceLevel(offset, factor, amplified);
+        DensityFunction preliminarySurfaceLevel = preliminarySurfaceLevel(offset, factor, amplified);
 
         DensityFunction slopedCheese = getFunction(functions, largeBiomes ? SLOPED_CHEESE_LARGE : (amplified ? SLOPED_CHEESE_AMPLIFIED : SLOPED_CHEESE));
         DensityFunction surfaceWithEntrances = DensityFunctions.min(slopedCheese, DensityFunctions.mul(DensityFunctions.constant((double)5.0F), getFunction(functions, ENTRANCES)));
@@ -192,7 +193,7 @@ public class ModNoiseRouter {
     }
 
     private static DensityFunction slideOverworld(boolean isAmplified, DensityFunction caves) {
-        return slide(caves, -64, 384, isAmplified ? 16 : 80, isAmplified ? 0 : 64, (double)-0.078125F, 0, 24, isAmplified ? 0.4 : (double)0.1171875F);
+        return slide(caves, -80, 368, isAmplified ? 16 : 80, isAmplified ? 0 : 64, (double)-0.078125F, 0, 24, isAmplified ? 0.4 : (double)0.1171875F);
     }
 
     private static DensityFunction noiseGradientDensity(DensityFunction factor, DensityFunction depthWithJaggedness) {
@@ -203,10 +204,25 @@ public class ModNoiseRouter {
     private static DensityFunction preliminarySurfaceLevel(DensityFunction offset, DensityFunction factor, boolean amplified) {
         DensityFunction cachedFactor = DensityFunctions.cache2d(factor);
         DensityFunction cachedOffset = DensityFunctions.cache2d(offset);
-        DensityFunction upperBound = remap(DensityFunctions.add(DensityFunctions.mul(DensityFunctions.constant((double)0.2734375F), cachedFactor.invert()), DensityFunctions.mul(DensityFunctions.constant((double)-1.0F), cachedOffset)), (double)1.5F, (double)-1.5F, (double)-64.0F, (double)320.0F);
-        upperBound = upperBound.clamp((double)-40.0F, (double)320.0F);
-        DensityFunction density = DensityFunctions.add(slideOverworld(amplified, DensityFunctions.add(noiseGradientDensity(cachedFactor, offsetToDepth(cachedOffset)), DensityFunctions.constant((double)-0.703125F)).clamp((double)-64.0F, (double)64.0F)), DensityFunctions.constant((double)-0.390625F));
-        return DensityFunctions.findTopSurface(density, upperBound, -64, ModDimensions.ABYSSAL_WASTELAND_SETTINGS.getCellHeight());
+        DensityFunction upperBound = remap(
+                DensityFunctions.add(
+                        DensityFunctions.mul(DensityFunctions.constant(0.2734375), cachedFactor.invert()),
+                        DensityFunctions.mul(DensityFunctions.constant(-1.0), cachedOffset)
+                ),
+                1.5,
+                -1.5,
+                -80.0,
+                368.0
+        );
+        upperBound = upperBound.clamp(-40.0, 320.0);
+        DensityFunction density = DensityFunctions.add(
+                slideOverworld(
+                        amplified,
+                        DensityFunctions.add(noiseGradientDensity(cachedFactor, offsetToDepth(cachedOffset)), DensityFunctions.constant(-0.703125)).clamp(-64.0, 64.0)
+                ),
+                DensityFunctions.constant(-0.390625)
+        );
+        return DensityFunctions.findTopSurface(density, upperBound, -80, ModDimensions.ABYSSAL_WASTELAND_SETTINGS.getCellHeight());
     }
 
     private static DensityFunction yLimitedInterpolatable(DensityFunction y, DensityFunction whenInRange, int minYInclusive, int maxYInclusive, int whenOutOfRange) {

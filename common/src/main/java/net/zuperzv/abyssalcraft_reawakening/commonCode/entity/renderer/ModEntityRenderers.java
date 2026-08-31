@@ -18,6 +18,11 @@ public final class ModEntityRenderers {
         );
 
         Services.CLIENT_REGISTRY.registerEntityRenderer(
+                ModEntityTypes.GROUNDLING,
+                GroundlingRenderer::new
+        );
+
+        Services.CLIENT_REGISTRY.registerEntityRenderer(
                 ModEntityTypes.WITHERWOOD_BOAT,
                 context -> new WitherwoodBoatRenderer(
                         context,

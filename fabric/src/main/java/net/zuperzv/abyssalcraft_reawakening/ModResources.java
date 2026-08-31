@@ -24,7 +24,8 @@ import net.minecraft.world.item.crafting.RecipeMap;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.api.jei.JEIPlugin;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.ModBlockEntities;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.renderer.*;
-import net.zuperzv.abyssalcraft_reawakening.commonCode.data.CodexDataLoader;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.data.loader.CodexDataLoader;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.data.loader.DataItemJsonLoader;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.NecronomiconClientTooltip;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.NecronomiconTooltipComponent;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.StaffClientTooltip;
@@ -97,6 +98,7 @@ public class ModResources implements ClientModInitializer {
 
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
             CodexDataLoader.load();
+            DataItemJsonLoader.load();
         });
 
         ResourceManagerHelper.get(PackType.CLIENT_RESOURCES)
@@ -113,6 +115,7 @@ public class ModResources implements ClientModInitializer {
                             ResourceManager manager = currentReload.resourceManager();
 
                             CodexDataLoader.loadFromResourceManager(manager);
+                            DataItemJsonLoader.loadFromResourceManager(manager);
 
                         }, taskExecutor).thenCompose(preparationBarrier::wait);
                     }

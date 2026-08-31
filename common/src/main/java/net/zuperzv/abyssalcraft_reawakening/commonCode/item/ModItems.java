@@ -1,9 +1,6 @@
 package net.zuperzv.abyssalcraft_reawakening.commonCode.item;
 
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.equipment.ArmorType;
@@ -15,6 +12,7 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.ModEntityTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.GatewayKeyItem;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.NecronomiconItem;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.StaffOfRendingItem;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.dataDrivenItems.DataItemRegistry;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.dimension.ModDimensions;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
@@ -22,7 +20,9 @@ import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
 public class ModItems {
     private ModItems() {}
 
-    public static void load() {}
+    public static void load() {
+        DataItemRegistry.getInstance().registerItems();
+    }
 
     public static final RegistryHandle<Item> NECRONOMICON = Services.REGISTRY.registerItem("necronomicon",
             properties -> new NecronomiconItem(properties.stacksTo(1)
@@ -112,6 +112,9 @@ public class ModItems {
 
     public static final RegistryHandle<Item> ABYSSAL_ZOMBIE_SPAWN_EGG = Services.REGISTRY.registerItem("abyssal_zombie_spawn_egg",
                     properties -> new SpawnEggItem(properties.spawnEgg(ModEntityTypes.ABYSSAL_ZOMBIE.get())));
+
+    public static final RegistryHandle<Item> GROUNDLING_SPAWN_EGG = Services.REGISTRY.registerItem("groundling_spawn_egg",
+                    properties -> new SpawnEggItem(properties.spawnEgg(ModEntityTypes.GROUNDLING.get())));
 
     public static final RegistryHandle<Item> ABYSSALNITE_INGOT = Services.REGISTRY.registerItem("abyssalnite_ingot",
             properties -> new Item(properties));

@@ -5,9 +5,9 @@
       "type": "minecraft:count",
       "count": {
         "type": "minecraft:trapezoid",
-        "max": 15,
+        "max": 22,
         "min": 1,
-        "plateau": 6
+        "plateau": 7
       }
     },
     {

@@ -3,7 +3,7 @@
   "config": {
     "debug_settings": {
       "air_state": {
-        "Name": "minecraft:cave_air"
+        "Name": "minecraft:diamond_block"
       },
       "barrier_state": {
         "Name": "minecraft:glass"
