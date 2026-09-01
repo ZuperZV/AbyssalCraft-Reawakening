@@ -100,6 +100,24 @@ public class GroundlingEntity extends Monster {
             return;
         }
 
+        LivingEntity nearbyTarget =
+                level().getNearestPlayer(this, 8.0D);
+
+        if (nearbyTarget instanceof Player player) {
+
+            double distance = this.distanceToSqr(player);
+
+            boolean tooClose =
+                    distance <= 1.3D * 1.3D;
+
+            boolean sprinting =
+                    player.isSprinting() && distance <= 8.0D * 8.0D;
+
+            if (tooClose || sprinting) {
+                return;
+            }
+        }
+
         setHiding(true);
 
         hideTicks = 0;

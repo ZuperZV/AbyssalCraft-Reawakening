@@ -16,6 +16,8 @@
     "GuiGraphicsMixin",
     "ItemInHandRendererMixin",
     "LocalPlayerMixin",
+    "RenderPipelinesAccessor",
+    "RenderTypeAccessor",
     "WorldOpenFlowsAccessor",
     "WorldOpenFlowsMixin"
   ],
