@@ -7,13 +7,19 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CookingBookCategory;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.component.CoraliumGemsData;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.component.ModDataComponentTypes;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.custom.CoraliumGemRecipe;
 import net.zuperzv.abyssalcraft_reawakening.datagen.custom.StoneRitualAltarRecipeBuilder;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItemTags;
@@ -83,6 +89,27 @@ public class ModRecipeProvider extends RecipeProvider {
                 },
                 new Key('A', ModItems.OMOTHOL_ESSENCE.get()),
                 new Key('B', ModItems.OMOTHOL_GHOUL_FLESH.get()));
+
+
+        ItemStack gem9 = new ItemStack(
+                ModItems.CORALIUM_GEM.get()
+        );
+
+        gem9.set(
+                ModDataComponentTypes.CORALIUM_GEMS.get(),
+                new CoraliumGemsData(9)
+        );
+
+        ItemStack gem3 = new ItemStack(
+                ModItems.CORALIUM_GEM.get()
+        );
+
+        gem3.set(
+                ModDataComponentTypes.CORALIUM_GEMS.get(),
+                new CoraliumGemsData(3)
+        );
+
+        dyedItem(ModItems.NECRONOMICON.get(), "dyed_item");
 
         //Shadow Items
         fourBlockStorageRecipes(output, RecipeCategory.MISC, ModItems.SHADOW_FRAGMENT.get(), RecipeCategory.MISC,
@@ -219,6 +246,11 @@ public class ModRecipeProvider extends RecipeProvider {
                         has(ModItems.CORALIUM_PEARL.get()))
                 .save(output);
 
+        output.accept(
+                recipeKey("coralium_gem"),
+                new CoraliumGemRecipe(CraftingBookCategory.MISC),
+                null
+        );
 
         //Abyssalnite
         nineBlockStorageRecipes(output, RecipeCategory.MISC, ModItems.ABYSSALNITE_NUGGET.get(), RecipeCategory.MISC,

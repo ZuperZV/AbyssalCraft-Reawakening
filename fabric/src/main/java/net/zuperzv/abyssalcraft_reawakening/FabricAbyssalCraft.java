@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRe
 import net.fabricmc.fabric.api.recipe.v1.sync.RecipeSynchronization;
 import net.minecraft.client.color.item.ItemTintSources;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.SpawnPlacements;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.DyedColorTintSource;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.network.SetBookmarksPacket;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.network.SyncBookmarksPacket;
@@ -42,6 +43,7 @@ public class FabricAbyssalCraft implements ModInitializer {
                 ModRecipes.ASTRAL_ALTAR.serializer().get()
         );
 
+        Services.SPAWN_PLACEMENTS.applySpawnPlacements(SpawnPlacements::register);
         Services.ATTRIBUTES.applyEntityAttributeRegistrations(FabricDefaultAttributeRegistry::register);
 
         FabricModWorldgen.load();

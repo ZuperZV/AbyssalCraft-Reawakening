@@ -1,6 +1,7 @@
 package net.zuperzv.abyssalcraft_reawakening.commonCode.event;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -8,15 +9,30 @@ import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.RegisterRangeSelectItemModelPropertyEvent;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.propertys.CoraliumGemsProperty;
 
 import java.util.Optional;
 
 @EventBusSubscriber(modid = Constants.MOD_ID)
 public class ModEvents {
+
+    @SubscribeEvent
+    public static void registerRangeProperties(
+            RegisterRangeSelectItemModelPropertyEvent event
+    ) {
+        event.register(
+                Identifier.fromNamespaceAndPath(
+                        Constants.MOD_ID,
+                        "coralium_gems"
+                ),
+                CoraliumGemsProperty.MAP_CODEC
+        );
+    }
 
     @SubscribeEvent
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {

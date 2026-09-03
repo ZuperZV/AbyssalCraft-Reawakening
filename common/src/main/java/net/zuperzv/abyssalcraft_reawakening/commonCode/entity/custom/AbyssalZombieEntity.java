@@ -30,8 +30,10 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.dimension.DimensionType;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.services.util.ModSpecialDates;
 import org.jspecify.annotations.Nullable;
@@ -75,6 +77,14 @@ public class AbyssalZombieEntity extends Zombie {
                 (double)0.23F).add(Attributes.ATTACK_DAMAGE,
                 (double)3.0F).add(Attributes.ARMOR,
                 (double)2.0F).add(Attributes.SPAWN_REINFORCEMENTS_CHANCE);
+    }
+
+    public static boolean checkMonsterSpawnRules(final EntityType<? extends Mob> type, final ServerLevelAccessor level, final EntitySpawnReason spawnReason, final BlockPos pos, final RandomSource random) {
+        return level.getDifficulty() != Difficulty.PEACEFUL && (EntitySpawnReason.ignoresLightRequirements(spawnReason) || checkMobSpawnRules(type, level, spawnReason, pos, random));
+    }
+
+    public static boolean canSpawn(EntityType<AbyssalZombieEntity> entityType, ServerLevelAccessor level, EntitySpawnReason spawnReason, BlockPos pos, RandomSource random) {
+        return checkMonsterSpawnRules(entityType, level, spawnReason, pos, random);
     }
 
     @Override

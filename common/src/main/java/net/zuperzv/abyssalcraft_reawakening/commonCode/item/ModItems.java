@@ -9,6 +9,7 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.CodexTierData;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.ModEntityTypes;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.CoraliumGemItem;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.GatewayKeyItem;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.NecronomiconItem;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.StaffOfRendingItem;
@@ -172,6 +173,9 @@ public class ModItems {
 
 
     //Coralium
+    public static final RegistryHandle<Item> CORALIUM_GEM = Services.REGISTRY.registerItem("coralium_gem",
+            properties -> new CoraliumGemItem(properties));
+
     public static final RegistryHandle<Item> CORALIUM_PEARL = Services.REGISTRY.registerItem("coralium_pearl",
             properties -> new Item(properties));
 

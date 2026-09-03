@@ -20,7 +20,8 @@
     [],
     [],
     [
-      "abyssalcraft_reawakening:abyssalnite_ore"
+      "abyssalcraft_reawakening:abyssalnite_ore",
+      "abyssalcraft_reawakening:coralium_ore"
     ],
     [
       "abyssalcraft_reawakening:scarlet_shale_disk",
@@ -55,7 +56,20 @@
     "axolotls": [],
     "creature": [],
     "misc": [],
-    "monster": [],
+    "monster": [
+      {
+        "type": "abyssalcraft_reawakening:abyssal_zombie",
+        "maxCount": 4,
+        "minCount": 1,
+        "weight": 4
+      },
+      {
+        "type": "abyssalcraft_reawakening:groundling",
+        "maxCount": 2,
+        "minCount": 1,
+        "weight": 2
+      }
+    ],
     "underground_water_creature": [],
     "water_ambient": [],
     "water_creature": []

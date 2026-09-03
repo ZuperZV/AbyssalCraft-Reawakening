@@ -3,7 +3,10 @@ package net.zuperzv.abyssalcraft_reawakening.commonCode.creativetab;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.component.CoraliumGemsData;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
 
@@ -16,7 +19,7 @@ public final class ModCreativeTabItemSorter {
     private ModCreativeTabItemSorter() {
     }
 
-    public static List<Item> getOrderedItems() {
+    public static List<ItemStack> getOrderedItems() {
         List<Item> masterItems = getModItemsInDeclarationOrder();
 
         List<Item> blocks = BuiltInRegistries.ITEM.stream()
@@ -35,15 +38,15 @@ public final class ModCreativeTabItemSorter {
                 .filter(item -> !alreadyPresent.contains(item))
                 .toList();
 
-        List<Item> result = new ArrayList<>(masterItems);
+        List<Item> orderedItems = new ArrayList<>(masterItems);
 
-        insertRelatedBlocks(result, unplacedBlocks);
+        insertRelatedBlocks(orderedItems, unplacedBlocks);
 
         Set<Item> resultSet = Collections.newSetFromMap(
                 new IdentityHashMap<>()
         );
 
-        resultSet.addAll(result);
+        resultSet.addAll(orderedItems);
 
         for (Item item : BuiltInRegistries.ITEM) {
 
@@ -59,12 +62,42 @@ public final class ModCreativeTabItemSorter {
                 continue;
             }
 
-            result.add(item);
+            orderedItems.add(item);
             resultSet.add(item);
         }
 
+        List<ItemStack> result = new ArrayList<>();
+
+        for (Item item : orderedItems) {
+
+            if (item == ModItems.CORALIUM_GEM.get()) {
+                result.addAll(getCoraliumGemVariants());
+            } else {
+                result.add(new ItemStack(item));
+            }
+        }
 
         return List.copyOf(result);
+    }
+
+    private static List<ItemStack> getCoraliumGemVariants() {
+
+        List<ItemStack> result = new ArrayList<>();
+
+        for (int gems = 1; gems <= 9; gems++) {
+
+            ItemStack stack =
+                    new ItemStack(ModItems.CORALIUM_GEM.get());
+
+            stack.set(
+                    ModDataComponentTypes.CORALIUM_GEMS.get(),
+                    new CoraliumGemsData(gems)
+            );
+
+            result.add(stack);
+        }
+
+        return result;
     }
 
     private static List<Item> getModItemsInDeclarationOrder() {
@@ -118,6 +151,7 @@ public final class ModCreativeTabItemSorter {
             List<Item> result,
             List<Item> blocks
     ) {
+
         List<BlockPlacement> placements = new ArrayList<>();
 
         for (Item block : blocks) {
@@ -213,7 +247,6 @@ public final class ModCreativeTabItemSorter {
             return Integer.MIN_VALUE;
         }
 
-
         int score = 0;
 
         if (firstId.equals(secondId)) {
@@ -223,14 +256,12 @@ public final class ModCreativeTabItemSorter {
         String firstNormalized = normalize(firstId);
         String secondNormalized = normalize(secondId);
 
-
         if (firstNormalized.equals(secondNormalized)) {
             score += 5000;
         }
 
         String firstMaterial = extractMaterialFamily(firstId);
         String secondMaterial = extractMaterialFamily(secondId);
-
 
         if (!firstMaterial.isEmpty()
                 && firstMaterial.equals(secondMaterial)) {
@@ -241,11 +272,9 @@ public final class ModCreativeTabItemSorter {
         Set<String> firstWords = meaningfulWords(firstId);
         Set<String> secondWords = meaningfulWords(secondId);
 
-
         for (String word : firstWords) {
 
             if (secondWords.contains(word)) {
-
                 score += wordScore(word);
             }
         }
@@ -272,7 +301,6 @@ public final class ModCreativeTabItemSorter {
         int firstDimension = getDimension(firstId);
         int secondDimension = getDimension(secondId);
 
-
         if (firstDimension == secondDimension) {
 
             score += 500;
@@ -281,6 +309,7 @@ public final class ModCreativeTabItemSorter {
                 firstDimension != DIMENSION_UNKNOWN
                         && secondDimension != DIMENSION_UNKNOWN
         ) {
+
             score += 50;
         }
 
@@ -296,15 +325,12 @@ public final class ModCreativeTabItemSorter {
         int firstFamily = getFamily(firstId);
         int secondFamily = getFamily(secondId);
 
-
         if (firstFamily == secondFamily) {
-
             score += 250;
         }
 
         int firstForm = getMaterialForm(firstId);
         int secondForm = getMaterialForm(secondId);
-
 
         if (firstMaterial.equals(secondMaterial)
                 && firstForm != FORM_UNKNOWN
@@ -315,7 +341,6 @@ public final class ModCreativeTabItemSorter {
                     secondForm
             );
         }
-
 
         return score;
     }
@@ -380,7 +405,6 @@ public final class ModCreativeTabItemSorter {
                 "_sapling"
         };
 
-
         boolean changed;
 
         do {
@@ -414,9 +438,7 @@ public final class ModCreativeTabItemSorter {
         String[] rawWords =
                 normalized.split("_");
 
-
         Set<String> words = new LinkedHashSet<>();
-
 
         for (String word : rawWords) {
 
@@ -474,7 +496,6 @@ public final class ModCreativeTabItemSorter {
             }
         }
 
-
         return words;
     }
 
@@ -483,27 +504,16 @@ public final class ModCreativeTabItemSorter {
         return switch (word) {
 
             case "abyssalnite" -> 1400;
-
             case "abyssal" -> 600;
-
             case "dreadlands" -> 900;
-
             case "dread" -> 500;
-
             case "dreadstone" -> 1000;
-
             case "dreadwood" -> 1000;
-
             case "coralium" -> 1000;
-
             case "ethaxium" -> 1000;
-
             case "omothol" -> 1000;
-
             case "stone" -> 300;
-
             case "wood" -> 300;
-
             case "coral" -> 300;
 
             default -> 200;
@@ -527,7 +537,8 @@ public final class ModCreativeTabItemSorter {
 
                 if (a.length() >= 4
                         && b.length() >= 4
-                        && (a.startsWith(b) || b.startsWith(a))) {
+                        && (a.startsWith(b)
+                        || b.startsWith(a))) {
 
                     score += Math.min(
                             Math.min(a.length(), b.length()) * 60,
@@ -548,16 +559,13 @@ public final class ModCreativeTabItemSorter {
         String[] a = normalize(first).split("_");
         String[] b = normalize(second).split("_");
 
-
         int length = Math.min(
                 a.length,
                 b.length
         );
 
-
         StringBuilder result =
                 new StringBuilder();
-
 
         for (int i = 0; i < length; i++) {
 
@@ -575,7 +583,6 @@ public final class ModCreativeTabItemSorter {
 
             result.append(a[i]);
         }
-
 
         return result.toString();
     }
@@ -621,14 +628,12 @@ public final class ModCreativeTabItemSorter {
             return 250;
         }
 
-
         return 0;
     }
 
     private static int getMaterialForm(String id) {
 
         String normalized = normalize(id);
-
 
         if (normalized.endsWith("_ore")) {
             return FORM_ORE;
@@ -660,13 +665,12 @@ public final class ModCreativeTabItemSorter {
 
         if (normalized.startsWith("block_of_")
                 || normalized.endsWith("_block")) {
+
             return FORM_BLOCK;
         }
 
-
         return FORM_UNKNOWN;
     }
-
 
     private static int formRelationship(
             int first,
@@ -677,13 +681,11 @@ public final class ModCreativeTabItemSorter {
             return 200;
         }
 
-
         /*
          * Ore -> Raw -> Nugget -> Ingot -> Block
          */
         int distance =
                 Math.abs(first - second);
-
 
         return Math.max(
                 0,
@@ -695,7 +697,6 @@ public final class ModCreativeTabItemSorter {
 
         String normalized = normalize(id);
 
-
         if (normalized.endsWith("_ore")) {
             return 1;
         }
@@ -703,6 +704,7 @@ public final class ModCreativeTabItemSorter {
         if (normalized.contains("ingot")
                 || normalized.contains("nugget")
                 || normalized.startsWith("raw_")) {
+
             return 2;
         }
 
@@ -712,6 +714,7 @@ public final class ModCreativeTabItemSorter {
                 || normalized.contains("shovel")
                 || normalized.contains("hoe")
                 || normalized.contains("spear")) {
+
             return 3;
         }
 
@@ -719,6 +722,7 @@ public final class ModCreativeTabItemSorter {
                 || normalized.contains("chestplate")
                 || normalized.contains("leggings")
                 || normalized.contains("boots")) {
+
             return 4;
         }
 
@@ -738,9 +742,9 @@ public final class ModCreativeTabItemSorter {
                 || normalized.contains("wood")
                 || normalized.contains("log")
                 || normalized.contains("planks")) {
+
             return 8;
         }
-
 
         return 100;
     }
@@ -751,7 +755,6 @@ public final class ModCreativeTabItemSorter {
 
         String normalized = normalize(id);
 
-
         if (normalized.contains("abyssal_wasteland")) {
             return 1;
         }
@@ -760,6 +763,7 @@ public final class ModCreativeTabItemSorter {
                 || normalized.startsWith("dreaded_")
                 || normalized.startsWith("dreadstone")
                 || normalized.startsWith("dreadwood")) {
+
             return 2;
         }
 
@@ -778,7 +782,6 @@ public final class ModCreativeTabItemSorter {
         if (normalized.contains("ethaxium")) {
             return 6;
         }
-
 
         return DIMENSION_UNKNOWN;
     }
@@ -833,7 +836,9 @@ public final class ModCreativeTabItemSorter {
 
         if (id.equals("potential_energy")) {
             return false;
-        } else if (id.equals("potted_witherwood_sapling")) {
+        }
+
+        if (id.equals("potted_witherwood_sapling")) {
             return false;
         }
 
@@ -899,7 +904,6 @@ public final class ModCreativeTabItemSorter {
             }
 
         } while (changed);
-
 
         return value;
     }

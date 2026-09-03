@@ -1,18 +1,15 @@
 package net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.biome;
 
-import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BiomeDefaultFeatures;
 import net.minecraft.data.worldgen.BootstrapContext;
-import net.minecraft.data.worldgen.Carvers;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.Music;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.*;
 import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarver;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.ModEntityTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.ModWorldgen;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.gravityFossils.FossilBiomeHelper;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.gravityFossils.FossilRegistry;
@@ -92,100 +89,76 @@ public final class ModBiomes {
         MobSpawnSettings.Builder spawnBuilder =
                 new MobSpawnSettings.Builder();
 
-        BiomeGenerationSettings.Builder biomeBuilder =
-                new BiomeGenerationSettings.Builder(
-                        context.lookup(Registries.PLACED_FEATURE),
-                        context.lookup(Registries.CONFIGURED_CARVER)
-                );
+        BiomeGenerationSettings.Builder builder =
+                baseGeneration(context);
 
-        // UNDERGROUND
-        biomeBuilder.addCarver(ModWorldgen.CAVE);
-        biomeBuilder.addCarver(ModWorldgen.CAVE_EXTRA_UNDERGROUND);
-        biomeBuilder.addCarver(ModWorldgen.CANYON);
-
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
-                ModWorldgen.AZURE_WASTE_STONE_DISK_PLACED
-        );
-
-        // ORES
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.UNDERGROUND_ORES,
-                ModWorldgen.ABYSSALNITE_ORE_PLACED
-        );
-
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.UNDERGROUND_ORES,
-                ModWorldgen.CORALIUM_ORE_PLACED
-        );
-
-        // SURFACE
-            //ground elevation
-        biomeBuilder.addFeature(
+        // SURFACE - GROUND ELEVATION
+        builder.addFeature(
                 GenerationStep.Decoration.VEGETAL_DECORATION,
                 ModWorldgen.ABYSSAL_STONE_SPIKE_PLACED
         );
 
-        biomeBuilder.addFeature(
+        builder.addFeature(
                 GenerationStep.Decoration.VEGETAL_DECORATION,
                 ModWorldgen.ABYSSAL_STONE_FOREST_ROCK_PLACED
         );
 
-            //Top layer
-        biomeBuilder.addFeature(
+        // SURFACE - TOP LAYER
+        builder.addFeature(
+                GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
+                ModWorldgen.AZURE_WASTE_STONE_DISK_PLACED
+        );
+
+        builder.addFeature(
                 GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
                 ModWorldgen.RARE_ABYSSAL_MUD_DISK_PLACED
         );
 
-        biomeBuilder.addFeature(
+        builder.addFeature(
                 GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
                 ModWorldgen.WASTITE_CLUSTER_PLACED
         );
 
-            //FOSSILS
-        FossilBiomeHelper.add(
-                biomeBuilder,
-                FossilRegistry.VANILA_FOSSIL
-        );
+        // FOSSILS
+        addVanillaFossil(builder);
 
         // VEGETATION
-        biomeBuilder.addFeature(
+        builder.addFeature(
                 GenerationStep.Decoration.VEGETAL_DECORATION,
                 ModWorldgen.CORALIUM_TENDRILS_PLACED
         );
 
-        biomeBuilder.addFeature(
+        builder.addFeature(
                 GenerationStep.Decoration.VEGETAL_DECORATION,
                 ModWorldgen.WASTELANDS_THORN_PLACED
         );
 
-        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModWorldgen.ABYSSAL_DRY_GRASS_PLACED);
-
-        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModWorldgen.ABYSSAL_DEAD_BUSH_PLACED);
-
-        //SKY LAST THING
-        FossilBiomeHelper.add(
-                biomeBuilder,
-                FossilRegistry.CHAIN
+        builder.addFeature(
+                GenerationStep.Decoration.VEGETAL_DECORATION,
+                ModWorldgen.ABYSSAL_DRY_GRASS_PLACED
         );
 
-        FossilBiomeHelper.add(
-                biomeBuilder,
-                FossilRegistry.FALLEN_CHAIN
+        builder.addFeature(
+                GenerationStep.Decoration.VEGETAL_DECORATION,
+                ModWorldgen.ABYSSAL_DEAD_BUSH_PLACED
         );
 
-        FossilBiomeHelper.add(
-                biomeBuilder,
-                FossilRegistry.IN_GROUND
+        //ENTITY
+        addCommonEntities(spawnBuilder);
+
+        // SKY / HANGING FOSSILS
+        addChainFossils(
+                builder,
+                true,
+                true,
+                true
         );
 
         return new Biome.BiomeBuilder()
                 .hasPrecipitation(false)
                 .downfall(0.0f)
                 .temperature(1.2f)
-                .generationSettings(biomeBuilder.build())
+                .generationSettings(builder.build())
                 .mobSpawnSettings(spawnBuilder.build())
                 .specialEffects(
                         new BiomeSpecialEffects.Builder()
@@ -204,94 +177,49 @@ public final class ModBiomes {
         MobSpawnSettings.Builder spawnBuilder =
                 new MobSpawnSettings.Builder();
 
-        BiomeGenerationSettings.Builder biomeBuilder =
-                new BiomeGenerationSettings.Builder(
-                        context.lookup(Registries.PLACED_FEATURE),
-                        context.lookup(Registries.CONFIGURED_CARVER)
-                );
+        BiomeGenerationSettings.Builder builder =
+                baseGeneration(context);
 
-        // UNDERGROUND
-        biomeBuilder.addCarver(ModWorldgen.CAVE);
-        biomeBuilder.addCarver(ModWorldgen.CAVE_EXTRA_UNDERGROUND);
-        biomeBuilder.addCarver(ModWorldgen.CANYON);
-
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.UNDERGROUND_DECORATION,
-                ModWorldgen.SCARLET_SHALE_DISK_PLACED
-        );
-
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.UNDERGROUND_DECORATION,
-                ModWorldgen.AZURE_WASTE_STONE_DISK_PLACED
-        );
-
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.UNDERGROUND_STRUCTURES,
-                ModWorldgen.ABYSSAL_MONSTER_ROOM_PLACED
-        );
-
-
-        // ORES
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.UNDERGROUND_ORES,
-                ModWorldgen.ABYSSALNITE_ORE_PLACED
-        );
-
-
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.UNDERGROUND_ORES,
-                ModWorldgen.CORALIUM_ORE_PLACED
-        );
+        addDarklandsUnderground(builder);
 
         // SURFACE
-        biomeBuilder.addFeature(
+        builder.addFeature(
                 GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
                 ModWorldgen.ABYSSAL_SAND_DISK_PLACED
         );
 
-        biomeBuilder.addFeature(
+        builder.addFeature(
                 GenerationStep.Decoration.VEGETAL_DECORATION,
                 ModWorldgen.FOREST_WITHERWOOD_TREE_PLACED
         );
 
-        biomeBuilder.addFeature(
+        builder.addFeature(
                 GenerationStep.Decoration.VEGETAL_DECORATION,
                 ModWorldgen.WASTITE_SPIKE_PLACED
         );
 
-        //FOSSILS
-        FossilBiomeHelper.add(
-                biomeBuilder,
-                FossilRegistry.VANILA_FOSSIL
-        );
+        // FOSSILS
+        addVanillaFossil(builder);
 
         // VEGETATION
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModWorldgen.CORALIUM_TENDRILS_PLACED
-        );
+        addCommonVegetation(builder);
 
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModWorldgen.LUMINOUS_THISTLE_PLACED
-        );
+        //ENTITY
+        addCommonEntities(spawnBuilder);
 
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModWorldgen.WASTELANDS_THORN_PLACED
-        );
-
-        //SKY LAST THING
-        FossilBiomeHelper.add(
-                biomeBuilder,
-                FossilRegistry.CHAIN
+        // SKY
+        addChainFossils(
+                builder,
+                true,
+                false,
+                false
         );
 
         return new Biome.BiomeBuilder()
                 .hasPrecipitation(false)
                 .downfall(0.1f)
                 .temperature(0.7f)
-                .generationSettings(biomeBuilder.build())
+                .generationSettings(builder.build())
                 .mobSpawnSettings(spawnBuilder.build())
                 .specialEffects(
                         new BiomeSpecialEffects.Builder()
@@ -310,92 +238,49 @@ public final class ModBiomes {
         MobSpawnSettings.Builder spawnBuilder =
                 new MobSpawnSettings.Builder();
 
-        BiomeGenerationSettings.Builder biomeBuilder =
-                new BiomeGenerationSettings.Builder(
-                        context.lookup(Registries.PLACED_FEATURE),
-                        context.lookup(Registries.CONFIGURED_CARVER)
-                );
+        BiomeGenerationSettings.Builder builder =
+                baseGeneration(context);
 
-        // UNDERGROUND
-        biomeBuilder.addCarver(ModWorldgen.CAVE);
-        biomeBuilder.addCarver(ModWorldgen.CAVE_EXTRA_UNDERGROUND);
-        biomeBuilder.addCarver(ModWorldgen.CANYON);
-
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.UNDERGROUND_DECORATION,
-                ModWorldgen.SCARLET_SHALE_DISK_PLACED
-        );
-
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.UNDERGROUND_DECORATION,
-                ModWorldgen.AZURE_WASTE_STONE_DISK_PLACED
-        );
-
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.UNDERGROUND_STRUCTURES,
-                ModWorldgen.ABYSSAL_MONSTER_ROOM_PLACED
-        );
-
-        // ORES
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.UNDERGROUND_ORES,
-                ModWorldgen.ABYSSALNITE_ORE_PLACED
-        );
-
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.UNDERGROUND_ORES,
-                ModWorldgen.CORALIUM_ORE_PLACED
-        );
+        addDarklandsUnderground(builder);
 
         // SURFACE
-        biomeBuilder.addFeature(
+        builder.addFeature(
                 GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
                 ModWorldgen.ABYSSAL_MUD_DISK_PLACED
         );
 
-        biomeBuilder.addFeature(
+        builder.addFeature(
                 GenerationStep.Decoration.VEGETAL_DECORATION,
                 ModWorldgen.WITHERWOOD_TREE_PLACED
         );
 
-        biomeBuilder.addFeature(
+        builder.addFeature(
                 GenerationStep.Decoration.VEGETAL_DECORATION,
                 ModWorldgen.WASTITE_SPIKE_PLACED
         );
 
-        //FOSSILS
-        FossilBiomeHelper.add(
-                biomeBuilder,
-                FossilRegistry.VANILA_FOSSIL
-        );
+        // FOSSILS
+        addVanillaFossil(builder);
 
         // VEGETATION
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModWorldgen.CORALIUM_TENDRILS_PLACED
-        );
+        addCommonVegetation(builder);
 
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModWorldgen.LUMINOUS_THISTLE_PLACED
-        );
+        //ENTITY
+        addCommonEntities(spawnBuilder);
 
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModWorldgen.WASTELANDS_THORN_PLACED
-        );
-
-        //SKY LAST THING
-        FossilBiomeHelper.add(
-                biomeBuilder,
-                FossilRegistry.CHAIN
+        // SKY
+        addChainFossils(
+                builder,
+                true,
+                false,
+                false
         );
 
         return new Biome.BiomeBuilder()
                 .hasPrecipitation(true)
                 .downfall(0.8f)
                 .temperature(0.5f)
-                .generationSettings(biomeBuilder.build())
+                .generationSettings(builder.build())
                 .mobSpawnSettings(spawnBuilder.build())
                 .specialEffects(
                         new BiomeSpecialEffects.Builder()
@@ -414,92 +299,49 @@ public final class ModBiomes {
         MobSpawnSettings.Builder spawnBuilder =
                 new MobSpawnSettings.Builder();
 
-        BiomeGenerationSettings.Builder biomeBuilder =
-                new BiomeGenerationSettings.Builder(
-                        context.lookup(Registries.PLACED_FEATURE),
-                        context.lookup(Registries.CONFIGURED_CARVER)
-                );
+        BiomeGenerationSettings.Builder builder =
+                baseGeneration(context);
 
-        // UNDERGROUND
-        biomeBuilder.addCarver(ModWorldgen.CAVE);
-        biomeBuilder.addCarver(ModWorldgen.CAVE_EXTRA_UNDERGROUND);
-        biomeBuilder.addCarver(ModWorldgen.CANYON);
-
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.UNDERGROUND_DECORATION,
-                ModWorldgen.SCARLET_SHALE_DISK_PLACED
-        );
-
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.UNDERGROUND_DECORATION,
-                ModWorldgen.AZURE_WASTE_STONE_DISK_PLACED
-        );
-
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.UNDERGROUND_STRUCTURES,
-                ModWorldgen.ABYSSAL_MONSTER_ROOM_PLACED
-        );
-
-        // ORES
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.UNDERGROUND_ORES,
-                ModWorldgen.ABYSSALNITE_ORE_PLACED
-        );
+        addDarklandsUnderground(builder);
 
         // SURFACE
-        biomeBuilder.addFeature(
+        builder.addFeature(
                 GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
                 ModWorldgen.ABYSSAL_MUD_DISK_PLACED
         );
 
-        biomeBuilder.addFeature(
+        builder.addFeature(
                 GenerationStep.Decoration.VEGETAL_DECORATION,
                 ModWorldgen.WITHERWOOD_TREE_PLACED
         );
 
-        biomeBuilder.addFeature(
+        builder.addFeature(
                 GenerationStep.Decoration.VEGETAL_DECORATION,
                 ModWorldgen.WASTITE_SPIKE_PLACED
         );
 
-        //FOSSILS
-        FossilBiomeHelper.add(
-                biomeBuilder,
-                FossilRegistry.VANILA_FOSSIL
-        );
+        // FOSSILS
+        addVanillaFossil(builder);
 
         // VEGETATION
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModWorldgen.CORALIUM_TENDRILS_PLACED
-        );
+        addCommonVegetation(builder);
 
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModWorldgen.LUMINOUS_THISTLE_PLACED
-        );
+        //ENTITY
+        addCommonEntities(spawnBuilder);
 
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModWorldgen.WASTELANDS_THORN_PLACED
-        );
-
-        //SKY LAST THING
-        FossilBiomeHelper.add(
-                biomeBuilder,
-                FossilRegistry.CHAIN
-        );
-
-        FossilBiomeHelper.add(
-                biomeBuilder,
-                FossilRegistry.FALLEN_CHAIN
+        // SKY
+        addChainFossils(
+                builder,
+                true,
+                true,
+                false
         );
 
         return new Biome.BiomeBuilder()
                 .hasPrecipitation(false)
                 .downfall(0.0f)
                 .temperature(0.6f)
-                .generationSettings(biomeBuilder.build())
+                .generationSettings(builder.build())
                 .mobSpawnSettings(spawnBuilder.build())
                 .specialEffects(
                         new BiomeSpecialEffects.Builder()
@@ -518,87 +360,49 @@ public final class ModBiomes {
         MobSpawnSettings.Builder spawnBuilder =
                 new MobSpawnSettings.Builder();
 
-        BiomeGenerationSettings.Builder biomeBuilder =
-                new BiomeGenerationSettings.Builder(
-                        context.lookup(Registries.PLACED_FEATURE),
-                        context.lookup(Registries.CONFIGURED_CARVER)
-                );
+        BiomeGenerationSettings.Builder builder =
+                baseGeneration(context);
 
-        // UNDERGROUND
-        biomeBuilder.addCarver(ModWorldgen.CAVE);
-        biomeBuilder.addCarver(ModWorldgen.CAVE_EXTRA_UNDERGROUND);
-        biomeBuilder.addCarver(ModWorldgen.CANYON);
-
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.UNDERGROUND_DECORATION,
-                ModWorldgen.SCARLET_SHALE_DISK_PLACED
-        );
-
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.UNDERGROUND_DECORATION,
-                ModWorldgen.AZURE_WASTE_STONE_DISK_PLACED
-        );
-
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.UNDERGROUND_STRUCTURES,
-                ModWorldgen.ABYSSAL_MONSTER_ROOM_PLACED
-        );
-
-        // ORES
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.UNDERGROUND_ORES,
-                ModWorldgen.ABYSSALNITE_ORE_PLACED
-        );
+        addDarklandsUnderground(builder);
 
         // SURFACE
-        biomeBuilder.addFeature(
+        builder.addFeature(
                 GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
                 ModWorldgen.ABYSSAL_MUD_DISK_PLACED
         );
 
-        biomeBuilder.addFeature(
+        builder.addFeature(
                 GenerationStep.Decoration.VEGETAL_DECORATION,
                 ModWorldgen.WITHERWOOD_TREE_PLACED
         );
 
-        biomeBuilder.addFeature(
+        builder.addFeature(
                 GenerationStep.Decoration.VEGETAL_DECORATION,
                 ModWorldgen.WASTITE_SPIKE_PLACED
         );
 
-        //FOSSILS
-        FossilBiomeHelper.add(
-                biomeBuilder,
-                FossilRegistry.VANILA_FOSSIL
-        );
+        // FOSSILS
+        addVanillaFossil(builder);
 
         // VEGETATION
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModWorldgen.CORALIUM_TENDRILS_PLACED
-        );
+        addCommonVegetation(builder);
 
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModWorldgen.LUMINOUS_THISTLE_PLACED
-        );
+        //ENTITY
+        addCommonEntities(spawnBuilder);
 
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModWorldgen.WASTELANDS_THORN_PLACED
-        );
-
-        //SKY LAST THING
-        FossilBiomeHelper.add(
-                biomeBuilder,
-                FossilRegistry.CHAIN
+        // SKY
+        addChainFossils(
+                builder,
+                true,
+                false,
+                false
         );
 
         return new Biome.BiomeBuilder()
                 .hasPrecipitation(false)
                 .downfall(0.0f)
                 .temperature(0.35f)
-                .generationSettings(biomeBuilder.build())
+                .generationSettings(builder.build())
                 .mobSpawnSettings(spawnBuilder.build())
                 .specialEffects(
                         new BiomeSpecialEffects.Builder()
@@ -617,77 +421,47 @@ public final class ModBiomes {
         MobSpawnSettings.Builder spawnBuilder =
                 new MobSpawnSettings.Builder();
 
-        BiomeGenerationSettings.Builder biomeBuilder =
-                new BiomeGenerationSettings.Builder(
-                        context.lookup(Registries.PLACED_FEATURE),
-                        context.lookup(Registries.CONFIGURED_CARVER)
-                );
-
-        // UNDERGROUND
-        biomeBuilder.addCarver(ModWorldgen.CAVE);
-        biomeBuilder.addCarver(ModWorldgen.CAVE_EXTRA_UNDERGROUND);
-        biomeBuilder.addCarver(ModWorldgen.CANYON);
-
-        // ORES
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.UNDERGROUND_ORES,
-                ModWorldgen.ABYSSALNITE_ORE_PLACED
-        );
-
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.UNDERGROUND_ORES,
-                ModWorldgen.CORALIUM_ORE_PLACED
-        );
+        BiomeGenerationSettings.Builder builder =
+                baseGeneration(context);
 
         // SURFACE
-        biomeBuilder.addFeature(
+        builder.addFeature(
                 GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
                 ModWorldgen.ABYSSAL_MUD_DISK_PLACED
         );
 
-        biomeBuilder.addFeature(
+        builder.addFeature(
                 GenerationStep.Decoration.VEGETAL_DECORATION,
                 ModWorldgen.WITHERWOOD_TREE_PLACED
         );
 
-        biomeBuilder.addFeature(
+        builder.addFeature(
                 GenerationStep.Decoration.VEGETAL_DECORATION,
                 ModWorldgen.WASTITE_SPIKE_PLACED
         );
 
-        //FOSSILS
-        FossilBiomeHelper.add(
-                biomeBuilder,
-                FossilRegistry.VANILA_FOSSIL
-        );
+        // FOSSILS
+        addVanillaFossil(builder);
 
         // VEGETATION
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModWorldgen.CORALIUM_TENDRILS_PLACED
-        );
+        addCommonVegetation(builder);
 
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModWorldgen.LUMINOUS_THISTLE_PLACED
-        );
+        //ENTITY
+        addCommonEntities(spawnBuilder);
 
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModWorldgen.WASTELANDS_THORN_PLACED
-        );
-
-        //SKY LAST THING
-        FossilBiomeHelper.add(
-                biomeBuilder,
-                FossilRegistry.CHAIN
+        // SKY
+        addChainFossils(
+                builder,
+                true,
+                false,
+                false
         );
 
         return new Biome.BiomeBuilder()
                 .hasPrecipitation(true)
                 .downfall(1.0f)
                 .temperature(0.8f)
-                .generationSettings(biomeBuilder.build())
+                .generationSettings(builder.build())
                 .mobSpawnSettings(spawnBuilder.build())
                 .specialEffects(
                         new BiomeSpecialEffects.Builder()
@@ -706,92 +480,49 @@ public final class ModBiomes {
         MobSpawnSettings.Builder spawnBuilder =
                 new MobSpawnSettings.Builder();
 
-        BiomeGenerationSettings.Builder biomeBuilder =
-                new BiomeGenerationSettings.Builder(
-                        context.lookup(Registries.PLACED_FEATURE),
-                        context.lookup(Registries.CONFIGURED_CARVER)
-                );
+        BiomeGenerationSettings.Builder builder =
+                baseGeneration(context);
 
-        // UNDERGROUND
-        biomeBuilder.addCarver(ModWorldgen.CAVE);
-        biomeBuilder.addCarver(ModWorldgen.CAVE_EXTRA_UNDERGROUND);
-        biomeBuilder.addCarver(ModWorldgen.CANYON);
-
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.UNDERGROUND_DECORATION,
-                ModWorldgen.SCARLET_SHALE_DISK_PLACED
-        );
-
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.UNDERGROUND_DECORATION,
-                ModWorldgen.AZURE_WASTE_STONE_DISK_PLACED
-        );
-
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.UNDERGROUND_STRUCTURES,
-                ModWorldgen.ABYSSAL_MONSTER_ROOM_PLACED
-        );
-
-        // ORES
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.UNDERGROUND_ORES,
-                ModWorldgen.ABYSSALNITE_ORE_PLACED
-        );
-
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.UNDERGROUND_ORES,
-                ModWorldgen.CORALIUM_ORE_PLACED
-        );
+        addDarklandsUnderground(builder);
 
         // SURFACE
-        biomeBuilder.addFeature(
+        builder.addFeature(
                 GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
                 ModWorldgen.ABYSSAL_MUD_DISK_PLACED
         );
 
-        biomeBuilder.addFeature(
+        builder.addFeature(
                 GenerationStep.Decoration.VEGETAL_DECORATION,
                 ModWorldgen.WITHERWOOD_TREE_PLACED
         );
 
-        biomeBuilder.addFeature(
+        builder.addFeature(
                 GenerationStep.Decoration.VEGETAL_DECORATION,
                 ModWorldgen.WASTITE_SPIKE_PLACED
         );
 
-        //FOSSILS
-        FossilBiomeHelper.add(
-                biomeBuilder,
-                FossilRegistry.VANILA_FOSSIL
-        );
+        // FOSSILS
+        addVanillaFossil(builder);
 
         // VEGETATION
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModWorldgen.CORALIUM_TENDRILS_PLACED
-        );
+        addCommonVegetation(builder);
 
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModWorldgen.LUMINOUS_THISTLE_PLACED
-        );
+        //ENTITY
+        addCommonEntities(spawnBuilder);
 
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModWorldgen.WASTELANDS_THORN_PLACED
-        );
-
-        //SKY LAST THING
-        FossilBiomeHelper.add(
-                biomeBuilder,
-                FossilRegistry.CHAIN
+        // SKY
+        addChainFossils(
+                builder,
+                true,
+                false,
+                false
         );
 
         return new Biome.BiomeBuilder()
                 .hasPrecipitation(false)
                 .downfall(0.0f)
                 .temperature(0.6f)
-                .generationSettings(biomeBuilder.build())
+                .generationSettings(builder.build())
                 .mobSpawnSettings(spawnBuilder.build())
                 .specialEffects(
                         new BiomeSpecialEffects.Builder()
@@ -804,65 +535,133 @@ public final class ModBiomes {
     }
 
 
+
     private static BiomeGenerationSettings.Builder baseGeneration(
             BootstrapContext<Biome> context) {
 
-        BiomeGenerationSettings.Builder biomeBuilder =
+        BiomeGenerationSettings.Builder builder =
                 new BiomeGenerationSettings.Builder(
                         context.lookup(Registries.PLACED_FEATURE),
                         context.lookup(Registries.CONFIGURED_CARVER)
                 );
 
-        biomeBuilder.addCarver(ModWorldgen.CAVE);
-        biomeBuilder.addCarver(ModWorldgen.CAVE_EXTRA_UNDERGROUND);
-        biomeBuilder.addCarver(ModWorldgen.CANYON);
+        // CARVERS
+        builder.addCarver(ModWorldgen.CAVE);
+        builder.addCarver(ModWorldgen.CAVE_EXTRA_UNDERGROUND);
+        builder.addCarver(ModWorldgen.CANYON);
 
-        biomeBuilder.addFeature(
+        // ORES
+        builder.addFeature(
                 GenerationStep.Decoration.UNDERGROUND_ORES,
                 ModWorldgen.ABYSSALNITE_ORE_PLACED
         );
 
-        biomeBuilder.addFeature(
-                GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
-                ModWorldgen.ABYSSAL_MUD_DISK_PLACED
+        return builder;
+    }
+
+    private static void addCommonEntities(
+            MobSpawnSettings.Builder spawnBuilder) {
+
+        spawnBuilder.addSpawn(
+                MobCategory.MONSTER,
+                4,
+                new MobSpawnSettings.SpawnerData(
+                        ModEntityTypes.ABYSSAL_ZOMBIE.get(),
+                        1,
+                        4
+                )
         );
 
-        return biomeBuilder;
+        spawnBuilder.addSpawn(
+                MobCategory.MONSTER,
+                2,
+                new MobSpawnSettings.SpawnerData(
+                        ModEntityTypes.GROUNDLING.get(),
+                        1,
+                        2
+                )
+        );
     }
 
 
-    public static void globalOverworldGeneration(
+    private static void addDarklandsUnderground(
             BiomeGenerationSettings.Builder builder) {
 
-        BiomeDefaultFeatures.addDefaultCarversAndLakes(builder);
-        BiomeDefaultFeatures.addDefaultCrystalFormations(builder);
-        BiomeDefaultFeatures.addDefaultMonsterRoom(builder);
-        BiomeDefaultFeatures.addDefaultUndergroundVariety(builder);
-        BiomeDefaultFeatures.addDefaultSprings(builder);
+        builder.addFeature(
+                GenerationStep.Decoration.UNDERGROUND_DECORATION,
+                ModWorldgen.SCARLET_SHALE_DISK_PLACED
+        );
+
+        builder.addFeature(
+                GenerationStep.Decoration.UNDERGROUND_DECORATION,
+                ModWorldgen.AZURE_WASTE_STONE_DISK_PLACED
+        );
+
+        builder.addFeature(
+                GenerationStep.Decoration.UNDERGROUND_STRUCTURES,
+                ModWorldgen.ABYSSAL_MONSTER_ROOM_PLACED
+        );
+
+        builder.addFeature(
+                GenerationStep.Decoration.UNDERGROUND_ORES,
+                ModWorldgen.CORALIUM_INFUSED_ORE_PLACED
+        );
     }
 
+    private static void addCommonVegetation(
+            BiomeGenerationSettings.Builder builder) {
 
-    private static BiomeGenerationSettings.Builder baseOceanGeneration(
-            HolderGetter<PlacedFeature> pPlacedFeatures,
-            HolderGetter<ConfiguredWorldCarver<?>> pWorldCarvers) {
+        builder.addFeature(
+                GenerationStep.Decoration.VEGETAL_DECORATION,
+                ModWorldgen.CORALIUM_TENDRILS_PLACED
+        );
 
-        BiomeGenerationSettings.Builder builder =
-                new BiomeGenerationSettings.Builder(
-                        pPlacedFeatures,
-                        pWorldCarvers
-                );
+        builder.addFeature(
+                GenerationStep.Decoration.VEGETAL_DECORATION,
+                ModWorldgen.LUMINOUS_THISTLE_PLACED
+        );
 
-        globalOverworldGeneration(builder);
+        builder.addFeature(
+                GenerationStep.Decoration.VEGETAL_DECORATION,
+                ModWorldgen.WASTELANDS_THORN_PLACED
+        );
+    }
 
-        BiomeDefaultFeatures.addDefaultOres(builder);
-        BiomeDefaultFeatures.addDefaultSoftDisks(builder);
-        BiomeDefaultFeatures.addWaterTrees(builder);
-        BiomeDefaultFeatures.addDefaultFlowers(builder);
-        BiomeDefaultFeatures.addDefaultGrass(builder);
-        BiomeDefaultFeatures.addDefaultMushrooms(builder);
-        BiomeDefaultFeatures.addDefaultExtraVegetation(builder, true);
+    private static void addVanillaFossil(
+            BiomeGenerationSettings.Builder builder) {
 
-        return builder;
+        FossilBiomeHelper.add(
+                builder,
+                FossilRegistry.VANILA_FOSSIL
+        );
+    }
+
+    private static void addChainFossils(
+            BiomeGenerationSettings.Builder builder,
+            boolean chain,
+            boolean fallenChain,
+            boolean inGround) {
+
+        if (chain) {
+            FossilBiomeHelper.add(
+                    builder,
+                    FossilRegistry.CHAIN
+            );
+        }
+
+        if (fallenChain) {
+            FossilBiomeHelper.add(
+                    builder,
+                    FossilRegistry.FALLEN_CHAIN
+            );
+        }
+
+        if (inGround) {
+            FossilBiomeHelper.add(
+                    builder,
+                    FossilRegistry.IN_GROUND
+            );
+        }
     }
 
     public static ResourceKey<Biome> register(String name) {

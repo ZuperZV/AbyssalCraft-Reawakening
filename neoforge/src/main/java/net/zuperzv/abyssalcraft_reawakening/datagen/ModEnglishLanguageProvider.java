@@ -36,15 +36,17 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         add("recipe_mods.abyssalcraft_reawakening.night", "Night");
         add("recipe_mods.abyssalcraft_reawakening.both", "Both");
 
+        add("tooltip.abyssalcraft_reawakening.gems", "Gems");
+
+        add("name.abyssalcraft_reawakening.cluster", "Cluster");
+
         // Abyssalnite
         add(ModBlocks.ABYSSALNITE_BLOCK.block().get(), "Block of Abyssalnite");
         add(ModBlocks.RAW_ABYSSALNITE_BLOCK.block().get(), "Block of Raw Abyssalnite");
 
         // Creative tab
-        add(
-                ModCreativeTabs.ABYSSALCRAFT_TAB.get().getDisplayName(),
-                "Abyssalcraft Reawakening"
-        );
+        add(ModCreativeTabs.ABYSSALCRAFT_TAB.get().getDisplayName(),
+                "Abyssalcraft Reawakening");
 
         // Automatically generate missing translations
         getKnownItems().forEach(this::addIfMissing);

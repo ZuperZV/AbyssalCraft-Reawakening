@@ -11,10 +11,13 @@ import net.minecraft.client.data.models.model.*;
 import net.minecraft.client.renderer.item.ClientItem;
 import net.minecraft.client.renderer.item.ConditionalItemModel;
 import net.minecraft.client.renderer.item.ItemModel;
+import net.minecraft.client.renderer.item.RangeSelectItemModel;
+import net.minecraft.client.renderer.item.properties.conditional.ComponentMatches;
 import net.minecraft.client.renderer.item.properties.conditional.HasComponent;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.component.predicates.DataComponentPredicate;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -26,10 +29,12 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.PortalActivatorBlock;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.component.CoraliumGemsData;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.DyedColorTintSource;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModArmorMaterials;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.propertys.CoraliumGemsProperty;
 import net.zuperzv.abyssalcraft_reawakening.services.NeoForgeRegistryHelper;
 
 import java.util.HashSet;
@@ -37,8 +42,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static net.minecraft.client.data.models.BlockModelGenerators.createSimpleBlock;
-import static net.minecraft.client.data.models.BlockModelGenerators.plainVariant;
+import static net.minecraft.client.data.models.BlockModelGenerators.*;
 import static net.minecraft.client.data.models.ItemModelGenerators.createFlatModelDispatch;
 
 public class ModModelProvider extends ModelProvider {
@@ -59,6 +63,9 @@ public class ModModelProvider extends ModelProvider {
 
         //Sword in hand
         generateInHand(itemModels, ModItems.ABYSSALNITE_SWORD.get(), ModelTemplates.FLAT_ITEM, SWORD_IN_HAND);
+
+        //Coralium Gem
+        generateCoraliumGem(itemModels);
 
         //essence
         generateItem(itemModels, ModItems.SHADOW_GEM.get(), "_gray", ModDataComponentTypes.GRAYSCALE.get());
@@ -174,6 +181,61 @@ public class ModModelProvider extends ModelProvider {
                 generateCubeBlock(blockModels, block);
             }
         }
+    }
+
+    private void generateCoraliumGem(ItemModelGenerators itemModels) {
+        Item item = ModItems.CORALIUM_GEM.get();
+
+        generatedItems.add(item);
+
+        ItemModel.Unbaked fallback =
+                ItemModelUtils.plainModel(
+                        itemModels.createFlatItemModel(
+                                item,
+                                ModelTemplates.FLAT_ITEM
+                        )
+                );
+
+        List<RangeSelectItemModel.Entry> entries = new java.util.ArrayList<>();
+
+        for (int i = 1; i <= 9; i++) {
+            int textureNumber = i;
+
+            Identifier model =
+                    itemModels.createFlatItemModel(
+                            item,
+                            "_" + textureNumber,
+                            ModelTemplates.FLAT_ITEM
+                    );
+
+            entries.add(
+                    new RangeSelectItemModel.Entry(
+                            i,
+                            ItemModelUtils.plainModel(model)
+                    )
+            );
+        }
+
+        RangeSelectItemModel.Unbaked rangeModel =
+                new RangeSelectItemModel.Unbaked(
+                        Optional.empty(),
+                        CoraliumGemsProperty.INSTANCE,
+                        1.0F,
+                        entries,
+                        Optional.of(fallback)
+                );
+
+        itemModels.itemModelOutput.accept(
+                item,
+                new ClientItem(
+                        rangeModel,
+                        new ClientItem.Properties(
+                                false,
+                                false,
+                                1.0F
+                        )
+                ).model()
+        );
     }
 
     private void createGrassLikeBlock(

@@ -76,7 +76,7 @@ public interface IRegistryHelper {
 
     @FunctionalInterface
     interface CreativeTabOutput {
-        void accept(ItemLike itemLike);
+        void accept(ItemStack item);
     }
 
     <T> RegistryHandle<DataComponentType<T>> registerDataComponent(

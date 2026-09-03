@@ -2,9 +2,9 @@ package net.zuperzv.abyssalcraft_reawakening;
 
 
 import net.minecraft.client.renderer.Sheets;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -16,6 +16,7 @@ import net.neoforged.neoforge.client.event.RecipesReceivedEvent;
 import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
+import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.api.jei.JEIPlugin;
@@ -29,6 +30,7 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.ModRecipes;
 import net.zuperzv.abyssalcraft_reawakening.services.NeoForgeRegistryHelper;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
 import net.zuperzv.abyssalcraft_reawakening.services.types.IAttributeRegistryHelper;
+import net.zuperzv.abyssalcraft_reawakening.services.types.ISpawnPlacementHelper;
 import net.zuperzv.abyssalcraft_reawakening.services.util.ModWoodTypes;
 
 import static net.zuperzv.abyssalcraft_reawakening.Constants.MOD_ID;
@@ -41,6 +43,7 @@ public class NeoForgeAbyssalCraft {
         CommonClass.init();
 
         eventBus.addListener(this::registerPayloadHandlers);
+        eventBus.addListener(this::onRegisterSpawnPlacements);
         eventBus.addListener(this::onEntityAttributeCreation);
 
         NeoForgeRegistryHelper.register(eventBus);
@@ -60,6 +63,15 @@ public class NeoForgeAbyssalCraft {
                 SyncBookmarksPacket.STREAM_CODEC,
                 (packet, context) -> SyncBookmarksPacket.handle(packet, net.minecraft.client.Minecraft.getInstance())
         );
+    }
+
+    private void onRegisterSpawnPlacements(RegisterSpawnPlacementsEvent event) {
+        Services.SPAWN_PLACEMENTS.applySpawnPlacements(new ISpawnPlacementHelper.SpawnPlacementsRegistrar() {
+            @Override
+            public <T extends Mob> void register(EntityType<T> entityType, SpawnPlacementType spawnPlacementType, Heightmap.Types heightmap, SpawnPlacements.SpawnPredicate<T> predicate) {
+                event.register(entityType, spawnPlacementType, heightmap, predicate, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+            }
+        });
     }
 
     private void onEntityAttributeCreation(EntityAttributeCreationEvent event) {

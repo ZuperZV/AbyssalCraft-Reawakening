@@ -1,0 +1,75 @@
+{
+  "model": {
+    "type": "minecraft:range_dispatch",
+    "entries": [
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "abyssalcraft_reawakening:item/coralium_gem_1"
+        },
+        "threshold": 1.0
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "abyssalcraft_reawakening:item/coralium_gem_2"
+        },
+        "threshold": 2.0
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "abyssalcraft_reawakening:item/coralium_gem_3"
+        },
+        "threshold": 3.0
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "abyssalcraft_reawakening:item/coralium_gem_4"
+        },
+        "threshold": 4.0
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "abyssalcraft_reawakening:item/coralium_gem_5"
+        },
+        "threshold": 5.0
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "abyssalcraft_reawakening:item/coralium_gem_6"
+        },
+        "threshold": 6.0
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "abyssalcraft_reawakening:item/coralium_gem_7"
+        },
+        "threshold": 7.0
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "abyssalcraft_reawakening:item/coralium_gem_8"
+        },
+        "threshold": 8.0
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "abyssalcraft_reawakening:item/coralium_gem_9"
+        },
+        "threshold": 9.0
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "abyssalcraft_reawakening:item/coralium_gem"
+    },
+    "property": "abyssalcraft_reawakening:coralium_gems"
+  }
+}

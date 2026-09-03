@@ -16,6 +16,12 @@ public class ModDataComponentTypes {
                     b -> b.persistent(CodexTierData.CODEC)
             );
 
+    public static final RegistryHandle<DataComponentType<CoraliumGemsData>> CORALIUM_GEMS =
+            Services.REGISTRY.registerDataComponent(
+                    "corealium_gems",
+                    b -> b.persistent(CoraliumGemsData.CODEC)
+            );
+
     public static final RegistryHandle<DataComponentType<PotentialEnergyData>> POTENTIAL_ENERGY =
             Services.REGISTRY.registerDataComponent(
                     "potential_energy",

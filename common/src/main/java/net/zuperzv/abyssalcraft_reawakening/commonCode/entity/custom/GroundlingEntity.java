@@ -1,7 +1,10 @@
 package net.zuperzv.abyssalcraft_reawakening.commonCode.entity.custom;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -25,6 +28,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.level.ServerLevelAccessor;
 
 import java.util.EnumSet;
 
@@ -67,6 +71,15 @@ public class GroundlingEntity extends Monster {
         builder.define(DATA_WAKE_UP_ID, 0);
         builder.define(DATA_ATTACK_ID, 0);
     }
+
+    public static boolean checkMonsterSpawnRules(final EntityType<? extends Mob> type, final ServerLevelAccessor level, final EntitySpawnReason spawnReason, final BlockPos pos, final RandomSource random) {
+        return level.getDifficulty() != Difficulty.PEACEFUL && (EntitySpawnReason.ignoresLightRequirements(spawnReason) || checkMobSpawnRules(type, level, spawnReason, pos, random));
+    }
+
+    public static boolean canSpawn(EntityType<GroundlingEntity> entityType, ServerLevelAccessor level, EntitySpawnReason spawnReason, BlockPos pos, RandomSource random) {
+        return checkMonsterSpawnRules(entityType, level, spawnReason, pos, random);
+    }
+
 
     public boolean isHidden() {
         return this.entityData.get(DATA_HIDING);

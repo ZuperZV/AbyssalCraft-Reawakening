@@ -11,6 +11,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TimelineTags;
 import net.minecraft.util.ARGB;
 import net.minecraft.util.valueproviders.ConstantInt;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.attribute.EnvironmentAttributeMap;
 import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.clock.WorldClocks;
@@ -57,7 +58,7 @@ public class ModDimensions {
 
         context.register(THE_ABYSSAL_WASTELAND_DIM_TYPE_KEY, new DimensionType( //TODO no rain
                 false,
-                true,
+                false,
                 false,
                 false,
                 1.0,
@@ -66,7 +67,10 @@ public class ModDimensions {
                 368,
                 BlockTags.INFINIBURN_OVERWORLD,
                 1.0f,
-                new DimensionType.MonsterSettings(ConstantInt.of(0), 0),
+                new DimensionType.MonsterSettings(
+                        UniformInt.of(15, 15),
+                        15
+                ),
                 DimensionType.Skybox.OVERWORLD,
                 CardinalLighting.Type.DEFAULT,
                 EnvironmentAttributeMap.builder()
@@ -75,7 +79,7 @@ public class ModDimensions {
                         .set(EnvironmentAttributes.AMBIENT_LIGHT_COLOR, -4212331)
                         .set(EnvironmentAttributes.CLOUD_COLOR, ARGB.color(155, 200, 31, 25))
                         .build(),
-                timelines.getOrThrow(TimelineTags.UNIVERSAL),
+                timelines.getOrThrow(TimelineTags.IN_OVERWORLD),
                 Optional.of(clocks.getOrThrow(WorldClocks.OVERWORLD))));
     }
 

@@ -2,24 +2,30 @@ package net.zuperzv.abyssalcraft_reawakening.commonCode.api.jei;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
+import mezz.jei.api.registration.IVanillaCategoryExtensionRegistration;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.RecipeInput;
-import net.minecraft.world.item.crafting.RecipeMap;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.*;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.api.jei.custom.extension.CoraliumGemJeiRecipe;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.api.jei.custom.extension.CoraliumGemRecipeJeiExtension;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.api.jei.custom.subtypeInterpreter.CoraliumGemSubtypeInterpreter;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.api.multiblock.MultiblockDisplay;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.api.jei.custom.category.MultiblockRecipeCategory;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.api.jei.custom.category.RitualAltarRecipeCategory;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.ModRecipes;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.custom.CoraliumGemRecipe;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -75,9 +81,17 @@ public class JEIPlugin implements IModPlugin {
     }
 
     @Override
-    public void registerRecipes(
-            IRecipeRegistration registration
-    ) {
+    public void registerVanillaCategoryExtensions(IVanillaCategoryExtensionRegistration registration) {
+        registration
+                .getCraftingCategory()
+                .addExtension(
+                        CoraliumGemRecipe.class,
+                        new CoraliumGemRecipeJeiExtension()
+                );
+    }
+
+    @Override
+    public void registerRecipes(IRecipeRegistration registration) {
         registerRecipe(
                 registration,
                 ModJEIRecipeTypes.RITUAL_ALTAR,
@@ -89,6 +103,52 @@ public class JEIPlugin implements IModPlugin {
         registration.addRecipes(
                 ModJEIRecipeTypes.MULTIBLOCK,
                 MultiblockDisplay.ALL
+        );
+
+        List<RecipeHolder<CraftingRecipe>> coraliumRecipes =
+                new ArrayList<>();
+
+        List<List<Integer>> combinations =
+                CoraliumGemJeiRecipe.generateCombinations();
+
+        for (int i = 0; i < combinations.size(); i++) {
+
+            List<Integer> combination =
+                    combinations.get(i);
+
+            CoraliumGemJeiRecipe recipe =
+                    new CoraliumGemJeiRecipe(
+                            combination
+                    );
+
+            ResourceKey<Recipe<?>> key =
+                    ResourceKey.create(
+                            Registries.RECIPE,
+                            Identifier.fromNamespaceAndPath(
+                                    Constants.MOD_ID,
+                                    "coralium_gem_jei_" + i
+                            )
+                    );
+
+            RecipeHolder<CoraliumGemJeiRecipe> holder =
+                    new RecipeHolder<>(
+                            key,
+                            recipe
+                    );
+
+            @SuppressWarnings("unchecked")
+            RecipeHolder<CraftingRecipe> craftingHolder =
+                    (RecipeHolder<CraftingRecipe>) (RecipeHolder<?>)
+                            holder;
+
+            coraliumRecipes.add(
+                    craftingHolder
+            );
+        }
+
+        registration.addRecipes(
+                RecipeTypes.CRAFTING,
+                coraliumRecipes
         );
     }
 
@@ -132,36 +192,23 @@ public class JEIPlugin implements IModPlugin {
         }
     }
 
-    private <
-            I extends RecipeInput,
-            T extends Recipe<I>
-            > void registerRecipe(
-            IRecipeRegistration registration,
-            mezz.jei.api.recipe.types.IRecipeType<RecipeHolder<T>> recipeType,
-            RecipeType<T> type
-    ) {
+    private <I extends RecipeInput, T extends Recipe<I>> void registerRecipe(IRecipeRegistration registration, mezz.jei.api.recipe.types.IRecipeType<RecipeHolder<T>> recipeType, RecipeType<T> type) {
         if (
-                "NeoForge".equals(
-                        Services.PLATFORM
-                                .getPlatformName()
-                )
+                "NeoForge".equals(Services.PLATFORM.getPlatformName())
         ) {
-            registration.addRecipes(
-                    recipeType,
-                    getRecipes(
-                            syncedRecipes,
-                            type
-                    )
-            );
+            registration.addRecipes(recipeType, getRecipes(syncedRecipes, type));
         } else {
-            registration.addRecipes(
-                    recipeType,
-                    Services.PLATFORM
-                            .getAllOfType(type)
-                            .stream()
-                            .flatMap(Collection::stream)
-                            .toList()
+            registration.addRecipes(recipeType, Services.PLATFORM
+                    .getAllOfType(type).stream().flatMap(Collection::stream).toList()
             );
         }
+    }
+
+    @Override
+    public void registerItemSubtypes(mezz.jei.api.registration.ISubtypeRegistration registration) {
+        registration.registerSubtypeInterpreter(
+                ModItems.CORALIUM_GEM.get(),
+                new CoraliumGemSubtypeInterpreter()
+        );
     }
 }
