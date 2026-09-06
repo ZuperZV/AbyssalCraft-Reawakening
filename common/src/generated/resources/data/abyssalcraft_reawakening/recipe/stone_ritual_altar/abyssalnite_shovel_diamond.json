@@ -1,0 +1,27 @@
+{
+  "type": "abyssalcraft_reawakening:ritual_altar",
+  "copy_components": [
+    {
+      "components": [
+        "minecraft:damage",
+        "minecraft:enchantments"
+      ],
+      "from": "mold"
+    }
+  ],
+  "dimension": "abyssalcraft_reawakening:abyssal_wasteland",
+  "ingredient": "minecraft:diamond_shovel",
+  "ingredients": [
+    "abyssalcraft_reawakening:recipe_item",
+    "abyssalcraft_reawakening:abyssalnite_ingot"
+  ],
+  "output": {
+    "components": {
+      "abyssalcraft_reawakening:wood": true
+    },
+    "id": "abyssalcraft_reawakening:abyssalnite_shovel"
+  },
+  "pe": 1600,
+  "time": 800,
+  "time_of_day": "NIGHT"
+}

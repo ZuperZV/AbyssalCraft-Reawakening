@@ -4,8 +4,17 @@
     "cases": [
       {
         "model": {
-          "type": "minecraft:model",
-          "model": "abyssalcraft_reawakening:item/abyssalnite_spear"
+          "type": "minecraft:condition",
+          "component": "abyssalcraft_reawakening:wood",
+          "on_false": {
+            "type": "minecraft:model",
+            "model": "abyssalcraft_reawakening:item/abyssalnite_spear"
+          },
+          "on_true": {
+            "type": "minecraft:model",
+            "model": "abyssalcraft_reawakening:item/abyssalnite_spear_wood"
+          },
+          "property": "minecraft:has_component"
         },
         "when": [
           "gui",
@@ -16,8 +25,17 @@
       }
     ],
     "fallback": {
-      "type": "minecraft:model",
-      "model": "abyssalcraft_reawakening:item/abyssalnite_spear_in_hand"
+      "type": "minecraft:condition",
+      "component": "abyssalcraft_reawakening:wood",
+      "on_false": {
+        "type": "minecraft:model",
+        "model": "abyssalcraft_reawakening:item/abyssalnite_spear_in_hand"
+      },
+      "on_true": {
+        "type": "minecraft:model",
+        "model": "abyssalcraft_reawakening:item/abyssalnite_spear_wood_in_hand"
+      },
+      "property": "minecraft:has_component"
     },
     "property": "minecraft:display_context"
   },

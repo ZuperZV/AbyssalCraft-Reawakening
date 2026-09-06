@@ -233,7 +233,7 @@ public class GroundlingModel extends EntityModel<GroundlingRenderState> {
 			boolean animateAttack = state.attackAnimationState.isStarted();
 			if (animateAttack) {
 				float attackTime = state.attackTime;
-				float armDrop = -(float)Math.PI / (aggressive ? 1.5F : 2.25F);
+				float armDrop = -(float)Math.PI / (aggressive ? 1.5F : 1.9F);
 				float attackYRotModifier = Mth.sin((double)(attackTime * (float)Math.PI));
 				float attackXRotModifier = Mth.sin((double)((1.0F - (1.0F - attackTime) * (1.0F - attackTime)) * (float)Math.PI));
 				rightArm.zRot = 0.0F;

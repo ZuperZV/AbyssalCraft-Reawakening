@@ -5,7 +5,7 @@
     "minecraft:fermented_spider_eye",
     "minecraft:gunpowder",
     "minecraft:slime_ball",
-    "minecraft:copper_ingot"
+    "minecraft:copper_nugget"
   ],
   "output": {
     "id": "abyssalcraft_reawakening:abyssal_stone"

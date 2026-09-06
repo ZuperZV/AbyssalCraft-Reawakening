@@ -4,11 +4,11 @@
     "component": "abyssalcraft_reawakening:wood",
     "on_false": {
       "type": "minecraft:model",
-      "model": "abyssalcraft_reawakening:item/abyssalnite_hoe_wood"
+      "model": "abyssalcraft_reawakening:item/abyssalnite_hoe"
     },
     "on_true": {
       "type": "minecraft:model",
-      "model": "abyssalcraft_reawakening:item/abyssalnite_hoe"
+      "model": "abyssalcraft_reawakening:item/abyssalnite_hoe_wood"
     },
     "property": "minecraft:has_component"
   }

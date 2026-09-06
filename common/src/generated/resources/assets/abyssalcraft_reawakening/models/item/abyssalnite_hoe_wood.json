@@ -1,6 +1,7 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "abyssalcraft_reawakening:item/abyssalnite_hoe"
+    "layer0": "abyssalcraft_reawakening:item/abyssalnite_hoe",
+    "layer1": "abyssalcraft_reawakening:item/abyssalnite_hoe_wood"
   }
 }

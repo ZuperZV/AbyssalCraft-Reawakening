@@ -1,0 +1,24 @@
+{
+  "type": "abyssalcraft_reawakening:ritual_altar",
+  "copy_components": [
+    {
+      "components": [
+        "minecraft:damage",
+        "minecraft:enchantments"
+      ],
+      "from": "mold"
+    }
+  ],
+  "dimension": "abyssalcraft_reawakening:abyssal_wasteland",
+  "ingredient": "minecraft:netherite_shovel",
+  "ingredients": [
+    "abyssalcraft_reawakening:recipe_item",
+    "abyssalcraft_reawakening:abyssalnite_ingot"
+  ],
+  "output": {
+    "id": "abyssalcraft_reawakening:abyssalnite_shovel"
+  },
+  "pe": 1000,
+  "time": 600,
+  "time_of_day": "NIGHT"
+}

@@ -98,9 +98,9 @@ public class ModModelProvider extends ModelProvider {
         //Grass
         createGrassLikeBlock(blockModels, ModBlocks.FUSED_ABYSSAL_SAND.block().get(), ModBlocks.ABYSSAL_SAND.block().get(),
                 new Material(Constants.id("block/fused_abyssal_sand_top")), new Material(Constants.id("block/fused_abyssal_sand_side")));
-        
+
         //Tree
-            //WITHERWOOD
+        //WITHERWOOD
         generateWoodSet(
                 blockModels,
                 ModBlocks.WITHERWOOD_LOG.block().get(),
@@ -492,7 +492,7 @@ public class ModModelProvider extends ModelProvider {
         generatedItems.add(item);
 
         if (item.getDescriptionId().toLowerCase().contains("spear")) {
-            itemModels.generateSpear(item);
+            generateSpearWithWood(itemModels, item);
             return;
         } else if (isTool(item)) {
             generateWoodTool(itemModels, item);
@@ -512,7 +512,7 @@ public class ModModelProvider extends ModelProvider {
                 ModelTemplates.FLAT_HANDHELD_ITEM
         );
 
-        Identifier woodModel = ModelTemplates.FLAT_HANDHELD_ITEM.create(
+        Identifier woodModel = FLAT_HANDHELD_TWO_LAYER.create(
                 ModelLocationUtils.getModelLocation(item, "_wood"),
                 TextureMapping.layered(
                         TextureMapping.getItemTexture(item),
@@ -533,13 +533,106 @@ public class ModModelProvider extends ModelProvider {
                                         ModDataComponentTypes.WOOD.get(),
                                         false
                                 ),
-                                normal,
-                                wood
+                                wood,
+                                normal
                         ),
                         new ClientItem.Properties(false, false, 1.0F)
                 ).model()
         );
     }
+
+    public void generateSpear(ItemModelGenerators itemModels, Item item) {
+        generatedItems.add(item);
+
+        ItemModel.Unbaked flatModel = ItemModelUtils.plainModel(itemModels.createFlatItemModel(item, ModelTemplates.FLAT_ITEM));
+        ItemModel.Unbaked inHandModel = ItemModelUtils.plainModel(
+                ModelTemplates.SPEAR_IN_HAND.create(item, TextureMapping.layer0(TextureMapping.getItemTexture(item, "_in_hand")), itemModels.modelOutput)
+        );
+        itemModels.itemModelOutput.accept(item, createFlatModelDispatch(flatModel, inHandModel), new ClientItem.Properties(true, false, 1.95F));
+    }
+
+    public void generateSpearWithWood(ItemModelGenerators itemModels, Item item) {
+        generatedItems.add(item);
+
+        Identifier normalModel = ModelTemplates.FLAT_ITEM.create(
+                ModelLocationUtils.getModelLocation(item),
+                TextureMapping.layer0(
+                        TextureMapping.getItemTexture(item)
+                ),
+                itemModels.modelOutput
+        );
+
+        Identifier normalInHandModel = ModelTemplates.SPEAR_IN_HAND.create(
+                ModelLocationUtils.getModelLocation(item, "_in_hand"),
+                TextureMapping.layer0(
+                        TextureMapping.getItemTexture(item, "_in_hand")
+                ),
+                itemModels.modelOutput
+        );
+
+        Identifier woodModel = FLAT_ITEM_TWO_LAYER.create(
+                ModelLocationUtils.getModelLocation(item, "_wood"),
+                TextureMapping.layered(
+                        TextureMapping.getItemTexture(item),
+                        TextureMapping.getItemTexture(item, "_wood")
+                ),
+                itemModels.modelOutput
+        );
+
+        Identifier woodInHandModel = FLAT_SPEAR_IN_HAND_TWO_LAYER.create(
+                ModelLocationUtils.getModelLocation(item, "_wood_in_hand"),
+                TextureMapping.layered(
+                        TextureMapping.getItemTexture(item, "_in_hand"),
+                        TextureMapping.getItemTexture(item, "_in_hand_wood")
+                ),
+                itemModels.modelOutput
+        );
+
+        ItemModel.Unbaked normal =
+                ItemModelUtils.plainModel(normalModel);
+
+        ItemModel.Unbaked normalInHand =
+                ItemModelUtils.plainModel(normalInHandModel);
+
+        ItemModel.Unbaked wood =
+                ItemModelUtils.plainModel(woodModel);
+
+        ItemModel.Unbaked woodInHand =
+                ItemModelUtils.plainModel(woodInHandModel);
+
+        ItemModel.Unbaked inventory =
+                new ConditionalItemModel.Unbaked(
+                        Optional.empty(),
+                        new HasComponent(
+                                ModDataComponentTypes.WOOD.get(),
+                                false
+                        ),
+                        wood,
+                        normal
+                );
+
+        ItemModel.Unbaked inHand =
+                new ConditionalItemModel.Unbaked(
+                        Optional.empty(),
+                        new HasComponent(
+                                ModDataComponentTypes.WOOD.get(),
+                                false
+                        ),
+                        woodInHand,
+                        normalInHand
+                );
+
+        itemModels.itemModelOutput.accept(
+                item,
+                createFlatModelDispatch(inventory, inHand),
+                new ClientItem.Properties(
+                        true,
+                        false,
+                        1.95F
+                )
+        );
+    }
+
 
     private void generateReversedHandheldtItem(ItemModelGenerators itemModels, Item item) {
         generatedItems.add(item);
@@ -690,16 +783,6 @@ public class ModModelProvider extends ModelProvider {
                         }
                 )
         );
-    }
-
-    public void generateSpear(ItemModelGenerators itemModels, Item item) {
-        generatedItems.add(item);
-
-        ItemModel.Unbaked flatModel = ItemModelUtils.plainModel(itemModels.createFlatItemModel(item, ModelTemplates.FLAT_ITEM));
-        ItemModel.Unbaked inHandModel = ItemModelUtils.plainModel(
-                ModelTemplates.SPEAR_IN_HAND.create(item, TextureMapping.layer0(TextureMapping.getItemTexture(item, "_in_hand")), itemModels.modelOutput)
-        );
-        itemModels.itemModelOutput.accept(item, createFlatModelDispatch(flatModel, inHandModel), new ClientItem.Properties(true, false, 1.95F));
     }
 
     public void generateInHand(ItemModelGenerators itemModels, Item item) {
@@ -937,6 +1020,13 @@ public class ModModelProvider extends ModelProvider {
     public static final ModelTemplate FLAT_HANDHELD_IN_HAND_TWO_LAYER =
             new ModelTemplate(
                     Optional.of(Identifier.fromNamespaceAndPath(Constants.MOD_ID, "item/in_hand")),
+                    Optional.empty(),
+                    TextureSlot.LAYER0,
+                    TextureSlot.LAYER1
+            );
+    public static final ModelTemplate FLAT_SPEAR_IN_HAND_TWO_LAYER =
+            new ModelTemplate(
+                    Optional.of(Identifier.withDefaultNamespace("item/spear_in_hand")),
                     Optional.empty(),
                     TextureSlot.LAYER0,
                     TextureSlot.LAYER1

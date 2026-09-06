@@ -4,11 +4,11 @@
     "component": "abyssalcraft_reawakening:wood",
     "on_false": {
       "type": "minecraft:model",
-      "model": "abyssalcraft_reawakening:item/abyssalnite_pickaxe_wood"
+      "model": "abyssalcraft_reawakening:item/abyssalnite_pickaxe"
     },
     "on_true": {
       "type": "minecraft:model",
-      "model": "abyssalcraft_reawakening:item/abyssalnite_pickaxe"
+      "model": "abyssalcraft_reawakening:item/abyssalnite_pickaxe_wood"
     },
     "property": "minecraft:has_component"
   }
