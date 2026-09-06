@@ -1,9 +1,10 @@
 package net.zuperzv.abyssalcraft_reawakening.commonCode.entity.state;
 
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
+import net.minecraft.client.renderer.entity.state.UndeadRenderState;
 import net.minecraft.world.entity.AnimationState;
 
-public class GroundlingRenderState extends LivingEntityRenderState {
+public class GroundlingRenderState extends UndeadRenderState {
 
     public final AnimationState idleAnimationState = new AnimationState();
     public final AnimationState walkAnimationState = new AnimationState();

@@ -15,6 +15,7 @@ import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -26,7 +27,11 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.component.PotentialEnergy
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.StoneRitualAltarRecipe;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.helper.TimeOfDay;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.dimension.ModDimensions;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class RitualAltarRecipeCategory implements IRecipeCategory<RecipeHolder<StoneRitualAltarRecipe>> {
@@ -259,20 +264,24 @@ public class RitualAltarRecipeCategory implements IRecipeCategory<RecipeHolder<S
                 centerY - 1
         );
 
-        for(int i = 1; i < recipe.additionalIngredients().size(); i++) {
-            if(i > SLOT_POSITIONS.length)
+        for (int i = 0; i < recipe.additionalIngredients().size(); i++) {
+
+            if (i >= SLOT_POSITIONS.length)
                 break;
 
-            int offsetX =
-                    SLOT_POSITIONS[i-1][0];
+            if (recipe.additionalIngredients().get(i).test(
+                    new ItemStack(ModItems.RECIPE_ITEM.get())
+            )) {
+                continue;
+            }
 
-            int offsetY =
-                    SLOT_POSITIONS[i-1][1];
+            int offsetX = SLOT_POSITIONS[i][0];
+            int offsetY = SLOT_POSITIONS[i][1];
 
             slotDrawable.draw(
                     guiGraphics,
-                    centerX + offsetX -1,
-                    centerY + offsetY -1
+                    centerX + offsetX - 1,
+                    centerY + offsetY - 1
             );
         }
 
@@ -370,6 +379,10 @@ public class RitualAltarRecipeCategory implements IRecipeCategory<RecipeHolder<S
                 dimensionIcon = new ItemStack(Blocks.NETHERRACK);
             } else if (dimension == Level.END) {
                 dimensionIcon = new ItemStack(Blocks.END_STONE);
+            } else if (dimension == ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY) {
+                dimensionIcon = new ItemStack(ModBlocks.ABYSSAL_STONE.block().get());
+            } else {
+                dimensionIcon = new ItemStack(Blocks.BEDROCK);
             }
 
             if (!dimensionIcon.isEmpty()) {
@@ -407,6 +420,10 @@ public class RitualAltarRecipeCategory implements IRecipeCategory<RecipeHolder<S
             int offsetX = SLOT_POSITIONS[i][0];
             int offsetY = SLOT_POSITIONS[i][1];
 
+            if (recipe.additionalIngredients().get(i).test(new ItemStack(ModItems.RECIPE_ITEM.get()))) {
+                continue;
+            }
+
             builder.addSlot(
                     RecipeIngredientRole.INPUT,
                     centerX + offsetX,
@@ -419,6 +436,7 @@ public class RitualAltarRecipeCategory implements IRecipeCategory<RecipeHolder<S
                 width - 3 - slotSize,
                 centerY
         ).add(recipe.output().create());
+
     }
 
     @Override

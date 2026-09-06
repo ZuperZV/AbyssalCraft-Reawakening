@@ -13,7 +13,7 @@ public final class FabricModWorldgen {
         BiomeModifications.addFeature(
                 BiomeSelectors.foundInOverworld(),
                 GenerationStep.Decoration.UNDERGROUND_ORES,
-                ModWorldgen.CORALIUM_ORE_PLACED
+                ModWorldgen.CORALIUM_INFUSED_ORE_PLACED
         );
     }
 }

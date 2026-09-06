@@ -4,6 +4,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -106,7 +108,7 @@ public class StoneRitualAltarBlockEntity extends BlockEntity implements WorldlyC
         if (level == null) return false;
 
         Optional<RecipeHolder<StoneRitualAltarRecipe>> recipeOpt = Objects.requireNonNull(level.getServer()).getRecipeManager()
-                .getRecipeFor(ModRecipes.ASTRAL_ALTAR.type().get(), new BlockRecipeInput(inventory.getStackInSlot(0), worldPosition), level);
+                .getRecipeFor(ModRecipes.RITUAL_ALTAR.type().get(), new BlockRecipeInput(inventory.getStackInSlot(0), worldPosition), level);
 
         if (recipeOpt.isEmpty()) return false;
 
@@ -115,7 +117,16 @@ public class StoneRitualAltarBlockEntity extends BlockEntity implements WorldlyC
 
         if (!altarRecipe.moldIngredient().test(inputStack)) return false;
 
-        List<Ingredient> ingredientsToMatch = new ArrayList<>(altarRecipe.additionalIngredients());
+
+        List<Ingredient> ingredientsToMatch = new ArrayList<>();
+
+        for (Ingredient ingredient : altarRecipe.additionalIngredients()) {
+            if (ingredient.test(new ItemStack(ModItems.RECIPE_ITEM.get()))) {
+                continue;
+            }
+
+            ingredientsToMatch.add(ingredient);
+        }
 
         boolean allMatched = true;
 
@@ -133,129 +144,423 @@ public class StoneRitualAltarBlockEntity extends BlockEntity implements WorldlyC
         Level level = this.level;
         if (level == null) return;
 
-        Optional<RecipeHolder<StoneRitualAltarRecipe>> recipe = Objects.requireNonNull(level.getServer()).getRecipeManager()
-                .getRecipeFor(ModRecipes.ASTRAL_ALTAR.type().get(), new BlockRecipeInput(inventory.getStackInSlot(0), worldPosition), level);
+        Optional<RecipeHolder<StoneRitualAltarRecipe>> recipe =
+                Objects.requireNonNull(level.getServer())
+                        .getRecipeManager()
+                        .getRecipeFor(
+                                ModRecipes.RITUAL_ALTAR.type().get(),
+                                new BlockRecipeInput(
+                                        inventory.getStackInSlot(0),
+                                        worldPosition
+                                ),
+                                level
+                        );
 
-        if (recipe.isEmpty()) return;
+        if (recipe.isEmpty())
+            return;
 
-        StoneRitualAltarRecipe altarRecipe = recipe.get().value();
-        ItemStack inputStack = inventory.getStackInSlot(0);
+        StoneRitualAltarRecipe altarRecipe =
+                recipe.get().value();
 
-        if (!altarRecipe.moldIngredient().test(inputStack)) return;
+        ItemStack inputStack =
+                inventory.getStackInSlot(0);
 
-        List<MatchedItem> matchedIngredientSources = new ArrayList<>();
+        if (!altarRecipe.moldIngredient().test(inputStack))
+            return;
 
-        List<Ingredient> ingredientsToMatch = new ArrayList<>(altarRecipe.additionalIngredients());
-
-        boolean allMatched = true;
-
-        allMatched = isAllMatched(ingredientsToMatch, level, matchedIngredientSources, allMatched);
+        List<MatchedItem> matchedIngredientSources =
+                new ArrayList<>();
 
 
-        if (allMatched) {
-            if (altarRecipe.entityType().isPresent()) {
-                    if (entityLastSacrificed.equals(altarRecipe.entityType().get())) {
-                    setSacrificedEntity(null);
-                    Constants.LOG.debug("Text: {}", entityLastSacrificed);
-                }
+        List<Ingredient> ingredientsToMatch = new ArrayList<>();
+
+        for (Ingredient ingredient : altarRecipe.additionalIngredients()) {
+            if (ingredient.test(new ItemStack(ModItems.RECIPE_ITEM.get()))) {
+                continue;
             }
 
-            inventory.extractItem(0, 1, false);
-            for (MatchedItem matched : matchedIngredientSources) {
+            ingredientsToMatch.add(ingredient);
+        }
 
-                matched.nexus.inventory.extractItem(
-                        matched.slot,
-                        matched.amount,
-                        false
+        boolean allMatched =
+                isAllMatched(
+                        ingredientsToMatch,
+                        level,
+                        matchedIngredientSources,
+                        true
                 );
 
-                matched.nexus.inventory.setChangeCallback(this::setChanged);
-                matched.nexus.setChanged();
+        if (!allMatched)
+            return;
 
-                level.sendBlockUpdated(
-                        matched.nexus.getBlockPos(),
-                        matched.nexus.getBlockState(),
-                        matched.nexus.getBlockState(),
-                        3
+        ItemStack moldCopy =
+                inputStack.copy();
+
+        List<ItemStack> ingredientCopies =
+                new ArrayList<>();
+
+        for (MatchedItem matched :
+                matchedIngredientSources) {
+
+            ItemStack stack =
+                    matched.nexus.inventory
+                            .getStackInSlot(matched.slot);
+
+            if (!stack.isEmpty()) {
+                ingredientCopies.add(
+                        stack.copy()
                 );
             }
-            inventory.setStackInSlot(0, altarRecipe.output().create().copy());
+        }
 
-            progress = 0;
-            prevProgress = 0;
-            setCrafting(worldPosition, level, false);
+        if (altarRecipe.entityType().isPresent()) {
 
-            inventory.setChangeCallback(this::setChanged);
+            if (entityLastSacrificed.equals(
+                    altarRecipe.entityType().get()
+            )) {
 
-            List<Player> players = level.getEntitiesOfClass(
-                    Player.class,
-                    new AABB(
-                            worldPosition.getX() - 7,
-                            worldPosition.getY() - 7,
-                            worldPosition.getZ() - 7,
-                            worldPosition.getX() + 8,
-                            worldPosition.getY() + 8,
-                            worldPosition.getZ() + 8
-                    )
+                setSacrificedEntity(null);
+
+                Constants.LOG.debug(
+                        "Text: {}",
+                        entityLastSacrificed
+                );
+            }
+        }
+
+        ItemStack moldRemainder =
+                StoneRitualAltarRecipe
+                        .defaultCraftingReminder(
+                                inputStack
+                        );
+
+        inventory.extractItem(
+                0,
+                1,
+                false
+        );
+
+        if (!moldRemainder.isEmpty()) {
+            inventory.setStackInSlot(
+                    0,
+                    moldRemainder
             );
+        }
 
-            players.sort(Comparator.comparingDouble(player ->
-                    player.distanceToSqr(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ())
-            ));
+        for (MatchedItem matched :
+                matchedIngredientSources) {
 
-            boolean hasRemovedItems = false;
-
-            for (Player player : players) {
-                if (hasRemovedItems || player.isCreative()) {
-                    continue;
-                }
-
-                for (ItemStack stack : player.getInventory().getNonEquipmentItems()) {
-
-                    if (stack.is(ModItems.NECRONOMICON.get())) {
-
-                        PotentialEnergyData pe = stack.get(ModDataComponentTypes.POTENTIAL_ENERGY.get());
-
-                        if (pe == null) {
-                            continue;
-                        }
-
-                        int requiredPE = altarRecipe.potentialEnergy();
-                        System.out.println("requiredPE: " + requiredPE);
-                        int currentPE = pe.getPotentialEnergy();
-
-                        if (currentPE >= requiredPE) {
-
-                            stack.set(
-                                    ModDataComponentTypes.POTENTIAL_ENERGY.get(),
-                                    new PotentialEnergyData(
-                                            pe.getPotentialEnergy() - requiredPE
-                                    )
+            ItemStack input =
+                    matched.nexus.inventory
+                            .getStackInSlot(
+                                    matched.slot
                             );
 
-                            player.getInventory().setChanged();
-                            player.containerMenu.broadcastChanges();
+            ItemStack remainder =
+                    StoneRitualAltarRecipe
+                            .defaultCraftingReminder(
+                                    input
+                            );
 
-                            hasRemovedItems = true;
-                            break;
-                        }
+            matched.nexus.inventory.extractItem(
+                    matched.slot,
+                    matched.amount,
+                    false
+            );
+
+            if (!remainder.isEmpty()) {
+
+                matched.nexus.inventory.setStackInSlot(
+                        matched.slot,
+                        remainder
+                );
+            }
+
+            matched.nexus.inventory
+                    .setChangeCallback(this::setChanged);
+
+            matched.nexus.setChanged();
+
+            level.sendBlockUpdated(
+                    matched.nexus.getBlockPos(),
+                    matched.nexus.getBlockState(),
+                    matched.nexus.getBlockState(),
+                    3
+            );
+        }
+
+        ItemStack output =
+                altarRecipe.output()
+                        .create()
+                        .copy();
+
+        copyRecipeComponents(
+                altarRecipe,
+                moldCopy,
+                ingredientCopies,
+                output
+        );
+
+        inventory.setStackInSlot(
+                0,
+                output
+        );
+
+        progress = 0;
+        prevProgress = 0;
+
+        setCrafting(
+                worldPosition,
+                level,
+                false
+        );
+
+        inventory.setChangeCallback(
+                this::setChanged
+        );
+
+        List<Player> players =
+                level.getEntitiesOfClass(
+                        Player.class,
+                        new AABB(
+                                worldPosition.getX() - 7,
+                                worldPosition.getY() - 7,
+                                worldPosition.getZ() - 7,
+                                worldPosition.getX() + 8,
+                                worldPosition.getY() + 8,
+                                worldPosition.getZ() + 8
+                        )
+                );
+
+        players.sort(
+                Comparator.comparingDouble(player ->
+                        player.distanceToSqr(
+                                worldPosition.getX(),
+                                worldPosition.getY(),
+                                worldPosition.getZ()
+                        )
+                )
+        );
+
+        boolean hasRemovedItems = false;
+
+        for (Player player : players) {
+
+            if (hasRemovedItems || player.isCreative())
+                continue;
+
+            for (ItemStack stack :
+                    player.getInventory()
+                            .getNonEquipmentItems()) {
+
+                if (stack.is(
+                        ModItems.NECRONOMICON.get()
+                )) {
+
+                    PotentialEnergyData pe =
+                            stack.get(
+                                    ModDataComponentTypes
+                                            .POTENTIAL_ENERGY
+                                            .get()
+                            );
+
+                    if (pe == null)
+                        continue;
+
+                    int requiredPE =
+                            altarRecipe.potentialEnergy();
+
+                    int currentPE =
+                            pe.getPotentialEnergy();
+
+                    if (currentPE >= requiredPE) {
+
+                        stack.set(
+                                ModDataComponentTypes
+                                        .POTENTIAL_ENERGY
+                                        .get(),
+
+                                new PotentialEnergyData(
+                                        currentPE - requiredPE
+                                )
+                        );
+
+                        player.getInventory()
+                                .setChanged();
+
+                        player.containerMenu
+                                .broadcastChanges();
+
+                        hasRemovedItems = true;
+
+                        break;
                     }
                 }
             }
-
-            setChanged();
-
-            level.sendBlockUpdated(
-                    worldPosition,
-                    getBlockState(),
-                    getBlockState(),
-                    Block.UPDATE_CLIENTS
-            );
-
-            itemCraftingParticles(level);
-
-            blockCraftingParticles(altarRecipe, level);
         }
+
+        setChanged();
+
+        level.sendBlockUpdated(
+                worldPosition,
+                getBlockState(),
+                getBlockState(),
+                Block.UPDATE_CLIENTS
+        );
+
+        itemCraftingParticles(level);
+
+        blockCraftingParticles(
+                altarRecipe,
+                level
+        );
+    }
+
+    private void copyRecipeComponents(
+            StoneRitualAltarRecipe recipe,
+            ItemStack mold,
+            List<ItemStack> ingredients,
+            ItemStack output
+    ) {
+
+        if (recipe.copyComponents().isEmpty())
+            return;
+
+        for (StoneRitualAltarRecipe.ComponentCopyRule rule :
+                recipe.copyComponents()) {
+
+            switch (rule.source()) {
+
+                case MOLD -> {
+                    copyComponentsFromStack(
+                            mold,
+                            output,
+                            rule,
+                            recipe
+                    );
+                }
+
+                case INGREDIENTS -> {
+                    for (ItemStack ingredient : ingredients) {
+                        copyComponentsFromStack(
+                                ingredient,
+                                output,
+                                rule,
+                                recipe
+                        );
+                    }
+                }
+
+                case ALL -> {
+                    copyComponentsFromStack(
+                            mold,
+                            output,
+                            rule,
+                            recipe
+                    );
+
+                    for (ItemStack ingredient : ingredients) {
+                        copyComponentsFromStack(
+                                ingredient,
+                                output,
+                                rule,
+                                recipe
+                        );
+                    }
+                }
+            }
+        }
+    }
+
+    private void copyComponentsFromStack(
+            ItemStack source,
+            ItemStack output,
+            StoneRitualAltarRecipe.ComponentCopyRule rule,
+            StoneRitualAltarRecipe recipe
+    ) {
+
+        if (source.isEmpty())
+            return;
+
+        DataComponentMap components = source.getComponents();
+
+        if (rule.copiesAllComponents()) {
+
+            for (DataComponentType<?> type : components.keySet()) {
+
+                Identifier id =
+                        BuiltInRegistries.DATA_COMPONENT_TYPE
+                                .getKey(type);
+
+                if (id == null)
+                    continue;
+
+                if (recipe.excludedComponents().contains(id))
+                    continue;
+
+                copyComponent(
+                        source,
+                        output,
+                        type
+                );
+            }
+
+            return;
+        }
+
+        for (Identifier identifier : rule.components()) {
+
+            if (recipe.excludedComponents().contains(identifier))
+                continue;
+
+            Optional<Holder.Reference<DataComponentType<?>>>
+                    componentHolder =
+                    BuiltInRegistries.DATA_COMPONENT_TYPE
+                            .get(identifier);
+
+            if (componentHolder.isEmpty()) {
+
+                Constants.LOG.warn(
+                        "Unknown data component '{}' in Stone Ritual Altar recipe",
+                        identifier
+                );
+
+                continue;
+            }
+
+            DataComponentType<?> type =
+                    componentHolder.get().value();
+
+            if (!components.has(type))
+                continue;
+
+            copyComponent(
+                    source,
+                    output,
+                    type
+            );
+        }
+    }
+
+    private static <T> void copyComponent(
+            ItemStack source,
+            ItemStack output,
+            DataComponentType<?> type
+    ) {
+
+        DataComponentType<T> typedType =
+                (DataComponentType<T>) type;
+
+        T value =
+                source.get(typedType);
+
+        if (value == null)
+            return;
+
+        output.set(
+                typedType,
+                value
+        );
     }
 
     private static void giveNexusInfoAboutStoneRitualAltar(Level level, BlockPos pos, StoneRitualAltarBlockEntity altar) {

@@ -1,15 +1,19 @@
 package net.zuperzv.abyssalcraft_reawakening.commonCode.entity.model;
 
 import net.minecraft.client.animation.KeyframeAnimation;
+import net.minecraft.client.model.AnimationUtils;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.renderer.entity.state.UndeadRenderState;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.*;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SwingAnimationType;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.animations.GroundlingAnimation;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.state.GroundlingRenderState;
@@ -215,5 +219,44 @@ public class GroundlingModel extends EntityModel<GroundlingRenderState> {
 							* 1.3F
 							* speed;
 		}
+
+		animateGroundlingArms(
+				this.LeftArm,
+				this.RightArm,
+				false,
+				state
+		);
+	}
+
+	public static <T extends UndeadRenderState> void animateGroundlingArms(ModelPart leftArm, ModelPart rightArm, boolean aggressive, GroundlingRenderState state) {
+		if (!state.isBaby || state.getMainHandItemStack() == ItemStack.EMPTY) {
+			boolean animateAttack = state.attackAnimationState.isStarted();
+			if (animateAttack) {
+				float attackTime = state.attackTime;
+				float armDrop = -(float)Math.PI / (aggressive ? 1.5F : 2.25F);
+				float attackYRotModifier = Mth.sin((double)(attackTime * (float)Math.PI));
+				float attackXRotModifier = Mth.sin((double)((1.0F - (1.0F - attackTime) * (1.0F - attackTime)) * (float)Math.PI));
+				rightArm.zRot = 0.0F;
+				rightArm.yRot = -(0.1F - attackYRotModifier * 0.6F);
+				rightArm.xRot = armDrop;
+				rightArm.xRot += attackYRotModifier * 1.2F - attackXRotModifier * 0.4F;
+				leftArm.zRot = 0.0F;
+				leftArm.yRot = 0.1F - attackYRotModifier * 0.6F;
+				leftArm.xRot = armDrop;
+				leftArm.xRot += attackYRotModifier * 1.2F - attackXRotModifier * 0.4F;
+			}
+
+			bobArms(rightArm, leftArm, state.ageInTicks);
+		}
+	}
+
+	public static void bobModelPart(ModelPart modelPart, float ageInTicks, float scale) {
+		modelPart.zRot += scale * (Mth.cos((double)(ageInTicks * 0.09F)) * 0.03F + 0.03F);
+		modelPart.xRot += scale * Mth.sin((double)(ageInTicks * 0.067F)) * 0.03F;
+	}
+
+	public static void bobArms(ModelPart rightArm, ModelPart leftArm, float ageInTicks) {
+		bobModelPart(rightArm, ageInTicks, 1.0F);
+		bobModelPart(leftArm, ageInTicks, -1.0F);
 	}
 }

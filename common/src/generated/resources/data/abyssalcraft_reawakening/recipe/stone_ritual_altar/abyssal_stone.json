@@ -1,0 +1,16 @@
+{
+  "type": "abyssalcraft_reawakening:ritual_altar",
+  "ingredient": "minecraft:stone",
+  "ingredients": [
+    "minecraft:fermented_spider_eye",
+    "minecraft:gunpowder",
+    "minecraft:slime_ball",
+    "minecraft:copper_ingot"
+  ],
+  "output": {
+    "id": "abyssalcraft_reawakening:abyssal_stone"
+  },
+  "pe": 50,
+  "time": 100,
+  "time_of_day": "BOTH"
+}

@@ -16,10 +16,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
-import net.minecraft.world.level.levelgen.carver.CanyonCarverConfiguration;
-import net.minecraft.world.level.levelgen.carver.CarverDebugSettings;
-import net.minecraft.world.level.levelgen.carver.CaveCarverConfiguration;
-import net.minecraft.world.level.levelgen.carver.WorldCarver;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.*;
@@ -29,7 +25,6 @@ import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvi
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 import net.minecraft.world.level.levelgen.feature.treedecorators.PlaceOnGroundDecorator;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.FancyTrunkPlacer;
-import net.minecraft.world.level.levelgen.heightproviders.UniformHeight;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
@@ -381,6 +376,17 @@ public final class ModWorldgenBootstrapper {
                         0.0F)
         ));
 
+        context.register(ModWorldgen.CORALIUM_INFUSED_ORE, new ConfiguredFeature<>(Feature.SCATTERED_ORE,
+                new OreConfiguration(List.of(
+                        OreConfiguration.target(new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES), ModBlocks.CORALIUM_INFUSED_ORE.block().get().defaultBlockState()),
+                        OreConfiguration.target(new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES), ModBlocks.CORALIUM_INFUSED_DEEPSLATE_ORE.block().get().defaultBlockState()),
+                        OreConfiguration.target(new TagMatchTest(ModBlockTags.ABYSSAL_STONE_ORE_REPLACEABLES), ModBlocks.CORALIUM_INFUSED_ABYSSAL_ORE.block().get().defaultBlockState()),
+                        OreConfiguration.target(new TagMatchTest(ModBlockTags.GRIMSTONE_ORE_REPLACEABLES), ModBlocks.CORALIUM_INFUSED_GRIMESTONE_ORE.block().get().defaultBlockState())
+                ),
+                        5,
+                        0.4F)
+        ));
+
         context.register(ModWorldgen.CORALIUM_ORE, new ConfiguredFeature<>(Feature.SCATTERED_ORE,
                 new OreConfiguration(List.of(
                         OreConfiguration.target(new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES), ModBlocks.CORALIUM_ORE.block().get().defaultBlockState()),
@@ -388,8 +394,8 @@ public final class ModWorldgenBootstrapper {
                         OreConfiguration.target(new TagMatchTest(ModBlockTags.ABYSSAL_STONE_ORE_REPLACEABLES), ModBlocks.CORALIUM_ABYSSAL_ORE.block().get().defaultBlockState()),
                         OreConfiguration.target(new TagMatchTest(ModBlockTags.GRIMSTONE_ORE_REPLACEABLES), ModBlocks.CORALIUM_GRIMESTONE_ORE.block().get().defaultBlockState())
                 ),
-                        5,
-                        0.4F)
+                        4,
+                        0.8F)
         ));
 
         //Spike generation
@@ -925,12 +931,22 @@ public final class ModWorldgenBootstrapper {
                 )
         ));
 
-        context.register(ModWorldgen.CORALIUM_ORE_PLACED, new PlacedFeature(
-                configuredFeatures.getOrThrow(ModWorldgen.CORALIUM_ORE),
+        context.register(ModWorldgen.CORALIUM_INFUSED_ORE_PLACED, new PlacedFeature(
+                configuredFeatures.getOrThrow(ModWorldgen.CORALIUM_INFUSED_ORE),
                 List.of(
                         CountPlacement.of(TrapezoidInt.of(1, 22, 7)),
                         InSquarePlacement.spread(),
                         HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(30), VerticalAnchor.belowTop(180)),
+                        BiomeFilter.biome()
+                )
+        ));
+
+        context.register(ModWorldgen.CORALIUM_ORE_PLACED, new PlacedFeature(
+                configuredFeatures.getOrThrow(ModWorldgen.CORALIUM_ORE),
+                List.of(
+                        CountPlacement.of(TrapezoidInt.of(1, 5, 3)),
+                        InSquarePlacement.spread(),
+                        HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(20), VerticalAnchor.belowTop(200)),
                         BiomeFilter.biome()
                 )
         ));

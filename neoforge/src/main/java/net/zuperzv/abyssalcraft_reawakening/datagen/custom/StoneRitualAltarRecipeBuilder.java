@@ -9,6 +9,7 @@ import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeUnlockAdvancementBuilder;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStackTemplate;
@@ -17,11 +18,12 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.StoneRitualAltarRecipe;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.StoneRitualAltarRecipe.ComponentCopyRule;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.StoneRitualAltarRecipe.ComponentSource;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.helper.TimeOfDay;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
-
 
 public class StoneRitualAltarRecipeBuilder implements RecipeBuilder {
 
@@ -32,11 +34,14 @@ public class StoneRitualAltarRecipeBuilder implements RecipeBuilder {
 
     private final List<Ingredient> additionalIngredients = new ArrayList<>();
 
+    private final List<ComponentCopyRule> copyComponents = new ArrayList<>();
+    private final List<Identifier> excludedComponents = new ArrayList<>();
+
     private Optional<String> requiredEssenceType = Optional.empty();
     private Optional<String> entityType = Optional.empty();
 
     private Optional<Block> additionalBlock = Optional.empty();
-    private Optional<Map<String,String>> blockState = Optional.empty();
+    private Optional<Map<String, String>> blockState = Optional.empty();
 
     private Optional<Boolean> needsBlock = Optional.empty();
     private Optional<Block> blockOutput = Optional.empty();
@@ -53,7 +58,6 @@ public class StoneRitualAltarRecipeBuilder implements RecipeBuilder {
             new RecipeUnlockAdvancementBuilder();
 
     private @Nullable String group;
-
 
     private StoneRitualAltarRecipeBuilder(
             RecipeCategory category,
@@ -109,10 +113,10 @@ public class StoneRitualAltarRecipeBuilder implements RecipeBuilder {
             String key,
             String value
     ) {
-        Map<String,String> states =
+        Map<String, String> states =
                 this.blockState.orElseGet(HashMap::new);
 
-        states.put(key,value);
+        states.put(key, value);
 
         this.blockState = Optional.of(states);
 
@@ -141,6 +145,79 @@ public class StoneRitualAltarRecipeBuilder implements RecipeBuilder {
 
     public StoneRitualAltarRecipeBuilder dimension(ResourceKey<Level> dim) {
         this.dimension = Optional.of(dim);
+        return this;
+    }
+
+    public StoneRitualAltarRecipeBuilder copyComponents(
+            ComponentSource source,
+            Identifier... components
+    ) {
+        this.copyComponents.add(
+                new ComponentCopyRule(
+                        source,
+                        List.of(components)
+                )
+        );
+
+        return this;
+    }
+
+    public StoneRitualAltarRecipeBuilder copyComponents(
+            ComponentSource source,
+            Collection<Identifier> components
+    ) {
+        this.copyComponents.add(
+                new ComponentCopyRule(
+                        source,
+                        List.copyOf(components)
+                )
+        );
+
+        return this;
+    }
+
+    public StoneRitualAltarRecipeBuilder copyAllComponents(
+            ComponentSource source
+    ) {
+        this.copyComponents.add(
+                new ComponentCopyRule(
+                        source,
+                        List.of()
+                )
+        );
+
+        return this;
+    }
+
+    public StoneRitualAltarRecipeBuilder copyAllFromMold() {
+        return copyAllComponents(ComponentSource.MOLD);
+    }
+
+    public StoneRitualAltarRecipeBuilder copyAllFromIngredients() {
+        return copyAllComponents(ComponentSource.INGREDIENTS);
+    }
+
+    public StoneRitualAltarRecipeBuilder copyAllComponents() {
+        return copyAllComponents(ComponentSource.ALL);
+    }
+    public StoneRitualAltarRecipeBuilder excludeComponents(
+            Identifier... components
+    ) {
+        this.excludedComponents.addAll(List.of(components));
+        return this;
+    }
+
+    public StoneRitualAltarRecipeBuilder excludeComponents(
+            Collection<Identifier> components
+    ) {
+        this.excludedComponents.addAll(components);
+        return this;
+    }
+
+    public StoneRitualAltarRecipeBuilder excludeComponent(
+            Identifier component
+    ) {
+        this.excludedComponents.add(component);
         return this;
     }
 
@@ -175,9 +252,10 @@ public class StoneRitualAltarRecipeBuilder implements RecipeBuilder {
                 ResourceKey.create(
                         id.registryKey(),
                         id.identifier()
-                                .withPath(path -> "stone_ritual_altar/" + path)
+                                .withPath(path ->
+                                        "stone_ritual_altar/" + path
+                                )
                 );
-
 
         Advancement.Builder advancementBuilder = recipeOutput.advancement()
                 .addCriterion(
@@ -190,7 +268,6 @@ public class StoneRitualAltarRecipeBuilder implements RecipeBuilder {
                 .requirements(
                         AdvancementRequirements.Strategy.OR
                 );
-
 
         StoneRitualAltarRecipe recipe =
                 new StoneRitualAltarRecipe(
@@ -207,9 +284,10 @@ public class StoneRitualAltarRecipeBuilder implements RecipeBuilder {
                         this.fakeTimeOfDay,
                         this.recipeTime,
                         this.potentialEnergy,
-                        this.dimension
+                        this.dimension,
+                        this.copyComponents,
+                        this.excludedComponents
                 );
-
 
         recipeOutput.accept(
                 newId,
@@ -224,7 +302,6 @@ public class StoneRitualAltarRecipeBuilder implements RecipeBuilder {
                 )
         );
     }
-
 
     private void ensureValid(ResourceKey<Recipe<?>> id) {
         if (advancementBuilder == null) {

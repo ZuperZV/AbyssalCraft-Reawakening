@@ -5,16 +5,20 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -29,6 +33,7 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.component.ModDataComponen
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.PotentialEnergyData;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.helper.TimeOfDay;
+import net.minecraft.world.item.crafting.CraftingInput;
 
 import java.util.*;
 
@@ -46,8 +51,101 @@ public record StoneRitualAltarRecipe(
         Optional<TimeOfDay> fakeTimeOfDay,
         int recipeTime,
         int potentialEnergy,
-        Optional<ResourceKey<Level>> dimension
+        Optional<ResourceKey<Level>> dimension,
+        List<ComponentCopyRule> copyComponents,
+        List<Identifier> excludedComponents
 ) implements Recipe<StoneRitualAltarBlockEntity.BlockRecipeInput> {
+
+    public enum ComponentSource {
+        MOLD,
+        INGREDIENTS,
+        ALL;
+
+        public static final Codec<ComponentSource> CODEC =
+                Codec.STRING.xmap(
+                        value -> switch (value.toLowerCase(Locale.ROOT)) {
+                            case "mold" -> MOLD;
+                            case "ingredients" -> INGREDIENTS;
+                            case "all" -> ALL;
+                            default -> throw new IllegalArgumentException(
+                                    "Unknown component source: " + value
+                            );
+                        },
+                        source -> source.name().toLowerCase(Locale.ROOT)
+                );
+    }
+
+    public record ComponentCopyRule(
+            ComponentSource source,
+
+            List<Identifier> components
+    ) {
+
+        public static final MapCodec<ComponentCopyRule> CODEC =
+                RecordCodecBuilder.mapCodec(instance -> instance.group(
+
+                        ComponentSource.CODEC
+                                .fieldOf("from")
+                                .forGetter(ComponentCopyRule::source),
+
+                        Identifier.CODEC.listOf()
+                                .optionalFieldOf("components", List.of())
+                                .forGetter(ComponentCopyRule::components)
+
+                ).apply(instance, ComponentCopyRule::new));
+
+        public static final StreamCodec<RegistryFriendlyByteBuf, ComponentCopyRule> STREAM_CODEC =
+                new StreamCodec<>() {
+
+                    @Override
+                    public void encode(
+                            RegistryFriendlyByteBuf buf,
+                            ComponentCopyRule rule
+                    ) {
+                        buf.writeUtf(
+                                rule.source()
+                                        .name()
+                                        .toLowerCase(Locale.ROOT)
+                        );
+
+                        buf.writeVarInt(rule.components().size());
+
+                        for (Identifier identifier : rule.components()) {
+                            buf.writeUtf(identifier.toString());
+                        }
+                    }
+
+                    @Override
+                    public ComponentCopyRule decode(
+                            RegistryFriendlyByteBuf buf
+                    ) {
+                        ComponentSource source =
+                                ComponentSource.valueOf(
+                                        buf.readUtf().toUpperCase(Locale.ROOT)
+                                );
+
+                        int size = buf.readVarInt();
+
+                        List<Identifier> components =
+                                new ArrayList<>(size);
+
+                        for (int i = 0; i < size; i++) {
+                            components.add(
+                                    Identifier.parse(buf.readUtf())
+                            );
+                        }
+
+                        return new ComponentCopyRule(
+                                source,
+                                components
+                        );
+                    }
+                };
+
+        public boolean copiesAllComponents() {
+            return components.isEmpty();
+        }
+    }
 
     public static final MapCodec<StoneRitualAltarRecipe> CODEC =
             RecordCodecBuilder.mapCodec(instance -> instance.group(
@@ -99,7 +197,16 @@ public record StoneRitualAltarRecipe(
 
                     ResourceKey.codec(Registries.DIMENSION)
                             .optionalFieldOf("dimension")
-                            .forGetter(StoneRitualAltarRecipe::dimension)
+                            .forGetter(StoneRitualAltarRecipe::dimension),
+
+                    ComponentCopyRule.CODEC.codec()
+                            .listOf()
+                            .optionalFieldOf("copy_components", List.of())
+                            .forGetter(StoneRitualAltarRecipe::copyComponents),
+
+                    Identifier.CODEC.listOf()
+                            .optionalFieldOf("exclude_components", List.of())
+                            .forGetter(StoneRitualAltarRecipe::excludedComponents)
             ).apply(instance, StoneRitualAltarRecipe::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, StoneRitualAltarRecipe> STREAM_CODEC =
@@ -186,6 +293,21 @@ public record StoneRitualAltarRecipe(
                     recipe.dimension().ifPresent(dimension ->
                             buf.writeIdentifier(dimension.identifier())
                     );
+
+                    buf.writeVarInt(recipe.excludedComponents().size());
+
+                    for (Identifier identifier : recipe.excludedComponents()) {
+                        buf.writeIdentifier(identifier);
+                    }
+
+                    buf.writeVarInt(recipe.copyComponents().size());
+
+                    for (ComponentCopyRule rule : recipe.copyComponents()) {
+                        ComponentCopyRule.STREAM_CODEC.encode(
+                                buf,
+                                rule
+                        );
+                    }
                 }
 
                 @Override
@@ -313,6 +435,28 @@ public record StoneRitualAltarRecipe(
                         );
                     }
 
+                    int excludedComponentCount = buf.readVarInt();
+
+                    List<Identifier> excludedComponents =
+                            new ArrayList<>();
+
+                    for (int i = 0; i < excludedComponentCount; i++) {
+                        excludedComponents.add(
+                                buf.readIdentifier()
+                        );
+                    }
+
+                    int copyRuleCount = buf.readVarInt();
+
+                    List<ComponentCopyRule> copyComponents =
+                            new ArrayList<>();
+
+                    for (int i = 0; i < copyRuleCount; i++) {
+                        copyComponents.add(
+                                ComponentCopyRule.STREAM_CODEC.decode(buf)
+                        );
+                    }
+
                     return new StoneRitualAltarRecipe(
                             output,
                             moldIngredient,
@@ -327,7 +471,9 @@ public record StoneRitualAltarRecipe(
                             fakeTimeOfDay,
                             recipeTime,
                             potentialEnergy,
-                            dimension
+                            dimension,
+                            copyComponents,
+                            excludedComponents
                     );
                 }
             };
@@ -412,7 +558,15 @@ public record StoneRitualAltarRecipe(
             }
         }
 
-        List<Ingredient> remainingIngredients = new ArrayList<>(additionalIngredients);
+        List<Ingredient> remainingIngredients = new ArrayList<>();
+
+        for (Ingredient ingredient : additionalIngredients) {
+            if (ingredient.test(new ItemStack(ModItems.RECIPE_ITEM.get()))) {
+                continue;
+            }
+
+            remainingIngredients.add(ingredient);
+        }
 
         Set<String> usedPedestals = new HashSet<>();
 
@@ -527,12 +681,12 @@ public record StoneRitualAltarRecipe(
 
     @Override
     public RecipeSerializer<? extends Recipe<StoneRitualAltarBlockEntity.BlockRecipeInput>> getSerializer() {
-        return ModRecipes.ASTRAL_ALTAR.serializer().get();
+        return ModRecipes.RITUAL_ALTAR.serializer().get();
     }
 
     @Override
     public RecipeType<? extends Recipe<StoneRitualAltarBlockEntity.BlockRecipeInput>> getType() {
-        return ModRecipes.ASTRAL_ALTAR.type().get();
+        return ModRecipes.RITUAL_ALTAR.type().get();
     }
 
     @Override
@@ -551,5 +705,31 @@ public record StoneRitualAltarRecipe(
 
     public Optional<TimeOfDay> getTimeOfDay() {
         return timeOfDay;
+    }
+
+    public static ItemStack defaultCraftingReminder(ItemStack stack) {
+        if (stack.isEmpty()) {
+            return ItemStack.EMPTY;
+        }
+
+        CraftingInput input = CraftingInput.of(
+                1,
+                1,
+                List.of(stack)
+        );
+
+        return defaultCraftingReminder(input).get(0);
+    }
+
+    public static NonNullList<ItemStack> defaultCraftingReminder(final CraftingInput input) {
+        NonNullList<ItemStack> result = NonNullList.withSize(input.size(), ItemStack.EMPTY);
+
+        for(int slot = 0; slot < result.size(); ++slot) {
+            Item item = input.getItem(slot).getItem();
+            ItemStackTemplate remainder = item.getCraftingRemainder();
+            result.set(slot, remainder != null ? remainder.create() : ItemStack.EMPTY);
+        }
+
+        return result;
     }
 }

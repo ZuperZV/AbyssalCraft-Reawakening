@@ -191,4 +191,8 @@ public class ModItems {
     //Rendering Items
     public static final RegistryHandle<Item> POTENTIAL_ENERGY = Services.REGISTRY.registerItem("potential_energy",
             properties -> new Item(properties));
+
+    //Recipe Item
+    public static final RegistryHandle<Item> RECIPE_ITEM = Services.REGISTRY.registerItem("recipe_item",
+            properties -> new Item(properties));
 }

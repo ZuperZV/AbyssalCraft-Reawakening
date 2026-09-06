@@ -300,7 +300,7 @@ public class StoneRitualPedestalBlockEntity extends BlockEntity implements World
         if (altarStack.isEmpty()) return false;
 
         Optional<RecipeHolder<StoneRitualAltarRecipe>> recipeOpt = Objects.requireNonNull(level.getServer()).getRecipeManager()
-                .getRecipeFor(ModRecipes.ASTRAL_ALTAR.type().get(), new StoneRitualAltarBlockEntity.BlockRecipeInput(inventory.getStackInSlot(0), worldPosition), level);
+                .getRecipeFor(ModRecipes.RITUAL_ALTAR.type().get(), new StoneRitualAltarBlockEntity.BlockRecipeInput(inventory.getStackInSlot(0), worldPosition), level);
 
         return recipeOpt.filter(recipe -> isIngredientUsedInRecipeForThisNexus(this, recipe.value())).isPresent();
     }

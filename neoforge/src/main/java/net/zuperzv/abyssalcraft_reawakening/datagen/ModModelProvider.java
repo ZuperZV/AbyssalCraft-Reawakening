@@ -62,7 +62,7 @@ public class ModModelProvider extends ModelProvider {
         generateReversedHandheldtItem(itemModels, ModItems.GATEWAY_KEY.get());
 
         //Sword in hand
-        generateInHand(itemModels, ModItems.ABYSSALNITE_SWORD.get(), ModelTemplates.FLAT_ITEM, SWORD_IN_HAND);
+        generateInHandWithWood(itemModels, ModItems.ABYSSALNITE_SWORD.get(), FLAT_ITEM_TWO_LAYER, FLAT_HANDHELD_IN_HAND_TWO_LAYER);
 
         //Coralium Gem
         generateCoraliumGem(itemModels);
@@ -495,13 +495,50 @@ public class ModModelProvider extends ModelProvider {
             itemModels.generateSpear(item);
             return;
         } else if (isTool(item)) {
-            itemModels.generateFlatItem(item, ModelTemplates.FLAT_HANDHELD_ITEM);
+            generateWoodTool(itemModels, item);
             return;
         } else if (generateTrimmableItem(itemModels, item, false)) {
             return;
         }
 
         itemModels.generateFlatItem(item, ModelTemplates.FLAT_ITEM);
+    }
+
+    private void generateWoodTool(ItemModelGenerators itemModels, Item item) {
+        generatedItems.add(item);
+
+        Identifier normalModel = itemModels.createFlatItemModel(
+                item,
+                ModelTemplates.FLAT_HANDHELD_ITEM
+        );
+
+        Identifier woodModel = ModelTemplates.FLAT_HANDHELD_ITEM.create(
+                ModelLocationUtils.getModelLocation(item, "_wood"),
+                TextureMapping.layered(
+                        TextureMapping.getItemTexture(item),
+                        TextureMapping.getItemTexture(item, "_wood")
+                ),
+                itemModels.modelOutput
+        );
+
+        ItemModel.Unbaked normal = ItemModelUtils.plainModel(normalModel);
+        ItemModel.Unbaked wood = ItemModelUtils.plainModel(woodModel);
+
+        itemModels.itemModelOutput.accept(
+                item,
+                new ClientItem(
+                        new ConditionalItemModel.Unbaked(
+                                Optional.empty(),
+                                new HasComponent(
+                                        ModDataComponentTypes.WOOD.get(),
+                                        false
+                                ),
+                                normal,
+                                wood
+                        ),
+                        new ClientItem.Properties(false, false, 1.0F)
+                ).model()
+        );
     }
 
     private void generateReversedHandheldtItem(ItemModelGenerators itemModels, Item item) {
@@ -679,6 +716,89 @@ public class ModModelProvider extends ModelProvider {
         itemModels.itemModelOutput.accept(item, createFlatModelDispatch(flatModel, inHandModel), new ClientItem.Properties(true, false, 1.95F));
     }
 
+    private void generateInHandWithWood(
+            ItemModelGenerators itemModels,
+            Item item,
+            ModelTemplate modelTemplate,
+            ModelTemplate modelTemplateInHand
+    ) {
+        generatedItems.add(item);
+
+        Identifier normalModel = ModelTemplates.FLAT_ITEM.create(
+                ModelLocationUtils.getModelLocation(item),
+                TextureMapping.layer0(
+                        TextureMapping.getItemTexture(item)
+                ),
+                itemModels.modelOutput
+        );
+
+        Identifier normalInHandModel = SWORD_IN_HAND.create(
+                ModelLocationUtils.getModelLocation(item, "_in_hand"),
+                TextureMapping.layer0(
+                        TextureMapping.getItemTexture(item, "_in_hand")
+                ),
+                itemModels.modelOutput
+        );
+
+        Identifier woodModel = modelTemplate.create(
+                ModelLocationUtils.getModelLocation(item, "_wood"),
+                TextureMapping.layered(
+                        TextureMapping.getItemTexture(item),
+                        TextureMapping.getItemTexture(item, "_wood")
+                ),
+                itemModels.modelOutput
+        );
+
+        Identifier woodInHandModel = modelTemplateInHand.create(
+                ModelLocationUtils.getModelLocation(item, "_wood_in_hand"),
+                TextureMapping.layered(
+                        TextureMapping.getItemTexture(item, "_in_hand"),
+                        TextureMapping.getItemTexture(item, "_in_hand_wood")
+                ),
+                itemModels.modelOutput
+        );
+
+        ItemModel.Unbaked normal =
+                ItemModelUtils.plainModel(normalModel);
+
+        ItemModel.Unbaked wood =
+                ItemModelUtils.plainModel(woodModel);
+
+        ItemModel.Unbaked normalInHand =
+                ItemModelUtils.plainModel(normalInHandModel);
+
+        ItemModel.Unbaked woodInHand =
+                ItemModelUtils.plainModel(woodInHandModel);
+
+        ItemModel.Unbaked inventory =
+                new ConditionalItemModel.Unbaked(
+                        Optional.empty(),
+                        new HasComponent(
+                                ModDataComponentTypes.WOOD.get(),
+                                false
+                        ),
+                        wood,
+                        normal
+                );
+
+        ItemModel.Unbaked inHand =
+                new ConditionalItemModel.Unbaked(
+                        Optional.empty(),
+                        new HasComponent(
+                                ModDataComponentTypes.WOOD.get(),
+                                false
+                        ),
+                        woodInHand,
+                        normalInHand
+                );
+
+        itemModels.itemModelOutput.accept(
+                item,
+                createFlatModelDispatch(inventory, inHand),
+                new ClientItem.Properties(true, false, 1.95F)
+        );
+    }
+
     private boolean generateTrimmableItem(ItemModelGenerators itemModels, Item item, boolean hasDyedLayer) {
         ResourceKey<EquipmentAsset> equipmentAssetId = getEquipmentAssetForItem(item);
         if (equipmentAssetId == null) return false;
@@ -800,6 +920,13 @@ public class ModModelProvider extends ModelProvider {
     }
 
     //ModelTemplates
+    public static final ModelTemplate FLAT_ITEM_TWO_LAYER =
+            new ModelTemplate(
+                    Optional.of(Identifier.withDefaultNamespace("item/generated")),
+                    Optional.empty(),
+                    TextureSlot.LAYER0,
+                    TextureSlot.LAYER1
+            );
     public static final ModelTemplate FLAT_HANDHELD_TWO_LAYER =
             new ModelTemplate(
                     Optional.of(Identifier.withDefaultNamespace("item/handheld")),

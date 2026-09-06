@@ -65,17 +65,29 @@ public class ModLootTableProvider extends LootTableProvider {
             addOreDrop(ModBlocks.ABYSSALNITE_GRIMESTONE_ORE.block().get(),
                     ModItems.RAW_ABYSSALNITE.get(), 1.0F, 3.0F);
 
-            addOreDrop(ModBlocks.CORALIUM_ORE.block().get(),
+            addOreDrop(ModBlocks.CORALIUM_INFUSED_ORE.block().get(),
                     ModItems.CORALIUM_PEARL.get(), 1.0F, 2.0F);
+
+            addOreDrop(ModBlocks.CORALIUM_INFUSED_DEEPSLATE_ORE.block().get(),
+                    ModItems.CORALIUM_PEARL.get(), 1.0F, 2.0F);
+
+            addOreDrop(ModBlocks.CORALIUM_INFUSED_ABYSSAL_ORE.block().get(),
+                    ModItems.CORALIUM_PEARL.get(), 1.0F, 2.0F);
+
+            addOreDrop(ModBlocks.CORALIUM_INFUSED_GRIMESTONE_ORE.block().get(),
+                    ModItems.CORALIUM_PEARL.get(), 1.0F, 2.0F);
+
+            addOreDrop(ModBlocks.CORALIUM_ORE.block().get(),
+                    ModItems.CORALIUM_GEM.get(), 1.0F, 3.0F);
 
             addOreDrop(ModBlocks.CORALIUM_DEEPSLATE_ORE.block().get(),
-                    ModItems.CORALIUM_PEARL.get(), 1.0F, 2.0F);
+                    ModItems.CORALIUM_GEM.get(), 1.0F, 3.0F);
 
             addOreDrop(ModBlocks.CORALIUM_ABYSSAL_ORE.block().get(),
-                    ModItems.CORALIUM_PEARL.get(), 1.0F, 2.0F);
+                    ModItems.CORALIUM_GEM.get(), 1.0F, 3.0F);
 
             addOreDrop(ModBlocks.CORALIUM_GRIMESTONE_ORE.block().get(),
-                    ModItems.CORALIUM_PEARL.get(), 1.0F, 2.0F);
+                    ModItems.CORALIUM_GEM.get(), 1.0F, 3.0F);
 
             //Block of
             dropSelf(ModBlocks.ABYSSALNITE_BLOCK.block().get());

@@ -17,6 +17,7 @@ import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.client.renderer.item.properties.numeric.RangeSelectItemModelProperties;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -30,6 +31,7 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.Necronomicon
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.NecronomiconTooltipComponent;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.StaffClientTooltip;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.StaffTooltipComponent;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.propertys.CoraliumGemsProperty;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.network.SyncBookmarksPacket;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.screen.ModMenuTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.screen.NecronomiconScreen;
@@ -50,6 +52,14 @@ public class ModResources implements ClientModInitializer {
         );
 
         Services.I_MULTIBLOCK_INPUT.register();
+
+        RangeSelectItemModelProperties.ID_MAPPER.put(
+                Identifier.fromNamespaceAndPath(
+                        Constants.MOD_ID,
+                        "coralium_gems"
+                ),
+                CoraliumGemsProperty.MAP_CODEC
+        );
 
         ModContainer container = FabricLoader.getInstance()
                 .getModContainer(Constants.MOD_ID)

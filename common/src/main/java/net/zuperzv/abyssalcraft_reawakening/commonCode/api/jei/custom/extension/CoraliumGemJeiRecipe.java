@@ -1,7 +1,7 @@
 package net.zuperzv.abyssalcraft_reawakening.commonCode.api.jei.custom.extension;
 
 import net.minecraft.world.item.crafting.CraftingBookCategory;
-import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.custom.CoraliumGemRecipe;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.customCraftingTable.CoraliumGemRecipe;
 
 import java.util.ArrayList;
 import java.util.List;

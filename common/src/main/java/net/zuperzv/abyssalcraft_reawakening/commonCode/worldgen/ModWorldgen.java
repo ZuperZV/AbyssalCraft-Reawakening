@@ -38,6 +38,7 @@ public final class ModWorldgen {
     public static final ResourceKey<ConfiguredFeature<?, ?>> FUSED_ABYSSAL_SAND_DISK = configuredFeatureKey("fused_abyssal_sand_disk");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> ABYSSALNITE_ORE = configuredFeatureKey("abyssalnite_ore");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> CORALIUM_INFUSED_ORE = configuredFeatureKey("coralium_infused_ore");
     public static final ResourceKey<ConfiguredFeature<?, ?>> CORALIUM_ORE = configuredFeatureKey("coralium_ore");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> ABYSSAL_MONSTER_ROOM = configuredFeatureKey("abyssal_monster_room");
@@ -75,7 +76,8 @@ public final class ModWorldgen {
     public static final ResourceKey<PlacedFeature> RARE_ABYSSAL_MUD_DISK_PLACED = placedFeatureKey("rare_abyssal_mud_disk");
 
     public static final ResourceKey<PlacedFeature> ABYSSALNITE_ORE_PLACED = placedFeatureKey("abyssalnite_ore");
-    public static final ResourceKey<PlacedFeature> CORALIUM_ORE_PLACED = placedFeatureKey("coralium_ore");
+    public static final ResourceKey<PlacedFeature> CORALIUM_INFUSED_ORE_PLACED   = placedFeatureKey("coralium_infused_ore");
+    public static final ResourceKey<PlacedFeature> CORALIUM_ORE_PLACED   = placedFeatureKey("coralium_ore");
 
     public static final ResourceKey<PlacedFeature> ABYSSAL_MONSTER_ROOM_PLACED = placedFeatureKey("abyssal_monster_room");
 

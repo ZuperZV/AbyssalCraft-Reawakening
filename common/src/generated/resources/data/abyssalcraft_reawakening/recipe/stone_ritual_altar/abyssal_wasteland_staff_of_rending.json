@@ -1,6 +1,6 @@
 {
-  "type": "abyssalcraft_reawakening:astral_altar",
-  "dimension": "minecraft:overworld",
+  "type": "abyssalcraft_reawakening:ritual_altar",
+  "dimension": "abyssalcraft_reawakening:abyssal_wasteland",
   "ingredient": "abyssalcraft_reawakening:staff_of_rending",
   "ingredients": [
     "abyssalcraft_reawakening:coralium_plagued_flesh",

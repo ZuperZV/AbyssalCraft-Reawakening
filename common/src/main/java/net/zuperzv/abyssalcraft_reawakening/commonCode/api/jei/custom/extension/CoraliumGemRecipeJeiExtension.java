@@ -11,7 +11,7 @@ import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.CoraliumGemsData;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
-import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.custom.CoraliumGemRecipe;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.customCraftingTable.CoraliumGemRecipe;
 
 import java.util.ArrayList;
 import java.util.List;

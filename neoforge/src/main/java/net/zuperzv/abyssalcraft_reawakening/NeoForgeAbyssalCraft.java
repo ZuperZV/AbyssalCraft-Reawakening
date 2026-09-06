@@ -104,7 +104,7 @@ public class NeoForgeAbyssalCraft {
         @SubscribeEvent
         public static void onDatapackSync(OnDatapackSyncEvent event) {
             event.sendRecipes(
-                    ModRecipes.ASTRAL_ALTAR.type().get()
+                    ModRecipes.RITUAL_ALTAR.type().get()
             );
         }
 

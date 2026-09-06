@@ -1,4 +1,4 @@
-package net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.custom;
+package net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.customCraftingTable;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.network.RegistryFriendlyByteBuf;

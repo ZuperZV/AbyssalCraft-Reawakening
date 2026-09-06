@@ -1,5 +1,5 @@
 {
-  "type": "abyssalcraft_reawakening:astral_altar",
+  "type": "abyssalcraft_reawakening:ritual_altar",
   "ingredient": "minecraft:ender_eye",
   "ingredients": [
     "minecraft:redstone",

@@ -4,8 +4,17 @@
     "cases": [
       {
         "model": {
-          "type": "minecraft:model",
-          "model": "abyssalcraft_reawakening:item/abyssalnite_sword"
+          "type": "minecraft:condition",
+          "component": "abyssalcraft_reawakening:wood",
+          "on_false": {
+            "type": "minecraft:model",
+            "model": "abyssalcraft_reawakening:item/abyssalnite_sword"
+          },
+          "on_true": {
+            "type": "minecraft:model",
+            "model": "abyssalcraft_reawakening:item/abyssalnite_sword_wood"
+          },
+          "property": "minecraft:has_component"
         },
         "when": [
           "gui",
@@ -16,8 +25,17 @@
       }
     ],
     "fallback": {
-      "type": "minecraft:model",
-      "model": "abyssalcraft_reawakening:item/abyssalnite_swordin_hand"
+      "type": "minecraft:condition",
+      "component": "abyssalcraft_reawakening:wood",
+      "on_false": {
+        "type": "minecraft:model",
+        "model": "abyssalcraft_reawakening:item/abyssalnite_sword_in_hand"
+      },
+      "on_true": {
+        "type": "minecraft:model",
+        "model": "abyssalcraft_reawakening:item/abyssalnite_sword_wood_in_hand"
+      },
+      "property": "minecraft:has_component"
     },
     "property": "minecraft:display_context"
   },

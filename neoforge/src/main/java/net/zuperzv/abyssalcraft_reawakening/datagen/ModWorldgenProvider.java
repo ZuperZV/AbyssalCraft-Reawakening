@@ -99,7 +99,7 @@ public final class ModWorldgenProvider extends DatapackBuiltinEntriesProvider {
 
         context.register(CORALIUM_ORE_MODIFIER, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
-                HolderSet.direct(placedFeatures.getOrThrow(ModWorldgen.CORALIUM_ORE_PLACED)),
+                HolderSet.direct(placedFeatures.getOrThrow(ModWorldgen.CORALIUM_INFUSED_ORE_PLACED)),
                 GenerationStep.Decoration.UNDERGROUND_ORES));
     }
 

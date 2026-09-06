@@ -22,7 +22,7 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.api.jei.custom.category.R
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.ModRecipes;
-import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.custom.CoraliumGemRecipe;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.customCraftingTable.CoraliumGemRecipe;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
 
 import java.util.ArrayList;
@@ -95,7 +95,7 @@ public class JEIPlugin implements IModPlugin {
         registerRecipe(
                 registration,
                 ModJEIRecipeTypes.RITUAL_ALTAR,
-                ModRecipes.ASTRAL_ALTAR
+                ModRecipes.RITUAL_ALTAR
                         .type()
                         .get()
         );

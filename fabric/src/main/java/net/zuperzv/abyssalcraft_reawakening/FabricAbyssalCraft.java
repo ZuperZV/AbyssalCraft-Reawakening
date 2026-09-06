@@ -40,7 +40,7 @@ public class FabricAbyssalCraft implements ModInitializer {
 
         //JEI
         RecipeSynchronization.synchronizeRecipeSerializer(
-                ModRecipes.ASTRAL_ALTAR.serializer().get()
+                ModRecipes.RITUAL_ALTAR.serializer().get()
         );
 
         Services.SPAWN_PLACEMENTS.applySpawnPlacements(SpawnPlacements::register);

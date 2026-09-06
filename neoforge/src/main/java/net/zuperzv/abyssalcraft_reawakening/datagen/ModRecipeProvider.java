@@ -1,13 +1,14 @@
 package net.zuperzv.abyssalcraft_reawakening.datagen;
 
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CookingBookCategory;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
@@ -15,11 +16,11 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
-import net.zuperzv.abyssalcraft_reawakening.commonCode.component.CoraliumGemsData;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.ModDataComponentTypes;
-import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.custom.CoraliumGemRecipe;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.StoneRitualAltarRecipe;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.customCraftingTable.CoraliumGemRecipe;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.dimension.ModDimensions;
 import net.zuperzv.abyssalcraft_reawakening.datagen.custom.StoneRitualAltarRecipeBuilder;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItemTags;
@@ -37,8 +38,8 @@ public class ModRecipeProvider extends RecipeProvider {
 
     @Override
     protected void buildRecipes() {
-        //Necronomicon
-
+        //EarlyGame
+            //Necronomicon
         shaped(RecipeCategory.MISC, ModItems.NECRONOMICON.get(),
                 new String[]{
                         "AAC",
@@ -60,6 +61,24 @@ public class ModRecipeProvider extends RecipeProvider {
                 new Key('A', ModItems.OBLIVION_CATALYST.get()),
                 new Key('B', ModItems.CORALIUM_PEARL.get()),
                 new Key('C', Items.BLAZE_ROD));
+
+
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC, ModBlocks.ABYSSAL_STONE.block().get().asItem(),
+                        Ingredient.of(Items.STONE)
+                )
+                .addIngredient(Ingredient.of(Items.FERMENTED_SPIDER_EYE)) //Venster
+                .addIngredient(Ingredient.of(Items.GUNPOWDER)) //Up
+                .addIngredient(Ingredient.of(Items.SLIME_BALL)) //Højere
+                .addIngredient(Ingredient.of(Items.COPPER_NUGGET)) //Ned
+                .time(TimeOfDay.BOTH)
+                .duration(100)
+                .potentialEnergy(50)
+                .unlockedBy(
+                        "has_stone",
+                        has(Items.STONE))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("abyssal_stone")));
 
 
         //Skin Of
@@ -89,27 +108,6 @@ public class ModRecipeProvider extends RecipeProvider {
                 },
                 new Key('A', ModItems.OMOTHOL_ESSENCE.get()),
                 new Key('B', ModItems.OMOTHOL_GHOUL_FLESH.get()));
-
-
-        ItemStack gem9 = new ItemStack(
-                ModItems.CORALIUM_GEM.get()
-        );
-
-        gem9.set(
-                ModDataComponentTypes.CORALIUM_GEMS.get(),
-                new CoraliumGemsData(9)
-        );
-
-        ItemStack gem3 = new ItemStack(
-                ModItems.CORALIUM_GEM.get()
-        );
-
-        gem3.set(
-                ModDataComponentTypes.CORALIUM_GEMS.get(),
-                new CoraliumGemsData(3)
-        );
-
-        dyedItem(ModItems.NECRONOMICON.get(), "dyed_item");
 
         //Shadow Items
         fourBlockStorageRecipes(output, RecipeCategory.MISC, ModItems.SHADOW_FRAGMENT.get(), RecipeCategory.MISC,
@@ -173,7 +171,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .time(TimeOfDay.NIGHT)
                 .duration(600)
                 .potentialEnergy(1000)
-                .dimension(Level.OVERWORLD)//Abyssale
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
                 .unlockedBy(
                         "has_staff_of_rending",
                         has(ModItems.STAFF_OF_RENDING.get()))
@@ -253,6 +251,59 @@ public class ModRecipeProvider extends RecipeProvider {
         );
 
         //Abyssalnite
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.ABYSSALNITE_SWORD.get(),
+                        Ingredient.of(Items.NETHERITE_SWORD)
+                )
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Venster
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get())) //Up
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Højere
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get())) //Ned
+                .time(TimeOfDay.NIGHT)
+                .duration(600)
+                .potentialEnergy(1000)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_staff_of_rending",
+                        has(Items.NETHERITE_SWORD))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("abyssalnite_sword_netherite")));
+
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        new ItemStackTemplate(
+                                ModItems.ABYSSALNITE_SWORD.get(),
+                                DataComponentPatch.builder()
+                                        .set(ModDataComponentTypes.WOOD.get(), true)
+                                        .build()
+                        ),
+                        Ingredient.of(Items.DIAMOND_SWORD)
+                )
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Venster
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get())) //Up
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Højere
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get())) //Ned
+                .time(TimeOfDay.NIGHT)
+                .duration(800)
+                .potentialEnergy(1600)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_staff_of_rending",
+                        has(Items.DIAMOND_SWORD))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("abyssalnite_sword_diamond")));
+
         nineBlockStorageRecipes(output, RecipeCategory.MISC, ModItems.ABYSSALNITE_NUGGET.get(), RecipeCategory.MISC,
                 ModItems.ABYSSALNITE_INGOT.get());
 

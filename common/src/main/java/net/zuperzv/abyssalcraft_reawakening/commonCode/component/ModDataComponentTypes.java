@@ -45,4 +45,10 @@ public class ModDataComponentTypes {
                     "grayscale",
                     b -> b.persistent(Codec.BOOL)
             );
+
+    public static final RegistryHandle<DataComponentType<Boolean>> WOOD =
+            Services.REGISTRY.registerDataComponent(
+                    "wood",
+                    b -> b.persistent(Codec.BOOL)
+            );
 }

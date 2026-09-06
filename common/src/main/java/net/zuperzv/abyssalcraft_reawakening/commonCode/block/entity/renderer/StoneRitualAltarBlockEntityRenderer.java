@@ -77,18 +77,14 @@ public class StoneRitualAltarBlockEntityRenderer
         return LayerDefinition.create(mesh, 48, 48);
     }
 
-    // =========================
     // STATE
-    // =========================
 
     @Override
     public StoneRitualAltarBlockEntityRenderState createRenderState() {
         return new StoneRitualAltarBlockEntityRenderState();
     }
 
-    // =========================
     // EXTRACT STATE
-    // =========================
 
     @Override
     public void extractRenderState(
@@ -187,9 +183,7 @@ public class StoneRitualAltarBlockEntityRenderer
         MultiBufferSource buffers = Minecraft.getInstance().renderBuffers().bufferSource();
         int light = state.lightCoords;
 
-        // =========================
         // AURA
-        // =========================
         if (state.crafting) {
             poseStack.pushPose();
             poseStack.translate(0.5, 1.01, 0.5);
@@ -212,9 +206,7 @@ public class StoneRitualAltarBlockEntityRenderer
             poseStack.popPose();
         }
 
-        // =========================
         // CENTER ITEM
-        // =========================
         poseStack.pushPose();
         poseStack.translate(0.5f, 1.15f, 0.5f);
         poseStack.scale(0.5f, 0.5f, 0.5f);

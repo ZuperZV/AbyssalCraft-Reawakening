@@ -183,6 +183,11 @@ public final class ModBlocks {
     public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_GRIMESTONE_ORE = createOreBlock("abyssalnite_grimestone_ore");
 
     //Coralium
+    public static final BlockWithItemRegistryHandle<Block> CORALIUM_INFUSED_ORE = createOreBlock("coralium_infused_ore", 4.0F);
+    public static final BlockWithItemRegistryHandle<Block> CORALIUM_INFUSED_DEEPSLATE_ORE = createOreBlock("coralium_infused_deepslate_ore", 7.0F);
+    public static final BlockWithItemRegistryHandle<Block> CORALIUM_INFUSED_ABYSSAL_ORE = createOreBlock("coralium_infused_abyssal_ore", 6.0F);
+    public static final BlockWithItemRegistryHandle<Block> CORALIUM_INFUSED_GRIMESTONE_ORE = createOreBlock("coralium_infused_grimestone_ore", 9.0F);
+
     public static final BlockWithItemRegistryHandle<Block> CORALIUM_ORE = createOreBlock("coralium_ore", 4.0F);
     public static final BlockWithItemRegistryHandle<Block> CORALIUM_DEEPSLATE_ORE = createOreBlock("coralium_deepslate_ore", 7.0F);
     public static final BlockWithItemRegistryHandle<Block> CORALIUM_ABYSSAL_ORE = createOreBlock("coralium_abyssal_ore", 6.0F);

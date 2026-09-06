@@ -1,0 +1,32 @@
+{
+  "feature": "abyssalcraft_reawakening:coralium_infused_ore",
+  "placement": [
+    {
+      "type": "minecraft:count",
+      "count": {
+        "type": "minecraft:trapezoid",
+        "max": 22,
+        "min": 1,
+        "plateau": 7
+      }
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "minecraft:height_range",
+      "height": {
+        "type": "minecraft:trapezoid",
+        "max_inclusive": {
+          "below_top": 180
+        },
+        "min_inclusive": {
+          "above_bottom": 30
+        }
+      }
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}
