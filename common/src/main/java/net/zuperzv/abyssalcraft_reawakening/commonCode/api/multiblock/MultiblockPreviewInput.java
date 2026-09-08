@@ -368,6 +368,13 @@ public final class MultiblockPreviewInput {
             return false;
         }
 
+        mouseX = localMouseX(mouseX);
+        mouseY = localMouseY(mouseY);
+
+        //if (!isInsidePreview(mouseX, mouseY)) {
+        //    return false;
+        //}
+
         dragDistance +=
                 Math.abs(dragX) +
                         Math.abs(dragY);
@@ -463,5 +470,40 @@ public final class MultiblockPreviewInput {
         }
 
         return false;
+    }
+
+    public static void reset() {
+        previewX = 0;
+        previewY = 0;
+        previewWidth = 0;
+        previewHeight = 0;
+
+        listX = 0;
+        listY = 0;
+        listWidth = 0;
+        listHeight = 0;
+
+        controlsX = 0;
+        controlsY = 0;
+        controlsWidth = 0;
+
+        maxLayer = 1;
+        layer = 0;
+
+        listRows = 0;
+        listScroll = 0;
+
+        rotationX = 25.0f;
+        rotationY = -35.0f;
+
+        zoom = 1.0f;
+
+        dragging = false;
+        dragDistance = 0.0;
+
+        viewMode = ViewMode.FULL;
+
+        screenOffsetX = 0;
+        screenOffsetY = 0;
     }
 }

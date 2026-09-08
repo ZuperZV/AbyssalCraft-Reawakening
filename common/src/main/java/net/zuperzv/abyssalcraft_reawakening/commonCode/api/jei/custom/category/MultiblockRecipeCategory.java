@@ -6,13 +6,18 @@ import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.api.jei.ModJEIRecipeTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.api.multiblock.MultiblockDisplay;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.api.multiblock.MultiblockPreviewRenderer;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.component.ModDataComponentTypes;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.component.PotentialEnergyData;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
 import org.jetbrains.annotations.NotNull;
 
 public final class MultiblockRecipeCategory
@@ -20,6 +25,8 @@ public final class MultiblockRecipeCategory
 
     private final IDrawable background;
     private final IDrawable icon;
+
+    int slotSize = 16;
 
     public MultiblockRecipeCategory(
             IGuiHelper helper
@@ -79,13 +86,34 @@ public final class MultiblockRecipeCategory
             double mouseX,
             double mouseY
     ) {
+        Identifier structureId = recipe.structure();
+        Identifier secondStructureId =
+                recipe.secondStructure().orElse(null);
+
+        int switchTimeSec = recipe.switchTimeSec();
+
+        int switchTicks = Math.max(1, switchTimeSec * 20);
+
+        long time = System.currentTimeMillis() / 50L;
+
+        Identifier structureToRender = structureId;
+
+        if (secondStructureId != null) {
+            long cycleLength = (long) switchTicks * 2;
+            long cycleTime = time % cycleLength;
+
+            if (cycleTime >= switchTicks) {
+                structureToRender = secondStructureId;
+            }
+        }
+
         MultiblockPreviewRenderer.render(
                 guiGraphics,
                 0,
                 0,
                 MultiblockPreviewRenderer.WIDTH,
                 MultiblockPreviewRenderer.HEIGHT,
-                recipe.structure(),
+                structureToRender,
                 mouseX,
                 mouseY
         );
@@ -97,7 +125,16 @@ public final class MultiblockRecipeCategory
             MultiblockDisplay recipe,
             @NotNull IFocusGroup focuses
     ) {
-        // No ingredient slots.
-        // This category displays a multiblock structure.
+
+        //Icon
+        ItemStack icon = recipe.icon();
+
+        if (!icon.isEmpty()) {
+            builder.addSlot(
+                    RecipeIngredientRole.INPUT,
+                    MultiblockPreviewRenderer.WIDTH / 16 - 6,
+                    MultiblockPreviewRenderer.HEIGHT / 4 - 6 - slotSize
+            ).add(icon);
+        }
     }
 }

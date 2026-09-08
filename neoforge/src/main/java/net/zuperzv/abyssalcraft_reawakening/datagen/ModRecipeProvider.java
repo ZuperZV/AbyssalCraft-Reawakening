@@ -567,6 +567,234 @@ public class ModRecipeProvider extends RecipeProvider {
                 .save(output, ResourceKey.create(Registries.RECIPE,
                         Constants.id("abyssalnite_spear_diamond")));
 
+            //Armor
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.ABYSSALNITE_HELMET.get(),
+                        Ingredient.of(Items.NETHERITE_HELMET)
+                )
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Venster
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Up
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Højere
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get())) //Ned
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Venster Up
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Højere Up
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get())) //Højere Ned
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get())) //Venster Ned
+                .time(TimeOfDay.NIGHT)
+                .duration(600)
+                .potentialEnergy(1000)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_netherite",
+                        has(Items.NETHERITE_HELMET))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("abyssalnite_helmet_netherite")));
+
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.ABYSSALNITE_HELMET.get(),
+                        Ingredient.of(Items.DIAMOND_HELMET)
+                )
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Venster
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Up
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Højere
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get())) //Ned
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Venster Up
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Højere Up
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get())) //Højere Ned
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get())) //Venster Ned
+                .time(TimeOfDay.NIGHT)
+                .duration(800)
+                .potentialEnergy(1600)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_diamond",
+                        has(Items.DIAMOND_HELMET))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("abyssalnite_helmet_diamond")));
+
+
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.ABYSSALNITE_CHESTPLATE.get(),
+                        Ingredient.of(Items.NETHERITE_CHESTPLATE)
+                )
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Venster
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get())) //Up
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Højere
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Ned
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Venster Up
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Højere Up
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Højere Ned
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Venster Ned
+                .time(TimeOfDay.NIGHT)
+                .duration(600)
+                .potentialEnergy(1000)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_netherite",
+                        has(Items.NETHERITE_CHESTPLATE))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("abyssalnite_chestplate_netherite")));
+
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.ABYSSALNITE_CHESTPLATE.get(),
+                        Ingredient.of(Items.DIAMOND_CHESTPLATE)
+                )
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Venster
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get())) //Up
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Højere
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Ned
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Venster Up
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Højere Up
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Højere Ned
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Venster Ned
+                .time(TimeOfDay.NIGHT)
+                .duration(800)
+                .potentialEnergy(1600)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_diamond",
+                        has(Items.DIAMOND_CHESTPLATE))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("abyssalnite_chestplate_diamond")));
+
+
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.ABYSSALNITE_LEGGINGS.get(),
+                        Ingredient.of(Items.NETHERITE_LEGGINGS)
+                )
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Venster
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Up
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Højere
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get())) //Ned
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Venster Up
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Højere Up
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Højere Ned
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Venster Ned
+                .time(TimeOfDay.NIGHT)
+                .duration(600)
+                .potentialEnergy(1000)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_netherite",
+                        has(Items.NETHERITE_LEGGINGS))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("abyssalnite_leggings_netherite")));
+
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.ABYSSALNITE_LEGGINGS.get(),
+                        Ingredient.of(Items.DIAMOND_LEGGINGS)
+                )
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Venster
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Up
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Højere
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get())) //Ned
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Venster Up
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Højere Up
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Højere Ned
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Venster Ned
+                .time(TimeOfDay.NIGHT)
+                .duration(800)
+                .potentialEnergy(1600)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_diamond",
+                        has(Items.DIAMOND_LEGGINGS))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("abyssalnite_leggings_diamond")));
+
+
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.ABYSSALNITE_BOOTS.get(),
+                        Ingredient.of(Items.NETHERITE_BOOTS)
+                )
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Venster
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get())) //Up
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Højere
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get())) //Ned
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get())) //Venster Up
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get())) //Højere Up
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Højere Ned
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Venster Ned
+                .time(TimeOfDay.NIGHT)
+                .duration(600)
+                .potentialEnergy(1000)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_netherite",
+                        has(Items.NETHERITE_BOOTS))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("abyssalnite_boots_netherite")));
+
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.ABYSSALNITE_BOOTS.get(),
+                        Ingredient.of(Items.DIAMOND_BOOTS)
+                )
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Venster
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get())) //Up
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Højere
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get())) //Ned
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get())) //Venster Up
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get())) //Højere Up
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Højere Ned
+                .addIngredient(Ingredient.of(ModItems.ABYSSALNITE_INGOT.get())) //Venster Ned
+                .time(TimeOfDay.NIGHT)
+                .duration(800)
+                .potentialEnergy(1600)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_diamond",
+                        has(Items.DIAMOND_BOOTS))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("abyssalnite_boots_diamond")));
+
         nineBlockStorageRecipes(output, RecipeCategory.MISC, ModItems.ABYSSALNITE_NUGGET.get(), RecipeCategory.MISC,
                 ModItems.ABYSSALNITE_INGOT.get());
 
