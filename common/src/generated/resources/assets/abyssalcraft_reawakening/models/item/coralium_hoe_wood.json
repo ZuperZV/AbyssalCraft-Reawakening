@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "abyssalcraft_reawakening:item/coralium_hoe",
+    "layer1": "abyssalcraft_reawakening:item/hoe_wood"
+  }
+}

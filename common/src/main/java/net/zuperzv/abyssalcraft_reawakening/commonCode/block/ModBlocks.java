@@ -193,14 +193,17 @@ public final class ModBlocks {
     public static final BlockWithItemRegistryHandle<Block> CORALIUM_ABYSSAL_ORE = createOreBlock("coralium_abyssal_ore", 6.0F);
     public static final BlockWithItemRegistryHandle<Block> CORALIUM_GRIMESTONE_ORE = createOreBlock("coralium_grimestone_ore", 9.0F);
 
+    public static final BlockWithItemRegistryHandle<Block> CORALIUM_BLOCK = Services.REGISTRY.registerBlockWithItem("coralium_block",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(6.0F, 7.0F).sound(SoundType.METAL)));
+
+    public static final BlockWithItemRegistryHandle<Block> RAW_CORALIUM_BLOCK = Services.REGISTRY.registerBlockWithItem("raw_coralium_block",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(6.0F, 7.0F).sound(SoundType.METAL)));
+
     public static final BlockWithItemRegistryHandle<Block> CORALIUM_STONE = Services.REGISTRY.registerBlockWithItem("coralium_stone",
             properties -> new Block(properties.mapColor(MapColor.COLOR_BLUE).requiresCorrectToolForDrops().strength(5.0F, 4.0F).sound(SoundType.STONE)));
 
     public static final BlockWithItemRegistryHandle<Block> CORALIUM_COBBLESTONE = Services.REGISTRY.registerBlockWithItem("coralium_cobblestone",
             properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.STONE)));
-
-    public static final BlockWithItemRegistryHandle<Block> REFINED_CORALIUM_BLOCK = Services.REGISTRY.registerBlockWithItem("refined_coralium_block",
-            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 7.0F).sound(SoundType.METAL)));
 
     public static final BlockWithItemRegistryHandle<Block> CORALIUM_BRICKS = Services.REGISTRY.registerBlockWithItem("coralium_bricks",
             properties -> new Block(properties.mapColor(MapColor.COLOR_BLUE).requiresCorrectToolForDrops().strength(6.0F, 8.0F).sound(SoundType.STONE)));

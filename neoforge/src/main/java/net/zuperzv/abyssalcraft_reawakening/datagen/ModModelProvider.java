@@ -63,6 +63,7 @@ public class ModModelProvider extends ModelProvider {
 
         //Sword in hand
         generateInHandWithWood(itemModels, ModItems.ABYSSALNITE_SWORD.get(), FLAT_ITEM_TWO_LAYER, FLAT_HANDHELD_IN_HAND_TWO_LAYER);
+        generateInHandWithWood(itemModels, ModItems.CORALIUM_SWORD.get(), FLAT_ITEM_TWO_LAYER, FLAT_HANDHELD_IN_HAND_TWO_LAYER);
 
         //Coralium Gem
         generateCoraliumGem(itemModels);
@@ -507,22 +508,32 @@ public class ModModelProvider extends ModelProvider {
     private void generateWoodTool(ItemModelGenerators itemModels, Item item) {
         generatedItems.add(item);
 
+        String itemName = item.getDescriptionId()
+                .substring(item.getDescriptionId().lastIndexOf('.') + 1);
+
+        String baseName = getGenericToolName(itemName);
+
         Identifier normalModel = itemModels.createFlatItemModel(
                 item,
                 ModelTemplates.FLAT_HANDHELD_ITEM
         );
 
+        Identifier woodTexture = Constants.id("item/" + baseName + "_wood");
+
         Identifier woodModel = FLAT_HANDHELD_TWO_LAYER.create(
-                ModelLocationUtils.getModelLocation(item, "_wood"),
+                Constants.id("item/" + itemName + "_wood"),
                 TextureMapping.layered(
                         TextureMapping.getItemTexture(item),
-                        TextureMapping.getItemTexture(item, "_wood")
+                        new Material(woodTexture)
                 ),
                 itemModels.modelOutput
         );
 
-        ItemModel.Unbaked normal = ItemModelUtils.plainModel(normalModel);
-        ItemModel.Unbaked wood = ItemModelUtils.plainModel(woodModel);
+        ItemModel.Unbaked normal =
+                ItemModelUtils.plainModel(normalModel);
+
+        ItemModel.Unbaked wood =
+                ItemModelUtils.plainModel(woodModel);
 
         itemModels.itemModelOutput.accept(
                 item,
@@ -554,6 +565,11 @@ public class ModModelProvider extends ModelProvider {
     public void generateSpearWithWood(ItemModelGenerators itemModels, Item item) {
         generatedItems.add(item);
 
+        String itemName = item.getDescriptionId()
+                .substring(item.getDescriptionId().lastIndexOf('.') + 1);
+
+        String baseName = getGenericToolName(itemName);
+
         Identifier normalModel = ModelTemplates.FLAT_ITEM.create(
                 ModelLocationUtils.getModelLocation(item),
                 TextureMapping.layer0(
@@ -571,19 +587,29 @@ public class ModModelProvider extends ModelProvider {
         );
 
         Identifier woodModel = FLAT_ITEM_TWO_LAYER.create(
-                ModelLocationUtils.getModelLocation(item, "_wood"),
+                Identifier.fromNamespaceAndPath(
+                        Constants.MOD_ID,
+                        "item/" + itemName + "_wood"
+                ),
                 TextureMapping.layered(
                         TextureMapping.getItemTexture(item),
-                        TextureMapping.getItemTexture(item, "_wood")
+                        new Material(
+                                Constants.id("item/" + baseName + "_wood")
+                        )
                 ),
                 itemModels.modelOutput
         );
 
         Identifier woodInHandModel = FLAT_SPEAR_IN_HAND_TWO_LAYER.create(
-                ModelLocationUtils.getModelLocation(item, "_wood_in_hand"),
+                Identifier.fromNamespaceAndPath(
+                        Constants.MOD_ID,
+                        "item/" + itemName + "_wood_in_hand"
+                ),
                 TextureMapping.layered(
                         TextureMapping.getItemTexture(item, "_in_hand"),
-                        TextureMapping.getItemTexture(item, "_in_hand_wood")
+                        new Material(
+                                Constants.id("item/" + baseName + "_in_hand_wood")
+                        )
                 ),
                 itemModels.modelOutput
         );
@@ -632,7 +658,6 @@ public class ModModelProvider extends ModelProvider {
                 )
         );
     }
-
 
     private void generateReversedHandheldtItem(ItemModelGenerators itemModels, Item item) {
         generatedItems.add(item);
@@ -800,12 +825,17 @@ public class ModModelProvider extends ModelProvider {
     }
 
     private void generateInHandWithWood(
-            ItemModelGenerators itemModels,
+                    ItemModelGenerators itemModels,
             Item item,
             ModelTemplate modelTemplate,
             ModelTemplate modelTemplateInHand
     ) {
         generatedItems.add(item);
+
+        String itemName = item.getDescriptionId()
+                .substring(item.getDescriptionId().lastIndexOf('.') + 1);
+
+        String baseName = getGenericToolName(itemName);
 
         Identifier normalModel = ModelTemplates.FLAT_ITEM.create(
                 ModelLocationUtils.getModelLocation(item),
@@ -827,7 +857,9 @@ public class ModModelProvider extends ModelProvider {
                 ModelLocationUtils.getModelLocation(item, "_wood"),
                 TextureMapping.layered(
                         TextureMapping.getItemTexture(item),
-                        TextureMapping.getItemTexture(item, "_wood")
+                        new Material(
+                                Constants.id("item/" + baseName + "_wood")
+                        )
                 ),
                 itemModels.modelOutput
         );
@@ -836,7 +868,9 @@ public class ModModelProvider extends ModelProvider {
                 ModelLocationUtils.getModelLocation(item, "_wood_in_hand"),
                 TextureMapping.layered(
                         TextureMapping.getItemTexture(item, "_in_hand"),
-                        TextureMapping.getItemTexture(item, "_in_hand_wood")
+                        new Material(
+                                Constants.id("item/" + baseName + "_in_hand_wood")
+                        )
                 ),
                 itemModels.modelOutput
         );
@@ -1044,5 +1078,32 @@ public class ModModelProvider extends ModelProvider {
 
     public static Identifier decorateItemModelLocation(final String id) {
         return Identifier.fromNamespaceAndPath(Constants.MOD_ID, "item/" + id);
+    }
+
+    private String getGenericToolName(String itemName) {
+        if (itemName.endsWith("_sword")) {
+            return "sword";
+        }
+
+        if (itemName.endsWith("_pickaxe")) {
+            return "pickaxe";
+        }
+
+        if (itemName.endsWith("_axe")) {
+            return "axe";
+        }
+
+        if (itemName.endsWith("_shovel")) {
+            return "shovel";
+        }
+
+        if (itemName.endsWith("_hoe")) {
+            return "hoe";
+        }
+        if (itemName.endsWith("_spear")) {
+            return "spear";
+        }
+
+        return itemName;
     }
 }

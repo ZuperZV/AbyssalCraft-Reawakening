@@ -2,6 +2,6 @@
   "parent": "minecraft:item/generated",
   "textures": {
     "layer0": "abyssalcraft_reawakening:item/abyssalnite_spear",
-    "layer1": "abyssalcraft_reawakening:item/abyssalnite_spear_wood"
+    "layer1": "abyssalcraft_reawakening:item/spear_wood"
   }
 }

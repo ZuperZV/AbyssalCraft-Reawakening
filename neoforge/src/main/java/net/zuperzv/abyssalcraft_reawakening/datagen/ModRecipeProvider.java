@@ -16,7 +16,9 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.component.CoraliumGemsData;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.StoneRitualAltarRecipe;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.customCraftingTable.CoraliumGemRecipe;
@@ -221,34 +223,6 @@ public class ModRecipeProvider extends RecipeProvider {
                         has(ModItems.DREADLANDS_STAFF_OF_RENDING.get()))
                 .save(output, ResourceKey.create(Registries.RECIPE,
                         Constants.id("omothol_staff_of_rending")));
-
-        //Coralium
-        StoneRitualAltarRecipeBuilder.altar(
-                RecipeCategory.MISC, ModItems.TRANSMUTATION_GEM.get(),
-
-                        Ingredient.of(ModItems.CORALIUM_PEARL.get())
-                )
-                .addIngredient(Ingredient.of(Items.ENDER_PEARL)) //Venster
-                .addIngredient(Ingredient.of(Items.DIAMOND)) //Up
-                .addIngredient(Ingredient.of(Items.ENDER_PEARL)) //Højere
-                .addIngredient(Ingredient.of(Items.DIAMOND)) //Ned
-                .addIngredient(Ingredient.of(Items.BLAZE_POWDER)) //Venster Up
-                .addIngredient(Ingredient.of(Items.BLAZE_POWDER)) //Højere Up
-                .addIngredient(Ingredient.of(Items.BLAZE_POWDER)) //Højere Ned
-                .addIngredient(Ingredient.of(Items.BLAZE_POWDER)) //Venster Ned
-                .time(TimeOfDay.BOTH)
-                .duration(400)
-                .potentialEnergy(300)
-                .unlockedBy(
-                        "has_coralium_pearl",
-                        has(ModItems.CORALIUM_PEARL.get()))
-                .save(output);
-
-        output.accept(
-                recipeKey("coralium_gem"),
-                new CoraliumGemRecipe(CraftingBookCategory.MISC),
-                null
-        );
 
         //Abyssalnite
             //Tools
@@ -806,6 +780,317 @@ public class ModRecipeProvider extends RecipeProvider {
 
         rawToIngot(ModItems.RAW_ABYSSALNITE.get(), RecipeCategory.MISC, ModItems.ABYSSALNITE_INGOT.get(), 0.7f, 200, output);
         rawToIngot(ModBlocks.ABYSSALNITE_ORE.item().get(), RecipeCategory.MISC, ModItems.ABYSSALNITE_INGOT.get(), 0.9f, 200, output);
+
+        // Coralium
+            // Tools
+            // Sword
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.CORALIUM_SWORD.get(),
+                        Ingredient.of(ModItems.ABYSSALNITE_SWORD.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get())) // Venstre
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get())) // Up
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get())) // Højre
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get())) // Ned
+                .time(TimeOfDay.NIGHT)
+                .duration(600)
+                .potentialEnergy(1000)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_abyssalnite",
+                        has(ModItems.ABYSSALNITE_SWORD.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("coralium_sword_abyssalnite")));
+
+            // Pickaxe
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.CORALIUM_PICKAXE.get(),
+                        Ingredient.of(ModItems.ABYSSALNITE_PICKAXE.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .time(TimeOfDay.NIGHT)
+                .duration(600)
+                .potentialEnergy(1000)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_abyssalnite",
+                        has(ModItems.ABYSSALNITE_PICKAXE.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("coralium_pickaxe_abyssalnite")));
+
+            // Axe
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.CORALIUM_AXE.get(),
+                        Ingredient.of(ModItems.ABYSSALNITE_AXE.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .time(TimeOfDay.NIGHT)
+                .duration(600)
+                .potentialEnergy(1000)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_abyssalnite",
+                        has(ModItems.ABYSSALNITE_AXE.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("coralium_axe_abyssalnite")));
+
+
+            // Shovel
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.CORALIUM_SHOVEL.get(),
+                        Ingredient.of(ModItems.ABYSSALNITE_SHOVEL.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .time(TimeOfDay.NIGHT)
+                .duration(600)
+                .potentialEnergy(1000)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_abyssalnite",
+                        has(ModItems.ABYSSALNITE_SHOVEL.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("coralium_shovel_abyssalnite")));
+
+            // Hoe
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.CORALIUM_HOE.get(),
+                        Ingredient.of(ModItems.ABYSSALNITE_HOE.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .time(TimeOfDay.NIGHT)
+                .duration(600)
+                .potentialEnergy(1000)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_abyssalnite",
+                        has(ModItems.ABYSSALNITE_HOE.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("coralium_hoe_abyssalnite")));
+
+            // Spear
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.CORALIUM_SPEAR.get(),
+                        Ingredient.of(ModItems.ABYSSALNITE_SPEAR.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .time(TimeOfDay.NIGHT)
+                .duration(600)
+                .potentialEnergy(1000)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_abyssalnite",
+                        has(ModItems.ABYSSALNITE_SPEAR.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("coralium_spear_abyssalnite")));
+        // Armor
+            // Helmet
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.CORALIUM_HELMET.get(),
+                        Ingredient.of(ModItems.ABYSSALNITE_HELMET.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .time(TimeOfDay.NIGHT)
+                .duration(600)
+                .potentialEnergy(1000)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_abyssalnite",
+                        has(ModItems.ABYSSALNITE_HELMET.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("coralium_helmet_abyssalnite")));
+
+
+// Chestplate
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.CORALIUM_CHESTPLATE.get(),
+                        Ingredient.of(ModItems.ABYSSALNITE_CHESTPLATE.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .time(TimeOfDay.NIGHT)
+                .duration(600)
+                .potentialEnergy(1000)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_abyssalnite",
+                        has(ModItems.ABYSSALNITE_CHESTPLATE.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("coralium_chestplate_abyssalnite")));
+
+
+// Leggings
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.CORALIUM_LEGGINGS.get(),
+                        Ingredient.of(ModItems.ABYSSALNITE_LEGGINGS.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .time(TimeOfDay.NIGHT)
+                .duration(600)
+                .potentialEnergy(1000)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_abyssalnite",
+                        has(ModItems.ABYSSALNITE_LEGGINGS.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("coralium_leggings_abyssalnite")));
+
+
+// Boots
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.CORALIUM_BOOTS.get(),
+                        Ingredient.of(ModItems.ABYSSALNITE_BOOTS.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .time(TimeOfDay.NIGHT)
+                .duration(600)
+                .potentialEnergy(1000)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_abyssalnite",
+                        has(ModItems.ABYSSALNITE_BOOTS.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("coralium_boots_abyssalnite")));
+
+
+// Storage
+        nineBlockStorageRecipes(
+                output,
+                RecipeCategory.MISC,
+                ModItems.CORALIUM_NUGGET.get(),
+                RecipeCategory.MISC,
+                ModItems.CORALIUM_INGOT.get()
+        );
+
+        nineBlockStorageRecipes(
+                output,
+                RecipeCategory.MISC,
+                ModItems.CORALIUM_INGOT.get(),
+                RecipeCategory.MISC,
+                ModBlocks.CORALIUM_BLOCK.item().get()
+        );
+
+        nineBlockStorageRecipes(
+                output,
+                RecipeCategory.MISC,
+                ModItems.RAW_CORALIUM.get(),
+                RecipeCategory.MISC,
+                ModBlocks.RAW_CORALIUM_BLOCK.item().get()
+        );
+
+        rawToIngot(
+                ModItems.RAW_CORALIUM.get(),
+                RecipeCategory.MISC,
+                ModItems.CORALIUM_INGOT.get(),
+                0.7f,
+                200,
+                output
+        );
+
+        rawToIngot(
+                ModBlocks.CORALIUM_ORE.item().get(),
+                RecipeCategory.MISC,
+                ModItems.CORALIUM_INGOT.get(),
+                0.9f,
+                200,
+                output
+        );
 
         //WITHERWOOD
 

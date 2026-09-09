@@ -43,6 +43,8 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         // Abyssalnite
         add(ModBlocks.ABYSSALNITE_BLOCK.block().get(), "Block of Abyssalnite");
         add(ModBlocks.RAW_ABYSSALNITE_BLOCK.block().get(), "Block of Raw Abyssalnite");
+        add(ModBlocks.CORALIUM_BLOCK.block().get(), "Block of Coralium");
+        add(ModBlocks.RAW_CORALIUM_BLOCK.block().get(), "Block of Raw Coralium");
 
         // Creative tab
         add(ModCreativeTabs.ABYSSALCRAFT_TAB.get().getDisplayName(),

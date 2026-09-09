@@ -1,0 +1,15 @@
+{
+  "model": {
+    "type": "minecraft:condition",
+    "component": "abyssalcraft_reawakening:wood",
+    "on_false": {
+      "type": "minecraft:model",
+      "model": "abyssalcraft_reawakening:item/coralium_axe"
+    },
+    "on_true": {
+      "type": "minecraft:model",
+      "model": "abyssalcraft_reawakening:item/coralium_axe_wood"
+    },
+    "property": "minecraft:has_component"
+  }
+}

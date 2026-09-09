@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "abyssalcraft_reawakening:stone_ritual_altar/transmutation_gem"
+        "recipe": "abyssalcraft_reawakening:stone_ritual_altar/coralium_axe_abyssalnite"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -15,7 +15,7 @@
   ],
   "rewards": {
     "recipes": [
-      "abyssalcraft_reawakening:stone_ritual_altar/transmutation_gem"
+      "abyssalcraft_reawakening:stone_ritual_altar/coralium_axe_abyssalnite"
     ]
   }
 }

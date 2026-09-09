@@ -17,6 +17,7 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.dataDrivenIte
 import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.dimension.ModDimensions;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
+import org.jspecify.annotations.NonNull;
 
 public class ModItems {
     private ModItems() {}
@@ -176,12 +177,60 @@ public class ModItems {
     public static final RegistryHandle<Item> CORALIUM_GEM = Services.REGISTRY.registerItem("coralium_gem",
             properties -> new CoraliumGemItem(properties));
 
+    public static final RegistryHandle<Item> CHUNK_OF_CORALIUM = Services.REGISTRY.registerItem("chunk_of_coralium",
+            properties -> new Item(properties));
+
     public static final RegistryHandle<Item> CORALIUM_PEARL = Services.REGISTRY.registerItem("coralium_pearl",
             properties -> new Item(properties));
 
     public static final RegistryHandle<Item> TRANSMUTATION_GEM = Services.REGISTRY.registerItem("transmutation_gem",
             properties -> Services.ITEM_FACTORY.createTransmutationGem(
                     properties.durability(10).stacksTo(1)));
+
+    public static final RegistryHandle<Item> CORALIUM_INGOT = Services.REGISTRY.registerItem("coralium_ingot",
+            properties -> new Item(properties));
+
+    public static final RegistryHandle<Item> RAW_CORALIUM = Services.REGISTRY.registerItem("raw_coralium",
+            properties -> new Item(properties));
+
+    public static final RegistryHandle<Item> CORALIUM_NUGGET = Services.REGISTRY.registerItem("coralium_nugget",
+            properties -> new Item(properties));
+
+
+    public static final RegistryHandle<Item> CORALIUM_SWORD = Services.REGISTRY.registerItem("coralium" + getSword(),
+            properties -> new Item(properties.sword(ModToolMaterials.REFINED_CORALIUM, 3.0f, -2.4F)));
+
+    private static @NonNull String getSword() {
+        return "_sword";
+    }
+
+    public static final RegistryHandle<Item> CORALIUM_PICKAXE = Services.REGISTRY.registerItem("coralium_pickaxe",
+            properties -> new Item(properties.pickaxe(ModToolMaterials.REFINED_CORALIUM, 1.0F, -2.8F)));
+
+    public static final RegistryHandle<Item> CORALIUM_AXE = Services.REGISTRY.registerItem("coralium_axe",
+            properties -> new AxeItem(ModToolMaterials.REFINED_CORALIUM, 5.0F, -3.0F, properties));
+
+    public static final RegistryHandle<Item> CORALIUM_SHOVEL = Services.REGISTRY.registerItem("coralium_shovel",
+            properties -> new ShovelItem(ModToolMaterials.REFINED_CORALIUM, 1.5F, -3.0F, properties));
+
+    public static final RegistryHandle<Item> CORALIUM_HOE = Services.REGISTRY.registerItem("coralium_hoe",
+            properties -> new HoeItem(ModToolMaterials.REFINED_CORALIUM, -3.0F, 0.0F, properties));
+
+    public static final RegistryHandle<Item> CORALIUM_SPEAR = Services.REGISTRY.registerItem("coralium_spear",
+            properties -> new Item(properties.spear(ModToolMaterials.REFINED_CORALIUM, 1.20F, 1.25F, 0.70F, 3.2F, 14.0F, 2.8F, 12.0F, 5.5F, 10.5F)));
+
+
+    public static final RegistryHandle<Item> CORALIUM_HELMET = Services.REGISTRY.registerItem("coralium_helmet",
+            properties -> new Item(properties.humanoidArmor(ModArmorMaterials.REFINED_CORALIUM_ARMOR_MATERIAL, ArmorType.HELMET)));
+
+    public static final RegistryHandle<Item> CORALIUM_CHESTPLATE = Services.REGISTRY.registerItem("coralium_chestplate",
+            properties -> new Item(properties.humanoidArmor(ModArmorMaterials.REFINED_CORALIUM_ARMOR_MATERIAL, ArmorType.CHESTPLATE)));
+
+    public static final RegistryHandle<Item> CORALIUM_LEGGINGS = Services.REGISTRY.registerItem("coralium_leggings",
+            properties -> new Item(properties.humanoidArmor(ModArmorMaterials.REFINED_CORALIUM_ARMOR_MATERIAL, ArmorType.LEGGINGS)));
+
+    public static final RegistryHandle<Item> CORALIUM_BOOTS = Services.REGISTRY.registerItem("coralium_boots",
+            properties -> new Item(properties.humanoidArmor(ModArmorMaterials.REFINED_CORALIUM_ARMOR_MATERIAL, ArmorType.BOOTS)));
 
     //Dread
     public static final RegistryHandle<Item> DREAD_FRAGMENT = Services.REGISTRY.registerItem("dread_fragment",

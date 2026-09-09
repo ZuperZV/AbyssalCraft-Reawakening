@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "abyssalcraft_reawakening:item/coralium_sword",
+    "layer1": "abyssalcraft_reawakening:item/sword_wood"
+  }
+}

@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "abyssalcraft_reawakening:refined_coralium_block"
+          "name": "abyssalcraft_reawakening:raw_coralium_block"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "abyssalcraft_reawakening:blocks/refined_coralium_block"
+  "random_sequence": "abyssalcraft_reawakening:blocks/raw_coralium_block"
 }

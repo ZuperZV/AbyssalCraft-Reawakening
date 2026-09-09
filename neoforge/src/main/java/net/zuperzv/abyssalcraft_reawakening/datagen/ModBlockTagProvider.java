@@ -33,12 +33,15 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.CORALIUM_GRIMESTONE_ORE.block().get());
 
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
+                .add(ModBlocks.RAW_ABYSSALNITE_BLOCK.block().get())
                 .add(ModBlocks.ABYSSALNITE_BLOCK.block().get())
+                .add(ModBlocks.RAW_CORALIUM_BLOCK.block().get())
+                .add(ModBlocks.CORALIUM_BLOCK.block().get())
                 .add(ModBlocks.ABYSSAL_STONE.block().get())
                 .add(ModBlocks.ABYSSAL_COBBLESTONE.block().get())
-                .add(ModBlocks.GRIMESTONE.block().get())
                 .add(ModBlocks.CORALIUM_STONE.block().get())
                 .add(ModBlocks.CORALIUM_COBBLESTONE.block().get())
+                .add(ModBlocks.GRIMESTONE.block().get())
                 .add(ModBlocks.CORRUPTED_SOIL.block().get())
                 .add(ModBlocks.WASTITE.block().get())
                 .add(ModBlocks.STARITE.block().get())
@@ -81,10 +84,12 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
         tag(BlockTags.NEEDS_IRON_TOOL)
                 .add(ModBlocks.ABYSSALNITE_BLOCK.block().get())
+                .add(ModBlocks.RAW_ABYSSALNITE_BLOCK.block().get())
                 .addTag(ModBlockTags.ABYSSALCRAFT_ORES);
 
         tag(ModBlockTags.NEEDS_ABYSSALNITE_TOOL)
-                .add(ModBlocks.REFINED_CORALIUM_BLOCK.block().get());
+                .add(ModBlocks.CORALIUM_BLOCK.block().get())
+                .add(ModBlocks.RAW_CORALIUM_BLOCK.block().get());
 
         tag(ModBlockTags.NEEDS_REFINED_CORALIUM_TOOL)
                 .add(ModBlocks.DREADIUM_BLOCK.block().get());

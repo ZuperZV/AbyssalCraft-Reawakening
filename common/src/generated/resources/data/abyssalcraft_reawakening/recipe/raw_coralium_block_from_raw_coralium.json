@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "abyssalcraft_reawakening:raw_coralium",
+    "abyssalcraft_reawakening:raw_coralium",
+    "abyssalcraft_reawakening:raw_coralium",
+    "abyssalcraft_reawakening:raw_coralium",
+    "abyssalcraft_reawakening:raw_coralium",
+    "abyssalcraft_reawakening:raw_coralium",
+    "abyssalcraft_reawakening:raw_coralium",
+    "abyssalcraft_reawakening:raw_coralium",
+    "abyssalcraft_reawakening:raw_coralium"
+  ],
+  "result": {
+    "id": "abyssalcraft_reawakening:raw_coralium_block"
+  }
+}

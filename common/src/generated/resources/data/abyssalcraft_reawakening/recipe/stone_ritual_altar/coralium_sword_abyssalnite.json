@@ -1,0 +1,26 @@
+{
+  "type": "abyssalcraft_reawakening:ritual_altar",
+  "copy_components": [
+    {
+      "components": [
+        "minecraft:damage",
+        "minecraft:enchantments"
+      ],
+      "from": "mold"
+    }
+  ],
+  "dimension": "abyssalcraft_reawakening:abyssal_wasteland",
+  "ingredient": "abyssalcraft_reawakening:abyssalnite_sword",
+  "ingredients": [
+    "abyssalcraft_reawakening:coralium_ingot",
+    "abyssalcraft_reawakening:recipe_item",
+    "abyssalcraft_reawakening:coralium_ingot",
+    "abyssalcraft_reawakening:recipe_item"
+  ],
+  "output": {
+    "id": "abyssalcraft_reawakening:coralium_sword"
+  },
+  "pe": 1000,
+  "time": 600,
+  "time_of_day": "NIGHT"
+}
