@@ -455,7 +455,7 @@ public final class MultiblockPreviewRenderer {
 
         if (entries.isEmpty()) {
             try { org.lwjgl.opengl.GL11.glDisable(org.lwjgl.opengl.GL11.GL_DEPTH_TEST); } catch (Throwable ignored) {}
-            return false;
+            return;
         }
 
         org.joml.Matrix3x2f guiPose =
