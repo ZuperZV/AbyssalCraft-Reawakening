@@ -349,8 +349,158 @@ public final class MultiblockPreviewRenderer {
             int width,
             int height
     ) {
-        // Prefer the BlockRenderDispatcher-based path to render full 3D multiblocks
-        drawStructureWithBlockRenderer(graphics, structure, x, y, width, height);
+        // Legacy GUI-element rendering path (works reliably in JEI). This builds a
+        // MultiblockPreviewRenderState and submits it to the GUI so that all faces
+        // are rendered in correct depth order.
+        List<MultiblockStructure.BlockEntry> blocks =
+                getVisibleBlocks(structure);
+
+        if (blocks.isEmpty()) {
+            return;
+        }
+
+        int padding = 12;
+
+        int renderWidth =
+                width - padding * 2;
+
+        int renderHeight =
+                height - padding * 2;
+
+        if (renderWidth <= 0 || renderHeight <= 0) {
+            return;
+        }
+
+        float scale =
+                calculateScale(
+                        structure,
+                        renderWidth,
+                        renderHeight
+                );
+
+        float centerX =
+                (structure.size().x() - 1) / 2.0f;
+
+        float centerY;
+
+        if (MultiblockPreviewInput.isLayerView()) {
+            centerY =
+                    MultiblockPreviewInput.getLayer();
+        } else {
+            centerY =
+                    (structure.size().y() - 1) / 2.0f;
+        }
+
+        float centerZ =
+                (structure.size().z() - 1) / 2.0f;
+
+        List<MultiblockPreviewRenderState.Entry> entries =
+                new ArrayList<>(blocks.size());
+
+        Minecraft mc =
+                Minecraft.getInstance();
+
+        for (MultiblockStructure.BlockEntry entry : blocks) {
+
+            BlockState state =
+                    entry.state();
+
+            BlockStateModel model =
+                    mc.getModelManager()
+                            .getBlockStateModelSet()
+                            .get(state);
+
+            if (model == null) {
+                continue;
+            }
+
+            entries.add(
+                    new MultiblockPreviewRenderState.Entry(
+                            new BlockPos(
+                                    entry.pos().getX(),
+                                    entry.pos().getY(),
+                                    entry.pos().getZ()
+                            ),
+                            state,
+                            model
+                    )
+            );
+        }
+
+        if (entries.isEmpty()) {
+            return;
+        }
+
+        org.joml.Matrix3x2f guiPose =
+                new org.joml.Matrix3x2f(
+                        graphics.pose()
+                );
+
+        float rotationX =
+                MultiblockPreviewInput.getRotationX();
+
+        float rotationY =
+                MultiblockPreviewInput.getRotationY();
+
+        float renderX =
+                x + width / 2.0f;
+
+        float renderY =
+                y + height / 2.0f;
+
+        GuiGraphicsExtractorAccess.of(graphics)
+                .abyssalcraft$addGuiElement(
+                        new MultiblockPreviewRenderState(
+                                entries,
+                                guiPose,
+                                Math.round(renderX),
+                                Math.round(renderY),
+                                scale,
+                                rotationX,
+                                rotationY,
+                                centerX,
+                                centerY,
+                                centerZ
+                        )
+                );
+
+        if (hoveredBlock != null) {
+
+            float[] point =
+                    project(
+                            hoveredBlock,
+                            structure,
+                            renderX,
+                            renderY,
+                            scale
+                    );
+
+            int blockSize =
+                    Math.max(
+                            8,
+                            Math.min(
+                                    24,
+                                    Math.round(scale * 0.55f)
+                            )
+                    );
+
+            int half =
+                    blockSize / 2;
+
+            int centerBlockX =
+                    Math.round(point[0]);
+
+            int centerBlockY =
+                    Math.round(point[1]);
+
+            graphics.outline(
+                    centerBlockX - half - 2,
+                    centerBlockY - half - 2,
+                    blockSize + 4,
+                    blockSize + half + 4,
+                    0xFFFFFFFF
+            );
+        }
     }
 
     // New rendering path using Minecraft's BlockRenderDispatcher. This keeps the same
