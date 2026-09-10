@@ -228,11 +228,6 @@ public final class MultiblockPreviewRenderState
                         .thenComparingInt(face -> System.identityHashCode(face.quad()))
         );
 
-    private static int directionOrder(Direction direction) {
-        if (direction == null) return 0;
-        return direction.ordinal() + 1;
-    }
-
         // Try using the GL depth buffer for correct occlusion where available.
         try {
             org.lwjgl.opengl.GL11.glEnable(org.lwjgl.opengl.GL11.GL_DEPTH_TEST);
@@ -440,6 +435,11 @@ public final class MultiblockPreviewRenderState
                         normalZ * cameraZ;
 
         return dot > 0.0;
+    }
+
+    private static int directionOrder(Direction direction) {
+        if (direction == null) return 0;
+        return direction.ordinal() + 1;
     }
 
     private List<Entry> sortBackToFront() {
