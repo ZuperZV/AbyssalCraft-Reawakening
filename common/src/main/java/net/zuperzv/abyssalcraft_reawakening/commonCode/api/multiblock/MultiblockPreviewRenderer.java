@@ -22,6 +22,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.access.GuiGraphicsExtractorAccess;
 import org.joml.Matrix4f;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -348,157 +349,8 @@ public final class MultiblockPreviewRenderer {
             int width,
             int height
     ) {
-        // Legacy method kept for compatibility. Use drawStructureWithBlockRenderer(...) for
-        // BlockRenderDispatcher-based rendering (new, more robust path).
-        List<MultiblockStructure.BlockEntry> blocks =
-                getVisibleBlocks(structure);
-
-        if (blocks.isEmpty()) {
-            return;
-        }
-
-        int padding = 12;
-
-        int renderWidth =
-                width - padding * 2;
-
-        int renderHeight =
-                height - padding * 2;
-
-        if (renderWidth <= 0 || renderHeight <= 0) {
-            return;
-        }
-
-        float scale =
-                calculateScale(
-                        structure,
-                        renderWidth,
-                        renderHeight
-                );
-
-        float centerX =
-                (structure.size().x() - 1) / 2.0f;
-
-        float centerY;
-
-        if (MultiblockPreviewInput.isLayerView()) {
-            centerY =
-                    MultiblockPreviewInput.getLayer();
-        } else {
-            centerY =
-                    (structure.size().y() - 1) / 2.0f;
-        }
-
-        float centerZ =
-                (structure.size().z() - 1) / 2.0f;
-
-        List<MultiblockPreviewRenderState.Entry> entries =
-                new ArrayList<>(blocks.size());
-
-        Minecraft mc =
-                Minecraft.getInstance();
-
-        for (MultiblockStructure.BlockEntry entry : blocks) {
-
-            BlockState state =
-                    entry.state();
-
-            BlockStateModel model =
-                    mc.getModelManager()
-                            .getBlockStateModelSet()
-                            .get(state);
-
-            if (model == null) {
-                continue;
-            }
-
-            entries.add(
-                    new MultiblockPreviewRenderState.Entry(
-                            new BlockPos(
-                                    entry.pos().getX(),
-                                    entry.pos().getY(),
-                                    entry.pos().getZ()
-                            ),
-                            state,
-                            model
-                    )
-            );
-        }
-
-        if (entries.isEmpty()) {
-            return;
-        }
-
-        org.joml.Matrix3x2f guiPose =
-                new org.joml.Matrix3x2f(
-                        graphics.pose()
-                );
-
-        float rotationX =
-                MultiblockPreviewInput.getRotationX();
-
-        float rotationY =
-                MultiblockPreviewInput.getRotationY();
-
-        float renderX =
-                x + width / 2.0f;
-
-        float renderY =
-                y + height / 2.0f;
-
-        GuiGraphicsExtractorAccess.of(graphics)
-                .abyssalcraft$addGuiElement(
-                        new MultiblockPreviewRenderState(
-                                entries,
-                                guiPose,
-                                Math.round(renderX),
-                                Math.round(renderY),
-                                scale,
-                                rotationX,
-                                rotationY,
-                                centerX,
-                                centerY,
-                                centerZ
-                        )
-                );
-
-        if (hoveredBlock != null) {
-
-            float[] point =
-                    project(
-                            hoveredBlock,
-                            structure,
-                            renderX,
-                            renderY,
-                            scale
-                    );
-
-            int blockSize =
-                    Math.max(
-                            8,
-                            Math.min(
-                                    24,
-                                    Math.round(scale * 0.55f)
-                            )
-                    );
-
-            int half =
-                    blockSize / 2;
-
-            int centerBlockX =
-                    Math.round(point[0]);
-
-            int centerBlockY =
-                    Math.round(point[1]);
-
-            graphics.outline(
-                    centerBlockX - half - 2,
-                    centerBlockY - half - 2,
-                    blockSize + 4,
-                    blockSize + half + 4,
-                    0xFFFFFFFF
-            );
-        }
+        // Prefer the BlockRenderDispatcher-based path to render full 3D multiblocks
+        drawStructureWithBlockRenderer(graphics, structure, x, y, width, height);
     }
 
     // New rendering path using Minecraft's BlockRenderDispatcher. This keeps the same
@@ -543,6 +395,12 @@ public final class MultiblockPreviewRenderer {
         }
 
         MultiBufferSource buffers = mc.renderBuffers().bufferSource();
+
+        // Enable depth testing so the full 3D multiblock renders correctly in GUIs
+        try {
+            RenderSystem.enableDepthTest();
+        } catch (Throwable ignored) {
+        }
 
         // Prepare pose stack matching legacy transforms
         PoseStack pose = new PoseStack();
@@ -606,6 +464,11 @@ public final class MultiblockPreviewRenderer {
         // Flush buffers
         try {
             mc.renderBuffers().bufferSource().endBatch();
+        } catch (Throwable ignored) {
+        }
+
+        try {
+            RenderSystem.disableDepthTest();
         } catch (Throwable ignored) {
         }
     }
