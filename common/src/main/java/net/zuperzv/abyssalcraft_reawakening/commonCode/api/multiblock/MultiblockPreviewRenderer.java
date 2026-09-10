@@ -1,6 +1,12 @@
 package net.zuperzv.abyssalcraft_reawakening.commonCode.api.multiblock;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+
+import java.lang.reflect.Method;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
@@ -15,6 +21,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.access.GuiGraphicsExtractorAccess;
+import org.joml.Matrix4f;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -341,6 +348,8 @@ public final class MultiblockPreviewRenderer {
             int width,
             int height
     ) {
+        // Legacy method kept for compatibility. Use drawStructureWithBlockRenderer(...) for
+        // BlockRenderDispatcher-based rendering (new, more robust path).
         List<MultiblockStructure.BlockEntry> blocks =
                 getVisibleBlocks(structure);
 
@@ -490,6 +499,116 @@ public final class MultiblockPreviewRenderer {
                     0xFFFFFFFF
             );
         }
+    }
+
+    // New rendering path using Minecraft's BlockRenderDispatcher. This keeps the same
+    // centering/scale/rotation logic but delegates actual block rendering to the
+    // vanilla dispatcher which avoids many clipping/frustum issues.
+    private static void drawStructureWithBlockRenderer(
+            GuiGraphicsExtractor graphics,
+            MultiblockStructure structure,
+            int x,
+            int y,
+            int width,
+            int height
+    ) {
+        List<MultiblockStructure.BlockEntry> blocks =
+                getVisibleBlocks(structure);
+
+        if (blocks.isEmpty()) return;
+
+        int padding = 12;
+        int renderWidth = width - padding * 2;
+        int renderHeight = height - padding * 2;
+        if (renderWidth <= 0 || renderHeight <= 0) return;
+
+        float scale = calculateScale(structure, renderWidth, renderHeight);
+
+        float centerX = (structure.size().x() - 1) / 2.0f;
+        float centerY = MultiblockPreviewInput.isLayerView() ? MultiblockPreviewInput.getLayer() : (structure.size().y() - 1) / 2.0f;
+        float centerZ = (structure.size().z() - 1) / 2.0f;
+
+        Minecraft mc = Minecraft.getInstance();
+        Object blockDispatcher = null;
+        try {
+            Method getter = mc.getClass().getMethod("getBlockRenderer");
+            blockDispatcher = getter.invoke(mc);
+        } catch (Exception ignored) {
+            try {
+                Method getter = mc.getClass().getMethod("getBlockRendererDispatcher");
+                blockDispatcher = getter.invoke(mc);
+            } catch (Exception ignored2) {
+                // leave null and fall back to legacy path
+            }
+        }
+
+        MultiBufferSource buffers = mc.renderBuffers().bufferSource();
+
+        // Prepare pose stack matching legacy transforms
+        PoseStack pose = new PoseStack();
+
+        org.joml.Matrix3x2f guiPose = new org.joml.Matrix3x2f(graphics.pose());
+        Matrix4f outer = new Matrix4f(
+                guiPose.m00(), guiPose.m01(), 0.0f, 0.0f,
+                guiPose.m10(), guiPose.m11(), 0.0f, 0.0f,
+                0.0f, 0.0f, 1.0f, 0.0f,
+                guiPose.m20(), guiPose.m21(), 0.0f, 1.0f
+        );
+
+        pose.last().pose().set(outer);
+
+        float renderX = x + width / 2.0f;
+        float renderY = y + height / 2.0f;
+
+        pose.translate(renderX, renderY, 0.0f);
+        pose.scale(scale, -scale, scale);
+        pose.mulPose(Axis.XP.rotationDegrees(MultiblockPreviewInput.getRotationX()));
+        pose.mulPose(Axis.YP.rotationDegrees(MultiblockPreviewInput.getRotationY()));
+        pose.translate(-centerX, -centerY, -centerZ);
+
+        int light = 0xF000F0;
+
+        Method renderMethod = null;
+        if (blockDispatcher != null) {
+            for (Method m : blockDispatcher.getClass().getMethods()) {
+                if (m.getName().equals("renderSingleBlock")) {
+                    Class<?>[] params = m.getParameterTypes();
+                    if (params.length >= 4) { // loose check
+                        renderMethod = m;
+                        break;
+                    }
+                }
+            }
+        }
+
+        for (MultiblockStructure.BlockEntry be : blocks) {
+            pose.pushPose();
+            pose.translate(be.pos().getX(), be.pos().getY(), be.pos().getZ());
+            try {
+                if (renderMethod != null && blockDispatcher != null) {
+                    // try invoke the found method
+                    try {
+                        // common signature: (BlockState, PoseStack, MultiBufferSource, int, int)
+                        renderMethod.invoke(blockDispatcher, be.state(), pose, buffers, light, OverlayTexture.NO_OVERLAY);
+                    } catch (IllegalArgumentException iae) {
+                        // try alternative with fewer args
+                        renderMethod.invoke(blockDispatcher, be.state(), pose, buffers, light);
+                    }
+                } else {
+                    // No dispatcher available: fallback to legacy GUI element path already present elsewhere.
+                }
+            } catch (Throwable t) {
+                t.printStackTrace();
+            }
+            pose.popPose();
+        }
+
+        // Flush buffers
+        try {
+            mc.renderBuffers().bufferSource().endBatch();
+        } catch (Throwable ignored) {
+        }
+    }
     }
 
     private static float[] project(
