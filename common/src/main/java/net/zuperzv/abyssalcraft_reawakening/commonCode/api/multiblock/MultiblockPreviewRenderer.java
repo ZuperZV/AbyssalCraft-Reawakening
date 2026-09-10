@@ -398,7 +398,7 @@ public final class MultiblockPreviewRenderer {
 
         // Enable depth testing so the full 3D multiblock renders correctly in GUIs
         try {
-            RenderSystem.enableDepthTest();
+            org.lwjgl.opengl.GL11.glEnable(org.lwjgl.opengl.GL11.GL_DEPTH_TEST);
         } catch (Throwable ignored) {
         }
 
@@ -468,7 +468,7 @@ public final class MultiblockPreviewRenderer {
         }
 
         try {
-            RenderSystem.disableDepthTest();
+            org.lwjgl.opengl.GL11.glDisable(org.lwjgl.opengl.GL11.GL_DEPTH_TEST);
         } catch (Throwable ignored) {
         }
     }
