@@ -96,7 +96,7 @@ public final class MultiblockPreviewRenderState
                 guiPose.m20(), guiPose.m21(), 0.0f, 1.0f
         );
 
-        poseStack.last().pose().mul(outer);
+        poseStack.last().pose().set(outer);
 
         poseStack.translate(
                 x,
@@ -309,7 +309,7 @@ public final class MultiblockPreviewRenderState
                 Math.sin(pitch);
 
         double rotatedZ =
-                -wx * sinYaw
+                wx * sinYaw
                         +
                         wz * cosYaw;
 
@@ -360,7 +360,7 @@ public final class MultiblockPreviewRenderState
                 Math.sin(pitch);
 
         double rotatedZ =
-                -wx * sinYaw
+                wx * sinYaw
                         +
                         wz * cosYaw;
 
@@ -536,7 +536,7 @@ public final class MultiblockPreviewRenderState
                 guiPose.m20(), guiPose.m21(), 0.0f, 1.0f
         );
 
-        poseStack.last().pose().mul(outer);
+        poseStack.last().pose().set(outer);
 
         poseStack.translate(
                 x,
@@ -636,7 +636,7 @@ public final class MultiblockPreviewRenderState
             return null;
         }
 
-        int padding = 4;
+        int padding = Math.max(8, Math.round(scale * 3.0f)); // increase padding to avoid scissor clipping of block faces
 
         int left =
                 (int) Math.floor(minX) - padding;
