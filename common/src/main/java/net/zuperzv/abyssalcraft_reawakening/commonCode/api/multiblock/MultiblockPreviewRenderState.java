@@ -228,8 +228,6 @@ public final class MultiblockPreviewRenderState
                         .thenComparingInt(face -> System.identityHashCode(face.quad()))
         );
 
-    }
-
     private static int directionOrder(Direction direction) {
         if (direction == null) return 0;
         return direction.ordinal() + 1;
