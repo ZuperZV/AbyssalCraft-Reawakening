@@ -217,12 +217,23 @@ public final class MultiblockPreviewRenderState
         }
 
         // Sort back-to-front so painter's algorithm draws far faces first (avoids incorrect occlusion
-        // when rendering without a depth buffer).
+        // when rendering without a depth buffer). Add deterministic tie-breakers to avoid flicker
+        // when depths are nearly equal.
         faces.sort(
-                Comparator.comparingDouble(
-                        FaceEntry::depth
-                ).reversed()
+                Comparator.<FaceEntry>comparingDouble(face -> face.depth()).reversed()
+                        .thenComparingInt(face -> face.entry().localPos().getX())
+                        .thenComparingInt(face -> face.entry().localPos().getY())
+                        .thenComparingInt(face -> face.entry().localPos().getZ())
+                        .thenComparingInt(face -> directionOrder(face.direction()))
+                        .thenComparingInt(face -> System.identityHashCode(face.quad()))
         );
+
+    }
+
+    private static int directionOrder(Direction direction) {
+        if (direction == null) return 0;
+        return direction.ordinal() + 1;
+    }
 
         for (FaceEntry face : faces) {
 
