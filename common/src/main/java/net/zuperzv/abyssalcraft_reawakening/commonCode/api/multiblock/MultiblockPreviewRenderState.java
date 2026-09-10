@@ -220,10 +220,12 @@ public final class MultiblockPreviewRenderState
             }
         }
 
+        // Sort back-to-front so painter's algorithm draws far faces first (avoids incorrect occlusion
+        // when rendering without a depth buffer).
         faces.sort(
                 Comparator.comparingDouble(
                         FaceEntry::depth
-                )
+                ).reversed()
         );
 
         for (FaceEntry face : faces) {
