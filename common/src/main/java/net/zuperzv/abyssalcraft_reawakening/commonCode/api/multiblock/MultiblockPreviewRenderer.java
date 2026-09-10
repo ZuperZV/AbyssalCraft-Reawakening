@@ -349,7 +349,33 @@ public final class MultiblockPreviewRenderer {
             int width,
             int height
     ) {
-        // Legacy GUI-element rendering path (works reliably in JEI). This builds a
+        // First try BlockRenderDispatcher rendering with scissor disabled so GUI clipping
+        // doesn't cut off faces. If dispatcher isn't available, fall back to GUI-element path.
+        boolean scissorWasEnabled = false;
+        try {
+            scissorWasEnabled = org.lwjgl.opengl.GL11.glIsEnabled(org.lwjgl.opengl.GL11.GL_SCISSOR_TEST);
+        } catch (Throwable ignored) {
+        }
+
+        try {
+            org.lwjgl.opengl.GL11.glDisable(org.lwjgl.opengl.GL11.GL_SCISSOR_TEST);
+        } catch (Throwable ignored) {
+        }
+
+        boolean dispatched = false;
+        try {
+            dispatched = drawStructureWithBlockRenderer(graphics, structure, x, y, width, height);
+        } catch (Throwable ignored) {
+        }
+
+        try {
+            if (scissorWasEnabled) org.lwjgl.opengl.GL11.glEnable(org.lwjgl.opengl.GL11.GL_SCISSOR_TEST);
+        } catch (Throwable ignored) {
+        }
+
+        if (dispatched) return;
+
+        // Fallback GUI-element rendering path (works reliably in JEI). This builds a
         // MultiblockPreviewRenderState and submits it to the GUI so that all faces
         // are rendered in correct depth order.
         List<MultiblockStructure.BlockEntry> blocks =
@@ -428,7 +454,8 @@ public final class MultiblockPreviewRenderer {
         }
 
         if (entries.isEmpty()) {
-            return;
+            try { org.lwjgl.opengl.GL11.glDisable(org.lwjgl.opengl.GL11.GL_DEPTH_TEST); } catch (Throwable ignored) {}
+            return false;
         }
 
         org.joml.Matrix3x2f guiPose =
@@ -506,7 +533,7 @@ public final class MultiblockPreviewRenderer {
     // New rendering path using Minecraft's BlockRenderDispatcher. This keeps the same
     // centering/scale/rotation logic but delegates actual block rendering to the
     // vanilla dispatcher which avoids many clipping/frustum issues.
-    private static void drawStructureWithBlockRenderer(
+    private static boolean drawStructureWithBlockRenderer(
             GuiGraphicsExtractor graphics,
             MultiblockStructure structure,
             int x,
@@ -517,12 +544,12 @@ public final class MultiblockPreviewRenderer {
         List<MultiblockStructure.BlockEntry> blocks =
                 getVisibleBlocks(structure);
 
-        if (blocks.isEmpty()) return;
+        if (blocks.isEmpty()) return false;
 
         int padding = 12;
         int renderWidth = width - padding * 2;
         int renderHeight = height - padding * 2;
-        if (renderWidth <= 0 || renderHeight <= 0) return;
+        if (renderWidth <= 0 || renderHeight <= 0) return false;
 
         float scale = calculateScale(structure, renderWidth, renderHeight);
 
@@ -589,6 +616,12 @@ public final class MultiblockPreviewRenderer {
             }
         }
 
+        // If no dispatcher or method found, fall back to GUI-element path
+        if (blockDispatcher == null || renderMethod == null) {
+            try { org.lwjgl.opengl.GL11.glDisable(org.lwjgl.opengl.GL11.GL_DEPTH_TEST); } catch (Throwable ignored) {}
+            return false;
+        }
+
         for (MultiblockStructure.BlockEntry be : blocks) {
             pose.pushPose();
             pose.translate(be.pos().getX(), be.pos().getY(), be.pos().getZ());
@@ -621,6 +654,8 @@ public final class MultiblockPreviewRenderer {
             org.lwjgl.opengl.GL11.glDisable(org.lwjgl.opengl.GL11.GL_DEPTH_TEST);
         } catch (Throwable ignored) {
         }
+
+        return true;
     }
 
     private static float[] project(
