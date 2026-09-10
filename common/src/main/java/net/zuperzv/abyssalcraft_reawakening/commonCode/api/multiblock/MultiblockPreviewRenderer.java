@@ -609,7 +609,6 @@ public final class MultiblockPreviewRenderer {
         } catch (Throwable ignored) {
         }
     }
-    }
 
     private static float[] project(
             MultiblockStructure.BlockEntry entry,
