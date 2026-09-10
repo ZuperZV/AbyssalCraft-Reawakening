@@ -233,6 +233,14 @@ public final class MultiblockPreviewRenderState
         return direction.ordinal() + 1;
     }
 
+        // Try using the GL depth buffer for correct occlusion where available.
+        try {
+            org.lwjgl.opengl.GL11.glEnable(org.lwjgl.opengl.GL11.GL_DEPTH_TEST);
+            org.lwjgl.opengl.GL11.glDepthMask(true);
+            org.lwjgl.opengl.GL11.glClear(org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT);
+        } catch (Throwable ignored) {
+        }
+
         for (FaceEntry face : faces) {
 
             Entry entry =
@@ -268,6 +276,12 @@ public final class MultiblockPreviewRenderState
             );
 
             poseStack.popPose();
+        }
+
+        try {
+            org.lwjgl.opengl.GL11.glDepthMask(false);
+            org.lwjgl.opengl.GL11.glDisable(org.lwjgl.opengl.GL11.GL_DEPTH_TEST);
+        } catch (Throwable ignored) {
         }
     }
 
