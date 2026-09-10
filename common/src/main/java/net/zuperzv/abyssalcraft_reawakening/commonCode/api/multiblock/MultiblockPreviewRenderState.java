@@ -167,10 +167,6 @@ public final class MultiblockPreviewRenderState
 
                 for (Direction direction : Direction.values()) {
 
-                    if (!isFaceVisible(direction, rotationX, rotationY)) {
-                        continue;
-                    }
-
                     List<BakedQuad> quads =
                             part.getQuads(direction);
 
