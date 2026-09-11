@@ -12,14 +12,14 @@
   "dimension": "abyssalcraft_reawakening:abyssal_wasteland",
   "ingredient": "abyssalcraft_reawakening:abyssalnite_helmet",
   "ingredients": [
+    "abyssalcraft_reawakening:coralium_plate",
+    "abyssalcraft_reawakening:coralium_plate",
+    "abyssalcraft_reawakening:coralium_plate",
     "abyssalcraft_reawakening:coralium_ingot",
+    "abyssalcraft_reawakening:coralium_pearl",
+    "abyssalcraft_reawakening:coralium_pearl",
     "abyssalcraft_reawakening:coralium_ingot",
-    "abyssalcraft_reawakening:coralium_ingot",
-    "abyssalcraft_reawakening:recipe_item",
-    "abyssalcraft_reawakening:coralium_ingot",
-    "abyssalcraft_reawakening:coralium_ingot",
-    "abyssalcraft_reawakening:recipe_item",
-    "abyssalcraft_reawakening:recipe_item"
+    "abyssalcraft_reawakening:coralium_ingot"
   ],
   "output": {
     "id": "abyssalcraft_reawakening:coralium_helmet"

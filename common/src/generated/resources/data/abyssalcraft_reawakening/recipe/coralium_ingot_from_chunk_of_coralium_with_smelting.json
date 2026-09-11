@@ -1,9 +1,9 @@
 {
   "type": "minecraft:smelting",
   "category": "misc",
-  "cookingtime": 200,
-  "experience": 0.9,
-  "ingredient": "abyssalcraft_reawakening:coralium_ore",
+  "cookingtime": 250,
+  "experience": 0.6,
+  "ingredient": "abyssalcraft_reawakening:chunk_of_coralium",
   "result": {
     "id": "abyssalcraft_reawakening:coralium_ingot"
   }

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": "abyssalcraft_reawakening:coralium_ingot",
+    "B": "abyssalcraft_reawakening:coralium_pearl"
+  },
+  "pattern": [
+    "ABA",
+    "ABA",
+    "ABA"
+  ],
+  "result": {
+    "id": "abyssalcraft_reawakening:coralium_plate"
+  }
+}

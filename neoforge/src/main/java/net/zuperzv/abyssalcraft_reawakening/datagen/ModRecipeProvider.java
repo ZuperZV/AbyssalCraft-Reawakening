@@ -935,17 +935,17 @@ public class ModRecipeProvider extends RecipeProvider {
                         ModItems.CORALIUM_HELMET.get(),
                         Ingredient.of(ModItems.ABYSSALNITE_HELMET.get())
                 )
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_PLATE.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_PLATE.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_PLATE.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_PEARL.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_PEARL.get()))
                 .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
                 .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
-                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
-                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
-                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
-                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
-                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
-                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
                 .time(TimeOfDay.NIGHT)
                 .duration(600)
-                .potentialEnergy(1000)
+                .potentialEnergy(2000)
                 .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
                 .copyComponents(
                         StoneRitualAltarRecipe.ComponentSource.MOLD,
@@ -968,14 +968,14 @@ public class ModRecipeProvider extends RecipeProvider {
                 .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
                 .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
                 .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
-                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
-                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
-                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_PLATE.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_PLATE.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_PLATE.get()))
                 .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
                 .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
                 .time(TimeOfDay.NIGHT)
                 .duration(600)
-                .potentialEnergy(1000)
+                .potentialEnergy(2000)
                 .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
                 .copyComponents(
                         StoneRitualAltarRecipe.ComponentSource.MOLD,
@@ -999,13 +999,13 @@ public class ModRecipeProvider extends RecipeProvider {
                 .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
                 .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
                 .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_PLATE.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_PLATE.get()))
                 .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
                 .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
-                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
-                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
                 .time(TimeOfDay.NIGHT)
                 .duration(600)
-                .potentialEnergy(1000)
+                .potentialEnergy(2000)
                 .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
                 .copyComponents(
                         StoneRitualAltarRecipe.ComponentSource.MOLD,
@@ -1031,11 +1031,11 @@ public class ModRecipeProvider extends RecipeProvider {
                 .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
                 .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
                 .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
-                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
-                .addIngredient(Ingredient.of(ModItems.CORALIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_PLATE.get()))
+                .addIngredient(Ingredient.of(ModItems.CORALIUM_PLATE.get()))
                 .time(TimeOfDay.NIGHT)
                 .duration(600)
-                .potentialEnergy(1000)
+                .potentialEnergy(2000)
                 .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
                 .copyComponents(
                         StoneRitualAltarRecipe.ComponentSource.MOLD,
@@ -1074,26 +1074,34 @@ public class ModRecipeProvider extends RecipeProvider {
                 ModBlocks.RAW_CORALIUM_BLOCK.item().get()
         );
 
-        rawToIngot(
-                ModItems.RAW_CORALIUM.get(),
-                RecipeCategory.MISC,
-                ModItems.CORALIUM_INGOT.get(),
-                0.7f,
-                200,
-                output
-        );
+        // CORALIUM Items
+        shaped(RecipeCategory.MISC, ModItems.CHUNK_OF_CORALIUM.get(), 4,
+                new String[]{
+                        " A ",
+                        "ABA",
+                        " A "
+                },
+                new Key('A', DataComponentIngredient.of(
+                        true,
+                        ModDataComponentTypes.CORALIUM_GEMS.get(),
+                        new CoraliumGemsData(9),
+                        ModItems.CORALIUM_GEM.get()
+                ), ModItems.CORALIUM_GEM.get()),
+                new Key('B', ModBlocks.ABYSSAL_STONE.block().get()));
 
-        rawToIngot(
-                ModBlocks.CORALIUM_ORE.item().get(),
-                RecipeCategory.MISC,
-                ModItems.CORALIUM_INGOT.get(),
-                0.9f,
-                200,
-                output
-        );
+        shaped(RecipeCategory.MISC, ModItems.CORALIUM_PLATE.get(),
+                new String[]{
+                        "ABA",
+                        "ABA",
+                        "ABA"
+                },
+                new Key('A', ModItems.CORALIUM_INGOT.get()),
+                new Key('B', ModItems.CORALIUM_PEARL.get()));
+
+        //Furnace
+        rawToIngot(ModItems.CHUNK_OF_CORALIUM.get(), RecipeCategory.MISC, ModItems.CORALIUM_INGOT.get(), 0.6f, 250, output);
 
         //WITHERWOOD
-
         this.planksFromLogs(ModBlocks.WITHERWOOD_PLANKS.block().get(), ModItemTags.WITHERWOOD_LOGS, 4);
         this.woodFromLogs(ModBlocks.WITHERWOOD_WOOD.block().get(), ModBlocks.WITHERWOOD_LOG.block().get());
         this.woodFromLogs(ModBlocks.STRIPPED_WITHERWOOD_WOOD.block().get(), ModBlocks.STRIPPED_WITHERWOOD_LOG.block().get());
@@ -1165,10 +1173,28 @@ public class ModRecipeProvider extends RecipeProvider {
         }
     }
 
-    protected record Key(char key, ItemLike item) {}
+    protected record Key(char key, Ingredient ingredient, ItemLike unlockItem) {
+        public Key(char key, ItemLike item) {
+            this(key, Ingredient.of(item), item);
+        }
+
+        public Key(char key, Ingredient ingredient) {
+            this(key, ingredient, null);
+        }
+
+        public Key(char key, Ingredient ingredient, ItemLike unlockItem) {
+            this.key = key;
+            this.ingredient = ingredient;
+            this.unlockItem = unlockItem;
+        }
+    }
 
     protected void shaped(RecipeCategory category, ItemLike result, String[] pattern, Key... keys) {
-        ShapedRecipeBuilder builder = shaped(category, result);
+        shaped(category, result, 1, pattern, keys);
+    }
+
+    protected void shaped(RecipeCategory category, ItemLike result, int count, String[] pattern, Key... keys) {
+        ShapedRecipeBuilder builder = shaped(category, result, count);
 
         for (String line : pattern) {
             builder.pattern(line);
@@ -1177,10 +1203,10 @@ public class ModRecipeProvider extends RecipeProvider {
         ItemLike unlockItem = null;
 
         for (Key key : keys) {
-            builder.define(key.key(), key.item());
+            builder.define(key.key(), key.ingredient());
 
-            if (unlockItem == null) {
-                unlockItem = key.item();
+            if (unlockItem == null && key.unlockItem() != null) {
+                unlockItem = key.unlockItem();
             }
         }
 
@@ -1250,7 +1276,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_" + getItemName(rawItem), has(rawItem))
                 .save(pWriter, recipeKey(getItemName(ingotItem) + "_from_" + getItemName(rawItem) + "_with_smelting"));
 
-        float blastingExperience = experience - 1.00f;
+        float blastingExperience = experience + 1.00f;
         int blastingTime = cookingTime - 100 >= 0 ? cookingTime - 100 : cookingTime;
 
         SimpleCookingRecipeBuilder.blasting(Ingredient.of(rawItem), category, CookingBookCategory.MISC, ingotItem, blastingExperience, blastingTime)

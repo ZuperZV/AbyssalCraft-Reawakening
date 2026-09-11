@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_coralium_ore": {
+    "has_coralium_ingot": {
       "conditions": {
         "items": [
           {
-            "items": "abyssalcraft_reawakening:coralium_ore"
+            "items": "abyssalcraft_reawakening:coralium_ingot"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "abyssalcraft_reawakening:coralium_ingot_from_coralium_ore_with_smelting"
+        "recipe": "abyssalcraft_reawakening:coralium_plate"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_coralium_ore"
+      "has_coralium_ingot"
     ]
   ],
   "rewards": {
     "recipes": [
-      "abyssalcraft_reawakening:coralium_ingot_from_coralium_ore_with_smelting"
+      "abyssalcraft_reawakening:coralium_plate"
     ]
   }
 }

@@ -530,9 +530,6 @@ public final class MultiblockPreviewRenderer {
         }
     }
 
-    // New rendering path using Minecraft's BlockRenderDispatcher. This keeps the same
-    // centering/scale/rotation logic but delegates actual block rendering to the
-    // vanilla dispatcher which avoids many clipping/frustum issues.
     private static boolean drawStructureWithBlockRenderer(
             GuiGraphicsExtractor graphics,
             MultiblockStructure structure,
@@ -567,19 +564,16 @@ public final class MultiblockPreviewRenderer {
                 Method getter = mc.getClass().getMethod("getBlockRendererDispatcher");
                 blockDispatcher = getter.invoke(mc);
             } catch (Exception ignored2) {
-                // leave null and fall back to legacy path
             }
         }
 
         MultiBufferSource buffers = mc.renderBuffers().bufferSource();
 
-        // Enable depth testing so the full 3D multiblock renders correctly in GUIs
         try {
             org.lwjgl.opengl.GL11.glEnable(org.lwjgl.opengl.GL11.GL_DEPTH_TEST);
         } catch (Throwable ignored) {
         }
 
-        // Prepare pose stack matching legacy transforms
         PoseStack pose = new PoseStack();
 
         org.joml.Matrix3x2f guiPose = new org.joml.Matrix3x2f(graphics.pose());
@@ -608,7 +602,7 @@ public final class MultiblockPreviewRenderer {
             for (Method m : blockDispatcher.getClass().getMethods()) {
                 if (m.getName().equals("renderSingleBlock")) {
                     Class<?>[] params = m.getParameterTypes();
-                    if (params.length >= 4) { // loose check
+                    if (params.length >= 4) {
                         renderMethod = m;
                         break;
                     }
@@ -616,7 +610,6 @@ public final class MultiblockPreviewRenderer {
             }
         }
 
-        // If no dispatcher or method found, fall back to GUI-element path
         if (blockDispatcher == null || renderMethod == null) {
             try { org.lwjgl.opengl.GL11.glDisable(org.lwjgl.opengl.GL11.GL_DEPTH_TEST); } catch (Throwable ignored) {}
             return false;
@@ -627,16 +620,12 @@ public final class MultiblockPreviewRenderer {
             pose.translate(be.pos().getX(), be.pos().getY(), be.pos().getZ());
             try {
                 if (renderMethod != null && blockDispatcher != null) {
-                    // try invoke the found method
                     try {
-                        // common signature: (BlockState, PoseStack, MultiBufferSource, int, int)
                         renderMethod.invoke(blockDispatcher, be.state(), pose, buffers, light, OverlayTexture.NO_OVERLAY);
                     } catch (IllegalArgumentException iae) {
-                        // try alternative with fewer args
                         renderMethod.invoke(blockDispatcher, be.state(), pose, buffers, light);
                     }
                 } else {
-                    // No dispatcher available: fallback to legacy GUI element path already present elsewhere.
                 }
             } catch (Throwable t) {
                 t.printStackTrace();
@@ -644,7 +633,6 @@ public final class MultiblockPreviewRenderer {
             pose.popPose();
         }
 
-        // Flush buffers
         try {
             mc.renderBuffers().bufferSource().endBatch();
         } catch (Throwable ignored) {

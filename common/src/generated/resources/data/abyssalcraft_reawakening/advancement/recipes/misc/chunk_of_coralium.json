@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_raw_coralium": {
+    "has_coralium_gem": {
       "conditions": {
         "items": [
           {
-            "items": "abyssalcraft_reawakening:raw_coralium"
+            "items": "abyssalcraft_reawakening:coralium_gem"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "abyssalcraft_reawakening:coralium_ingot_from_raw_coralium_with_blasting"
+        "recipe": "abyssalcraft_reawakening:chunk_of_coralium"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_raw_coralium"
+      "has_coralium_gem"
     ]
   ],
   "rewards": {
     "recipes": [
-      "abyssalcraft_reawakening:coralium_ingot_from_raw_coralium_with_blasting"
+      "abyssalcraft_reawakening:chunk_of_coralium"
     ]
   }
 }

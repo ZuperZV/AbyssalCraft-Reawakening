@@ -216,9 +216,6 @@ public final class MultiblockPreviewRenderState
             }
         }
 
-        // Sort back-to-front so painter's algorithm draws far faces first (avoids incorrect occlusion
-        // when rendering without a depth buffer). Add deterministic tie-breakers to avoid flicker
-        // when depths are nearly equal.
         faces.sort(
                 Comparator.<FaceEntry>comparingDouble(face -> face.depth()).reversed()
                         .thenComparingInt(face -> face.entry().localPos().getX())
@@ -228,7 +225,6 @@ public final class MultiblockPreviewRenderState
                         .thenComparingInt(face -> System.identityHashCode(face.quad()))
         );
 
-        // Try using the GL depth buffer for correct occlusion where available.
         try {
             org.lwjgl.opengl.GL11.glEnable(org.lwjgl.opengl.GL11.GL_DEPTH_TEST);
             org.lwjgl.opengl.GL11.glDepthMask(true);
@@ -657,7 +653,7 @@ public final class MultiblockPreviewRenderState
             return null;
         }
 
-        int padding = Math.max(8, Math.round(scale * 3.0f)); // increase padding to avoid scissor clipping of block faces
+        int padding = Math.max(8, Math.round(scale * 3.0f));
 
         int left =
                 (int) Math.floor(minX) - padding;

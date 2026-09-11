@@ -180,6 +180,9 @@ public class ModItems {
     public static final RegistryHandle<Item> CHUNK_OF_CORALIUM = Services.REGISTRY.registerItem("chunk_of_coralium",
             properties -> new Item(properties));
 
+    public static final RegistryHandle<Item> CORALIUM_PLATE = Services.REGISTRY.registerItem("coralium_plate",
+            properties -> new Item(properties));
+
     public static final RegistryHandle<Item> CORALIUM_PEARL = Services.REGISTRY.registerItem("coralium_pearl",
             properties -> new Item(properties));
 
