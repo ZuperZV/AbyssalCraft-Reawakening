@@ -552,9 +552,14 @@ public record StoneRitualAltarRecipe(
             Constants.LOG.debug("isDay: {}", isDay);
 
             switch (fakeTimeOfDay.get()) {
-                case DAY -> { if (!isDay) return false; }
-                case NIGHT -> { if (isDay) return false; }
-                case BOTH -> {}
+                case DAY -> {
+                    if (!isDay) return false;
+                }
+                case NIGHT -> {
+                    if (isDay) return false;
+                }
+                case BOTH -> {
+                }
             }
         }
 
@@ -643,30 +648,32 @@ public record StoneRitualAltarRecipe(
             return false;
         }
 
-        for (Player player : players) {
-            if (player.isCreative()) {
-                return true;
-            }
+        if (potentialEnergy != 0) {
+            for (Player player : players) {
+                if (player.isCreative()) {
+                    return true;
+                }
 
-            for (ItemStack stack : player.getInventory().getNonEquipmentItems()) {
-                if (stack.is(ModItems.NECRONOMICON.get())) {
+                for (ItemStack stack : player.getInventory().getNonEquipmentItems()) {
+                    if (stack.is(ModItems.NECRONOMICON.get())) {
 
-                    PotentialEnergyData pe = stack.get(
-                            ModDataComponentTypes.POTENTIAL_ENERGY.get()
-                    );
+                        PotentialEnergyData pe = stack.get(
+                                ModDataComponentTypes.POTENTIAL_ENERGY.get()
+                        );
 
-                    if (pe == null) {
-                        continue;
-                    }
+                        if (pe == null) {
+                            continue;
+                        }
 
-                    if (pe.getPotentialEnergy() >= potentialEnergy) {
-                        return true;
+                        if (pe.getPotentialEnergy() >= potentialEnergy) {
+                            return true;
+                        }
                     }
                 }
             }
         }
 
-        return false;
+        return true;
     }
 
     @Override

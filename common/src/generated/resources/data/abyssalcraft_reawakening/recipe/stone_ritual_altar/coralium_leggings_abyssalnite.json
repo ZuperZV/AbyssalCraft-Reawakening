@@ -18,13 +18,13 @@
     "abyssalcraft_reawakening:recipe_item",
     "abyssalcraft_reawakening:coralium_plate",
     "abyssalcraft_reawakening:coralium_plate",
-    "abyssalcraft_reawakening:recipe_item",
-    "abyssalcraft_reawakening:recipe_item"
+    "abyssalcraft_reawakening:coralium_ingot",
+    "abyssalcraft_reawakening:coralium_ingot"
   ],
   "output": {
     "id": "abyssalcraft_reawakening:coralium_leggings"
   },
-  "pe": 1000,
+  "pe": 2000,
   "time": 600,
   "time_of_day": "NIGHT"
 }

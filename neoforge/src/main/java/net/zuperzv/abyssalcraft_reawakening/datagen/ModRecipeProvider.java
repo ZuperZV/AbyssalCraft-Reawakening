@@ -18,6 +18,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.component.CodexTierData;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.CoraliumGemsData;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.StoneRitualAltarRecipe;
@@ -51,6 +52,139 @@ public class ModRecipeProvider extends RecipeProvider {
                 new Key('A', Items.ROTTEN_FLESH),
                 new Key('B', Items.BOOK),
                 new Key('C', Items.IRON_INGOT));
+
+        StoneRitualAltarRecipeBuilder.altar(
+                RecipeCategory.MISC,
+                new ItemStackTemplate(
+                        ModItems.NECRONOMICON.get(),
+                        DataComponentPatch.builder()
+                                .set(ModDataComponentTypes.CODEX_TIER.get(), new CodexTierData(2))
+                                .build()
+                ),
+                DataComponentIngredient.of(
+                        false,
+                        ModDataComponentTypes.CODEX_TIER.get(),
+                        new CodexTierData(1),
+                        ModItems.NECRONOMICON.get()
+                ))
+                .addIngredient(Ingredient.of(ModItems.SKIN_OF_THE_ABYSSAL_WASTELAND.get())) //Venster
+                .addIngredient(Ingredient.of(ModItems.SKIN_OF_THE_ABYSSAL_WASTELAND.get())) //Up
+                .addIngredient(Ingredient.of(ModItems.SKIN_OF_THE_ABYSSAL_WASTELAND.get())) //Højere
+                .addIngredient(Ingredient.of(ModItems.SKIN_OF_THE_ABYSSAL_WASTELAND.get())) //Ned
+                .time(TimeOfDay.BOTH)
+                .duration(200)
+                .potentialEnergy(0)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Constants.id("potential_energy"),
+                        Identifier.parse("minecraft:dyed_color")
+                )
+                .unlockedBy(
+                        "has_necronomicon_1",
+                        has(ModItems.NECRONOMICON.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("necronomicon_2")));
+
+        StoneRitualAltarRecipeBuilder.altar(
+                RecipeCategory.MISC,
+                new ItemStackTemplate(
+                        ModItems.NECRONOMICON.get(),
+                        DataComponentPatch.builder()
+                                .set(ModDataComponentTypes.CODEX_TIER.get(), new CodexTierData(3))
+                                .build()
+                ),
+                DataComponentIngredient.of(
+                        false,
+                        ModDataComponentTypes.CODEX_TIER.get(),
+                        new CodexTierData(2),
+                        ModItems.NECRONOMICON.get()
+                ))
+                .addIngredient(Ingredient.of(ModItems.SKIN_OF_THE_DREADLANDS.get())) //Venster
+                .addIngredient(Ingredient.of(ModItems.SKIN_OF_THE_DREADLANDS.get())) //Up
+                .addIngredient(Ingredient.of(ModItems.SKIN_OF_THE_DREADLANDS.get())) //Højere
+                .addIngredient(Ingredient.of(ModItems.SKIN_OF_THE_DREADLANDS.get())) //Ned
+                .time(TimeOfDay.BOTH)
+                .duration(300)
+                .potentialEnergy(0)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Constants.id("potential_energy"),
+                        Identifier.parse("minecraft:dyed_color")
+                )
+                .unlockedBy(
+                        "has_necronomicon_2",
+                        has(ModItems.NECRONOMICON.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("necronomicon_3")));
+
+        StoneRitualAltarRecipeBuilder.altar(
+                RecipeCategory.MISC,
+                new ItemStackTemplate(
+                        ModItems.NECRONOMICON.get(),
+                        DataComponentPatch.builder()
+                                .set(ModDataComponentTypes.CODEX_TIER.get(), new CodexTierData(4))
+                                .build()
+                ),
+                DataComponentIngredient.of(
+                        false,
+                        ModDataComponentTypes.CODEX_TIER.get(),
+                        new CodexTierData(3),
+                        ModItems.NECRONOMICON.get()
+                ))
+                .addIngredient(Ingredient.of(ModItems.SKIN_OF_THE_OMOTHOL.get())) //Venster
+                .addIngredient(Ingredient.of(ModItems.SKIN_OF_THE_OMOTHOL.get())) //Up
+                .addIngredient(Ingredient.of(ModItems.SKIN_OF_THE_OMOTHOL.get())) //Højere
+                .addIngredient(Ingredient.of(ModItems.SKIN_OF_THE_OMOTHOL.get())) //Ned
+                .time(TimeOfDay.BOTH)
+                .duration(400)
+                .potentialEnergy(0)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Constants.id("potential_energy"),
+                        Identifier.parse("minecraft:dyed_color")
+                )
+                .unlockedBy(
+                        "has_necronomicon_3",
+                        has(ModItems.NECRONOMICON.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("necronomicon_4")));
+
+        StoneRitualAltarRecipeBuilder.altar(
+                RecipeCategory.MISC,
+                new ItemStackTemplate(
+                        ModItems.NECRONOMICON.get(),
+                        DataComponentPatch.builder()
+                                .set(ModDataComponentTypes.CODEX_TIER.get(), new CodexTierData(5))
+                                .build()
+                ),
+                DataComponentIngredient.of(
+                        false,
+                        ModDataComponentTypes.CODEX_TIER.get(),
+                        new CodexTierData(4),
+                        ModItems.NECRONOMICON.get()
+                ))
+                .addIngredient(Ingredient.of(ModItems.ELDRITCH_SCALE.get())) //Venster
+                .addIngredient(Ingredient.of(ModItems.ESSENCE_OF_THE_GATEKEEPER.get())) //Up
+                .addIngredient(Ingredient.of(ModItems.ELDRITCH_SCALE.get())) //Højere
+                .addIngredient(Ingredient.of(ModItems.ELDRITCH_SCALE.get())) //Ned
+                .addIngredient(Ingredient.of(ModItems.ETHAXIUM_INGOT.get())) //Venster up
+                .addIngredient(Ingredient.of(ModItems.ETHAXIUM_INGOT.get())) //Højere up
+                .addIngredient(Ingredient.of(ModItems.ETHAXIUM_INGOT.get())) //Venster ned
+                .addIngredient(Ingredient.of(ModItems.ETHAXIUM_INGOT.get())) //Højere ned
+                .time(TimeOfDay.BOTH)
+                .duration(500)
+                .potentialEnergy(0)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Constants.id("potential_energy"),
+                        Identifier.parse("minecraft:dyed_color")
+                )
+                .unlockedBy(
+                        "has_necronomicon_4",
+                        has(ModItems.NECRONOMICON.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("necronomicon_5")));
+
 
         dyedItem(ModItems.NECRONOMICON.get(), "dyed_item");
 

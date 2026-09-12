@@ -1,0 +1,38 @@
+{
+  "type": "abyssalcraft_reawakening:ritual_altar",
+  "copy_components": [
+    {
+      "components": [
+        "abyssalcraft_reawakening:potential_energy",
+        "minecraft:dyed_color"
+      ],
+      "from": "mold"
+    }
+  ],
+  "ingredient": {
+    "neoforge:ingredient_type": "neoforge:components",
+    "components": {
+      "abyssalcraft_reawakening:codex_tier": {
+        "tier": 1
+      }
+    },
+    "items": "abyssalcraft_reawakening:necronomicon"
+  },
+  "ingredients": [
+    "abyssalcraft_reawakening:skin_of_the_abyssal_wasteland",
+    "abyssalcraft_reawakening:skin_of_the_abyssal_wasteland",
+    "abyssalcraft_reawakening:skin_of_the_abyssal_wasteland",
+    "abyssalcraft_reawakening:skin_of_the_abyssal_wasteland"
+  ],
+  "output": {
+    "components": {
+      "abyssalcraft_reawakening:codex_tier": {
+        "tier": 2
+      }
+    },
+    "id": "abyssalcraft_reawakening:necronomicon"
+  },
+  "pe": 0,
+  "time": 200,
+  "time_of_day": "BOTH"
+}

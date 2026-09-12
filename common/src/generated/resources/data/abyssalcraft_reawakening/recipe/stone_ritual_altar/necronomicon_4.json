@@ -1,0 +1,38 @@
+{
+  "type": "abyssalcraft_reawakening:ritual_altar",
+  "copy_components": [
+    {
+      "components": [
+        "abyssalcraft_reawakening:potential_energy",
+        "minecraft:dyed_color"
+      ],
+      "from": "mold"
+    }
+  ],
+  "ingredient": {
+    "neoforge:ingredient_type": "neoforge:components",
+    "components": {
+      "abyssalcraft_reawakening:codex_tier": {
+        "tier": 3
+      }
+    },
+    "items": "abyssalcraft_reawakening:necronomicon"
+  },
+  "ingredients": [
+    "abyssalcraft_reawakening:skin_of_the_omothol",
+    "abyssalcraft_reawakening:skin_of_the_omothol",
+    "abyssalcraft_reawakening:skin_of_the_omothol",
+    "abyssalcraft_reawakening:skin_of_the_omothol"
+  ],
+  "output": {
+    "components": {
+      "abyssalcraft_reawakening:codex_tier": {
+        "tier": 4
+      }
+    },
+    "id": "abyssalcraft_reawakening:necronomicon"
+  },
+  "pe": 0,
+  "time": 400,
+  "time_of_day": "BOTH"
+}

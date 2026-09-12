@@ -15,12 +15,12 @@
     "B": "abyssalcraft_reawakening:abyssal_stone"
   },
   "pattern": [
-    "AAA",
+    " A ",
     "ABA",
-    "AAA"
+    " A "
   ],
   "result": {
-    "count": 2,
+    "count": 4,
     "id": "abyssalcraft_reawakening:chunk_of_coralium"
   }
 }

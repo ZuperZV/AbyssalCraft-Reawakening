@@ -16,6 +16,7 @@ import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.api.jei.custom.extension.CoraliumGemJeiRecipe;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.api.jei.custom.extension.CoraliumGemRecipeJeiExtension;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.api.jei.custom.subtypeInterpreter.CoraliumGemSubtypeInterpreter;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.api.jei.custom.subtypeInterpreter.NecronomiconSubtypeInterpreter;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.api.multiblock.MultiblockDisplay;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.api.jei.custom.category.MultiblockRecipeCategory;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.api.jei.custom.category.RitualAltarRecipeCategory;
@@ -209,6 +210,10 @@ public class JEIPlugin implements IModPlugin {
         registration.registerSubtypeInterpreter(
                 ModItems.CORALIUM_GEM.get(),
                 new CoraliumGemSubtypeInterpreter()
+        );
+        registration.registerSubtypeInterpreter(
+                ModItems.NECRONOMICON.get(),
+                new NecronomiconSubtypeInterpreter()
         );
     }
 }

@@ -31,7 +31,8 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.Necronomicon
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.NecronomiconTooltipComponent;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.StaffClientTooltip;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.StaffTooltipComponent;
-import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.propertys.CoraliumGemsProperty;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.property.CodexTierProperty;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.property.CoraliumGemsProperty;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.network.SyncBookmarksPacket;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.screen.ModMenuTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.screen.NecronomiconScreen;
@@ -59,6 +60,14 @@ public class ModResources implements ClientModInitializer {
                         "coralium_gems"
                 ),
                 CoraliumGemsProperty.MAP_CODEC
+        );
+
+        RangeSelectItemModelProperties.ID_MAPPER.put(
+                Identifier.fromNamespaceAndPath(
+                        Constants.MOD_ID,
+                        "codex_tier"
+                ),
+                CodexTierProperty.MAP_CODEC
         );
 
         ModContainer container = FabricLoader.getInstance()

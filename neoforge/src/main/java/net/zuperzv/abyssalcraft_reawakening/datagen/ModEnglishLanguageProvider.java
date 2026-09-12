@@ -40,6 +40,15 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
 
         add("name.abyssalcraft_reawakening.cluster", "Cluster");
 
+
+        add("item.abyssalcraft_reawakening.necronomicon", "Necronomicon");
+        add("item.abyssalcraft_reawakening.necronomicon_tier", "%s %s");
+
+        add("item.abyssalcraft_reawakening.abyssal_wasteland", "Abyssal Wasteland");
+        add("item.abyssalcraft_reawakening.dreadlands", "Dreadlands");
+        add("item.abyssalcraft_reawakening.omothol", "Omothol");
+        add("item.abyssalcraft_reawakening.abyssal", "Abyssal");
+
         // Abyssalnite
         add(ModBlocks.ABYSSALNITE_BLOCK.block().get(), "Block of Abyssalnite");
         add(ModBlocks.RAW_ABYSSALNITE_BLOCK.block().get(), "Block of Raw Abyssalnite");

@@ -2,7 +2,7 @@
   "type": "minecraft:blasting",
   "category": "misc",
   "cookingtime": 150,
-  "experience": -0.39999998,
+  "experience": 1.6,
   "ingredient": "abyssalcraft_reawakening:chunk_of_coralium",
   "result": {
     "id": "abyssalcraft_reawakening:coralium_ingot"

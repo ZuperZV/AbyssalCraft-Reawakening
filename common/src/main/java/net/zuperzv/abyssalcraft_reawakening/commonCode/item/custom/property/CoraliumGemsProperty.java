@@ -1,4 +1,4 @@
-package net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.propertys;
+package net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.property;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.client.multiplayer.ClientLevel;

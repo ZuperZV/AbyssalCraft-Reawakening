@@ -22,6 +22,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.api.jei.ModJEIRecipeTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.component.CodexTierData;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.PotentialEnergyData;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
@@ -291,13 +292,6 @@ public class RitualAltarRecipeCategory implements IRecipeCategory<RecipeHolder<S
                 centerY-1
         );
 
-        //Necronomicon
-        slotDrawable.draw(
-                guiGraphics,
-                width / 2 + 3,
-                height - 5 - slotSize
-        );
-
         //Arrow
         progress.draw(
                 guiGraphics,
@@ -305,11 +299,20 @@ public class RitualAltarRecipeCategory implements IRecipeCategory<RecipeHolder<S
                 centerY
         );
 
-
-        // Time of Day
+        //Icons
         int iconX = width / 2 + 3;
         int iconY = 3;
 
+        //Necronomicon
+        if (recipe.potentialEnergy() != 0) {
+            slotDrawable.draw(
+                    guiGraphics,
+                    width / 2 + 3,
+                    height - 5 - slotSize
+            );
+        }
+
+        // Time of Day
         if (recipe.timeOfDay().get() != TimeOfDay.BOTH) {
             slotDrawable.draw(
                     guiGraphics,
@@ -348,23 +351,29 @@ public class RitualAltarRecipeCategory implements IRecipeCategory<RecipeHolder<S
 
         StoneRitualAltarRecipe recipe = holder.value();
 
-        //Necronomicon
-        ItemStack necronomicon = ModItems.NECRONOMICON.get().getDefaultInstance();
-        necronomicon.set(
-                ModDataComponentTypes.POTENTIAL_ENERGY.get(),
-                new PotentialEnergyData(recipe.potentialEnergy())
-        );
-        builder.addSlot(
-                RecipeIngredientRole.INPUT,
-                width / 2 + 4,
-                height - 4 - slotSize
-        ).add(necronomicon);
-
         int iconX = width / 2 + 4;
         int iconY = 4;
 
         if (recipe.timeOfDay().get() != TimeOfDay.BOTH) {
             iconX += 19;
+        }
+
+        //Necronomicon
+        if (recipe.potentialEnergy() != 0) {
+            ItemStack necronomicon = ModItems.NECRONOMICON.get().getDefaultInstance();
+            necronomicon.set(
+                    ModDataComponentTypes.POTENTIAL_ENERGY.get(),
+                    new PotentialEnergyData(recipe.potentialEnergy())
+            );
+            necronomicon.set(
+                    ModDataComponentTypes.CODEX_TIER.get(),
+                    new CodexTierData(getTierFromPotentialEnergy(recipe.potentialEnergy()))
+            );
+            builder.addSlot(
+                    RecipeIngredientRole.INPUT,
+                    width / 2 + 4,
+                    height - 4 - slotSize
+            ).add(necronomicon);
         }
 
         // Dimension
@@ -456,5 +465,24 @@ public class RitualAltarRecipeCategory implements IRecipeCategory<RecipeHolder<S
                 && mouseX < x + width
                 && mouseY >= y
                 && mouseY < y + height;
+    }
+
+    public static int getMaxPotentialEnergy(int tier) {
+        return switch (tier) {
+            //case 1 -> 5000;
+            case 2 -> 10000;
+            case 3 -> 20000;
+            case 4 -> 40000;
+            case 5 -> 100000;
+            default -> 5000;
+        };
+    }
+
+    public static int getTierFromPotentialEnergy(int potentialEnergy) {
+        if (potentialEnergy >= 100000) return 5;
+        if (potentialEnergy >= 40000) return 4;
+        if (potentialEnergy >= 20000) return 3;
+        if (potentialEnergy >= 10000) return 2;
+        return 1;
     }
 }

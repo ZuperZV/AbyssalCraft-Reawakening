@@ -17,6 +17,8 @@ import net.minecraft.client.renderer.item.properties.conditional.HasComponent;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.component.predicates.AnyValue;
 import net.minecraft.core.component.predicates.DataComponentPredicate;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
@@ -29,12 +31,12 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.PortalActivatorBlock;
-import net.zuperzv.abyssalcraft_reawakening.commonCode.component.CoraliumGemsData;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.DyedColorTintSource;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModArmorMaterials;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
-import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.propertys.CoraliumGemsProperty;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.property.CodexTierProperty;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.property.CoraliumGemsProperty;
 import net.zuperzv.abyssalcraft_reawakening.services.NeoForgeRegistryHelper;
 
 import java.util.HashSet;
@@ -55,8 +57,7 @@ public class ModModelProvider extends ModelProvider {
 
     @Override
     protected void registerModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
-
-        generateItemWithTintedOverlay(itemModels, ModItems.NECRONOMICON.get(), new DyedColorTintSource());
+        generateNecronomicon(itemModels);
 
         //Gateway key
         generateReversedHandheldtItem(itemModels, ModItems.GATEWAY_KEY.get());
@@ -182,6 +183,100 @@ public class ModModelProvider extends ModelProvider {
                 generateCubeBlock(blockModels, block);
             }
         }
+    }
+
+    private void generateNecronomicon(ItemModelGenerators itemModels) {
+        Item item = ModItems.NECRONOMICON.get();
+
+        generatedItems.add(item);
+
+        List<RangeSelectItemModel.Entry> entries = new java.util.ArrayList<>();
+
+        for (int tier = 1; tier <= 5; tier++) {
+            Identifier baseModel = ModelTemplates.FLAT_ITEM.create(
+                    Identifier.fromNamespaceAndPath(
+                            Constants.MOD_ID,
+                            "item/necronomicon_tier_" + tier
+                    ),
+                    TextureMapping.layer0(
+                            new Material(
+                                    Constants.id("item/necronomicon_tier_" + tier)
+                            )
+                    ),
+                    itemModels.modelOutput
+            );
+
+            Identifier overlayModel = FLAT_ITEM_TWO_LAYER.create(
+                    Identifier.fromNamespaceAndPath(
+                            Constants.MOD_ID,
+                            "item/necronomicon_tier_" + tier + "_overlay"
+                    ),
+                    TextureMapping.layered(
+                            new Material(
+                                    Constants.id("item/necronomicon_tier_" + tier)
+                            ),
+                            TextureMapping.getItemTexture(item, "_overlay")
+                    ),
+                    itemModels.modelOutput
+            );
+
+            ItemModel.Unbaked base =
+                    ItemModelUtils.plainModel(baseModel);
+
+            ItemModel.Unbaked overlay =
+                    ItemModelUtils.tintedModel(
+                            overlayModel,
+                            new ItemTintSource[]{
+                                    itemModels.BLANK_LAYER,
+                                    new DyedColorTintSource()
+                            }
+                    );
+
+            ItemModel.Unbaked dyedModel =
+                    new ConditionalItemModel.Unbaked(
+                            Optional.empty(),
+                            new HasComponent(DataComponents.DYED_COLOR, true),
+                            overlay,
+                            base
+                    );
+
+            entries.add(
+                    new RangeSelectItemModel.Entry(
+                            tier,
+                            dyedModel
+                    )
+            );
+        }
+
+        ItemModel.Unbaked fallbackBase =
+                ItemModelUtils.plainModel(
+                        ModelTemplates.FLAT_ITEM.create(
+                                ModelLocationUtils.getModelLocation(item),
+                                TextureMapping.layer0(
+                                        new Material(
+                                                Constants.id("item/necronomicon_tier_1")
+                                        )
+                                ),
+                                itemModels.modelOutput
+                        )
+                );
+
+        RangeSelectItemModel.Unbaked rangeModel =
+                new RangeSelectItemModel.Unbaked(
+                        Optional.empty(),
+                        CodexTierProperty.INSTANCE,
+                        1.0F,
+                        entries,
+                        Optional.of(fallbackBase)
+                );
+
+        itemModels.itemModelOutput.accept(
+                item,
+                new ClientItem(
+                        rangeModel,
+                        new ClientItem.Properties(false, false, 1.0F)
+                ).model()
+        );
     }
 
     private void generateCoraliumGem(ItemModelGenerators itemModels) {

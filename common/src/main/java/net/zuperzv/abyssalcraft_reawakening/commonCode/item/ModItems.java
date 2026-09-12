@@ -239,6 +239,17 @@ public class ModItems {
     public static final RegistryHandle<Item> DREAD_FRAGMENT = Services.REGISTRY.registerItem("dread_fragment",
             properties -> new Item(properties));
 
+    //Omothol
+    public static final RegistryHandle<Item> ETHAXIUM_INGOT = Services.REGISTRY.registerItem("ethaxium_ingot",
+            properties -> new Item(properties));
+
+    public static final RegistryHandle<Item> ELDRITCH_SCALE = Services.REGISTRY.registerItem("eldritch_scale",
+            properties -> new Item(properties));
+
+
+    public static final RegistryHandle<Item> ESSENCE_OF_THE_GATEKEEPER = Services.REGISTRY.registerItem("essence_of_the_gatekeeper",
+            properties -> new Item(properties));
+
 
     //Rendering Items
     public static final RegistryHandle<Item> POTENTIAL_ENERGY = Services.REGISTRY.registerItem("potential_energy",

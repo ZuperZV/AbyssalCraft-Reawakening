@@ -335,6 +335,37 @@ public class NecronomiconItem extends Item {
         );
     }
 
+    @Override
+    public Component getName(ItemStack stack) {
+        var tier = stack.get(ModDataComponentTypes.CODEX_TIER.get());
+
+        if (tier == null || tier.getTier() <= 1) {
+            return Component.translatable(
+                    "item.abyssalcraft_reawakening.necronomicon"
+            );
+        }
+
+        return Component.translatable(
+                "item.abyssalcraft_reawakening.necronomicon_tier",
+                Component.translatable(
+                        getTierPrefixKey(tier.getTier())
+                ),
+                Component.translatable(
+                        "item.abyssalcraft_reawakening.necronomicon"
+                )
+        );
+    }
+
+    private String getTierPrefixKey(int tier) {
+        return switch (tier) {
+            case 2 -> "item.abyssalcraft_reawakening.abyssal_wasteland";
+            case 3 -> "item.abyssalcraft_reawakening.dreadlands";
+            case 4 -> "item.abyssalcraft_reawakening.omothol";
+            case 5 -> "item.abyssalcraft_reawakening.abyssal";
+            default -> "item.abyssalcraft_reawakening.necronomicon";
+        };
+    }
+
     public static int getMaxPotentialEnergy(ItemStack stack) {
         var tier = stack.get(
                 ModDataComponentTypes.CODEX_TIER.get()

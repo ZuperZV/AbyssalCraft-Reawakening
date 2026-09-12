@@ -1,0 +1,42 @@
+{
+  "type": "abyssalcraft_reawakening:ritual_altar",
+  "copy_components": [
+    {
+      "components": [
+        "abyssalcraft_reawakening:potential_energy",
+        "minecraft:dyed_color"
+      ],
+      "from": "mold"
+    }
+  ],
+  "ingredient": {
+    "neoforge:ingredient_type": "neoforge:components",
+    "components": {
+      "abyssalcraft_reawakening:codex_tier": {
+        "tier": 4
+      }
+    },
+    "items": "abyssalcraft_reawakening:necronomicon"
+  },
+  "ingredients": [
+    "abyssalcraft_reawakening:eldritch_scale",
+    "abyssalcraft_reawakening:essence_of_the_gatekeeper",
+    "abyssalcraft_reawakening:eldritch_scale",
+    "abyssalcraft_reawakening:eldritch_scale",
+    "abyssalcraft_reawakening:ethaxium_ingot",
+    "abyssalcraft_reawakening:ethaxium_ingot",
+    "abyssalcraft_reawakening:ethaxium_ingot",
+    "abyssalcraft_reawakening:ethaxium_ingot"
+  ],
+  "output": {
+    "components": {
+      "abyssalcraft_reawakening:codex_tier": {
+        "tier": 5
+      }
+    },
+    "id": "abyssalcraft_reawakening:necronomicon"
+  },
+  "pe": 0,
+  "time": 500,
+  "time_of_day": "BOTH"
+}

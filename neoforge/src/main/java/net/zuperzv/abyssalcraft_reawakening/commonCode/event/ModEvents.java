@@ -14,7 +14,8 @@ import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
-import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.propertys.CoraliumGemsProperty;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.property.CodexTierProperty;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.property.CoraliumGemsProperty;
 
 import java.util.Optional;
 
@@ -31,6 +32,14 @@ public class ModEvents {
                         "coralium_gems"
                 ),
                 CoraliumGemsProperty.MAP_CODEC
+        );
+
+        event.register(
+                Identifier.fromNamespaceAndPath(
+                        Constants.MOD_ID,
+                        "codex_tier"
+                ),
+                CodexTierProperty.MAP_CODEC
         );
     }
 
