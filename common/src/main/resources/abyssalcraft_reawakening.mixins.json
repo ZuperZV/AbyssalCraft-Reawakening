@@ -19,7 +19,8 @@
     "RenderPipelinesAccessor",
     "RenderTypeAccessor",
     "WorldOpenFlowsAccessor",
-    "WorldOpenFlowsMixin"
+    "WorldOpenFlowsMixin",
+    "GuiArmorBarMixin"
   ],
   "server": [],
   "injectors": {
