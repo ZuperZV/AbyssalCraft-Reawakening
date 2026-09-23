@@ -57,12 +57,14 @@ public class GuiArmorBarMixin {
             int xo = xLeft + i * 8;
             int points = displayedArmor - i * 2;
 
-            abyssalcraft$blitArmorTexture(
-                    graphics,
-                    xo,
-                    yLineArmor,
-                    ARMOR_EMPTY_SPRITE
-            );
+            if (points <= 1) {
+                abyssalcraft$blitArmorTexture(
+                        graphics,
+                        xo,
+                        yLineArmor,
+                        ARMOR_EMPTY_SPRITE
+                );
+            }
 
             if (tier > 0 && points < 2) {
                 int previousTier = tier - 1;
