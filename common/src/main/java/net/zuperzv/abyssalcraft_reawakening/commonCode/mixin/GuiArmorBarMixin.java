@@ -150,7 +150,7 @@ public class GuiArmorBarMixin {
     ) {
         Identifier texture = Identifier.fromNamespaceAndPath(
                 Constants.MOD_ID,
-                "textures/gui/hud/armor/" + textureName + ".png"
+                "textures/gui/sprites/hud/armor/" + textureName + ".png"
         );
 
         graphics.blit(

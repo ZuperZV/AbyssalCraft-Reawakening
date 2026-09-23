@@ -7,11 +7,13 @@
     "AxeItemAccessor",
     "AxeItemMixin",
     "DyedItemColorMixin",
+    "GuiHeartMixin",
     "WoodTypeAccessor"
   ],
   "client": [
     "AdvancementsScreenMixin",
     "AdvancementTabMixin",
+    "GuiArmorBarMixin",
     "GuiGraphicsExtractorMixin",
     "GuiGraphicsMixin",
     "ItemInHandRendererMixin",
@@ -19,8 +21,7 @@
     "RenderPipelinesAccessor",
     "RenderTypeAccessor",
     "WorldOpenFlowsAccessor",
-    "WorldOpenFlowsMixin",
-    "GuiArmorBarMixin"
+    "WorldOpenFlowsMixin"
   ],
   "server": [],
   "injectors": {
