@@ -3,6 +3,7 @@ package net.zuperzv.abyssalcraft_reawakening.datagen;
 import net.minecraft.data.PackOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.contents.TranslatableContents;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -63,6 +64,7 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         getKnownItems().forEach(this::addIfMissing);
         getKnownBlocks().forEach(this::addIfMissing);
         getKnownEntityTypes().forEach(this::addIfMissing);
+        getKnownEffects().forEach(this::addIfMissing);
     }
 
     @Override
@@ -73,12 +75,14 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
 
     private void add(Component component, String value) {
         if (component.getContents() instanceof TranslatableContents translatableContents) {
+            generatedKeys.add(translatableContents.getKey());
             add(translatableContents.getKey(), value);
         }
     }
 
     private void add(Component component) {
         if (component.getContents() instanceof TranslatableContents translatableContents) {
+            generatedKeys.add(translatableContents.getKey());
             add(
                     translatableContents.getKey(),
                     format(component.getString())
@@ -87,6 +91,7 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
     }
 
     private void add(Item item) {
+        generatedKeys.add(item.getDescriptionId());
         add(
                 item.getDescriptionId(),
                 format(item.getDescriptionId())
@@ -95,17 +100,44 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
 
     private void add(Block block) {
         Item item = block.asItem();
+        generatedKeys.add(block.getDescriptionId());
 
         if (item != null) {
             add(item);
         }
     }
 
+    public void add(Block block, String name) {
+        Item item = block.asItem();
+        generatedKeys.add(block.getDescriptionId());
+
+        if (item != null) {
+            add(item, name);
+        }
+    }
+
     private void add(EntityType<?> entityType) {
+        generatedKeys.add(entityType.getDescriptionId());
         add(
                 entityType.getDescriptionId(),
                 format(entityType.getDescriptionId())
         );
+    }
+
+    private void add(MobEffect effect) {
+        generatedKeys.add(effect.getDescriptionId());
+        add(
+                effect.getDescriptionId(),
+                format(effect.getDescriptionId())
+        );
+    }
+
+    private void addIfMissing(MobEffect effect) {
+        String key = effect.getDescriptionId();
+
+        if (!generatedKeys.contains(key)) {
+            add(effect);
+        }
     }
 
     private void addIfMissing(Item item) {
@@ -169,6 +201,13 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         return NeoForgeRegistryHelper.ENTITIES.getEntries()
                 .stream()
                 .map(entry -> entry.value())
+                .toList();
+    }
+
+    protected @NonNull Iterable<MobEffect> getKnownEffects() {
+        return NeoForgeRegistryHelper.MOB_EFFECTS.getEntries()
+                .stream()
+                .map(entry -> (MobEffect) entry.value())
                 .toList();
     }
 }

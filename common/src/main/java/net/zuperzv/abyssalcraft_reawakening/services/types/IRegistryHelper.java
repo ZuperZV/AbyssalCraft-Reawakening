@@ -31,6 +31,7 @@ import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.services.util.BlockWithItemRegistryHandle;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
+import net.minecraft.world.effect.MobEffect;
 
 import java.util.function.*;
 
@@ -120,4 +121,14 @@ public interface IRegistryHelper {
 
     <T extends FeatureConfiguration, F extends Feature<T>>
     RegistryHandle<F> registerFeature(String name, F feature);
+
+    static ResourceKey<MobEffect> mobEffectKey(String name) {
+        return ResourceKey.create(Registries.MOB_EFFECT, Constants.id(name));
+    }
+
+    <T extends MobEffect> RegistryHandle<T> registerMobEffect(
+            String name,
+            Supplier<T> effect
+    );
+
 }

@@ -10,6 +10,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.flag.FeatureFlags;
@@ -342,6 +343,33 @@ public class FabricRegistryHelper implements IRegistryHelper {
 
             @Override
             public F get() {
+                return registered;
+            }
+        };
+    }
+
+    @Override
+    public <T extends MobEffect> RegistryHandle<T> registerMobEffect(
+            String name,
+            Supplier<T> effect
+    ) {
+        ResourceKey<MobEffect> key = IRegistryHelper.mobEffectKey(name);
+        Identifier id = key.identifier();
+
+        T registered = Registry.register(
+                BuiltInRegistries.MOB_EFFECT,
+                id,
+                effect.get()
+        );
+
+        return new RegistryHandle<>() {
+            @Override
+            public Identifier id() {
+                return id;
+            }
+
+            @Override
+            public T get() {
                 return registered;
             }
         };

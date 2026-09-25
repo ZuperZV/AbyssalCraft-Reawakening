@@ -8,6 +8,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.flag.FeatureFlags;
@@ -61,9 +62,12 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
             DeferredRegister.create(BuiltInRegistries.TREE_DECORATOR_TYPE, Constants.MOD_ID);
     private static final DeferredRegister<PlacementModifierType<?>> PLACEMENT_MODIFIERS =
             DeferredRegister.create(BuiltInRegistries.PLACEMENT_MODIFIER_TYPE.key(), Constants.MOD_ID);
-    public static final DeferredRegister.Entities ENTITIES = DeferredRegister.createEntities(Constants.MOD_ID);
+    public static final DeferredRegister.Entities ENTITIES =
+            DeferredRegister.createEntities(Constants.MOD_ID);
     private static final DeferredRegister<Feature<?>> FEATURES =
             DeferredRegister.create(Registries.FEATURE, Constants.MOD_ID);
+    public static final DeferredRegister<MobEffect> MOB_EFFECTS =
+            DeferredRegister.create(BuiltInRegistries.MOB_EFFECT, Constants.MOD_ID);
 
     public static void register(IEventBus eventBus) {
         ENTITIES.register(eventBus);
@@ -78,6 +82,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
         TREE_DECORATORS.register(eventBus);
         PLACEMENT_MODIFIERS.register(eventBus);
         FEATURES.register(eventBus);
+        MOB_EFFECTS.register(eventBus);
     }
 
     @Override
@@ -368,6 +373,29 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 
             @Override
             public F get() {
+                return holder.get();
+            }
+        };
+    }
+
+    @Override
+    public <T extends MobEffect> RegistryHandle<T> registerMobEffect(
+            String name,
+            Supplier<T> effect
+    ) {
+        Identifier id = Constants.id(name);
+
+        DeferredHolder<MobEffect, T> holder =
+                MOB_EFFECTS.register(name, effect);
+
+        return new RegistryHandle<>() {
+            @Override
+            public Identifier id() {
+                return id;
+            }
+
+            @Override
+            public T get() {
                 return holder.get();
             }
         };

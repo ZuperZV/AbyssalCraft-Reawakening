@@ -16,6 +16,7 @@ public class Services {
     public static final IAttributeRegistryHelper ATTRIBUTES = load(IAttributeRegistryHelper.class);
     public static final IClientRegistryHelper CLIENT_REGISTRY = load(IClientRegistryHelper.class);
     public static final ISpawnPlacementHelper SPAWN_PLACEMENTS = load(ISpawnPlacementHelper.class);
+    public static final IShaderRenderer SHADERS = load(IShaderRenderer.class);
 
     public static <T> T load(Class<T> clazz) {
 

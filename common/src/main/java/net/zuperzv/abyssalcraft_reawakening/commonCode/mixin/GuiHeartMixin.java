@@ -3,11 +3,14 @@ package net.zuperzv.abyssalcraft_reawakening.commonCode.mixin;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.effect.ModEffects;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -39,7 +42,9 @@ public class GuiHeartMixin {
             boolean blink,
             CallbackInfo ci
     ) {
-        if (!player.hasEffect(MobEffects.GLOWING)) {
+        if (!player.hasEffect(
+                BuiltInRegistries.MOB_EFFECT.wrapAsHolder(ModEffects.CORALIUM_PLAGUE.get())
+        )) {
             return;
         }
 
@@ -100,6 +105,14 @@ public class GuiHeartMixin {
 
             if (containerIndex < healthContainerCount
                     && containerIndex == heartOffsetIndex) {
+                yo -= 2;
+            }
+
+            if (currentHealth + absorption <= 4) {
+                yo += RandomSource.create().nextInt(2);
+            }
+
+            if (containerIndex < healthContainerCount && containerIndex == heartOffsetIndex) {
                 yo -= 2;
             }
 
