@@ -17,7 +17,7 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.ModRecipes;
 public class CoraliumGemRecipe extends CustomRecipe {
 
     public static final CoraliumGemRecipe INSTANCE =
-            new CoraliumGemRecipe(CraftingBookCategory.MISC);
+            new CoraliumGemRecipe();
 
     public static final MapCodec<CoraliumGemRecipe> CODEC =
             MapCodec.unit(INSTANCE);
@@ -25,7 +25,7 @@ public class CoraliumGemRecipe extends CustomRecipe {
     public static final StreamCodec<RegistryFriendlyByteBuf, CoraliumGemRecipe> STREAM_CODEC =
             StreamCodec.unit(INSTANCE);
 
-    public CoraliumGemRecipe(CraftingBookCategory category) {
+    public CoraliumGemRecipe() {
         super();
     }
 

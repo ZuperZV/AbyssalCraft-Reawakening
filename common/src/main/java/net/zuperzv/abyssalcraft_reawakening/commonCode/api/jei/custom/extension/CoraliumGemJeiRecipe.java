@@ -11,7 +11,7 @@ public class CoraliumGemJeiRecipe extends CoraliumGemRecipe {
     private final List<Integer> combination;
 
     public CoraliumGemJeiRecipe(List<Integer> combination) {
-        super(CraftingBookCategory.MISC);
+        super();
         this.combination = List.copyOf(combination);
     }
 

@@ -12,7 +12,7 @@ public class FabricShaderRenderer implements IShaderRenderer {
     public static final FabricShaderRenderer INSTANCE =
             new FabricShaderRenderer();
 
-    private FabricShaderRenderer() {
+    public FabricShaderRenderer() {
     }
 
     public static void register() {

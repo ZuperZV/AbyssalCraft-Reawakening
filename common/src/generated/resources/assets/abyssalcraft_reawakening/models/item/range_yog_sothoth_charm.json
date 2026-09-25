@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "abyssalcraft_reawakening:item/range_yog_sothoth_charm"
+  }
+}

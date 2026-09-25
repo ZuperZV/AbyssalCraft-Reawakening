@@ -21,6 +21,7 @@ import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.CodexTierData;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.CoraliumGemsData;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.ModDataComponentTypes;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.ModRecipes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.StoneRitualAltarRecipe;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.customCraftingTable.CoraliumGemRecipe;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.dimension.ModDimensions;
@@ -184,6 +185,27 @@ public class ModRecipeProvider extends RecipeProvider {
                         has(ModItems.NECRONOMICON.get()))
                 .save(output, ResourceKey.create(Registries.RECIPE,
                         Constants.id("necronomicon_5")));
+
+
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC, ModItems.TRANSMUTATION_GEM.get(),
+                        Ingredient.of(ModItems.CORALIUM_PEARL.get())
+                ).addIngredient(Ingredient.of(Items.ENDER_PEARL)) //Venster
+                .addIngredient(Ingredient.of(Items.DIAMOND)) //Up
+                .addIngredient(Ingredient.of(Items.ENDER_PEARL)) //Højere
+                .addIngredient(Ingredient.of(Items.DIAMOND)) //Ned
+                .addIngredient(Ingredient.of(Items.BLAZE_POWDER)) //Venster up
+                .addIngredient(Ingredient.of(Items.BLAZE_POWDER)) //Højere up
+                .addIngredient(Ingredient.of(Items.BLAZE_POWDER)) //Venster ned
+                .addIngredient(Ingredient.of(Items.BLAZE_POWDER)) //Højere ned
+                .time(TimeOfDay.BOTH)
+                .duration(400)
+                .potentialEnergy(300)
+                .unlockedBy(
+                        "has_transmutation_gem",
+                        has(ModItems.TRANSMUTATION_GEM.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("transmutation_gem")));
 
 
         dyedItem(ModItems.NECRONOMICON.get(), "dyed_item");
@@ -1209,6 +1231,10 @@ public class ModRecipeProvider extends RecipeProvider {
         );
 
         // CORALIUM Items
+        SpecialRecipeBuilder.special(
+                CoraliumGemRecipe::new
+        ).save(this.output, "coralium_gem");
+
         shaped(RecipeCategory.MISC, ModItems.CHUNK_OF_CORALIUM.get(), 4,
                 new String[]{
                         " A ",
@@ -1216,7 +1242,7 @@ public class ModRecipeProvider extends RecipeProvider {
                         " A "
                 },
                 new Key('A', DataComponentIngredient.of(
-                        true,
+                        false,
                         ModDataComponentTypes.CORALIUM_GEMS.get(),
                         new CoraliumGemsData(9),
                         ModItems.CORALIUM_GEM.get()
@@ -1231,6 +1257,8 @@ public class ModRecipeProvider extends RecipeProvider {
                 },
                 new Key('A', ModItems.CORALIUM_INGOT.get()),
                 new Key('B', ModItems.CORALIUM_PEARL.get()));
+
+        rawToIngot(ModBlocks.CORALIUM_COBBLESTONE.block().get(), RecipeCategory.MISC, ModBlocks.CORALIUM_STONE.block().get(), 0.2f, 200, output);
 
         //Furnace
         rawToIngot(ModItems.CHUNK_OF_CORALIUM.get(), RecipeCategory.MISC, ModItems.CORALIUM_INGOT.get(), 0.6f, 250, output);
@@ -1278,6 +1306,8 @@ public class ModRecipeProvider extends RecipeProvider {
         this.fenceGateBuilder(ModBlocks.WITHERWOOD_FENCE.block().get(), Ingredient.of(ModBlocks.WITHERWOOD_PLANKS.block().get()));
 
         //Abyssal Stone
+        rawToIngot(ModBlocks.ABYSSAL_COBBLESTONE.block().get(), RecipeCategory.MISC, ModBlocks.ABYSSAL_STONE.block().get(), 0.2f, 200, output);
+
         fourBlockStorageRecipes(output, RecipeCategory.MISC, ModBlocks.ABYSSAL_STONE_BRICKS.block().get(), RecipeCategory.MISC,
                 ModBlocks.ABYSSAL_STONE.block().get());
 

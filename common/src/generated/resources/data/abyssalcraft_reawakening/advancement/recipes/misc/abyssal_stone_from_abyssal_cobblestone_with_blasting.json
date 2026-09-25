@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_abyssal_cobblestone": {
+      "conditions": {
+        "items": [
+          {
+            "items": "abyssalcraft_reawakening:abyssal_cobblestone"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "abyssalcraft_reawakening:abyssal_stone_from_abyssal_cobblestone_with_blasting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_abyssal_cobblestone"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "abyssalcraft_reawakening:abyssal_stone_from_abyssal_cobblestone_with_blasting"
+    ]
+  }
+}
