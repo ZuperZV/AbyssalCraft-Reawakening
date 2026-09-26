@@ -17,6 +17,12 @@ public class ModSurfaceRules {
     private static final SurfaceRules.RuleSource ABYSSAL_STONE =
             makeStateRule(ModBlocks.ABYSSAL_STONE.block().get());
 
+    private static final SurfaceRules.RuleSource CORALIUM_STONE =
+            makeStateRule(ModBlocks.CORALIUM_STONE.block().get());
+
+    private static final SurfaceRules.RuleSource CORALIUM_COBBLESTONE =
+            makeStateRule(ModBlocks.CORALIUM_COBBLESTONE.block().get());
+
     private static final SurfaceRules.RuleSource GRIMSTONE =
             makeStateRule(ModBlocks.GRIMESTONE.block().get());
 
@@ -109,6 +115,53 @@ public class ModSurfaceRules {
 
                 // Noise >= 0.5
                 ABYSSAL_STONE
+        );
+
+        SurfaceRules.RuleSource abyssalPlateauGround = SurfaceRules.sequence(
+
+                // Noise < 0.0
+                SurfaceRules.ifTrue(
+                        SurfaceRules.noiseCondition(
+                                ModNoiseRouter.ABYSSAL_GROUND,
+                                -1.0,
+                                0.0
+                        ),
+                        CORALIUM_STONE
+                ),
+
+                // Noise 0.0 - 0.5
+                SurfaceRules.ifTrue(
+                        SurfaceRules.noiseCondition(
+                                ModNoiseRouter.ABYSSAL_GROUND,
+                                0.0,
+                                0.5
+                        ),
+                        CORALIUM_COBBLESTONE
+                ),
+
+                // 4 BLOCKS UNDER SURFACE
+                SurfaceRules.ifTrue(
+                        SurfaceRules.stoneDepthCheck(
+                                7,
+                                false,
+                                CaveSurface.FLOOR
+                        ),
+
+                        SurfaceRules.sequence(
+
+                                SurfaceRules.ifTrue(
+                                        SurfaceRules.noiseCondition(
+                                                ModNoiseRouter.ABYSSAL_GROUND,
+                                                0.0,
+                                                0.5
+                                        ),
+                                        CORALIUM_STONE
+                                )
+                        )
+                ),
+
+                // Noise >= 0.5
+                CORALIUM_STONE
         );
 
         SurfaceRules.RuleSource abyssalDesertGround = SurfaceRules.sequence(
@@ -278,6 +331,18 @@ public class ModSurfaceRules {
                         ),
 
                         abyssalDesertGround
+                ),
+
+                // Abyssal Plateau
+                SurfaceRules.ifTrue(
+                        SurfaceRules.isBiome(
+                                ModBiomes.ABYSSAL_PLATEAU
+                        ),
+
+                        SurfaceRules.ifTrue(
+                                SurfaceRules.ON_FLOOR,
+                                abyssalPlateauGround
+                        )
                 ),
 
                 ABYSSAL_STONE

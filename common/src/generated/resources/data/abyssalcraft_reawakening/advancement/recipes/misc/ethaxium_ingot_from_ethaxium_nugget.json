@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_ethaxium_nugget": {
+      "conditions": {
+        "items": [
+          {
+            "items": "abyssalcraft_reawakening:ethaxium_nugget"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "abyssalcraft_reawakening:ethaxium_ingot_from_ethaxium_nugget"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_ethaxium_nugget"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "abyssalcraft_reawakening:ethaxium_ingot_from_ethaxium_nugget"
+    ]
+  }
+}

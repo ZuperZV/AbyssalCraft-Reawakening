@@ -1,7 +1,21 @@
 {
   "variants": {
-    "": {
-      "model": "abyssalcraft_reawakening:block/abyssal_sand"
-    }
+    "": [
+      {
+        "model": "abyssalcraft_reawakening:block/abyssal_sand"
+      },
+      {
+        "model": "abyssalcraft_reawakening:block/abyssal_sand",
+        "y": 90
+      },
+      {
+        "model": "abyssalcraft_reawakening:block/abyssal_sand",
+        "y": 180
+      },
+      {
+        "model": "abyssalcraft_reawakening:block/abyssal_sand",
+        "y": 270
+      }
+    ]
   }
 }

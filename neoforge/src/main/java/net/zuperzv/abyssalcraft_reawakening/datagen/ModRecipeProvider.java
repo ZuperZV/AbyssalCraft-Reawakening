@@ -1263,6 +1263,614 @@ public class ModRecipeProvider extends RecipeProvider {
         //Furnace
         rawToIngot(ModItems.CHUNK_OF_CORALIUM.get(), RecipeCategory.MISC, ModItems.CORALIUM_INGOT.get(), 0.6f, 250, output);
 
+
+        // Dreadium
+             // Tools
+                 // Sword
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.DREADIUM_SWORD.get(),
+                        Ingredient.of(ModItems.CORALIUM_SWORD.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_INGOT.get())) // Venstre
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get())) // Up
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_INGOT.get())) // Højre
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get())) // Ned
+                .time(TimeOfDay.NIGHT)
+                .duration(600)
+                .potentialEnergy(3000)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_coralium",
+                        has(ModItems.CORALIUM_SWORD.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("dreadium_sword_coralium")));
+
+                // Pickaxe
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.DREADIUM_PICKAXE.get(),
+                        Ingredient.of(ModItems.CORALIUM_PICKAXE.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .time(TimeOfDay.NIGHT)
+                .duration(600)
+                .potentialEnergy(3000)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_coralium",
+                        has(ModItems.CORALIUM_PICKAXE.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("dreadium_pickaxe_coralium")));
+
+                // Axe
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.DREADIUM_AXE.get(),
+                        Ingredient.of(ModItems.CORALIUM_AXE.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .time(TimeOfDay.NIGHT)
+                .duration(600)
+                .potentialEnergy(3000)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_coralium",
+                        has(ModItems.CORALIUM_AXE.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("dreadium_axe_coralium")));
+
+
+                // Shovel
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.DREADIUM_SHOVEL.get(),
+                        Ingredient.of(ModItems.CORALIUM_SHOVEL.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_INGOT.get()))
+                .time(TimeOfDay.NIGHT)
+                .duration(600)
+                .potentialEnergy(3000)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_coralium",
+                        has(ModItems.CORALIUM_SHOVEL.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("dreadium_shovel_coralium")));
+
+                // Hoe
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.DREADIUM_HOE.get(),
+                        Ingredient.of(ModItems.CORALIUM_HOE.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_INGOT.get()))
+                .time(TimeOfDay.NIGHT)
+                .duration(600)
+                .potentialEnergy(3000)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_coralium",
+                        has(ModItems.CORALIUM_HOE.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("dreadium_hoe_coralium")));
+
+                // Spear
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.DREADIUM_SPEAR.get(),
+                        Ingredient.of(ModItems.CORALIUM_SPEAR.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_INGOT.get()))
+                .time(TimeOfDay.NIGHT)
+                .duration(600)
+                .potentialEnergy(3000)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_coralium",
+                        has(ModItems.CORALIUM_SPEAR.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("dreadium_spear_coralium")));
+        // Armor
+            // Helmet
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.DREADIUM_HELMET.get(),
+                        Ingredient.of(ModItems.CORALIUM_HELMET.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_PLATE.get()))
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_PLATE.get()))
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_PLATE.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.DREAD_CLOTH.get()))
+                .addIngredient(Ingredient.of(ModItems.DREAD_CLOTH.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .time(TimeOfDay.NIGHT)
+                .duration(600)
+                .potentialEnergy(6000)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_coralium",
+                        has(ModItems.CORALIUM_HELMET.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("dreadium_helmet_coralium")));
+
+
+            // Chestplate
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.DREADIUM_CHESTPLATE.get(),
+                        Ingredient.of(ModItems.CORALIUM_CHESTPLATE.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_PLATE.get()))
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_PLATE.get()))
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_PLATE.get()))
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_INGOT.get()))
+                .time(TimeOfDay.NIGHT)
+                .duration(600)
+                .potentialEnergy(6000)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_coralium",
+                        has(ModItems.CORALIUM_CHESTPLATE.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("dreadium_chestplate_coralium")));
+
+
+            // Leggings
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.DREADIUM_LEGGINGS.get(),
+                        Ingredient.of(ModItems.CORALIUM_LEGGINGS.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_PLATE.get()))
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_PLATE.get()))
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_INGOT.get()))
+                .time(TimeOfDay.NIGHT)
+                .duration(600)
+                .potentialEnergy(6000)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_coralium",
+                        has(ModItems.CORALIUM_LEGGINGS.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("dreadium_leggings_coralium")));
+
+
+            // Boots
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.DREADIUM_BOOTS.get(),
+                        Ingredient.of(ModItems.CORALIUM_BOOTS.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_PLATE.get()))
+                .addIngredient(Ingredient.of(ModItems.DREADIUM_PLATE.get()))
+                .time(TimeOfDay.NIGHT)
+                .duration(600)
+                .potentialEnergy(6000)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_coralium",
+                        has(ModItems.CORALIUM_BOOTS.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("dreadium_boots_coralium")));
+
+        // Storage
+        nineBlockStorageRecipes(
+                output,
+                RecipeCategory.MISC,
+                ModItems.DREADIUM_NUGGET.get(),
+                RecipeCategory.MISC,
+                ModItems.DREADIUM_INGOT.get()
+        );
+
+        nineBlockStorageRecipes(
+                output,
+                RecipeCategory.MISC,
+                ModItems.DREADIUM_INGOT.get(),
+                RecipeCategory.MISC,
+                ModBlocks.DREADIUM_BLOCK.item().get()
+        );
+
+        shaped(RecipeCategory.MISC, ModItems.DREAD_CLOTH.get(),
+                new String[]{
+                        "BAB",
+                        "ACA",
+                        "BAB"
+                },
+                new Key('A', ModItems.DREAD_FRAGMENT.get()),
+                new Key('B', Items.STRING),
+                new Key('C', Items.LEATHER));
+
+        shaped(RecipeCategory.MISC, ModItems.DREAD_CLOTH.get(), "dread_cloth_v2",
+                new String[]{
+                        "BAB",
+                        "ACA",
+                        "BAB"
+                },
+                new Key('A', Items.STRING),
+                new Key('B', ModItems.DREAD_FRAGMENT.get()),
+                new Key('C', Items.LEATHER));
+
+        shaped(RecipeCategory.MISC, ModItems.DREADIUM_PLATE.get(),
+                new String[]{
+                        " A ",
+                        "ABA",
+                        " A "
+                },
+                new Key('A', ModItems.DREADIUM_INGOT.get()),
+                new Key('B', ModItems.DREAD_CLOTH.get()));
+
+
+
+        // ethaxium
+            // Tools
+                // Sword
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.ETHAXIUM_SWORD.get(),
+                        Ingredient.of(ModItems.DREADIUM_SWORD.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.ETHAXIUM_INGOT.get())) // Venstre
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get())) // Up
+                .addIngredient(Ingredient.of(ModItems.ETHAXIUM_INGOT.get())) // Højre
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get())) // Ned
+                .time(TimeOfDay.NIGHT)
+                .duration(900)
+                .potentialEnergy(4500)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_dreadium",
+                        has(ModItems.DREADIUM_SWORD.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("ethaxium_sword_dreadium")));
+
+                // Pickaxe
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.ETHAXIUM_PICKAXE.get(),
+                        Ingredient.of(ModItems.DREADIUM_PICKAXE.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.ETHAXIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.ETHAXIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.ETHAXIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .time(TimeOfDay.NIGHT)
+                .duration(900)
+                .potentialEnergy(4500)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_dreadium",
+                        has(ModItems.DREADIUM_PICKAXE.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("ethaxium_pickaxe_dreadium")));
+
+                // Axe
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.ETHAXIUM_AXE.get(),
+                        Ingredient.of(ModItems.DREADIUM_AXE.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.ETHAXIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.ETHAXIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.ETHAXIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .time(TimeOfDay.NIGHT)
+                .duration(900)
+                .potentialEnergy(4500)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_dreadium",
+                        has(ModItems.DREADIUM_AXE.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("ethaxium_axe_dreadium")));
+
+
+                // Shovel
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.ETHAXIUM_SHOVEL.get(),
+                        Ingredient.of(ModItems.DREADIUM_SHOVEL.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.ETHAXIUM_INGOT.get()))
+                .time(TimeOfDay.NIGHT)
+                .duration(900)
+                .potentialEnergy(4500)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_dreadium",
+                        has(ModItems.DREADIUM_SHOVEL.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("ethaxium_shovel_dreadium")));
+
+                // Hoe
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.ETHAXIUM_HOE.get(),
+                        Ingredient.of(ModItems.DREADIUM_HOE.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.ETHAXIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.ETHAXIUM_INGOT.get()))
+                .time(TimeOfDay.NIGHT)
+                .duration(900)
+                .potentialEnergy(4500)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_dreadium",
+                        has(ModItems.DREADIUM_HOE.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("ethaxium_hoe_dreadium")));
+
+                // Spear
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.ETHAXIUM_SPEAR.get(),
+                        Ingredient.of(ModItems.DREADIUM_SPEAR.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.ETHAXIUM_INGOT.get()))
+                .time(TimeOfDay.NIGHT)
+                .duration(900)
+                .potentialEnergy(4500)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_dreadium",
+                        has(ModItems.DREADIUM_SPEAR.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("ethaxium_spear_dreadium")));
+        // Armor
+                // Helmet
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.ETHAXIUM_HELMET.get(),
+                        Ingredient.of(ModItems.DREADIUM_HELMET.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.ELDRITCH_SCALE.get()))
+                .addIngredient(Ingredient.of(ModItems.ETHAXIUM_NUGGET.get()))
+                .addIngredient(Ingredient.of(ModItems.ELDRITCH_SCALE.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.ETHAXIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.ETHAXIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .time(TimeOfDay.NIGHT)
+                .duration(1600)
+                .potentialEnergy(10000)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_dreadium",
+                        has(ModItems.DREADIUM_HELMET.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("ethaxium_helmet_dreadium")));
+
+
+                // Chestplate
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.ETHAXIUM_CHESTPLATE.get(),
+                        Ingredient.of(ModItems.DREADIUM_CHESTPLATE.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.ETHAXIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.ETHAXIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.ELDRITCH_SCALE.get()))
+                .addIngredient(Ingredient.of(ModItems.ELDRITCH_SCALE.get()))
+                .addIngredient(Ingredient.of(ModItems.ELDRITCH_SCALE.get()))
+                .addIngredient(Ingredient.of(ModItems.ETHAXIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.ETHAXIUM_INGOT.get()))
+                .time(TimeOfDay.NIGHT)
+                .duration(1600)
+                .potentialEnergy(10000)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_dreadium",
+                        has(ModItems.DREADIUM_CHESTPLATE.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("ethaxium_chestplate_dreadium")));
+
+
+                // Leggings
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.ETHAXIUM_LEGGINGS.get(),
+                        Ingredient.of(ModItems.DREADIUM_LEGGINGS.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.ETHAXIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.ETHAXIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.ETHAXIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.ELDRITCH_SCALE.get()))
+                .addIngredient(Ingredient.of(ModItems.ELDRITCH_SCALE.get()))
+                .addIngredient(Ingredient.of(ModItems.ETHAXIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.ETHAXIUM_INGOT.get()))
+                .time(TimeOfDay.NIGHT)
+                .duration(1600)
+                .potentialEnergy(10000)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_dreadium",
+                        has(ModItems.DREADIUM_LEGGINGS.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("ethaxium_leggings_dreadium")));
+
+
+                // Boots
+        StoneRitualAltarRecipeBuilder.altar(
+                        RecipeCategory.MISC,
+                        ModItems.ETHAXIUM_BOOTS.get(),
+                        Ingredient.of(ModItems.DREADIUM_BOOTS.get())
+                )
+                .addIngredient(Ingredient.of(ModItems.ETHAXIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.ETHAXIUM_INGOT.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.RECIPE_ITEM.get()))
+                .addIngredient(Ingredient.of(ModItems.ELDRITCH_SCALE.get()))
+                .addIngredient(Ingredient.of(ModItems.ELDRITCH_SCALE.get()))
+                .time(TimeOfDay.NIGHT)
+                .duration(1600)
+                .potentialEnergy(10000)
+                .dimension(ModDimensions.THE_ABYSSAL_WASTELAND_LEVEL_KEY)
+                .copyComponents(
+                        StoneRitualAltarRecipe.ComponentSource.MOLD,
+                        Identifier.parse("minecraft:damage"),
+                        Identifier.parse("minecraft:enchantments")
+                )
+                .unlockedBy(
+                        "has_dreadium",
+                        has(ModItems.DREADIUM_BOOTS.get()))
+                .save(output, ResourceKey.create(Registries.RECIPE,
+                        Constants.id("ethaxium_boots_dreadium")));
+
+        // Storage
+        nineBlockStorageRecipes(
+                output,
+                RecipeCategory.MISC,
+                ModItems.ETHAXIUM_NUGGET.get(),
+                RecipeCategory.MISC,
+                ModItems.ETHAXIUM_INGOT.get()
+        );
+
+        nineBlockStorageRecipes(
+                output,
+                RecipeCategory.MISC,
+                ModItems.ETHAXIUM_INGOT.get(),
+                RecipeCategory.MISC,
+                ModBlocks.ETHAXIUM_BLOCK.item().get()
+        );
+
+        this.shapeless(RecipeCategory.MISC, Items.GUNPOWDER, 16)
+                .requires(ModItems.SULFUR_CHUNK.get())
+                .requires(ModItems.NITRE.get())
+                .requires(Items.CHARCOAL)
+                .unlockedBy(getHasName(ModItems.SULFUR_CHUNK.get()), this.has(ModItems.SULFUR_CHUNK.get()))
+                .save(this.output);
+
+
         //WITHERWOOD
         this.planksFromLogs(ModBlocks.WITHERWOOD_PLANKS.block().get(), ModItemTags.WITHERWOOD_LOGS, 4);
         this.woodFromLogs(ModBlocks.WITHERWOOD_WOOD.block().get(), ModBlocks.WITHERWOOD_LOG.block().get());
@@ -1379,6 +1987,34 @@ public class ModRecipeProvider extends RecipeProvider {
         }
 
         builder.save(output);
+    }
+
+    protected void shaped(RecipeCategory category, ItemLike result, String id, String[] pattern, Key... keys) {
+        shaped(category, result, 1, id, pattern, keys);
+    }
+
+    protected void shaped(RecipeCategory category, ItemLike result, int count, String id, String[] pattern, Key... keys) {
+        ShapedRecipeBuilder builder = shaped(category, result, count);
+
+        for (String line : pattern) {
+            builder.pattern(line);
+        }
+
+        ItemLike unlockItem = null;
+
+        for (Key key : keys) {
+            builder.define(key.key(), key.ingredient());
+
+            if (unlockItem == null && key.unlockItem() != null) {
+                unlockItem = key.unlockItem();
+            }
+        }
+
+        if (unlockItem != null) {
+            builder.unlockedBy(getHasName(unlockItem), has(unlockItem));
+        }
+
+        builder.save(output, id);
     }
 
     protected void nineBlockStorageRecipes(

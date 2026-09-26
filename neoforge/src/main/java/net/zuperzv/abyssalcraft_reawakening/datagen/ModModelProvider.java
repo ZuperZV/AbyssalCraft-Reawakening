@@ -26,6 +26,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
@@ -65,6 +66,8 @@ public class ModModelProvider extends ModelProvider {
         //Sword in hand
         generateInHandWithWood(itemModels, ModItems.ABYSSALNITE_SWORD.get(), FLAT_ITEM_TWO_LAYER, FLAT_HANDHELD_IN_HAND_TWO_LAYER);
         generateInHandWithWood(itemModels, ModItems.CORALIUM_SWORD.get(), FLAT_ITEM_TWO_LAYER, FLAT_HANDHELD_IN_HAND_TWO_LAYER);
+        generateInHandWithWood(itemModels, ModItems.DREADIUM_SWORD.get(), FLAT_ITEM_TWO_LAYER, FLAT_HANDHELD_IN_HAND_TWO_LAYER);
+        generateInHandWithWood(itemModels, ModItems.ETHAXIUM_SWORD.get(), FLAT_ITEM_TWO_LAYER, FLAT_HANDHELD_IN_HAND_TWO_LAYER);
 
         //Coralium Gem
         generateCoraliumGem(itemModels);
@@ -87,6 +90,10 @@ public class ModModelProvider extends ModelProvider {
         //Altar
         generateBlockFromParent(blockModels, ModBlocks.STONE_RITUAL_ALTAR.block().get(), "ritual_altar", List.of(TextureSlot.create("0")));
         generateBlockFromParent(blockModels, ModBlocks.STONE_RITUAL_PEDESTAL.block().get(), "ritual_pedestal", List.of(TextureSlot.create("1"), TextureSlot.create("2")));
+
+        //Create Rotated Variants
+        createRotatedVariantBlock(blockModels, ModBlocks.WASTITE.block().get());
+        createRotatedVariantBlock(blockModels, ModBlocks.ABYSSAL_SAND.block().get());
 
         //PortalBlock
         createNetherPortalBlock(blockModels, ModBlocks.ABYSSAL_WASTELAND_PORTAL_BLOCK.block().get());
@@ -156,7 +163,7 @@ public class ModModelProvider extends ModelProvider {
         );
         itemModels.generateFlatItem(ModItems.WITHERWOOD_SIGN.get(), ModelTemplates.FLAT_ITEM);
 
-        //Abyssal  Stone
+        //Abyssal Stone
         generatedBlocks.add(ModBlocks.ABYSSAL_STONE_BRICKS.block().get());
         generatedBlocks.add(ModBlocks.ABYSSAL_STONE_BRICKS_STAIRS.block().get());
         generatedBlocks.add(ModBlocks.ABYSSAL_STONE_BRICKS_SLAB.block().get());
@@ -488,6 +495,14 @@ public class ModModelProvider extends ModelProvider {
                 item,
                 ItemModelUtils.plainModel(itemModel)
         );
+    }
+
+    public void createRotatedVariantBlock(
+            BlockModelGenerators blockModels,
+            Block block) {
+        generatedBlocks.add(block);
+
+        blockModels.createRotatedVariantBlock(block);
     }
 
     public void createCrossBlock(

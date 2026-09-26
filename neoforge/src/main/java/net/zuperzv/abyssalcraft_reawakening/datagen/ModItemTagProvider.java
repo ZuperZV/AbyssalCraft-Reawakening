@@ -26,10 +26,11 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.NECRONOMICON.get());
 
 
-
         tag(ItemTags.BEACON_PAYMENT_ITEMS)
                 .add(ModItems.ABYSSALNITE_INGOT.get())
-                .add(ModItems.CORALIUM_INGOT.get());
+                .add(ModItems.CORALIUM_INGOT.get())
+                .add(ModItems.DREADIUM_INGOT.get())
+                .add(ModItems.ETHAXIUM_INGOT.get());
 
         tag(ModItemTags.ABYSSALNITE_MATERIALS)
                 .add(ModItems.ABYSSALNITE_INGOT.get());
@@ -37,55 +38,75 @@ public class ModItemTagProvider extends ItemTagsProvider {
         tag(ModItemTags.REFINED_CORALIUM_MATERIALS)
                 .add(ModItems.CORALIUM_INGOT.get());
 
-        //tag(ModItemTags.DREADIUM_MATERIALS)
-        //        .add(ModItems.DREADIUM_INGOT.get());
+        tag(ModItemTags.DREADIUM_MATERIALS)
+                .add(ModItems.DREADIUM_INGOT.get());
 
-        //tag(ModItemTags.ETHAXIUM_MATERIALS)
-        //        .add(ModItems.ETHAXIUM_INGOT.get());
+        tag(ModItemTags.ETHAXIUM_MATERIALS)
+                .add(ModItems.ETHAXIUM_INGOT.get());
 
 
 
         tag(ItemTags.SWORDS)
                 .add(ModItems.ABYSSALNITE_SWORD.get())
-                .add(ModItems.CORALIUM_SWORD.get());
+                .add(ModItems.CORALIUM_SWORD.get())
+                .add(ModItems.DREADIUM_SWORD.get())
+                .add(ModItems.ETHAXIUM_SWORD.get());
 
         tag(ItemTags.PICKAXES)
                 .add(ModItems.ABYSSALNITE_PICKAXE.get())
-                .add(ModItems.CORALIUM_PICKAXE.get());
+                .add(ModItems.CORALIUM_PICKAXE.get())
+                .add(ModItems.DREADIUM_PICKAXE.get())
+                .add(ModItems.ETHAXIUM_PICKAXE.get());
 
         tag(ItemTags.AXES)
                 .add(ModItems.ABYSSALNITE_AXE.get())
-                .add(ModItems.CORALIUM_AXE.get());
+                .add(ModItems.CORALIUM_AXE.get())
+                .add(ModItems.DREADIUM_AXE.get())
+                .add(ModItems.ETHAXIUM_AXE.get());
 
         tag(ItemTags.SHOVELS)
-        .add(ModItems.ABYSSALNITE_SHOVEL.get())
-        .add(ModItems.CORALIUM_SHOVEL.get());
+                .add(ModItems.ABYSSALNITE_SHOVEL.get())
+                .add(ModItems.CORALIUM_SHOVEL.get())
+                .add(ModItems.DREADIUM_SHOVEL.get())
+                .add(ModItems.ETHAXIUM_SHOVEL.get());
 
         tag(ItemTags.HOES)
-        .add(ModItems.ABYSSALNITE_HOE.get())
-        .add(ModItems.CORALIUM_HOE.get());
+                .add(ModItems.ABYSSALNITE_HOE.get())
+                .add(ModItems.CORALIUM_HOE.get())
+                .add(ModItems.DREADIUM_HOE.get())
+                .add(ModItems.ETHAXIUM_HOE.get());
 
         tag(ItemTags.SPEARS)
-        .add(ModItems.ABYSSALNITE_SPEAR.get())
-        .add(ModItems.CORALIUM_SPEAR.get());
+                .add(ModItems.ABYSSALNITE_SPEAR.get())
+                .add(ModItems.CORALIUM_SPEAR.get())
+                .add(ModItems.DREADIUM_SPEAR.get())
+                .add(ModItems.ETHAXIUM_SPEAR.get());
 
 
 
         tag(ItemTags.HEAD_ARMOR)
-        .add(ModItems.ABYSSALNITE_HELMET.get())
-        .add(ModItems.CORALIUM_HELMET.get());
+                .add(ModItems.ABYSSALNITE_HELMET.get())
+                .add(ModItems.CORALIUM_HELMET.get())
+                .add(ModItems.DREADIUM_HELMET.get())
+                .add(ModItems.ETHAXIUM_HELMET.get());
 
         tag(ItemTags.CHEST_ARMOR)
-        .add(ModItems.ABYSSALNITE_CHESTPLATE.get())
-        .add(ModItems.CORALIUM_CHESTPLATE.get());
+                .add(ModItems.ABYSSALNITE_CHESTPLATE.get())
+                .add(ModItems.CORALIUM_CHESTPLATE.get())
+                .add(ModItems.DREADIUM_CHESTPLATE.get())
+                .add(ModItems.ETHAXIUM_CHESTPLATE.get());
 
         tag(ItemTags.LEG_ARMOR)
-        .add(ModItems.ABYSSALNITE_LEGGINGS.get())
-        .add(ModItems.CORALIUM_LEGGINGS.get());
+                .add(ModItems.ABYSSALNITE_LEGGINGS.get())
+                .add(ModItems.CORALIUM_LEGGINGS.get())
+                .add(ModItems.DREADIUM_LEGGINGS.get())
+                .add(ModItems.ETHAXIUM_LEGGINGS.get());
 
         tag(ItemTags.FOOT_ARMOR)
-        .add(ModItems.ABYSSALNITE_BOOTS.get())
-        .add(ModItems.CORALIUM_BOOTS.get());
+                .add(ModItems.ABYSSALNITE_BOOTS.get())
+                .add(ModItems.CORALIUM_BOOTS.get())
+                .add(ModItems.DREADIUM_BOOTS.get())
+                .add(ModItems.ETHAXIUM_BOOTS.get());
 
 
         tag(ItemTags.PLANKS)

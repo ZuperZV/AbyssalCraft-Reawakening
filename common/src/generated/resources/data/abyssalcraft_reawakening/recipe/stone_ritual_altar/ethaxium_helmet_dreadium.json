@@ -1,0 +1,30 @@
+{
+  "type": "abyssalcraft_reawakening:ritual_altar",
+  "copy_components": [
+    {
+      "components": [
+        "minecraft:damage",
+        "minecraft:enchantments"
+      ],
+      "from": "mold"
+    }
+  ],
+  "dimension": "abyssalcraft_reawakening:abyssal_wasteland",
+  "ingredient": "abyssalcraft_reawakening:dreadium_helmet",
+  "ingredients": [
+    "abyssalcraft_reawakening:eldritch_scale",
+    "abyssalcraft_reawakening:ethaxium_nugget",
+    "abyssalcraft_reawakening:eldritch_scale",
+    "abyssalcraft_reawakening:recipe_item",
+    "abyssalcraft_reawakening:ethaxium_ingot",
+    "abyssalcraft_reawakening:ethaxium_ingot",
+    "abyssalcraft_reawakening:recipe_item",
+    "abyssalcraft_reawakening:recipe_item"
+  ],
+  "output": {
+    "id": "abyssalcraft_reawakening:ethaxium_helmet"
+  },
+  "pe": 10000,
+  "time": 1600,
+  "time_of_day": "NIGHT"
+}

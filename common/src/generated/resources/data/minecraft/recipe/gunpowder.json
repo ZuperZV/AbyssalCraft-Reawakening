@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "abyssalcraft_reawakening:sulfur_chunk",
+    "abyssalcraft_reawakening:nitre",
+    "minecraft:charcoal"
+  ],
+  "result": {
+    "count": 16,
+    "id": "minecraft:gunpowder"
+  }
+}

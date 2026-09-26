@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_dreadium_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": "abyssalcraft_reawakening:dreadium_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "abyssalcraft_reawakening:dreadium_ingot_from_dreadium_block"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_dreadium_block"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "abyssalcraft_reawakening:dreadium_ingot_from_dreadium_block"
+    ]
+  }
+}

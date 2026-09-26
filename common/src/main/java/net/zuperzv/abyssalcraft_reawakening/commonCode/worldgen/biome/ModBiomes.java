@@ -224,7 +224,7 @@ public final class ModBiomes {
                 .specialEffects(
                         new BiomeSpecialEffects.Builder()
                                 .waterColor(0x182026)
-                                .grassColorOverride(0x25372C)
+                                .grassColorOverride(0x23e4d53)
                                 .foliageColorOverride(0x344A38)
                                 .build()
                 )

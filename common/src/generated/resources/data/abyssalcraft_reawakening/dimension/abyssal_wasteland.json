@@ -8,85 +8,190 @@
         {
           "biome": "abyssalcraft_reawakening:corallium_lake",
           "parameters": {
-            "continentalness": 0.8,
+            "continentalness": [
+              -1.0,
+              -0.7799
+            ],
             "depth": 0.0,
-            "erosion": 0.0,
-            "humidity": -0.45,
+            "erosion": [
+              -0.4,
+              0.4
+            ],
+            "humidity": [
+              -0.8,
+              0.2
+            ],
             "offset": 0.0,
-            "temperature": -1.0,
-            "weirdness": 0.0
-          }
-        },
-        {
-          "biome": "abyssalcraft_reawakening:abyssal_swamp",
-          "parameters": {
-            "continentalness": 0.7,
-            "depth": 0.0,
-            "erosion": 0.5,
-            "humidity": -0.05,
-            "offset": 0.0,
-            "temperature": -0.45,
-            "weirdness": 0.0
-          }
-        },
-        {
-          "biome": "abyssalcraft_reawakening:abyssal_desert",
-          "parameters": {
-            "continentalness": 1.0,
-            "depth": 0.0,
-            "erosion": -0.8,
-            "humidity": 0.25,
-            "offset": 0.0,
-            "temperature": -0.05,
-            "weirdness": 0.0
-          }
-        },
-        {
-          "biome": "abyssalcraft_reawakening:darklands_forest",
-          "parameters": {
-            "continentalness": 0.55,
-            "depth": 0.0,
-            "erosion": 0.65,
-            "humidity": 0.55,
-            "offset": 0.0,
-            "temperature": 0.0,
-            "weirdness": 0.0
-          }
-        },
-        {
-          "biome": "abyssalcraft_reawakening:abyssal_wastelands",
-          "parameters": {
-            "continentalness": 0.45,
-            "depth": 0.0,
-            "erosion": -0.25,
-            "humidity": 0.7,
-            "offset": 0.0,
-            "temperature": 0.2,
-            "weirdness": 0.0
-          }
-        },
-        {
-          "biome": "abyssalcraft_reawakening:abyssal_plateau",
-          "parameters": {
-            "continentalness": 0.2,
-            "depth": 0.5,
-            "erosion": -0.35,
-            "humidity": 0.85,
-            "offset": 0.0,
-            "temperature": 0.45,
-            "weirdness": 0.0
+            "temperature": [
+              -0.75,
+              0.2
+            ],
+            "weirdness": [
+              -1.0,
+              1.0
+            ]
           }
         },
         {
           "biome": "abyssalcraft_reawakening:darklands_mountains",
           "parameters": {
-            "continentalness": -0.1,
-            "depth": 1.0,
-            "erosion": -0.1,
-            "humidity": 1.0,
+            "continentalness": [
+              0.45,
+              1.0
+            ],
+            "depth": 0.0,
+            "erosion": [
+              -0.4,
+              0.2
+            ],
+            "humidity": [
+              0.45,
+              1.0
+            ],
             "offset": 0.0,
-            "temperature": 0.35,
-            "weirdness": 0.0
+            "temperature": [
+              0.15,
+              0.65
+            ],
+            "weirdness": [
+              -1.0,
+              1.0
+            ]
+          }
+        },
+        {
+          "biome": "abyssalcraft_reawakening:abyssal_plateau",
+          "parameters": {
+            "continentalness": [
+              0.7,
+              1.0
+            ],
+            "depth": 0.0,
+            "erosion": [
+              -0.65,
+              -0.1
+            ],
+            "humidity": [
+              0.5,
+              0.9
+            ],
+            "offset": 0.0,
+            "temperature": [
+              0.25,
+              0.75
+            ],
+            "weirdness": [
+              -1.0,
+              1.0
+            ]
+          }
+        },
+        {
+          "biome": "abyssalcraft_reawakening:abyssal_wastelands",
+          "parameters": {
+            "continentalness": [
+              0.1,
+              1.0
+            ],
+            "depth": 0.0,
+            "erosion": [
+              -0.5,
+              0.1
+            ],
+            "humidity": [
+              0.3,
+              0.75
+            ],
+            "offset": 0.0,
+            "temperature": [
+              0.0,
+              0.5
+            ],
+            "weirdness": [
+              -1.0,
+              1.0
+            ]
+          }
+        },
+        {
+          "biome": "abyssalcraft_reawakening:darklands_forest",
+          "parameters": {
+            "continentalness": [
+              0.35,
+              1.0
+            ],
+            "depth": 0.0,
+            "erosion": [
+              0.2,
+              0.8
+            ],
+            "humidity": [
+              0.35,
+              0.75
+            ],
+            "offset": 0.0,
+            "temperature": [
+              -0.1,
+              0.45
+            ],
+            "weirdness": [
+              -1.0,
+              1.0
+            ]
+          }
+        },
+        {
+          "biome": "abyssalcraft_reawakening:abyssal_swamp",
+          "parameters": {
+            "continentalness": [
+              0.55,
+              0.85
+            ],
+            "depth": 0.0,
+            "erosion": [
+              0.2,
+              0.8
+            ],
+            "humidity": [
+              -0.5,
+              0.15
+            ],
+            "offset": 0.0,
+            "temperature": [
+              -0.7,
+              -0.15
+            ],
+            "weirdness": [
+              -1.0,
+              1.0
+            ]
+          }
+        },
+        {
+          "biome": "abyssalcraft_reawakening:abyssal_desert",
+          "parameters": {
+            "continentalness": [
+              0.65,
+              1.0
+            ],
+            "depth": 0.0,
+            "erosion": [
+              -1.0,
+              -0.4
+            ],
+            "humidity": [
+              0.0,
+              0.4
+            ],
+            "offset": 0.0,
+            "temperature": [
+              -0.05,
+              0.45
+            ],
+            "weirdness": [
+              -1.0,
+              1.0
+            ]
           }
         }
       ]

@@ -549,21 +549,6 @@ public class ModItems {
                     ));
 
 
-    // Plated Coralium
-
-    public static final RegistryHandle<Item> PLATED_CORALIUM_HELMET =
-            simpleItem("plated_coralium_helmet");
-
-    public static final RegistryHandle<Item> PLATED_CORALIUM_CHESTPLATE =
-            simpleItem("plated_coralium_chestplate");
-
-    public static final RegistryHandle<Item> PLATED_CORALIUM_LEGGINGS =
-            simpleItem("plated_coralium_leggings");
-
-    public static final RegistryHandle<Item> PLATED_CORALIUM_BOOTS =
-            simpleItem("plated_coralium_boots");
-
-
     // Dread
 
     public static final RegistryHandle<Item> DREAD_FRAGMENT =
@@ -597,42 +582,107 @@ public class ModItems {
             Services.REGISTRY.registerItem("dread_plagued_gateway_key",
                     properties -> new Item(properties.stacksTo(1)));
 
-    public static final RegistryHandle<Item> CHARCOAL =
-            simpleItem("charcoal");
-
-
     // Dread Tools
-
     public static final RegistryHandle<Item> DREADIUM_SWORD =
-            simpleItem("dreadium_sword");
+            Services.REGISTRY.registerItem("dreadium_sword",
+                    properties -> new Item(
+                            properties.sword(
+                                    ModToolMaterials.DREADIUM,
+                                    3.0f,
+                                    -2.4F
+                            )
+                    ));
 
     public static final RegistryHandle<Item> DREADIUM_PICKAXE =
-            simpleItem("dreadium_pickaxe");
+            Services.REGISTRY.registerItem("dreadium_pickaxe",
+                    properties -> new Item(
+                            properties.pickaxe(
+                                    ModToolMaterials.DREADIUM,
+                                    1.0F,
+                                    -2.8F
+                            )
+                    ));
 
     public static final RegistryHandle<Item> DREADIUM_AXE =
-            simpleItem("dreadium_axe");
+            Services.REGISTRY.registerItem("dreadium_axe",
+                    properties -> new AxeItem(
+                            ModToolMaterials.DREADIUM,
+                            5.0F,
+                            -3.0F,
+                            properties
+                    ));
 
     public static final RegistryHandle<Item> DREADIUM_SHOVEL =
-            simpleItem("dreadium_shovel");
+            Services.REGISTRY.registerItem("dreadium_shovel",
+                    properties -> new ShovelItem(
+                            ModToolMaterials.DREADIUM,
+                            1.5F,
+                            -3.0F,
+                            properties
+                    ));
 
     public static final RegistryHandle<Item> DREADIUM_HOE =
-            simpleItem("dreadium_hoe");
+            Services.REGISTRY.registerItem("dreadium_hoe",
+                    properties -> new HoeItem(
+                            ModToolMaterials.DREADIUM,
+                            -3.0F,
+                            0.0F,
+                            properties
+                    ));
 
+    public static final RegistryHandle<Item> DREADIUM_SPEAR =
+            Services.REGISTRY.registerItem("dreadium_spear",
+                    properties -> new Item(
+                            properties.spear(
+                                    ModToolMaterials.DREADIUM,
+                                    1.20F,
+                                    1.25F,
+                                    0.70F,
+                                    3.2F,
+                                    14.0F,
+                                    2.8F,
+                                    12.0F,
+                                    5.5F,
+                                    10.5F
+                            )
+                    ));
 
-    // Dread Armor
 
     public static final RegistryHandle<Item> DREADIUM_HELMET =
-            simpleItem("dreadium_helmet");
+            Services.REGISTRY.registerItem("dreadium_helmet",
+                    properties -> new Item(
+                            properties.humanoidArmor(
+                                    ModArmorMaterials.DREADIUM_ARMOR_MATERIAL,
+                                    ArmorType.HELMET
+                            )
+                    ));
 
     public static final RegistryHandle<Item> DREADIUM_CHESTPLATE =
-            simpleItem("dreadium_chestplate");
+            Services.REGISTRY.registerItem("dreadium_chestplate",
+                    properties -> new Item(
+                            properties.humanoidArmor(
+                                    ModArmorMaterials.DREADIUM_ARMOR_MATERIAL,
+                                    ArmorType.CHESTPLATE
+                            )
+                    ));
 
     public static final RegistryHandle<Item> DREADIUM_LEGGINGS =
-            simpleItem("dreadium_leggings");
+            Services.REGISTRY.registerItem("dreadium_leggings",
+                    properties -> new Item(
+                            properties.humanoidArmor(
+                                    ModArmorMaterials.DREADIUM_ARMOR_MATERIAL,
+                                    ArmorType.LEGGINGS
+                            )
+                    ));
 
     public static final RegistryHandle<Item> DREADIUM_BOOTS =
-            simpleItem("dreadium_boots");
-
+            Services.REGISTRY.registerItem("dreadium_boots",
+                    properties -> new Item(
+                            properties.humanoidArmor(
+                                    ModArmorMaterials.DREADIUM_ARMOR_MATERIAL,
+                                    ArmorType.BOOTS
+                            )
+                    ));
 
     // Samurai Armor
 
@@ -661,33 +711,106 @@ public class ModItems {
             simpleItem("eldritch_scale");
 
 
+    public static final RegistryHandle<Item> ETHAXIUM_SWORD =
+            Services.REGISTRY.registerItem("ethaxium_sword",
+                    properties -> new Item(
+                            properties.sword(
+                                    ModToolMaterials.ETHAXIUM,
+                                    3.0f,
+                                    -2.4F
+                            )
+                    ));
+
     public static final RegistryHandle<Item> ETHAXIUM_PICKAXE =
-            simpleItem("ethaxium_pickaxe");
+            Services.REGISTRY.registerItem("ethaxium_pickaxe",
+                    properties -> new Item(
+                            properties.pickaxe(
+                                    ModToolMaterials.ETHAXIUM,
+                                    1.0F,
+                                    -2.8F
+                            )
+                    ));
 
     public static final RegistryHandle<Item> ETHAXIUM_AXE =
-            simpleItem("ethaxium_axe");
+            Services.REGISTRY.registerItem("ethaxium_axe",
+                    properties -> new AxeItem(
+                            ModToolMaterials.ETHAXIUM,
+                            5.0F,
+                            -3.0F,
+                            properties
+                    ));
 
     public static final RegistryHandle<Item> ETHAXIUM_SHOVEL =
-            simpleItem("ethaxium_shovel");
-
-    public static final RegistryHandle<Item> ETHAXIUM_SWORD =
-            simpleItem("ethaxium_sword");
+            Services.REGISTRY.registerItem("ethaxium_shovel",
+                    properties -> new ShovelItem(
+                            ModToolMaterials.ETHAXIUM,
+                            1.5F,
+                            -3.0F,
+                            properties
+                    ));
 
     public static final RegistryHandle<Item> ETHAXIUM_HOE =
-            simpleItem("ethaxium_hoe");
+            Services.REGISTRY.registerItem("ethaxium_hoe",
+                    properties -> new HoeItem(
+                            ModToolMaterials.ETHAXIUM,
+                            -3.0F,
+                            0.0F,
+                            properties
+                    ));
+
+    public static final RegistryHandle<Item> ETHAXIUM_SPEAR =
+            Services.REGISTRY.registerItem("ethaxium_spear",
+                    properties -> new Item(
+                            properties.spear(
+                                    ModToolMaterials.ETHAXIUM,
+                                    1.20F,
+                                    1.25F,
+                                    0.70F,
+                                    3.2F,
+                                    14.0F,
+                                    2.8F,
+                                    12.0F,
+                                    5.5F,
+                                    10.5F
+                            )
+                    ));
 
 
     public static final RegistryHandle<Item> ETHAXIUM_HELMET =
-            simpleItem("ethaxium_helmet");
+            Services.REGISTRY.registerItem("ethaxium_helmet",
+                    properties -> new Item(
+                            properties.humanoidArmor(
+                                    ModArmorMaterials.ETHAXIUM_ARMOR_MATERIAL,
+                                    ArmorType.HELMET
+                            )
+                    ));
 
     public static final RegistryHandle<Item> ETHAXIUM_CHESTPLATE =
-            simpleItem("ethaxium_chestplate");
+            Services.REGISTRY.registerItem("ethaxium_chestplate",
+                    properties -> new Item(
+                            properties.humanoidArmor(
+                                    ModArmorMaterials.ETHAXIUM_ARMOR_MATERIAL,
+                                    ArmorType.CHESTPLATE
+                            )
+                    ));
 
     public static final RegistryHandle<Item> ETHAXIUM_LEGGINGS =
-            simpleItem("ethaxium_leggings");
+            Services.REGISTRY.registerItem("ethaxium_leggings",
+                    properties -> new Item(
+                            properties.humanoidArmor(
+                                    ModArmorMaterials.ETHAXIUM_ARMOR_MATERIAL,
+                                    ArmorType.LEGGINGS
+                            )
+                    ));
 
     public static final RegistryHandle<Item> ETHAXIUM_BOOTS =
-            simpleItem("ethaxium_boots");
+            Services.REGISTRY.registerItem("ethaxium_boots",
+                    properties -> new Item(
+                            properties.humanoidArmor(
+                                    ModArmorMaterials.ETHAXIUM_ARMOR_MATERIAL,
+                                    ArmorType.BOOTS
+                            )
+                    ));
 
 
     // Anti Items
@@ -1162,21 +1285,6 @@ public class ModItems {
 
     public static final RegistryHandle<Item> DREADLANDS_DOOR =
             simpleItem("dreadlands_door");
-
-
-    // Depths Armor
-
-    public static final RegistryHandle<Item> DEPTHS_HELMET =
-            simpleItem("depths_helmet");
-
-    public static final RegistryHandle<Item> DEPTHS_CHESTPLATE =
-            simpleItem("depths_chestplate");
-
-    public static final RegistryHandle<Item> DEPTHS_LEGGINGS =
-            simpleItem("depths_leggings");
-
-    public static final RegistryHandle<Item> DEPTHS_BOOTS =
-            simpleItem("depths_boots");
 
 
     // Rings

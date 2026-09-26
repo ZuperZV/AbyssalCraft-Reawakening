@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": "abyssalcraft_reawakening:dread_fragment",
+    "B": "minecraft:string",
+    "C": "minecraft:leather"
+  },
+  "pattern": [
+    "BAB",
+    "ACA",
+    "BAB"
+  ],
+  "result": {
+    "id": "abyssalcraft_reawakening:dread_cloth"
+  }
+}

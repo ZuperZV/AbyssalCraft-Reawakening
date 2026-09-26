@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "abyssalcraft_reawakening:dreadium_ingot",
+    "abyssalcraft_reawakening:dreadium_ingot",
+    "abyssalcraft_reawakening:dreadium_ingot",
+    "abyssalcraft_reawakening:dreadium_ingot",
+    "abyssalcraft_reawakening:dreadium_ingot",
+    "abyssalcraft_reawakening:dreadium_ingot",
+    "abyssalcraft_reawakening:dreadium_ingot",
+    "abyssalcraft_reawakening:dreadium_ingot",
+    "abyssalcraft_reawakening:dreadium_ingot"
+  ],
+  "result": {
+    "id": "abyssalcraft_reawakening:dreadium_block"
+  }
+}

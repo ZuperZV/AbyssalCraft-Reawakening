@@ -10,7 +10,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TimelineTags;
 import net.minecraft.util.ARGB;
-import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.attribute.EnvironmentAttributeMap;
 import net.minecraft.world.attribute.EnvironmentAttributes;
@@ -18,7 +17,6 @@ import net.minecraft.world.clock.WorldClocks;
 import net.minecraft.world.level.CardinalLighting;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Climate;
-import net.minecraft.world.level.biome.FixedBiomeSource;
 import net.minecraft.world.level.biome.MultiNoiseBiomeSource;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.dimension.LevelStem;
@@ -32,178 +30,435 @@ import java.util.List;
 import java.util.Optional;
 
 public class ModDimensions {
-    public static final ResourceKey<LevelStem> THE_ABYSSAL_WASTELAND_KEY = ResourceKey.create(Registries.LEVEL_STEM,
-            Identifier.fromNamespaceAndPath(Constants.MOD_ID, "abyssal_wasteland"));
-    public static final ResourceKey<Level> THE_ABYSSAL_WASTELAND_LEVEL_KEY = ResourceKey.create(Registries.DIMENSION,
-            Identifier.fromNamespaceAndPath(Constants.MOD_ID, "abyssal_wasteland"));
-    public static final ResourceKey<DimensionType> THE_ABYSSAL_WASTELAND_DIM_TYPE_KEY = ResourceKey.create(Registries.DIMENSION_TYPE,
-            Identifier.fromNamespaceAndPath(Constants.MOD_ID, "abyssal_wasteland"));
 
-    public static final ResourceKey<NoiseGeneratorSettings> ABYSSAL_WASTELAND_NOISE = ResourceKey.create(Registries.NOISE_SETTINGS,
-            Identifier.fromNamespaceAndPath(Constants.MOD_ID, "abyssal_wasteland"));
+    public static final ResourceKey<LevelStem> THE_ABYSSAL_WASTELAND_KEY =
+            ResourceKey.create(
+                    Registries.LEVEL_STEM,
+                    Identifier.fromNamespaceAndPath(
+                            Constants.MOD_ID,
+                            "abyssal_wasteland"
+                    )
+            );
 
-    protected static final NoiseSettings ABYSSAL_WASTELAND_SETTINGS = create(-80, 368, 1, 2);
+    public static final ResourceKey<Level> THE_ABYSSAL_WASTELAND_LEVEL_KEY =
+            ResourceKey.create(
+                    Registries.DIMENSION,
+                    Identifier.fromNamespaceAndPath(
+                            Constants.MOD_ID,
+                            "abyssal_wasteland"
+                    )
+            );
 
-    public static NoiseSettings create(int minY, int height, int noiseSizeHorizontal, int noiseSizeVertical) {
-        NoiseSettings noiseSettings = new NoiseSettings(minY, height, noiseSizeHorizontal, noiseSizeVertical);
-        guardY(noiseSettings).error().ifPresent((error) -> {
-            throw new IllegalStateException(error.message());
-        });
+    public static final ResourceKey<DimensionType> THE_ABYSSAL_WASTELAND_DIM_TYPE_KEY =
+            ResourceKey.create(
+                    Registries.DIMENSION_TYPE,
+                    Identifier.fromNamespaceAndPath(
+                            Constants.MOD_ID,
+                            "abyssal_wasteland"
+                    )
+            );
+
+    public static final ResourceKey<NoiseGeneratorSettings> ABYSSAL_WASTELAND_NOISE =
+            ResourceKey.create(
+                    Registries.NOISE_SETTINGS,
+                    Identifier.fromNamespaceAndPath(
+                            Constants.MOD_ID,
+                            "abyssal_wasteland"
+                    )
+            );
+
+    protected static final NoiseSettings ABYSSAL_WASTELAND_SETTINGS =
+            create(-80, 368, 1, 2);
+
+    public static NoiseSettings create(
+            int minY,
+            int height,
+            int noiseSizeHorizontal,
+            int noiseSizeVertical
+    ) {
+        NoiseSettings noiseSettings =
+                new NoiseSettings(
+                        minY,
+                        height,
+                        noiseSizeHorizontal,
+                        noiseSizeVertical
+                );
+
+        guardY(noiseSettings)
+                .error()
+                .ifPresent(error -> {
+                    throw new IllegalStateException(
+                            error.message()
+                    );
+                });
+
         return noiseSettings;
     }
 
-    public static void bootstrapType(BootstrapContext<DimensionType> context) {
-        var timelines = context.lookup(Registries.TIMELINE);
-        var clocks = context.lookup(Registries.WORLD_CLOCK);
+    public static void bootstrapType(
+            BootstrapContext<DimensionType> context
+    ) {
+        var timelines =
+                context.lookup(Registries.TIMELINE);
 
-        context.register(THE_ABYSSAL_WASTELAND_DIM_TYPE_KEY, new DimensionType( //TODO no rain
-                false,
-                false,
-                false,
-                false,
-                1.0,
-                -80,
-                368,
-                368,
-                BlockTags.INFINIBURN_OVERWORLD,
-                1.0f,
-                new DimensionType.MonsterSettings(
-                        UniformInt.of(15, 15),
-                        15
-                ),
-                DimensionType.Skybox.OVERWORLD,
-                CardinalLighting.Type.DEFAULT,
-                EnvironmentAttributeMap.builder()
-                        .set(EnvironmentAttributes.FOG_COLOR, -6168523)
-                        .set(EnvironmentAttributes.SKY_COLOR, OverworldBiomes.calculateSkyColor(2.5f))
-                        .set(EnvironmentAttributes.AMBIENT_LIGHT_COLOR, -4212331)
-                        .set(EnvironmentAttributes.CLOUD_COLOR, ARGB.color(155, 200, 31, 25))
-                        .build(),
-                timelines.getOrThrow(TimelineTags.IN_OVERWORLD),
-                Optional.of(clocks.getOrThrow(WorldClocks.OVERWORLD))));
+        var clocks =
+                context.lookup(Registries.WORLD_CLOCK);
+
+        context.register(
+                THE_ABYSSAL_WASTELAND_DIM_TYPE_KEY,
+                new DimensionType(
+                        false,
+                        false,
+                        false,
+                        false,
+                        1.0,
+                        -80,
+                        368,
+                        368,
+                        BlockTags.INFINIBURN_OVERWORLD,
+                        1.0f,
+
+                        new DimensionType.MonsterSettings(
+                                UniformInt.of(15, 15),
+                                15
+                        ),
+
+                        DimensionType.Skybox.OVERWORLD,
+                        CardinalLighting.Type.DEFAULT,
+
+                        EnvironmentAttributeMap.builder()
+                                .set(
+                                        EnvironmentAttributes.FOG_COLOR,
+                                        -6168523
+                                )
+                                .set(
+                                        EnvironmentAttributes.SKY_COLOR,
+                                        OverworldBiomes.calculateSkyColor(
+                                                2.5f
+                                        )
+                                )
+                                .set(
+                                        EnvironmentAttributes.AMBIENT_LIGHT_COLOR,
+                                        -4212331
+                                )
+                                .set(
+                                        EnvironmentAttributes.CLOUD_COLOR,
+                                        ARGB.color(
+                                                155,
+                                                200,
+                                                31,
+                                                25
+                                        )
+                                )
+                                .build(),
+
+                        timelines.getOrThrow(
+                                TimelineTags.IN_OVERWORLD
+                        ),
+
+                        Optional.of(
+                                clocks.getOrThrow(
+                                        WorldClocks.OVERWORLD
+                                )
+                        )
+                )
+        );
     }
+    public static void bootstrapStem(
+            BootstrapContext<LevelStem> context
+    ) {
+        var biomes =
+                context.lookup(Registries.BIOME);
 
+        var dimensionTypes =
+                context.lookup(Registries.DIMENSION_TYPE);
 
-    public static void bootstrapStem(BootstrapContext<LevelStem> context) {
-        var biomes = context.lookup(Registries.BIOME);
-        var dimensionTypes = context.lookup(Registries.DIMENSION_TYPE);
-        var noiseGenSettings = context.lookup(Registries.NOISE_SETTINGS);
+        var noiseGenSettings =
+                context.lookup(Registries.NOISE_SETTINGS);
 
-        NoiseBasedChunkGenerator singleBiomeGenerator = new NoiseBasedChunkGenerator(
-                new FixedBiomeSource(biomes.getOrThrow(ModBiomes.ABYSSAL_WASTELANDS_BIOME)),
-                noiseGenSettings.getOrThrow(ABYSSAL_WASTELAND_NOISE));
+        Climate.Parameter depth =
+                Climate.Parameter.point(
+                        0.0f
+                );
+
+        Climate.Parameter weirdness =
+                Climate.Parameter.span(
+                        -1.0f,
+                        1.0f
+                );
 
         NoiseBasedChunkGenerator multiBiomeGenerator =
                 new NoiseBasedChunkGenerator(
 
                         MultiNoiseBiomeSource.createFromList(
-                                new Climate.ParameterList<>(List.of(
+                                new Climate.ParameterList<>(
+                                        List.of(
 
-                                        Pair.of(
-                                                Climate.parameters(
-                                                        -1.0f,
-                                                        -0.45f,
-                                                        0.8f,
-                                                        0.0f,
-                                                        0.0f,
-                                                        0.0f,
-                                                        0.0f
-                                                ),
-                                                biomes.getOrThrow(
-                                                        ModBiomes.CORALLIUM_LAKE
-                                                )
-                                        ),
+                                                Pair.of(
+                                                        new Climate.ParameterPoint(
 
-                                        Pair.of(
-                                                Climate.parameters(
-                                                        -0.45f,
-                                                        -0.05f,
-                                                        0.7f,
-                                                        0.5f,
-                                                        0.0f,
-                                                        0.0f,
-                                                        0.0f
-                                                ),
-                                                biomes.getOrThrow(
-                                                        ModBiomes.ABYSSAL_SWAMP
-                                                )
-                                        ),
+                                                                Climate.Parameter.span(
+                                                                        -0.75f,
+                                                                        0.20f
+                                                                ),
 
-                                        Pair.of(
-                                                Climate.parameters(
-                                                        -0.05f,
-                                                        0.25f,
-                                                        1.0f,
-                                                        -0.8f,
-                                                        0.0f,
-                                                        0.0f,
-                                                        0.0f
-                                                ),
-                                                biomes.getOrThrow(
-                                                        ModBiomes.ABYSSAL_DESERT
-                                                )
-                                        ),
+                                                                Climate.Parameter.span(
+                                                                        -0.80f,
+                                                                        0.20f
+                                                                ),
 
-                                        Pair.of(
-                                                Climate.parameters(
-                                                        0.0f,
-                                                        0.55f,
-                                                        0.55f,
-                                                        0.65f,
-                                                        0.0f,
-                                                        0.0f,
-                                                        0.0f
-                                                ),
-                                                biomes.getOrThrow(
-                                                        ModBiomes.DARKLANDS_FOREST
-                                                )
-                                        ),
+                                                                Climate.Parameter.span(
+                                                                        -1.00f,
+                                                                        -0.78f
+                                                                ),
 
-                                        Pair.of(
-                                                Climate.parameters(
-                                                        0.2f,
-                                                        0.7f,
-                                                        0.45f,
-                                                        -0.25f,
-                                                        0.0f,
-                                                        0.0f,
-                                                        0.0f
-                                                ),
-                                                biomes.getOrThrow(
-                                                        ModBiomes.ABYSSAL_WASTELANDS_BIOME
-                                                )
-                                        ),
+                                                                Climate.Parameter.span(
+                                                                        -0.40f,
+                                                                        0.40f
+                                                                ),
 
-                                        Pair.of(
-                                                Climate.parameters(
-                                                        0.45f,
-                                                        0.85f,
-                                                        0.2f,
-                                                        -0.35f,
-                                                        0.5f,
-                                                        0.0f,
-                                                        0.0f
-                                                ),
-                                                biomes.getOrThrow(
-                                                        ModBiomes.ABYSSAL_PLATEAU
-                                                )
-                                        ),
+                                                                depth,
 
-                                        Pair.of(
-                                                Climate.parameters(
-                                                        0.35f,
-                                                        1.0f,
-                                                        -0.1f,
-                                                        -0.1f,
-                                                        1.0f,
-                                                        0.0f,
-                                                        0.0f
+                                                                weirdness,
+
+                                                                Climate.quantizeCoord(
+                                                                        0.0f
+                                                                )
+                                                        ),
+
+                                                        biomes.getOrThrow(
+                                                                ModBiomes.CORALLIUM_LAKE
+                                                        )
                                                 ),
-                                                biomes.getOrThrow(
-                                                        ModBiomes.DARKLANDS_MOUNTAINS
+
+                                                Pair.of(
+                                                        new Climate.ParameterPoint(
+
+                                                                Climate.Parameter.span(
+                                                                        0.15f,
+                                                                        0.65f
+                                                                ),
+
+                                                                Climate.Parameter.span(
+                                                                        0.45f,
+                                                                        1.00f
+                                                                ),
+
+                                                                Climate.Parameter.span(
+                                                                        0.45f,
+                                                                        1.00f
+                                                                ),
+
+                                                                Climate.Parameter.span(
+                                                                        -0.40f,
+                                                                        0.20f
+                                                                ),
+
+                                                                depth,
+
+                                                                weirdness,
+
+                                                                Climate.quantizeCoord(
+                                                                        0.0f
+                                                                )
+                                                        ),
+
+                                                        biomes.getOrThrow(
+                                                                ModBiomes.DARKLANDS_MOUNTAINS
+                                                        )
+                                                ),
+
+                                                Pair.of(
+                                                        new Climate.ParameterPoint(
+
+                                                                Climate.Parameter.span(
+                                                                        0.25f,
+                                                                        0.75f
+                                                                ),
+
+                                                                Climate.Parameter.span(
+                                                                        0.50f,
+                                                                        0.90f
+                                                                ),
+
+                                                                Climate.Parameter.span(
+                                                                        0.70f,
+                                                                        1.00f
+                                                                ),
+
+                                                                Climate.Parameter.span(
+                                                                        -0.65f,
+                                                                        -0.10f
+                                                                ),
+
+                                                                depth,
+
+                                                                weirdness,
+
+                                                                Climate.quantizeCoord(
+                                                                        0.0f
+                                                                )
+                                                        ),
+
+                                                        biomes.getOrThrow(
+                                                                ModBiomes.ABYSSAL_PLATEAU
+                                                        )
+                                                ),
+
+                                                /*
+                                                 * ====================================================
+                                                 * ABYSSAL WASTELANDS
+                                                 * ====================================================
+                                                 */
+                                                Pair.of(
+                                                        new Climate.ParameterPoint(
+
+                                                                Climate.Parameter.span(
+                                                                        0.00f,
+                                                                        0.50f
+                                                                ),
+
+                                                                Climate.Parameter.span(
+                                                                        0.30f,
+                                                                        0.75f
+                                                                ),
+
+                                                                Climate.Parameter.span(
+                                                                        0.10f,
+                                                                        1.00f
+                                                                ),
+
+                                                                Climate.Parameter.span(
+                                                                        -0.50f,
+                                                                        0.10f
+                                                                ),
+
+                                                                depth,
+
+                                                                weirdness,
+
+                                                                Climate.quantizeCoord(
+                                                                        0.0f
+                                                                )
+                                                        ),
+
+                                                        biomes.getOrThrow(
+                                                                ModBiomes.ABYSSAL_WASTELANDS_BIOME
+                                                        )
+                                                ),
+
+                                                Pair.of(
+                                                        new Climate.ParameterPoint(
+
+                                                                Climate.Parameter.span(
+                                                                        -0.10f,
+                                                                        0.45f
+                                                                ),
+
+                                                                Climate.Parameter.span(
+                                                                        0.35f,
+                                                                        0.75f
+                                                                ),
+
+                                                                Climate.Parameter.span(
+                                                                        0.35f,
+                                                                        1.00f
+                                                                ),
+
+                                                                Climate.Parameter.span(
+                                                                        0.20f,
+                                                                        0.80f
+                                                                ),
+
+                                                                depth,
+
+                                                                weirdness,
+
+                                                                Climate.quantizeCoord(
+                                                                        0.0f
+                                                                )
+                                                        ),
+
+                                                        biomes.getOrThrow(
+                                                                ModBiomes.DARKLANDS_FOREST
+                                                        )
+                                                ),
+
+                                                Pair.of(
+                                                        new Climate.ParameterPoint(
+
+                                                                Climate.Parameter.span(
+                                                                        -0.70f,
+                                                                        -0.15f
+                                                                ),
+
+                                                                Climate.Parameter.span(
+                                                                        -0.50f,
+                                                                        0.15f
+                                                                ),
+
+                                                                Climate.Parameter.span(
+                                                                        0.55f,
+                                                                        0.85f
+                                                                ),
+
+                                                                Climate.Parameter.span(
+                                                                        0.20f,
+                                                                        0.80f
+                                                                ),
+
+                                                                depth,
+
+                                                                weirdness,
+
+                                                                Climate.quantizeCoord(
+                                                                        0.0f
+                                                                )
+                                                        ),
+
+                                                        biomes.getOrThrow(
+                                                                ModBiomes.ABYSSAL_SWAMP
+                                                        )
+                                                ),
+
+                                                Pair.of(
+                                                        new Climate.ParameterPoint(
+
+                                                                Climate.Parameter.span(
+                                                                        -0.05f,
+                                                                        0.45f
+                                                                ),
+
+                                                                Climate.Parameter.span(
+                                                                        0.00f,
+                                                                        0.40f
+                                                                ),
+
+                                                                Climate.Parameter.span(
+                                                                        0.65f,
+                                                                        1.00f
+                                                                ),
+
+                                                                Climate.Parameter.span(
+                                                                        -1.00f,
+                                                                        -0.40f
+                                                                ),
+
+                                                                depth,
+
+                                                                weirdness,
+
+                                                                Climate.quantizeCoord(
+                                                                        0.0f
+                                                                )
+                                                        ),
+
+                                                        biomes.getOrThrow(
+                                                                ModBiomes.ABYSSAL_DESERT
+                                                        )
                                                 )
                                         )
-                                ))
+                                )
                         ),
 
                         noiseGenSettings.getOrThrow(
@@ -211,18 +466,48 @@ public class ModDimensions {
                         )
                 );
 
-        context.register(THE_ABYSSAL_WASTELAND_KEY, new LevelStem(dimensionTypes.getOrThrow(ModDimensions.THE_ABYSSAL_WASTELAND_DIM_TYPE_KEY), multiBiomeGenerator));
+        context.register(
+                THE_ABYSSAL_WASTELAND_KEY,
+                new LevelStem(
+                        dimensionTypes.getOrThrow(
+                                THE_ABYSSAL_WASTELAND_DIM_TYPE_KEY
+                        ),
+                        multiBiomeGenerator
+                )
+        );
     }
 
-
-    private static DataResult<NoiseSettings> guardY(NoiseSettings dimensionType) {
-        if (dimensionType.minY() + dimensionType.height() > DimensionType.MAX_Y + 1) {
-            return DataResult.error(() -> "min_y + height cannot be higher than: " + (DimensionType.MAX_Y + 1));
-        } else if (dimensionType.height() % 16 != 0) {
-            return DataResult.error(() -> "height has to be a multiple of 16");
-        } else {
-            return dimensionType.minY() % 16 != 0 ? DataResult.error(() -> "min_y has to be a multiple of 16") : DataResult.success(dimensionType);
+    private static DataResult<NoiseSettings> guardY(
+            NoiseSettings dimensionType
+    ) {
+        if (
+                dimensionType.minY()
+                        + dimensionType.height()
+                        > DimensionType.MAX_Y + 1
+        ) {
+            return DataResult.error(
+                    () ->
+                            "min_y + height cannot be higher than: "
+                                    + (DimensionType.MAX_Y + 1)
+            );
         }
-    }
 
+        if (dimensionType.height() % 16 != 0) {
+            return DataResult.error(
+                    () ->
+                            "height has to be a multiple of 16"
+            );
+        }
+
+        if (dimensionType.minY() % 16 != 0) {
+            return DataResult.error(
+                    () ->
+                            "min_y has to be a multiple of 16"
+            );
+        }
+
+        return DataResult.success(
+                dimensionType
+        );
+    }
 }

@@ -1,7 +1,21 @@
 {
   "variants": {
-    "": {
-      "model": "abyssalcraft_reawakening:block/wastite"
-    }
+    "": [
+      {
+        "model": "abyssalcraft_reawakening:block/wastite"
+      },
+      {
+        "model": "abyssalcraft_reawakening:block/wastite",
+        "y": 90
+      },
+      {
+        "model": "abyssalcraft_reawakening:block/wastite",
+        "y": 180
+      },
+      {
+        "model": "abyssalcraft_reawakening:block/wastite",
+        "y": 270
+      }
+    ]
   }
 }

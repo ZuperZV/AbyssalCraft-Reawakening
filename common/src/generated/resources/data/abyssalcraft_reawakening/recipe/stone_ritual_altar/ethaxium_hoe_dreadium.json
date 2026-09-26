@@ -1,0 +1,25 @@
+{
+  "type": "abyssalcraft_reawakening:ritual_altar",
+  "copy_components": [
+    {
+      "components": [
+        "minecraft:damage",
+        "minecraft:enchantments"
+      ],
+      "from": "mold"
+    }
+  ],
+  "dimension": "abyssalcraft_reawakening:abyssal_wasteland",
+  "ingredient": "abyssalcraft_reawakening:dreadium_hoe",
+  "ingredients": [
+    "abyssalcraft_reawakening:ethaxium_ingot",
+    "abyssalcraft_reawakening:recipe_item",
+    "abyssalcraft_reawakening:ethaxium_ingot"
+  ],
+  "output": {
+    "id": "abyssalcraft_reawakening:ethaxium_hoe"
+  },
+  "pe": 4500,
+  "time": 900,
+  "time_of_day": "NIGHT"
+}

@@ -1,6 +1,15 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "abyssalcraft_reawakening:item/ethaxium_hoe"
+    "type": "minecraft:condition",
+    "component": "abyssalcraft_reawakening:wood",
+    "on_false": {
+      "type": "minecraft:model",
+      "model": "abyssalcraft_reawakening:item/ethaxium_hoe"
+    },
+    "on_true": {
+      "type": "minecraft:model",
+      "model": "abyssalcraft_reawakening:item/ethaxium_hoe_wood"
+    },
+    "property": "minecraft:has_component"
   }
 }

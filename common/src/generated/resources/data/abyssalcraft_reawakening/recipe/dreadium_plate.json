@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": "abyssalcraft_reawakening:dreadium_ingot",
+    "B": "abyssalcraft_reawakening:dread_cloth"
+  },
+  "pattern": [
+    " A ",
+    "ABA",
+    " A "
+  ],
+  "result": {
+    "id": "abyssalcraft_reawakening:dreadium_plate"
+  }
+}

@@ -1,6 +1,15 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "abyssalcraft_reawakening:item/dreadium_axe"
+    "type": "minecraft:condition",
+    "component": "abyssalcraft_reawakening:wood",
+    "on_false": {
+      "type": "minecraft:model",
+      "model": "abyssalcraft_reawakening:item/dreadium_axe"
+    },
+    "on_true": {
+      "type": "minecraft:model",
+      "model": "abyssalcraft_reawakening:item/dreadium_axe_wood"
+    },
+    "property": "minecraft:has_component"
   }
 }
