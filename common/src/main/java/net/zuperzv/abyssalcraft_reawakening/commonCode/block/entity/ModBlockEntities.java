@@ -25,6 +25,13 @@ public class ModBlockEntities {
                     ModBlocks.STONE_RITUAL_PEDESTAL.block()::get
             );
 
+    public static final RegistryHandle<BlockEntityType<EssenceBoilerBlockEntity>> ESSENCE_BOILER_BE =
+            Services.REGISTRY.registerBlockEntityType(
+                    "essence_boiler_be",
+                    EssenceBoilerBlockEntity::new,
+                    ModBlocks.ESSENCE_BOILER.block()::get
+            );
+
     /*
     public static final RegistryHandle<BlockEntityType<StoneRitualPedestalBlockEntity>> PE_STATUE_BE =
             Services.REGISTRY.registerBlockEntityType(

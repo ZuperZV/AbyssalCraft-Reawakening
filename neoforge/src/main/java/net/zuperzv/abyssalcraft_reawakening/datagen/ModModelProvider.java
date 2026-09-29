@@ -31,6 +31,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.EssenceBoilerBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.PortalActivatorBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.DyedColorTintSource;
@@ -91,8 +92,11 @@ public class ModModelProvider extends ModelProvider {
         generateBlockFromParent(blockModels, ModBlocks.STONE_RITUAL_ALTAR.block().get(), "ritual_altar", List.of(TextureSlot.create("0")));
         generateBlockFromParent(blockModels, ModBlocks.STONE_RITUAL_PEDESTAL.block().get(), "ritual_pedestal", List.of(TextureSlot.create("1"), TextureSlot.create("2")));
 
+        createEssenceBoilerBlock(blockModels, ModBlocks.ESSENCE_BOILER.block().get(), "essence_boiler_parent", List.of(TextureSlot.create("0")));
+
         //Create Rotated Variants
         createRotatedVariantBlock(blockModels, ModBlocks.WASTITE.block().get());
+        createRotatedVariantBlock(blockModels, ModBlocks.STARITE.block().get());
         createRotatedVariantBlock(blockModels, ModBlocks.ABYSSAL_SAND.block().get());
 
         //PortalBlock
@@ -1075,12 +1079,7 @@ public class ModModelProvider extends ModelProvider {
                 || item instanceof HoeItem;
     }
 
-    private void generateBlockFromParent(
-            BlockModelGenerators blockModels,
-            Block block,
-            String parentModel,
-            List<TextureSlot> slots
-    ) {
+    private void generateBlockFromParent(BlockModelGenerators blockModels, Block block, String parentModel, List<TextureSlot> slots) {
         if (slots.isEmpty()) {
             throw new IllegalArgumentException("At least one TextureSlot is required.");
         }
@@ -1105,6 +1104,102 @@ public class ModModelProvider extends ModelProvider {
 
         blockModels.blockStateOutput.accept(
                 createSimpleBlock(block, plainVariant(model))
+        );
+    }
+
+    private void createEssenceBoilerBlock(
+            BlockModelGenerators blockModels,
+            Block block,
+            String parentModel,
+            List<TextureSlot> slots
+    ) {
+        generatedBlocks.add(block);
+
+        ModelTemplate template = new ModelTemplate(
+                Optional.of(Identifier.fromNamespaceAndPath(
+                        Constants.MOD_ID,
+                        "block/" + parentModel
+                )),
+                Optional.empty(),
+                slots.toArray(new TextureSlot[0])
+        );
+
+        TextureMapping textures = new TextureMapping();
+
+        for (TextureSlot slot : slots) {
+            textures.put(slot, TextureMapping.getBlockTexture(block));
+        }
+
+        textures.put(
+                TextureSlot.PARTICLE,
+                TextureMapping.getBlockTexture(block)
+        );
+
+        Identifier model = template.create(
+                block,
+                textures,
+                blockModels.modelOutput
+        );
+
+        ModelTemplate onTemplate = new ModelTemplate(
+                Optional.of(Identifier.fromNamespaceAndPath(
+                        Constants.MOD_ID,
+                        "block/" + parentModel + "_on"
+                )),
+                Optional.empty(),
+                slots.toArray(new TextureSlot[0])
+        );
+
+        TextureMapping onTextures = new TextureMapping();
+
+        for (TextureSlot slot : slots) {
+            onTextures.put(slot, TextureMapping.getBlockTexture(block));
+        }
+
+        onTextures.put(
+                TextureSlot.PARTICLE,
+                TextureMapping.getBlockTexture(block)
+        );
+
+        Identifier onModel = onTemplate.create(
+                Identifier.fromNamespaceAndPath(
+                        Constants.MOD_ID,
+                        "block/essence_boiler_on"
+                ),
+                onTextures,
+                blockModels.modelOutput
+        );
+
+        blockModels.blockStateOutput.accept(
+                MultiVariantGenerator.dispatch(block)
+                        .with(
+                                PropertyDispatch.initial(
+                                                EssenceBoilerBlock.FACING,
+                                                EssenceBoilerBlock.LIT
+                                        )
+                                        .select(
+                                                Direction.Axis.Z,
+                                                false,
+                                                plainVariant(model)
+                                        )
+                                        .select(
+                                                Direction.Axis.Z,
+                                                true,
+                                                plainVariant(onModel)
+                                        )
+                                        .select(
+                                                Direction.Axis.X,
+                                                false,
+                                                plainVariant(model)
+                                                        .with(Y_ROT_90)
+                                        )
+                                        .select(
+                                                Direction.Axis.X,
+                                                true,
+                                                plainVariant(onModel)
+                                                        .with(Y_ROT_90)
+                                        )
+                        )
         );
     }
 

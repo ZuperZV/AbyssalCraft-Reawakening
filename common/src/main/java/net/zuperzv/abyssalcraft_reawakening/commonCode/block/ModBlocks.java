@@ -8,6 +8,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
@@ -32,6 +33,11 @@ public final class ModBlocks {
     public static final BlockWithItemRegistryHandle<Block> STONE_RITUAL_PEDESTAL = Services.REGISTRY.registerBlockWithItem("stone_ritual_pedestal",
             properties -> new StoneRitualPedestalBlock(properties.requiresCorrectToolForDrops().strength(3.0F, 4.0F)
                     .sound(SoundType.TUFF_BRICKS).noOcclusion()));
+
+
+    public static final BlockWithItemRegistryHandle<Block> ESSENCE_BOILER = Services.REGISTRY.registerBlockWithItem("essence_boiler",
+            properties -> new EssenceBoilerBlock(properties.requiresCorrectToolForDrops().strength(5.0F, 6.0F)
+                    .sound(SoundType.DEEPSLATE_TILES).lightLevel(state -> 15).ignitedByLava().noOcclusion()));
 
     //Abyssal
     public static final BlockWithItemRegistryHandle<Block> ABYSSAL_STONE = Services.REGISTRY.registerBlockWithItem("abyssal_stone",

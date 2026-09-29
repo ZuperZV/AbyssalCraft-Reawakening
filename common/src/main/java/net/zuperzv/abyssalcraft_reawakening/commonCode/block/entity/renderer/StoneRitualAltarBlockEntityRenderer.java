@@ -335,9 +335,6 @@ public class StoneRitualAltarBlockEntityRenderer
         }
     }
 
-    // =========================
-    // STATE CLASS
-    // =========================
 
     public class StoneRitualAltarBlockEntityRenderState extends BlockEntityRenderState {
         public Level level;

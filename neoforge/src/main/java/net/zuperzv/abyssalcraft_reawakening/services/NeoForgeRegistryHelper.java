@@ -105,7 +105,12 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
     @Override
     public <T extends Block> RegistryHandle<T> registerBlock(String name, Function<BlockBehaviour.Properties, T> block) {
         Identifier id = Constants.id(name);
-        DeferredBlock<T> deferredBlock = BLOCKS.registerBlock(name, block);
+        DeferredBlock<T> deferredBlock = BLOCKS.registerBlock(
+                name,
+                block,
+                () -> BlockBehaviour.Properties.of()
+        );
+
         return new RegistryHandle<>() {
             @Override
             public Identifier id() {

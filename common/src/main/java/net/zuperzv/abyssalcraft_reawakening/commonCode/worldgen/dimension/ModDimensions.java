@@ -194,268 +194,102 @@ public class ModDimensions {
                                 new Climate.ParameterList<>(
                                         List.of(
 
+                                                // CORALLIUM LAKE
                                                 Pair.of(
                                                         new Climate.ParameterPoint(
-
-                                                                Climate.Parameter.span(
-                                                                        -0.75f,
-                                                                        0.20f
-                                                                ),
-
-                                                                Climate.Parameter.span(
-                                                                        -0.80f,
-                                                                        0.20f
-                                                                ),
-
-                                                                Climate.Parameter.span(
-                                                                        -1.00f,
-                                                                        -0.78f
-                                                                ),
-
-                                                                Climate.Parameter.span(
-                                                                        -0.40f,
-                                                                        0.40f
-                                                                ),
-
+                                                                Climate.Parameter.span(-0.85f, -0.65f), // temperature
+                                                                Climate.Parameter.span(-0.95f, -0.65f), // humidity
+                                                                Climate.Parameter.span(-1.00f, -0.85f), // continentalness
+                                                                Climate.Parameter.span(-0.20f, 0.20f),  // erosion
                                                                 depth,
-
                                                                 weirdness,
-
-                                                                Climate.quantizeCoord(
-                                                                        0.0f
-                                                                )
+                                                                Climate.quantizeCoord(0.0f)
                                                         ),
-
-                                                        biomes.getOrThrow(
-                                                                ModBiomes.CORALLIUM_LAKE
-                                                        )
+                                                        biomes.getOrThrow(ModBiomes.CORALLIUM_LAKE)
                                                 ),
 
+                                                // DARKLANDS MOUNTAINS
                                                 Pair.of(
                                                         new Climate.ParameterPoint(
-
-                                                                Climate.Parameter.span(
-                                                                        0.15f,
-                                                                        0.65f
-                                                                ),
-
-                                                                Climate.Parameter.span(
-                                                                        0.45f,
-                                                                        1.00f
-                                                                ),
-
-                                                                Climate.Parameter.span(
-                                                                        0.45f,
-                                                                        1.00f
-                                                                ),
-
-                                                                Climate.Parameter.span(
-                                                                        -0.40f,
-                                                                        0.20f
-                                                                ),
-
+                                                                Climate.Parameter.span(0.25f, 0.50f),
+                                                                Climate.Parameter.span(0.60f, 0.90f),
+                                                                Climate.Parameter.span(0.55f, 0.80f),
+                                                                Climate.Parameter.span(-0.20f, 0.10f),
                                                                 depth,
-
                                                                 weirdness,
-
-                                                                Climate.quantizeCoord(
-                                                                        0.0f
-                                                                )
+                                                                Climate.quantizeCoord(0.0f)
                                                         ),
-
-                                                        biomes.getOrThrow(
-                                                                ModBiomes.DARKLANDS_MOUNTAINS
-                                                        )
+                                                        biomes.getOrThrow(ModBiomes.DARKLANDS_MOUNTAINS)
                                                 ),
 
+                                                // ABYSSAL PLATEAU
                                                 Pair.of(
                                                         new Climate.ParameterPoint(
-
-                                                                Climate.Parameter.span(
-                                                                        0.25f,
-                                                                        0.75f
-                                                                ),
-
-                                                                Climate.Parameter.span(
-                                                                        0.50f,
-                                                                        0.90f
-                                                                ),
-
-                                                                Climate.Parameter.span(
-                                                                        0.70f,
-                                                                        1.00f
-                                                                ),
-
-                                                                Climate.Parameter.span(
-                                                                        -0.65f,
-                                                                        -0.10f
-                                                                ),
-
+                                                                Climate.Parameter.span(0.35f, 0.60f),
+                                                                Climate.Parameter.span(0.55f, 0.80f),
+                                                                Climate.Parameter.span(0.75f, 1.00f),
+                                                                Climate.Parameter.span(-0.70f, -0.40f),
                                                                 depth,
-
                                                                 weirdness,
-
-                                                                Climate.quantizeCoord(
-                                                                        0.0f
-                                                                )
+                                                                Climate.quantizeCoord(0.0f)
                                                         ),
-
-                                                        biomes.getOrThrow(
-                                                                ModBiomes.ABYSSAL_PLATEAU
-                                                        )
+                                                        biomes.getOrThrow(ModBiomes.ABYSSAL_PLATEAU)
                                                 ),
 
-                                                /*
-                                                 * ====================================================
-                                                 * ABYSSAL WASTELANDS
-                                                 * ====================================================
-                                                 */
+                                                // ABYSSAL WASTELANDS
                                                 Pair.of(
                                                         new Climate.ParameterPoint(
-
-                                                                Climate.Parameter.span(
-                                                                        0.00f,
-                                                                        0.50f
-                                                                ),
-
-                                                                Climate.Parameter.span(
-                                                                        0.30f,
-                                                                        0.75f
-                                                                ),
-
-                                                                Climate.Parameter.span(
-                                                                        0.10f,
-                                                                        1.00f
-                                                                ),
-
-                                                                Climate.Parameter.span(
-                                                                        -0.50f,
-                                                                        0.10f
-                                                                ),
-
+                                                                Climate.Parameter.span(0.10f, 0.35f),
+                                                                Climate.Parameter.span(0.35f, 0.55f),
+                                                                Climate.Parameter.span(0.25f, 0.60f),
+                                                                Climate.Parameter.span(-0.25f, 0.05f),
                                                                 depth,
-
                                                                 weirdness,
-
-                                                                Climate.quantizeCoord(
-                                                                        0.0f
-                                                                )
+                                                                Climate.quantizeCoord(0.0f)
                                                         ),
-
-                                                        biomes.getOrThrow(
-                                                                ModBiomes.ABYSSAL_WASTELANDS_BIOME
-                                                        )
+                                                        biomes.getOrThrow(ModBiomes.ABYSSAL_WASTELANDS_BIOME)
                                                 ),
 
+                                                // DARKLANDS FOREST
                                                 Pair.of(
                                                         new Climate.ParameterPoint(
-
-                                                                Climate.Parameter.span(
-                                                                        -0.10f,
-                                                                        0.45f
-                                                                ),
-
-                                                                Climate.Parameter.span(
-                                                                        0.35f,
-                                                                        0.75f
-                                                                ),
-
-                                                                Climate.Parameter.span(
-                                                                        0.35f,
-                                                                        1.00f
-                                                                ),
-
-                                                                Climate.Parameter.span(
-                                                                        0.20f,
-                                                                        0.80f
-                                                                ),
-
+                                                                Climate.Parameter.span(-0.05f, 0.25f),
+                                                                Climate.Parameter.span(0.40f, 0.65f),
+                                                                Climate.Parameter.span(0.45f, 0.75f),
+                                                                Climate.Parameter.span(0.20f, 0.60f),
                                                                 depth,
-
                                                                 weirdness,
-
-                                                                Climate.quantizeCoord(
-                                                                        0.0f
-                                                                )
+                                                                Climate.quantizeCoord(0.0f)
                                                         ),
-
-                                                        biomes.getOrThrow(
-                                                                ModBiomes.DARKLANDS_FOREST
-                                                        )
+                                                        biomes.getOrThrow(ModBiomes.DARKLANDS_FOREST)
                                                 ),
 
+                                                // ABYSSAL SWAMP
                                                 Pair.of(
                                                         new Climate.ParameterPoint(
-
-                                                                Climate.Parameter.span(
-                                                                        -0.70f,
-                                                                        -0.15f
-                                                                ),
-
-                                                                Climate.Parameter.span(
-                                                                        -0.50f,
-                                                                        0.15f
-                                                                ),
-
-                                                                Climate.Parameter.span(
-                                                                        0.55f,
-                                                                        0.85f
-                                                                ),
-
-                                                                Climate.Parameter.span(
-                                                                        0.20f,
-                                                                        0.80f
-                                                                ),
-
+                                                                Climate.Parameter.span(-0.65f, -0.35f),
+                                                                Climate.Parameter.span(-0.35f, 0.00f),
+                                                                Climate.Parameter.span(0.55f, 0.85f),
+                                                                Climate.Parameter.span(0.20f, 0.65f),
                                                                 depth,
-
                                                                 weirdness,
-
-                                                                Climate.quantizeCoord(
-                                                                        0.0f
-                                                                )
+                                                                Climate.quantizeCoord(0.0f)
                                                         ),
-
-                                                        biomes.getOrThrow(
-                                                                ModBiomes.ABYSSAL_SWAMP
-                                                        )
+                                                        biomes.getOrThrow(ModBiomes.ABYSSAL_SWAMP)
                                                 ),
 
+                                                // ABYSSAL DESERT
                                                 Pair.of(
                                                         new Climate.ParameterPoint(
-
-                                                                Climate.Parameter.span(
-                                                                        -0.05f,
-                                                                        0.45f
-                                                                ),
-
-                                                                Climate.Parameter.span(
-                                                                        0.00f,
-                                                                        0.40f
-                                                                ),
-
-                                                                Climate.Parameter.span(
-                                                                        0.65f,
-                                                                        1.00f
-                                                                ),
-
-                                                                Climate.Parameter.span(
-                                                                        -1.00f,
-                                                                        -0.40f
-                                                                ),
-
+                                                                Climate.Parameter.span(-0.05f, 0.30f),
+                                                                Climate.Parameter.span(0.00f, 0.30f),
+                                                                Climate.Parameter.span(0.65f, 1.00f),
+                                                                Climate.Parameter.span(-1.00f, -0.55f),
                                                                 depth,
-
                                                                 weirdness,
-
-                                                                Climate.quantizeCoord(
-                                                                        0.0f
-                                                                )
+                                                                Climate.quantizeCoord(0.0f)
                                                         ),
-
-                                                        biomes.getOrThrow(
-                                                                ModBiomes.ABYSSAL_DESERT
-                                                        )
+                                                        biomes.getOrThrow(ModBiomes.ABYSSAL_DESERT)
                                                 )
                                         )
                                 )

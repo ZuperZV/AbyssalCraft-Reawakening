@@ -9,6 +9,7 @@ public class ModRecipes {
     private ModRecipes() {}
 
     public static IRegistryHelper.RecipeRegistryHandle<RecipeType<StoneRitualAltarRecipe>, RecipeSerializer<StoneRitualAltarRecipe>> RITUAL_ALTAR;
+    public static IRegistryHelper.RecipeRegistryHandle<RecipeType<EssenceBoilerRecipe>, RecipeSerializer<EssenceBoilerRecipe>> ESSENCE_BOILER;
     public static IRegistryHelper.RecipeRegistryHandle<RecipeType<CoraliumGemRecipe>, RecipeSerializer<CoraliumGemRecipe>> CORALIUM_GEM;
 
     public static void load(IRegistryHelper registry) {
@@ -25,6 +26,22 @@ public class ModRecipes {
                 () -> new RecipeSerializer<>(
                         StoneRitualAltarRecipe.CODEC,
                         StoneRitualAltarRecipe.STREAM_CODEC
+                )
+        );
+
+        ESSENCE_BOILER = registry.registerRecipeTypeAndSerializer(
+                "essence_boiler",
+
+                () -> new RecipeType<EssenceBoilerRecipe>() {
+                    @Override
+                    public String toString() {
+                        return "essence_boiler";
+                    }
+                },
+
+                () -> new RecipeSerializer<>(
+                        EssenceBoilerRecipe.CODEC,
+                        EssenceBoilerRecipe.STREAM_CODEC
                 )
         );
 

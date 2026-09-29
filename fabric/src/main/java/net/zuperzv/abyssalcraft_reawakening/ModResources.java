@@ -96,6 +96,12 @@ public class ModResources implements ClientModInitializer {
                 ModBlockEntities.STONE_RITUAL_PEDESTAL_BE.get(),
                 StoneRitualPedestalBlockEntityRenderer::new
         );
+
+        BlockEntityRendererRegistry.register(
+                ModBlockEntities.ESSENCE_BOILER_BE.get(),
+                EssenceBoilerBlockEntityRenderer::new
+        );
+
         BlockEntityRendererRegistry.register(
                 ModBlockEntities.MOD_SHELF_BE.get(),
                 WitherwoodShelfBlockEntityRender::new
