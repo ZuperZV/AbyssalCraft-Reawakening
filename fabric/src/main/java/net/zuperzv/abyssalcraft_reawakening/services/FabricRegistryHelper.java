@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -33,6 +34,7 @@ import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
+import net.minecraft.world.level.material.Fluid;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.services.types.IRegistryHelper;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
@@ -360,6 +362,37 @@ public class FabricRegistryHelper implements IRegistryHelper {
                 BuiltInRegistries.MOB_EFFECT,
                 id,
                 effect.get()
+        );
+
+        return new RegistryHandle<>() {
+            @Override
+            public Identifier id() {
+                return id;
+            }
+
+            @Override
+            public T get() {
+                return registered;
+            }
+        };
+    }
+
+    @Override
+    public <T extends Fluid> RegistryHandle<T> registerFluid(
+            String name,
+            Supplier<T> fluid
+    ) {
+        ResourceKey<Fluid> key = ResourceKey.create(
+                Registries.FLUID,
+                Constants.id(name)
+        );
+
+        Identifier id = key.identifier();
+
+        T registered = Registry.register(
+                BuiltInRegistries.FLUID,
+                id,
+                fluid.get()
         );
 
         return new RegistryHandle<>() {

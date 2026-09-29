@@ -11,6 +11,7 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.ModEntityTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.model.ModModelLayer;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.renderer.ModEntityRenderers;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.ModEntitySpawnPlacements;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.ModFluids;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModDataItem;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.dataDrivenItems.DataItemRegistry;
@@ -46,6 +47,7 @@ public class CommonClass {
 
         ModItems.load();
         ModBlocks.load();
+        ModFluids.load();
         ModDataComponentTypes.load();
         ModMenuTypes.load();
         ModCreativeTabs.load();

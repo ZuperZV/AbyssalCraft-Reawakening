@@ -16,6 +16,7 @@
   "client": [
     "AdvancementsScreenMixin",
     "AdvancementTabMixin",
+    "FluidStateModelSetMixin",
     "GuiArmorBarMixin",
     "GuiGraphicsExtractorMixin",
     "GuiGraphicsMixin",

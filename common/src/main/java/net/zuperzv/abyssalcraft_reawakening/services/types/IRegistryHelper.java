@@ -3,8 +3,11 @@ package net.zuperzv.abyssalcraft_reawakening.services.types;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -32,6 +35,7 @@ import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.services.util.BlockWithItemRegistryHandle;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.level.material.Fluid;
 
 import java.util.function.*;
 
@@ -46,6 +50,11 @@ public interface IRegistryHelper {
         RegistryHandle<BlockItem> itemHandle = registerBlockItem(name, blockHandle, item);
         return new BlockWithItemRegistryHandle<>(blockHandle, itemHandle);
     }
+
+    <T extends Fluid> RegistryHandle<T> registerFluid(
+            String name,
+            Supplier<T> fluid
+    );
 
     <T extends Item> RegistryHandle<T> registerItem(String name, Function<Item.Properties, T> item);
 
@@ -130,5 +139,4 @@ public interface IRegistryHelper {
             String name,
             Supplier<T> effect
     );
-
 }

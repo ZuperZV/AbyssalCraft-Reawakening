@@ -18,6 +18,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.component.UseRemainder;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -325,7 +326,9 @@ public class EssenceBoilerBlock extends BaseEntityBlock {
 
         if (handlePotionInteraction(
                 boiler,
-                stack
+                stack,
+                player,
+                hand
         )) {
             return InteractionResult.SUCCESS;
         }
@@ -524,84 +527,44 @@ public class EssenceBoilerBlock extends BaseEntityBlock {
 
     private static boolean handlePotionInteraction(
             EssenceBoilerBlockEntity boiler,
-            ItemStack stack
+            ItemStack stack,
+            Player player,
+            InteractionHand hand
     ) {
         if (!EssenceBoilerPotionFluid.isConfigured()) {
             return false;
         }
 
         Level level = boiler.getLevel();
-        if (level == null) {
+
+        if (level == null || stack.isEmpty()) {
             return false;
         }
 
-        PotionContents contents = stack.get(DataComponents.POTION_CONTENTS);
+        PotionContents contents =
+                stack.get(DataComponents.POTION_CONTENTS);
 
-        if (stack.is(Items.GLASS_BOTTLE)) {
-            EssenceBoilerFluid fluid =
-                    new EssenceBoilerFluid(
-                            boiler.getFluidTank().fluid(),
-                            boiler.getFluidTank().amount(),
-                            boiler.getFluidTank().potionContents()
-                    );
-
-            if (!EssenceBoilerPotionFluid.isPotionFluid(fluid)) {
-                return false;
-            }
-
-            PotionContents contentsInBoiler =
-                    EssenceBoilerPotionFluid.getPotionContents(fluid);
-
-            if (contentsInBoiler == PotionContents.EMPTY
-                    || boiler.getFluidTankAmount()
-                    < EssenceBoilerPotionFluid.amountPerPotion()) {
-                return false;
-            }
-
-            ItemStack bottle = new ItemStack(Items.POTION);
-            bottle.set(
-                    DataComponents.POTION_CONTENTS,
-                    contentsInBoiler
-            );
-
-            boiler.drainFluidTank(
-                    EssenceBoilerPotionFluid.amountPerPotion()
-            );
-
-            stack.shrink(1);
-
-            level.addFreshEntity(new ItemEntity(
-                    level,
-                    boiler.getBlockPos().getX() + 0.5D,
-                    boiler.getBlockPos().getY() + 1.0D,
-                    boiler.getBlockPos().getZ() + 0.5D,
-                    bottle
-            ));
-
-            level.playSound(
-                    null,
-                    boiler.getBlockPos(),
-                    SoundEvents.BOTTLE_FILL,
-                    SoundSource.BLOCKS,
-                    1.0F,
-                    1.0F
-            );
-
-            return true;
-        }
-
-        if (contents == null || contents == PotionContents.EMPTY) {
+        if (contents == null
+                || contents == PotionContents.EMPTY) {
             return false;
         }
 
-        EssenceBoilerFluid configuredFluid =
-                EssenceBoilerPotionFluid.fromPotion(contents);
+        int potionAmount =
+                EssenceBoilerPotionFluid.amountPerPotion();
+
+        int freeSpace =
+                boiler.getFluidTankCapacity()
+                        - boiler.getFluidTankAmount();
+
+        if (freeSpace < potionAmount) {
+            return false;
+        }
 
         EssenceBoilerFluid incoming =
                 new EssenceBoilerFluid(
-                        configuredFluid.fluid(),
-                        configuredFluid.amount(),
-                        configuredFluid.potionContents()
+                        EssenceBoilerPotionFluid.fluid(),
+                        potionAmount,
+                        contents
                 );
 
         if (!boiler.getFluidTank().isEmpty()
@@ -609,13 +572,27 @@ public class EssenceBoilerBlock extends BaseEntityBlock {
             return false;
         }
 
-        if (boiler.getFluidTankAmount() >= boiler.getFluidTankCapacity()) {
+        ItemStack remainder =
+                getUseRemainder(stack);
+
+        int accepted =
+                boiler.fillFluidTank(incoming);
+
+        if (accepted != potionAmount) {
             return false;
         }
 
-        boiler.fillFluidTank(incoming);
-
         stack.shrink(1);
+
+        if (stack.isEmpty()
+                && !remainder.isEmpty()) {
+
+            player.setItemInHand(
+                    hand,
+                    remainder.copy()
+            );
+        }
+
         level.playSound(
                 null,
                 boiler.getBlockPos(),
@@ -625,7 +602,24 @@ public class EssenceBoilerBlock extends BaseEntityBlock {
                 1.0F
         );
 
+        boiler.wobble(
+                EssenceBoilerBlockEntity.WobbleStyle.POSITIVE
+        );
+
         return true;
+    }
+
+    private static ItemStack getUseRemainder(
+            ItemStack stack
+    ) {
+        UseRemainder useRemainder =
+                stack.get(DataComponents.USE_REMAINDER);
+
+        if (useRemainder == null) {
+            return ItemStack.EMPTY;
+        }
+
+        return useRemainder.convertInto().create();
     }
 
     private static void damageOrShrink(

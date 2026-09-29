@@ -18,6 +18,7 @@ public class Services {
     public static final ISpawnPlacementHelper SPAWN_PLACEMENTS = load(ISpawnPlacementHelper.class);
     public static final IShaderRenderer SHADERS = load(IShaderRenderer.class);
     public static final IEssenceBoilerPlatformHooks ESSENCE_BOILER_PLATFORM_HOOKS = load(IEssenceBoilerPlatformHooks.class);
+    public static final IFluidFactory FLUIDS = load(IFluidFactory.class);
 
     public static <T> T load(Class<T> clazz) {
 

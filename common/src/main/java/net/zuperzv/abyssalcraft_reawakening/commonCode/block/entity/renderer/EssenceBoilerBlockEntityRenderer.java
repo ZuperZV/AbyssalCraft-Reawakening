@@ -24,6 +24,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.level.Level;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.custom.EssenceBoilerBlockEntity;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.EssenceBoilerFluid;
@@ -147,15 +148,15 @@ public class EssenceBoilerBlockEntityRenderer
             } else {
                 state.fluidSprite = null;
                 state.fluidVisible = false;
+                return;
             }
 
-            if (fluidModel.tintSource() != null) {
-                state.fluidColor = fluidModel.tintSource().color(
-                        fluid.fluid().defaultFluidState().createLegacyBlock()
-                );
-            } else {
-                state.fluidColor = 0xFFFFFFFF;
-            }
+            state.fluidColor = getFluidTint(
+                    fluidModel,
+                    fluid,
+                    level,
+                    blockEntity
+            );
         }
 
         EssenceBoilerBlockEntity.WobbleStyle wobbleStyle =
@@ -539,5 +540,80 @@ public class EssenceBoilerBlockEntityRenderer
         public float wobbleProgress = -1.0F;
 
         public int wobbleStyle = -1;
+    }
+
+    private static final int NO_TINT = 0xFFFFFFFF;
+    private static final float POTION_TINT_BLEND = 0.5F;
+
+    private static int getFluidTint(
+            FluidModel fluidModel,
+            EssenceBoilerFluid fluid,
+            Level level,
+            EssenceBoilerBlockEntity blockEntity
+    ) {
+        int fluidTint = NO_TINT;
+        boolean hasFluidTint = false;
+
+        if (fluidModel.tintSource() != null) {
+            fluidTint = fluidModel.tintSource().colorInWorld(
+                    fluid.fluid()
+                            .defaultFluidState()
+                            .createLegacyBlock(),
+                    (BlockAndTintGetter) level,
+                    blockEntity.getBlockPos()
+            );
+
+            hasFluidTint = fluidTint != NO_TINT;
+        }
+
+        PotionContents potionContents =
+                fluid.potionContents();
+
+        boolean hasPotionTint =
+                potionContents != null
+                        && potionContents != PotionContents.EMPTY;
+
+        if (!hasPotionTint) {
+            return hasFluidTint
+                    ? fluidTint
+                    : NO_TINT;
+        }
+
+        int potionTint = potionContents.getColor();
+
+        if (!hasFluidTint) {
+            return potionTint;
+        }
+
+        return interpolateColor(
+                fluidTint,
+                potionTint,
+                POTION_TINT_BLEND
+        );
+    }
+
+    private static int interpolateColor(
+            int colorA,
+            int colorB,
+            float amount
+    ) {
+        amount = Mth.clamp(amount, 0.0F, 1.0F);
+
+        int aR = (colorA >> 16) & 0xFF;
+        int aG = (colorA >> 8) & 0xFF;
+        int aB = colorA & 0xFF;
+
+        int bR = (colorB >> 16) & 0xFF;
+        int bG = (colorB >> 8) & 0xFF;
+        int bB = colorB & 0xFF;
+
+        int r = Mth.lerpInt(amount, aR, bR);
+        int g = Mth.lerpInt(amount, aG, bG);
+        int b = Mth.lerpInt(amount, aB, bB);
+
+        return 0xFF000000
+                | (r << 16)
+                | (g << 8)
+                | b;
     }
 }

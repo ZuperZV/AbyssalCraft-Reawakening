@@ -22,64 +22,120 @@ public record EssenceBoilerFluid(
         int amount,
         @Nullable PotionContents potionContents
 ) {
+
     public static final EssenceBoilerFluid EMPTY =
-            new EssenceBoilerFluid(Fluids.EMPTY, 0, PotionContents.EMPTY);
+            new EssenceBoilerFluid(
+                    Fluids.EMPTY,
+                    0,
+                    PotionContents.EMPTY
+            );
 
     public static final MapCodec<EssenceBoilerFluid> CODEC =
             RecordCodecBuilder.mapCodec(instance -> instance.group(
-                    BuiltInRegistries.FLUID.byNameCodec()
+                    BuiltInRegistries.FLUID
+                            .byNameCodec()
                             .fieldOf("fluid")
                             .forGetter(EssenceBoilerFluid::fluid),
+
                     Codec.INT
                             .fieldOf("amount")
                             .forGetter(EssenceBoilerFluid::amount),
+
                     PotionContents.CODEC
-                            .optionalFieldOf("potion_contents", PotionContents.EMPTY)
+                            .optionalFieldOf(
+                                    "potion_contents",
+                                    PotionContents.EMPTY
+                            )
                             .forGetter(EssenceBoilerFluid::potionContents)
+
             ).apply(instance, EssenceBoilerFluid::new));
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, EssenceBoilerFluid> STREAM_CODEC =
-            new StreamCodec<>() {
-                @Override
-                public void encode(RegistryFriendlyByteBuf buf, EssenceBoilerFluid value) {
-                    ByteBufCodecs.registry(Registries.FLUID)
-                            .encode(buf, value.fluid());
-                    buf.writeVarInt(value.amount());
+    public static final StreamCodec<
+            RegistryFriendlyByteBuf,
+            EssenceBoilerFluid
+            > STREAM_CODEC = new StreamCodec<>() {
 
-                    boolean hasPotionContents = value.hasPotionContents();
-                    buf.writeBoolean(hasPotionContents);
+        private final StreamCodec<
+                RegistryFriendlyByteBuf,
+                Fluid
+                > fluidCodec =
+                ByteBufCodecs.registry(Registries.FLUID);
 
-                    if (hasPotionContents) {
-                        PotionContents.CODEC
-                                .encodeStart(NbtOps.INSTANCE, value.potionContents())
-                                .result()
-                                .ifPresentOrElse(
-                                        buf::writeNbt,
-                                        () -> buf.writeNbt(new CompoundTag())
-                                );
-                    }
-                }
+        @Override
+        public void encode(
+                RegistryFriendlyByteBuf buf,
+                EssenceBoilerFluid value
+        ) {
+            fluidCodec.encode(
+                    buf,
+                    value.fluid()
+            );
 
-                @Override
-                public EssenceBoilerFluid decode(RegistryFriendlyByteBuf buf) {
-                    Fluid fluid = ByteBufCodecs.registry(Registries.FLUID)
-                            .decode(buf);
-                    int amount = buf.readVarInt();
-                    PotionContents potionContents = PotionContents.EMPTY;
+            buf.writeVarInt(
+                    value.amount()
+            );
 
-                    if (buf.readBoolean()) {
-                        CompoundTag tag = buf.readNbt();
-                        if (tag != null) {
-                            potionContents = PotionContents.CODEC
-                                    .parse(NbtOps.INSTANCE, tag)
+            boolean hasPotionContents =
+                    value.hasPotionContents();
+
+            buf.writeBoolean(
+                    hasPotionContents
+            );
+
+            if (hasPotionContents) {
+                PotionContents.CODEC
+                        .encodeStart(
+                                NbtOps.INSTANCE,
+                                value.potionContents()
+                        )
+                        .result()
+                        .ifPresentOrElse(
+                                buf::writeNbt,
+                                () -> buf.writeNbt(
+                                        new CompoundTag()
+                                )
+                        );
+            }
+        }
+
+        @Override
+        public EssenceBoilerFluid decode(
+                RegistryFriendlyByteBuf buf
+        ) {
+            Fluid fluid =
+                    fluidCodec.decode(buf);
+
+            int amount =
+                    buf.readVarInt();
+
+            PotionContents potionContents =
+                    PotionContents.EMPTY;
+
+            if (buf.readBoolean()) {
+                CompoundTag tag =
+                        buf.readNbt();
+
+                if (tag != null) {
+                    potionContents =
+                            PotionContents.CODEC
+                                    .parse(
+                                            NbtOps.INSTANCE,
+                                            tag
+                                    )
                                     .result()
-                                    .orElse(PotionContents.EMPTY);
-                        }
-                    }
-
-                    return new EssenceBoilerFluid(fluid, amount, potionContents);
+                                    .orElse(
+                                            PotionContents.EMPTY
+                                    );
                 }
-            };
+            }
+
+            return new EssenceBoilerFluid(
+                    fluid,
+                    amount,
+                    potionContents
+            );
+        }
+    };
 
     public EssenceBoilerFluid {
         if (fluid == null) {
@@ -101,28 +157,45 @@ public record EssenceBoilerFluid(
     }
 
     public boolean isEmpty() {
-        return amount <= 0 || fluid == Fluids.EMPTY;
+        return amount <= 0
+                || fluid == Fluids.EMPTY;
     }
 
     public boolean isSame(Fluid other) {
-        return !isEmpty() && fluid == other;
+        return !isEmpty()
+                && fluid == other;
     }
 
     public boolean isSame(EssenceBoilerFluid other) {
-        if (other == null || isEmpty() || other.isEmpty()) {
+        if (other == null
+                || isEmpty()
+                || other.isEmpty()) {
             return false;
         }
 
         return fluid == other.fluid()
-                && Objects.equals(potionContents(), other.potionContents());
+                && Objects.equals(
+                potionContents(),
+                other.potionContents()
+        );
     }
 
-    public EssenceBoilerFluid withAmount(int newAmount) {
-        return new EssenceBoilerFluid(fluid, newAmount, potionContents);
+    public EssenceBoilerFluid withAmount(
+            int newAmount
+    ) {
+        return new EssenceBoilerFluid(
+                fluid,
+                newAmount,
+                potionContents
+        );
     }
 
     public EssenceBoilerFluid copy() {
-        return new EssenceBoilerFluid(fluid, amount, potionContents);
+        return new EssenceBoilerFluid(
+                fluid,
+                amount,
+                potionContents
+        );
     }
 
     public boolean hasPotionContents() {

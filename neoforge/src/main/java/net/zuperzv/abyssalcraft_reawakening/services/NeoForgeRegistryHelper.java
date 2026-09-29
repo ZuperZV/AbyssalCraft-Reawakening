@@ -31,6 +31,7 @@ import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
+import net.minecraft.world.level.material.Fluid;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -68,6 +69,8 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
             DeferredRegister.create(Registries.FEATURE, Constants.MOD_ID);
     public static final DeferredRegister<MobEffect> MOB_EFFECTS =
             DeferredRegister.create(BuiltInRegistries.MOB_EFFECT, Constants.MOD_ID);
+    private static final DeferredRegister<Fluid> FLUIDS =
+            DeferredRegister.create(Registries.FLUID, Constants.MOD_ID);
 
     public static void register(IEventBus eventBus) {
         ENTITIES.register(eventBus);
@@ -83,6 +86,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
         PLACEMENT_MODIFIERS.register(eventBus);
         FEATURES.register(eventBus);
         MOB_EFFECTS.register(eventBus);
+        FLUIDS.register(eventBus);
     }
 
     @Override
@@ -392,6 +396,29 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 
         DeferredHolder<MobEffect, T> holder =
                 MOB_EFFECTS.register(name, effect);
+
+        return new RegistryHandle<>() {
+            @Override
+            public Identifier id() {
+                return id;
+            }
+
+            @Override
+            public T get() {
+                return holder.get();
+            }
+        };
+    }
+
+    @Override
+    public <T extends Fluid> RegistryHandle<T> registerFluid(
+            String name,
+            Supplier<T> fluid
+    ) {
+        Identifier id = Constants.id(name);
+
+        DeferredHolder<Fluid, T> holder =
+                FLUIDS.register(name, fluid);
 
         return new RegistryHandle<>() {
             @Override

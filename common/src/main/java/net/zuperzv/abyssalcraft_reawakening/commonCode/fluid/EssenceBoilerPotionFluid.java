@@ -5,9 +5,6 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.Nullable;
 
-/**
- * Common configuration helper for the potion fluid used by the boiler.
- */
 public final class EssenceBoilerPotionFluid {
     private static Fluid potionFluid = Fluids.EMPTY;
     private static int amountPerPotion;

@@ -1,4 +1,5 @@
 {
+  "block.minecraft.air": "Air",
   "effect.abyssalcraft_reawakening.coralium_plague": "Coralium Plague",
   "effect.abyssalcraft_reawakening.omnivision": "Omnivision",
   "entity.abyssalcraft_reawakening.abyssal_zombie": "Abyssal Zombie",
@@ -263,6 +264,7 @@
   "item.abyssalcraft_reawakening.potassium_crystal_fragment": "Potassium Crystal Fragment",
   "item.abyssalcraft_reawakening.potassium_crystal_shard": "Potassium Crystal Shard",
   "item.abyssalcraft_reawakening.potential_energy": "Potential Energy",
+  "item.abyssalcraft_reawakening.potion_bucket": "Potion Bucket",
   "item.abyssalcraft_reawakening.potted_witherwood_sapling": "Potted Witherwood Sapling",
   "item.abyssalcraft_reawakening.power_azathoth_charm": "Power Azathoth Charm",
   "item.abyssalcraft_reawakening.power_cthulhu_charm": "Power Cthulhu Charm",

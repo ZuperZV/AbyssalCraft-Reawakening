@@ -8,6 +8,7 @@ import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
@@ -115,7 +116,13 @@ public class ModLootTableProvider extends LootTableProvider {
 
             for (Block block : getKnownBlocks()) {
 
-                if (!generatedLoot.contains(block)) {
+                if (generatedLoot.contains(block)) {
+                    continue;
+                }
+
+                if (block.asItem() == Items.AIR) {
+                    noDrop(block);
+                } else {
                     dropSelf(block);
                 }
             }

@@ -35,6 +35,7 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.EssenceBoile
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.PortalActivatorBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.DyedColorTintSource;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.ModFluids;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModArmorMaterials;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.property.CodexTierProperty;
@@ -126,6 +127,8 @@ public class ModModelProvider extends ModelProvider {
                 ModBlocks.STRIPPED_WITHERWOOD_WOOD.block().get()
         );
 
+        createNonTemplateModelBlock(blockModels, ModFluids.POTION_BLOCK.get(), Blocks.WATER);
+
         blockModels.family(ModBlocks.WITHERWOOD_PLANKS.block().get())
                 .stairs(ModBlocks.WITHERWOOD_STAIRS.block().get())
                 .slab(ModBlocks.WITHERWOOD_SLAB.block().get())
@@ -194,6 +197,17 @@ public class ModModelProvider extends ModelProvider {
                 generateCubeBlock(blockModels, block);
             }
         }
+    }
+
+
+    public void createNonTemplateModelBlock(BlockModelGenerators blockModels, Block block) {
+        this.createNonTemplateModelBlock(blockModels, block, block);
+    }
+
+    public void createNonTemplateModelBlock(BlockModelGenerators blockModels, Block block, Block donor) {
+        generatedBlocks.add(block);
+
+        blockModels.blockStateOutput.accept(createSimpleBlock(block, plainVariant(ModelLocationUtils.getModelLocation(donor))));
     }
 
     private void generateNecronomicon(ItemModelGenerators itemModels) {
