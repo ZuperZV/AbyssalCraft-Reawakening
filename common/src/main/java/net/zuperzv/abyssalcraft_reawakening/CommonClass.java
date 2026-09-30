@@ -11,6 +11,7 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.ModEntityTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.model.ModModelLayer;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.renderer.ModEntityRenderers;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.ModEntitySpawnPlacements;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.EssenceBoilerPotionFluid;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.ModFluids;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModDataItem;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
@@ -58,5 +59,7 @@ public class CommonClass {
         ModEffects.load();
         ModBlockEntities.load();
         ModRecipes.load(Services.REGISTRY);
+
+        EssenceBoilerPotionFluid.configure(ModFluids.SOURCE_POTION::get, 250 );
     }
 }

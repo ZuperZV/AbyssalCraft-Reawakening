@@ -531,10 +531,6 @@ public class EssenceBoilerBlock extends BaseEntityBlock {
             Player player,
             InteractionHand hand
     ) {
-        if (!EssenceBoilerPotionFluid.isConfigured()) {
-            return false;
-        }
-
         Level level = boiler.getLevel();
 
         if (level == null || stack.isEmpty()) {
@@ -544,8 +540,11 @@ public class EssenceBoilerBlock extends BaseEntityBlock {
         PotionContents contents =
                 stack.get(DataComponents.POTION_CONTENTS);
 
-        if (contents == null
-                || contents == PotionContents.EMPTY) {
+        if (contents == null) {
+            return false;
+        }
+
+        if (contents == PotionContents.EMPTY) {
             return false;
         }
 
@@ -557,7 +556,7 @@ public class EssenceBoilerBlock extends BaseEntityBlock {
                         - boiler.getFluidTankAmount();
 
         if (freeSpace < potionAmount) {
-            return false;
+            return true;
         }
 
         EssenceBoilerFluid incoming =
@@ -569,28 +568,31 @@ public class EssenceBoilerBlock extends BaseEntityBlock {
 
         if (!boiler.getFluidTank().isEmpty()
                 && !boiler.getFluidTank().isSame(incoming)) {
-            return false;
+            return true;
         }
-
-        ItemStack remainder =
-                getUseRemainder(stack);
 
         int accepted =
                 boiler.fillFluidTank(incoming);
 
         if (accepted != potionAmount) {
-            return false;
+            return true;
         }
 
         stack.shrink(1);
 
-        if (stack.isEmpty()
-                && !remainder.isEmpty()) {
+        UseRemainder useRemainder =
+                stack.get(DataComponents.USE_REMAINDER);
 
-            player.setItemInHand(
-                    hand,
-                    remainder.copy()
-            );
+        if (stack.isEmpty() && useRemainder != null) {
+            ItemStack remainder =
+                    useRemainder.convertInto().create();
+
+            if (!remainder.isEmpty()) {
+                player.setItemInHand(
+                        hand,
+                        remainder
+                );
+            }
         }
 
         level.playSound(

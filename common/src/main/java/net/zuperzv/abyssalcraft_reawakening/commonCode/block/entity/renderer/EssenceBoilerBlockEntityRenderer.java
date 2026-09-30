@@ -193,13 +193,13 @@ public class EssenceBoilerBlockEntityRenderer
                 poseStack
         );
 
-        submitFluid(
+        submitItems(
                 state,
                 poseStack,
                 collector
         );
 
-        submitItems(
+        submitFluid(
                 state,
                 poseStack,
                 collector
@@ -219,11 +219,19 @@ public class EssenceBoilerBlockEntityRenderer
 
         poseStack.pushPose();
 
+        float fluidSurfaceY =
+                FLUID_BASE_Y
+                        + state.fluidAmountNormalized * FLUID_HEIGHT;
+
+        float itemCenterY =
+                Math.max(
+                        FLUID_BASE_Y + 0.04F,
+                        fluidSurfaceY - 0.12F
+                );
+
         poseStack.translate(
                 0.5F,
-                ITEM_CENTER_Y
-                        - 0.3F
-                        + state.fluidAmountNormalized * 0.5F,
+                itemCenterY,
                 0.5F
         );
 
@@ -278,7 +286,7 @@ public class EssenceBoilerBlockEntityRenderer
 
             poseStack.translate(
                     baseX + jitterX,
-                    0.15F + bobbingY,
+                    bobbingY,
                     baseZ + jitterZ
             );
 
