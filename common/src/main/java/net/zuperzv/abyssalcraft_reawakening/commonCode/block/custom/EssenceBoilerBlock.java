@@ -16,6 +16,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.component.UseRemainder;
@@ -333,6 +334,15 @@ public class EssenceBoilerBlock extends BaseEntityBlock {
             return InteractionResult.SUCCESS;
         }
 
+        if (handlePotionExtraction(
+                boiler,
+                stack,
+                player,
+                hand
+        )) {
+            return InteractionResult.SUCCESS;
+        }
+
         if (boiler.progress > 0) {
             return InteractionResult.SUCCESS;
         }
@@ -540,11 +550,8 @@ public class EssenceBoilerBlock extends BaseEntityBlock {
         PotionContents contents =
                 stack.get(DataComponents.POTION_CONTENTS);
 
-        if (contents == null) {
-            return false;
-        }
-
-        if (contents == PotionContents.EMPTY) {
+        if (contents == null
+                || contents == PotionContents.EMPTY) {
             return false;
         }
 
@@ -578,22 +585,14 @@ public class EssenceBoilerBlock extends BaseEntityBlock {
             return true;
         }
 
-        stack.shrink(1);
-
-        UseRemainder useRemainder =
-                stack.get(DataComponents.USE_REMAINDER);
-
-        if (stack.isEmpty() && useRemainder != null) {
-            ItemStack remainder =
-                    useRemainder.convertInto().create();
-
-            if (!remainder.isEmpty()) {
-                player.setItemInHand(
-                        hand,
-                        remainder
-                );
-            }
-        }
+        player.setItemInHand(
+                hand,
+                ItemUtils.createFilledResult(
+                        stack,
+                        player,
+                        new ItemStack(Items.GLASS_BOTTLE)
+                )
+        );
 
         level.playSound(
                 null,
@@ -611,17 +610,93 @@ public class EssenceBoilerBlock extends BaseEntityBlock {
         return true;
     }
 
-    private static ItemStack getUseRemainder(
-            ItemStack stack
+    private static boolean handlePotionExtraction(
+            EssenceBoilerBlockEntity boiler,
+            ItemStack stack,
+            Player player,
+            InteractionHand hand
     ) {
-        UseRemainder useRemainder =
-                stack.get(DataComponents.USE_REMAINDER);
+        Level level = boiler.getLevel();
 
-        if (useRemainder == null) {
-            return ItemStack.EMPTY;
+        if (level == null
+                || stack.isEmpty()
+                || !stack.is(Items.GLASS_BOTTLE)) {
+            return false;
         }
 
-        return useRemainder.convertInto().create();
+        EssenceBoilerFluid fluid =
+                boiler.getFluidTank();
+
+        if (fluid.isEmpty()) {
+            return false;
+        }
+
+        if (fluid.fluid() != EssenceBoilerPotionFluid.fluid()) {
+            return false;
+        }
+
+        int potionAmount =
+                EssenceBoilerPotionFluid.amountPerPotion();
+
+        if (fluid.amount() < potionAmount) {
+            return true;
+        }
+
+        PotionContents potionContents =
+                fluid.potionContents();
+
+        if (potionContents == null
+                || potionContents == PotionContents.EMPTY) {
+            return true;
+        }
+
+        ItemStack potion =
+                new ItemStack(Items.POTION);
+
+        potion.set(
+                DataComponents.POTION_CONTENTS,
+                potionContents
+        );
+
+        EssenceBoilerFluid extracted =
+                boiler.drainFluidTank(potionAmount);
+
+        if (extracted.isEmpty()) {
+            return true;
+        }
+
+        player.setItemInHand(
+                hand,
+                ItemUtils.createFilledResult(
+                        stack,
+                        player,
+                        potion
+                )
+        );
+
+        level.playSound(
+                null,
+                boiler.getBlockPos(),
+                SoundEvents.BOTTLE_FILL,
+                SoundSource.BLOCKS,
+                1.0F,
+                1.0F
+        );
+
+        level.playSound(
+                null,
+                boiler.getBlockPos(),
+                SoundEvents.GENERIC_SPLASH,
+                SoundSource.BLOCKS,
+                0.4F,
+                1.2F
+        );
+
+        boiler.wobble(
+                EssenceBoilerBlockEntity.WobbleStyle.NEGATIVE
+        );
+
+        return true;
     }
 
     private static void damageOrShrink(
