@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -71,6 +72,8 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
             DeferredRegister.create(BuiltInRegistries.MOB_EFFECT, Constants.MOD_ID);
     private static final DeferredRegister<Fluid> FLUIDS =
             DeferredRegister.create(Registries.FLUID, Constants.MOD_ID);
+    private static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES =
+            DeferredRegister.create(Registries.PARTICLE_TYPE, Constants.MOD_ID);
 
     public static void register(IEventBus eventBus) {
         ENTITIES.register(eventBus);
@@ -87,6 +90,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
         FEATURES.register(eventBus);
         MOB_EFFECTS.register(eventBus);
         FLUIDS.register(eventBus);
+        PARTICLE_TYPES.register(eventBus);
     }
 
     @Override
@@ -419,6 +423,25 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 
         DeferredHolder<Fluid, T> holder =
                 FLUIDS.register(name, fluid);
+
+        return new RegistryHandle<>() {
+            @Override
+            public Identifier id() {
+                return id;
+            }
+
+            @Override
+            public T get() {
+                return holder.get();
+            }
+        };
+    }
+
+    @Override
+    public <T extends ParticleType<?>> RegistryHandle<T> registerParticleType(String name, Supplier<T> particleType) {
+        Identifier id = Constants.id(name);
+        DeferredHolder<ParticleType<?>, T> holder = (DeferredHolder<ParticleType<?>, T>) (DeferredHolder<?, ?>)
+                PARTICLE_TYPES.register(name, particleType);
 
         return new RegistryHandle<>() {
             @Override

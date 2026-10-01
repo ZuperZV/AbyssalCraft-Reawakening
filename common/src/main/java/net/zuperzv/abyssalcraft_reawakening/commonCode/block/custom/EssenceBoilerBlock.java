@@ -6,6 +6,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.block.FluidModel;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -43,8 +45,10 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.custom.EssenceBoilerBlockEntity;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.EssenceBoilerFluid;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.EssenceBoilerFluidColor;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.EssenceBoilerPotionFluid;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.particle.ColorBubbleData;
 import net.zuperzv.abyssalcraft_reawakening.services.EssenceBoilerPlatformAccess;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
@@ -877,6 +881,38 @@ public class EssenceBoilerBlock extends BaseEntityBlock {
             }
         }
 
+
+        if (level.getBlockEntity(pos) instanceof EssenceBoilerBlockEntity boiler
+                && !boiler.getFluidTank().isEmpty()) {
+            EssenceBoilerFluid fluid = boiler.getFluidTank();
+            FluidModel fluidModel = Minecraft.getInstance()
+                    .getModelManager()
+                    .getFluidStateModelSet()
+                    .get(fluid.fluid().defaultFluidState());
+            int color = EssenceBoilerFluidColor.getTint(fluidModel, fluid, level, pos);
+            if (color == EssenceBoilerFluidColor.NO_TINT) {
+                return;
+            }
+
+            float red = ((color >> 16) & 0xFF) / 255F;
+            float green = ((color >> 8) & 0xFF) / 255F;
+            float blue = (color & 0xFF) / 255F;
+
+            double spread = 10D / 16D / 2D;
+
+            double offsetX = (random.nextDouble() - 0.5D) * 2D * spread;
+            double offsetZ = (random.nextDouble() - 0.5D) * 2D * spread;
+
+            level.addParticle(
+                    new ColorBubbleData(red, green, blue),
+                    pos.getX() + 0.5 + offsetX,
+                    pos.getY() + 1,
+                    pos.getZ() + 0.5 + offsetZ,
+                    0,
+                    0.02,
+                    0
+            );
+        }
     }
     public static VoxelShape rotateShape(
             Direction.Axis from,

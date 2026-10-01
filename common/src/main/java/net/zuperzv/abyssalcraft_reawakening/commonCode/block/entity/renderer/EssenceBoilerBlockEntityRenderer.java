@@ -21,9 +21,9 @@ import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.level.Level;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.custom.EssenceBoilerBlockEntity;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.EssenceBoilerFluidColor;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.EssenceBoilerFluid;
 import org.jetbrains.annotations.Nullable;
 
@@ -130,10 +130,6 @@ public class EssenceBoilerBlockEntityRenderer
 
     private static final int MAX_ITEMS = 3;
 
-    private static final int NO_TINT = 0xFFFFFFFF;
-
-    private static final float POTION_TINT_BLEND = 0.5F;
-
     public EssenceBoilerBlockEntityRenderer(
             BlockEntityRendererProvider.Context context
     ) {
@@ -238,11 +234,11 @@ public class EssenceBoilerBlockEntityRenderer
             }
 
             state.fluidColor =
-                    getFluidTint(
+                    EssenceBoilerFluidColor.getTint(
                             fluidModel,
                             fluid,
                             level,
-                            blockEntity
+                            blockEntity.getBlockPos()
                     );
         }
 
@@ -759,110 +755,4 @@ public class EssenceBoilerBlockEntityRenderer
         public int wobbleStyle = -1;
     }
 
-    private static int getFluidTint(
-            FluidModel fluidModel,
-            EssenceBoilerFluid fluid,
-            Level level,
-            EssenceBoilerBlockEntity blockEntity
-    ) {
-        int fluidTint = NO_TINT;
-        boolean hasFluidTint = false;
-
-        if (fluidModel.tintSource() != null) {
-            fluidTint =
-                    fluidModel.tintSource().colorInWorld(
-                            fluid.fluid()
-                                    .defaultFluidState()
-                                    .createLegacyBlock(),
-                            (BlockAndTintGetter) level,
-                            blockEntity.getBlockPos()
-                    );
-
-            hasFluidTint =
-                    fluidTint != NO_TINT;
-        }
-
-        PotionContents potionContents =
-                fluid.potionContents();
-
-        boolean hasPotionTint =
-                potionContents != null
-                        && potionContents != PotionContents.EMPTY;
-
-        if (!hasPotionTint) {
-            return hasFluidTint
-                    ? fluidTint
-                    : NO_TINT;
-        }
-
-        int potionTint =
-                potionContents.getColor();
-
-        if (!hasFluidTint) {
-            return potionTint;
-        }
-
-        return interpolateColor(
-                fluidTint,
-                potionTint,
-                POTION_TINT_BLEND
-        );
-    }
-
-    private static int interpolateColor(
-            int colorA,
-            int colorB,
-            float amount
-    ) {
-        amount =
-                Mth.clamp(
-                        amount,
-                        0.0F,
-                        1.0F
-                );
-
-        int aR =
-                (colorA >> 16) & 0xFF;
-
-        int aG =
-                (colorA >> 8) & 0xFF;
-
-        int aB =
-                colorA & 0xFF;
-
-        int bR =
-                (colorB >> 16) & 0xFF;
-
-        int bG =
-                (colorB >> 8) & 0xFF;
-
-        int bB =
-                colorB & 0xFF;
-
-        int r =
-                Mth.lerpInt(
-                        amount,
-                        aR,
-                        bR
-                );
-
-        int g =
-                Mth.lerpInt(
-                        amount,
-                        aG,
-                        bG
-                );
-
-        int b =
-                Mth.lerpInt(
-                        amount,
-                        aB,
-                        bB
-                );
-
-        return 0xFF000000
-                | (r << 16)
-                | (g << 8)
-                | b;
-    }
 }

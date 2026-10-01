@@ -14,6 +14,7 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RecipesReceivedEvent;
 import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
@@ -26,6 +27,8 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.StaffClientT
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.StaffTooltipComponent;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.network.SetBookmarksPacket;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.network.SyncBookmarksPacket;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.particle.ColorBubbleParticle;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.particle.ModParticleTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.ModRecipes;
 import net.zuperzv.abyssalcraft_reawakening.services.NeoForgeRegistryHelper;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
@@ -94,6 +97,14 @@ public class NeoForgeAbyssalCraft {
         @SubscribeEvent
         public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
             Services.CLIENT_REGISTRY.applyModelLayerRegistrations(event::registerLayerDefinition);
+        }
+
+        @SubscribeEvent
+        public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
+            event.registerSpriteSet(
+                    ModParticleTypes.COLOR_BUBBLE.get(),
+                    ColorBubbleParticle.Provider::new
+            );
         }
 
         @SubscribeEvent

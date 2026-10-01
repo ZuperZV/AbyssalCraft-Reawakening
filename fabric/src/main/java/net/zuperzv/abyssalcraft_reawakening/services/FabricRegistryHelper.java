@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityT
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -407,5 +408,22 @@ public class FabricRegistryHelper implements IRegistryHelper {
             }
         };
     }
-}
 
+    @Override
+    public <T extends ParticleType<?>> RegistryHandle<T> registerParticleType(String name, Supplier<T> particleType) {
+        Identifier id = Constants.id(name);
+        T registered = Registry.register(BuiltInRegistries.PARTICLE_TYPE, id, particleType.get());
+
+        return new RegistryHandle<>() {
+            @Override
+            public Identifier id() {
+                return id;
+            }
+
+            @Override
+            public T get() {
+                return registered;
+            }
+        };
+    }
+}

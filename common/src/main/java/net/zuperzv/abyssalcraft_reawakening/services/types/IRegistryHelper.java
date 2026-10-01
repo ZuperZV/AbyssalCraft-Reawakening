@@ -7,6 +7,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
@@ -55,6 +56,8 @@ public interface IRegistryHelper {
             String name,
             Supplier<T> fluid
     );
+
+    <T extends ParticleType<?>> RegistryHandle<T> registerParticleType(String name, Supplier<T> particleType);
 
     <T extends Item> RegistryHandle<T> registerItem(String name, Function<Item.Properties, T> item);
 

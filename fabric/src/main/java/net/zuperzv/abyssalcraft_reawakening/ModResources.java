@@ -5,6 +5,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ClientTooltipComponentCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
@@ -34,6 +35,8 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.StaffTooltip
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.property.CodexTierProperty;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.property.CoraliumGemsProperty;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.network.SyncBookmarksPacket;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.particle.ColorBubbleParticle;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.particle.ModParticleTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.screen.ModMenuTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.screen.NecronomiconScreen;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
@@ -47,6 +50,11 @@ public class ModResources implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        ParticleProviderRegistry.getInstance().register(
+                ModParticleTypes.COLOR_BUBBLE.get(),
+                ColorBubbleParticle.Provider::new
+        );
+
         Services.CLIENT_REGISTRY.applyModelLayerRegistrations((location, supplier) -> ModelLayerRegistry.registerModelLayer(location, supplier::get));
         Services.CLIENT_REGISTRY.applyEntityRendererRegistrations(
                 EntityRenderers::register
