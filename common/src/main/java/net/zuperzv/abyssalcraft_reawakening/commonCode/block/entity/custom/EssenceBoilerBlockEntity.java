@@ -33,6 +33,7 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.ModBlockEnti
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.helper.SimpleItemHandler;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.EssenceBoilerFluid;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.EssenceBoilerPotionFluid;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.EssenceBoilerRecipe;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.ModRecipes;
@@ -91,6 +92,8 @@ public class EssenceBoilerBlockEntity extends BlockEntity implements WorldlyCont
     };
 
     private EssenceBoilerFluid fluidTank = EssenceBoilerFluid.EMPTY;
+    private EssenceBoilerFluid craftingOutputFluid = EssenceBoilerFluid.EMPTY;
+    private int craftingIngredientMask;
 
     public EssenceBoilerBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.ESSENCE_BOILER_BE.get(), pos, state);
@@ -123,6 +126,7 @@ public class EssenceBoilerBlockEntity extends BlockEntity implements WorldlyCont
                 && boiler.getFluidTank().isSame(Fluids.WATER);
 
         if (hasAllIngredients && hasBottle && hasWater) {
+            boiler.setCraftingIngredientMask(0b111);
             boiler.progress++;
 
             level.playSound(
@@ -176,8 +180,10 @@ public class EssenceBoilerBlockEntity extends BlockEntity implements WorldlyCont
                     boiler.progress = boiler.maxProgress;
                 }
             }
-        } else if (boiler.progress != 0) {
+        } else {
             boiler.progress = 0;
+            boiler.setCraftingOutputFluid(EssenceBoilerFluid.EMPTY);
+            boiler.setCraftingIngredientMask(0);
         }
 
         boiler.setChanged();
@@ -384,6 +390,7 @@ public class EssenceBoilerBlockEntity extends BlockEntity implements WorldlyCont
 
         output.putInt("progress", progress);
         output.putInt("maxProgress", maxProgress);
+        output.putInt("CraftingIngredientMask", craftingIngredientMask);
         inventory.save(output);
 
         if (!fluidTank.isEmpty()) {
@@ -402,6 +409,13 @@ public class EssenceBoilerBlockEntity extends BlockEntity implements WorldlyCont
                 }
             }
         }
+        if (!craftingOutputFluid.isEmpty()) {
+            output.store(
+                    "CraftOutputFluid",
+                    EssenceBoilerFluid.CODEC.codec(),
+                    craftingOutputFluid
+            );
+        }
     }
 
     @Override
@@ -410,8 +424,12 @@ public class EssenceBoilerBlockEntity extends BlockEntity implements WorldlyCont
 
         progress = input.getIntOr("progress", 0);
         maxProgress = input.getIntOr("maxProgress", 60);
+        craftingIngredientMask = input.getIntOr("CraftingIngredientMask", 0);
         inventory.load(input);
         fluidTank = readFluid(input);
+        craftingOutputFluid = input
+                .read("CraftOutputFluid", EssenceBoilerFluid.CODEC.codec())
+                .orElse(EssenceBoilerFluid.EMPTY);
     }
 
     private static EssenceBoilerFluid readFluid(ValueInput input) {
@@ -460,6 +478,36 @@ public class EssenceBoilerBlockEntity extends BlockEntity implements WorldlyCont
         return fluidTank;
     }
 
+    public EssenceBoilerFluid getCraftingOutputFluid() {
+        return craftingOutputFluid;
+    }
+
+    public boolean isCraftingIngredient(int slot) {
+        return slot >= 0 && slot < SLOT_CONTAINER
+                && (craftingIngredientMask & (1 << slot)) != 0;
+    }
+
+    public int getCraftingIngredientMask() {
+        return craftingIngredientMask;
+    }
+
+    private void setCraftingIngredientMask(int mask) {
+        if (craftingIngredientMask != mask) {
+            craftingIngredientMask = mask;
+            setChanged();
+        }
+    }
+
+    private void setCraftingOutputFluid(EssenceBoilerFluid fluid) {
+        EssenceBoilerFluid output = fluid == null
+                ? EssenceBoilerFluid.EMPTY
+                : fluid;
+        if (!craftingOutputFluid.equals(output)) {
+            craftingOutputFluid = output;
+            setChanged();
+        }
+    }
+
     public int getFluidTankAmount() {
         return fluidTank.amount();
     }
@@ -498,6 +546,46 @@ public class EssenceBoilerBlockEntity extends BlockEntity implements WorldlyCont
             setChanged();
         }
 
+        return accepted;
+    }
+
+    public int fillPotionFluidTank(EssenceBoilerFluid incoming) {
+        if (incoming == null
+                || incoming.isEmpty()
+                || incoming.fluid() != EssenceBoilerPotionFluid.fluid()) {
+            return 0;
+        }
+
+        if (fluidTank.isEmpty()) {
+            return fillFluidTank(incoming);
+        }
+
+        if (!fluidTank.isSame(incoming.fluid())) {
+            return 0;
+        }
+
+        int accepted = Math.min(
+                incoming.amount(),
+                getFluidTankCapacity() - fluidTank.amount()
+        );
+        if (accepted <= 0) {
+            return 0;
+        }
+
+        var balancedContents = EssenceBoilerPotionFluid.getBalancedContents(
+                fluidTank.potionContents(),
+                incoming.potionContents()
+        );
+        if (balancedContents.isEmpty()) {
+            return 0;
+        }
+
+        fluidTank = new EssenceBoilerFluid(
+                fluidTank.fluid(),
+                fluidTank.amount() + accepted,
+                balancedContents.get()
+        );
+        setChanged();
         return accepted;
     }
 
@@ -582,47 +670,65 @@ public class EssenceBoilerBlockEntity extends BlockEntity implements WorldlyCont
     public boolean hasRecipe() {
         Optional<RecipeHolder<EssenceBoilerRecipe>> recipe = getCurrentRecipe();
         if (recipe.isEmpty()) {
+            setCraftingIngredientMask(0);
             return false;
         }
 
         EssenceBoilerRecipe value = recipe.get().value();
         if (!canAcceptFluidOutput(value)) {
+            setCraftingOutputFluid(EssenceBoilerFluid.EMPTY);
+            setCraftingIngredientMask(0);
             return false;
         }
 
+        int[] matchedSlots = value.getMatchedIngredientSlots(getRecipeInput());
+        if (matchedSlots == null) {
+            setCraftingIngredientMask(0);
+            return false;
+        }
+        int ingredientMask = 0;
+        for (int slot : matchedSlots) {
+            ingredientMask |= 1 << slot;
+        }
+        setCraftingIngredientMask(ingredientMask);
+        setCraftingOutputFluid(getFluidOutput(value).orElse(EssenceBoilerFluid.EMPTY));
         maxProgress = value.recipeTime();
         return true;
     }
 
     private boolean canAcceptFluidOutput(EssenceBoilerRecipe recipe) {
-        EssenceBoilerFluid tank = fluidTank;
-
-        EssenceBoilerFluid input = new EssenceBoilerFluid(
-                recipe.inputFluid().fluid(),
-                recipe.inputFluid().amount(),
-                PotionContents.EMPTY
-        );
-
-        EssenceBoilerFluid output = new EssenceBoilerFluid(
-                recipe.outputFluid().fluid(),
-                recipe.outputFluid().amount(),
-                PotionContents.EMPTY
-        );
-
-        if (tank.isEmpty() || input.isEmpty()) {
+        int consumedAmount = recipe.inputFluid()
+                .map(fluid -> recipe.preserveFluidAmount()
+                        ? fluidTank.amount()
+                        : fluid.amount())
+                .orElse(0);
+        int remainingAmount = fluidTank.amount() - consumedAmount;
+        if (remainingAmount < 0) {
             return false;
         }
 
-        if (!tank.isSame(input)) {
+        if (recipe.outputFluid().isEmpty()) {
+            return true;
+        }
+
+        EssenceBoilerFluid output = getFluidOutput(recipe).orElseThrow();
+        if (remainingAmount > 0 && !fluidTank.isSame(output)) {
             return false;
         }
 
-        if (tank.amount() < input.amount()) {
-            return false;
+        return remainingAmount + output.amount() <= getFluidTankCapacity();
+    }
+
+    private Optional<EssenceBoilerFluid> getFluidOutput(EssenceBoilerRecipe recipe) {
+        if (recipe.outputFluid().isEmpty()) {
+            return Optional.empty();
         }
 
-        int remaining = tank.amount() - input.amount();
-        return remaining + output.amount() <= getFluidTankCapacity();
+        EssenceBoilerFluid output = recipe.outputFluid().get();
+        if (recipe.preserveFluidAmount() && !fluidTank.isEmpty()) {
+            output = output.withAmount(fluidTank.amount());
+        }
+        return Optional.of(output);
     }
 
     public boolean craftRecipe() {
@@ -636,24 +742,32 @@ public class EssenceBoilerBlockEntity extends BlockEntity implements WorldlyCont
             return false;
         }
 
-        inventory.extractItem(SLOT_INGREDIENT_1, 1, false);
-        inventory.extractItem(SLOT_INGREDIENT_2, 1, false);
-        inventory.extractItem(SLOT_INGREDIENT_3, 1, false);
-
-        drainFluidTank(recipe.inputFluid().amount());
-
-        int accepted = fillFluidTank(
-                new EssenceBoilerFluid(
-                        recipe.outputFluid().fluid(),
-                        recipe.outputFluid().amount(),
-                        PotionContents.EMPTY
-                )
-        );
-
-        if (accepted < recipe.outputFluid().amount()) {
+        int[] matchedSlots = recipe.getMatchedIngredientSlots(getRecipeInput());
+        if (matchedSlots == null) {
             return false;
         }
 
+        for (int slot : matchedSlots) {
+            inventory.extractItem(slot, 1, false);
+        }
+
+        Optional<EssenceBoilerFluid> fluidOutput = getFluidOutput(recipe);
+        recipe.inputFluid().ifPresent(fluid -> drainFluidTank(
+                recipe.preserveFluidAmount() ? fluidTank.amount() : fluid.amount()
+        ));
+
+        if (fluidOutput.isPresent()) {
+            EssenceBoilerFluid output = fluidOutput.get();
+            if (fillFluidTank(output) != output.amount()) {
+                return false;
+            }
+        }
+
+        for (var result : recipe.results()) {
+            popOutItem(result.create());
+        }
+
+        setCraftingOutputFluid(EssenceBoilerFluid.EMPTY);
         progress = 0;
         setChanged();
         return true;

@@ -41,6 +41,23 @@ public final class ModFluidTypes {
                     POTION_FLUID_TYPE.fogColor()
             );
 
+    public static final BaseFluidType SULFURIC_ARCANUM_FLUID_TYPE =
+            new BaseFluidType(
+                    207f / 255f,
+                    193f / 255f,
+                    128f / 255f
+            );
+
+    public static final FluidTypeDefinition SULFURIC_ARCANUM =
+            new FluidTypeDefinition(
+                    "sulfuric_arcanum",
+                    350,
+                    1200,
+                    2500,
+                    1.0F,
+                    SULFURIC_ARCANUM_FLUID_TYPE.fogColor()
+            );
+
     public record FluidTypeDefinition(
             String name,
             int temperature,

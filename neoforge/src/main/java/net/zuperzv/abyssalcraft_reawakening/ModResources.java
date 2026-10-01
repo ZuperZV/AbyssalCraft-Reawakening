@@ -20,9 +20,11 @@ import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.ModBlockEntities;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.renderer.*;
-import net.zuperzv.abyssalcraft_reawakening.commonCode.data.loader.CodexDataLoader;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.data.loader.BlockTooltipDataLoader;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.DyedColorTintSource;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.data.loader.CodexDataLoader;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.loader.DataItemJsonLoader;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.screen.Helpers.BlockTooltipProviders;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.screen.ModMenuTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.screen.NecronomiconScreen;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
@@ -112,10 +114,12 @@ public class ModResources {
 
                             CodexDataLoader.loadFromResourceManager(manager);
                             DataItemJsonLoader.loadFromResourceManager(manager);
+                            BlockTooltipDataLoader.loadFromResourceManager(manager);
 
                         }, backgroundExecutor).thenCompose(barrier::wait);
                     }
                 }
         );
+        BlockTooltipProviders.registerDefaults();
     }
 }

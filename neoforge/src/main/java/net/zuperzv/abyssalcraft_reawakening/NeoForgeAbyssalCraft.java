@@ -117,6 +117,9 @@ public class NeoForgeAbyssalCraft {
             event.sendRecipes(
                     ModRecipes.RITUAL_ALTAR.type().get()
             );
+            event.sendRecipes(
+                    ModRecipes.ESSENCE_BOILER.type().get()
+            );
         }
 
         @SubscribeEvent

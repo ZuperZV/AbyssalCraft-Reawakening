@@ -12,6 +12,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -577,13 +578,8 @@ public class EssenceBoilerBlock extends BaseEntityBlock {
                         contents
                 );
 
-        if (!boiler.getFluidTank().isEmpty()
-                && !boiler.getFluidTank().isSame(incoming)) {
-            return true;
-        }
-
         int accepted =
-                boiler.fillFluidTank(incoming);
+                boiler.fillPotionFluidTank(incoming);
 
         if (accepted != potionAmount) {
             return true;
@@ -891,28 +887,71 @@ public class EssenceBoilerBlock extends BaseEntityBlock {
                     .get(fluid.fluid().defaultFluidState());
             int color = EssenceBoilerFluidColor.getTint(fluidModel, fluid, level, pos);
             if (color == EssenceBoilerFluidColor.NO_TINT) {
-                return;
+                color = 0xFFFFFFFF;
+            }
+
+            float craftProgress = boiler.maxProgress <= 0
+                    ? 0.0F
+                    : Mth.clamp(
+                            (float) boiler.progress / boiler.maxProgress,
+                            0.0F,
+                            1.0F
+                    );
+            EssenceBoilerFluid outputFluid = boiler.getCraftingOutputFluid();
+            if (boiler.progress > 0 && !outputFluid.isEmpty()) {
+                FluidModel outputModel = Minecraft.getInstance()
+                        .getModelManager()
+                        .getFluidStateModelSet()
+                        .get(outputFluid.fluid().defaultFluidState());
+                int outputColor = EssenceBoilerFluidColor.getTint(
+                        outputModel,
+                        outputFluid,
+                        level,
+                        pos
+                );
+                if (outputColor != EssenceBoilerFluidColor.NO_TINT) {
+                    float blend = craftProgress * craftProgress
+                            * (3.0F - 2.0F * craftProgress);
+                    color = interpolateBubbleColor(color, outputColor, blend);
+                }
             }
 
             float red = ((color >> 16) & 0xFF) / 255F;
             float green = ((color >> 8) & 0xFF) / 255F;
             float blue = (color & 0xFF) / 255F;
 
-            double spread = 10D / 16D / 2D;
+            double fluidHeight = 0.5D
+                    * boiler.getFluidTankAmount()
+                    / boiler.getFluidTankCapacity();
+            double spread = 0.32D;
+            float spawnChance = 0.25F + craftProgress * 0.65F;
+            if (random.nextFloat() < spawnChance) {
+                int bubbleCount = 1 + (int) (craftProgress * 3.0F);
+                for (int i = 0; i < bubbleCount; i++) {
+                    double offsetX = (random.nextDouble() - 0.5D) * 2D * spread;
+                    double offsetZ = (random.nextDouble() - 0.5D) * 2D * spread;
+                    double bubbleY = pos.getY() + 0.5D
+                            + random.nextDouble() * fluidHeight;
 
-            double offsetX = (random.nextDouble() - 0.5D) * 2D * spread;
-            double offsetZ = (random.nextDouble() - 0.5D) * 2D * spread;
-
-            level.addParticle(
-                    new ColorBubbleData(red, green, blue),
-                    pos.getX() + 0.5 + offsetX,
-                    pos.getY() + 1,
-                    pos.getZ() + 0.5 + offsetZ,
-                    0,
-                    0.02,
-                    0
-            );
+                    level.addParticle(
+                            new ColorBubbleData(red, green, blue),
+                            pos.getX() + 0.5 + offsetX,
+                            bubbleY,
+                            pos.getZ() + 0.5 + offsetZ,
+                            0,
+                            0.006 + random.nextDouble() * 0.002,
+                            0
+                    );
+                }
+            }
         }
+    }
+
+    private static int interpolateBubbleColor(int from, int to, float progress) {
+        int red = Mth.lerpInt(progress, (from >> 16) & 0xFF, (to >> 16) & 0xFF);
+        int green = Mth.lerpInt(progress, (from >> 8) & 0xFF, (to >> 8) & 0xFF);
+        int blue = Mth.lerpInt(progress, from & 0xFF, to & 0xFF);
+        return (red << 16) | (green << 8) | blue;
     }
     public static VoxelShape rotateShape(
             Direction.Axis from,

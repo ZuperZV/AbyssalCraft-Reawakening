@@ -6,6 +6,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.api.multiblock.MultiblockDisplay;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.EssenceBoilerRecipe;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.StoneRitualAltarRecipe;
 
 public class ModJEIRecipeTypes {
@@ -15,6 +16,13 @@ public class ModJEIRecipeTypes {
                     Constants.MOD_ID,
                     "ritual_altar",
                     StoneRitualAltarRecipe.class
+            );
+
+    public static final IRecipeType<RecipeHolder<EssenceBoilerRecipe>> ESSENCE_BOILER =
+            create(
+                    Constants.MOD_ID,
+                    "essence_boiler",
+                    EssenceBoilerRecipe.class
             );
 
     public static final IRecipeType<MultiblockDisplay> MULTIBLOCK =

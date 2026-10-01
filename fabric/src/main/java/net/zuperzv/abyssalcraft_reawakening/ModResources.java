@@ -3,7 +3,6 @@ package net.zuperzv.abyssalcraft_reawakening;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
@@ -22,10 +21,9 @@ import net.minecraft.client.renderer.item.properties.numeric.RangeSelectItemMode
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.world.item.crafting.RecipeMap;
-import net.zuperzv.abyssalcraft_reawakening.commonCode.api.jei.JEIPlugin;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.ModBlockEntities;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.renderer.*;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.data.loader.BlockTooltipDataLoader;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.loader.CodexDataLoader;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.loader.DataItemJsonLoader;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.NecronomiconClientTooltip;
@@ -37,6 +35,7 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.property.Cora
 import net.zuperzv.abyssalcraft_reawakening.commonCode.network.SyncBookmarksPacket;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.particle.ColorBubbleParticle;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.particle.ModParticleTypes;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.screen.Helpers.BlockTooltipProviders;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.screen.ModMenuTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.screen.NecronomiconScreen;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
@@ -89,6 +88,7 @@ public class ModResources implements ClientModInitializer {
         );
 
         MenuScreens.register(ModMenuTypes.NECRONOMICON_MENU.get(), NecronomiconScreen::new);
+        BlockTooltipProviders.registerDefaults();
         ClientPlayNetworking.registerGlobalReceiver(
                 SyncBookmarksPacket.TYPE,
                 (packet, context) -> SyncBookmarksPacket.handle(packet, context.client())
@@ -149,6 +149,7 @@ public class ModResources implements ClientModInitializer {
 
                             CodexDataLoader.loadFromResourceManager(manager);
                             DataItemJsonLoader.loadFromResourceManager(manager);
+                            BlockTooltipDataLoader.loadFromResourceManager(manager);
 
                         }, taskExecutor).thenCompose(preparationBarrier::wait);
                     }
@@ -177,17 +178,5 @@ public class ModResources implements ClientModInitializer {
 
         //JEI
 
-        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
-            client.execute(() -> {
-                if (client.level != null) {
-                    JEIPlugin.syncedRecipes =
-                            (RecipeMap) client.level.recipeAccess().getSynchronizedRecipes();
-
-                    System.out.println(
-                            "Synced recipes: " + JEIPlugin.syncedRecipes.values().size()
-                    );
-                }
-            });
-        });
     }
 }

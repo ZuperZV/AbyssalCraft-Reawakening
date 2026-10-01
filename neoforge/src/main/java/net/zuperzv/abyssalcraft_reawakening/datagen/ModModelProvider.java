@@ -27,6 +27,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
@@ -194,7 +195,17 @@ public class ModModelProvider extends ModelProvider {
 
         for (Block block : getModBlocks()) {
             if (!generatedBlocks.contains(block)) {
-                generateCubeBlock(blockModels, block);
+                if (block instanceof LiquidBlock) {
+                    blockModels.blockStateOutput.accept(
+                            createSimpleBlock(
+                                    block,
+                                    plainVariant(Identifier.withDefaultNamespace("block/water"))
+                            )
+                    );
+                    generatedBlocks.add(block);
+                } else {
+                    generateCubeBlock(blockModels, block);
+                }
             }
         }
     }
@@ -631,6 +642,16 @@ public class ModModelProvider extends ModelProvider {
         }
 
         itemModels.generateFlatItem(item, ModelTemplates.FLAT_ITEM);
+    }
+
+    private void generateWaterFluidBucket(ItemModelGenerators itemModels, Item item) {
+        generatedItems.add(item);
+        itemModels.itemModelOutput.accept(
+                item,
+                ItemModelUtils.plainModel(
+                        Identifier.withDefaultNamespace("item/water_bucket")
+                )
+        );
     }
 
     private void generateWoodTool(ItemModelGenerators itemModels, Item item) {

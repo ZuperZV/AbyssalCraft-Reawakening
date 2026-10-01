@@ -16,16 +16,19 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.CodexTierData;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.CoraliumGemsData;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.ModDataComponentTypes;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.ModFluids;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.ModRecipes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.StoneRitualAltarRecipe;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.customCraftingTable.CoraliumGemRecipe;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.dimension.ModDimensions;
 import net.zuperzv.abyssalcraft_reawakening.datagen.custom.StoneRitualAltarRecipeBuilder;
+import net.zuperzv.abyssalcraft_reawakening.datagen.custom.EssenceBoilerRecipeBuilder;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItemTags;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
@@ -1927,6 +1930,20 @@ public class ModRecipeProvider extends RecipeProvider {
         this.slabBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.ABYSSAL_STONE_BRICKS_SLAB.block().get(), Ingredient.of(ModBlocks.ABYSSAL_STONE_BRICKS.block().get()))
                 .unlockedBy(getHasName(ModBlocks.ABYSSAL_STONE_BRICKS.block().get()), this.has(ModBlocks.ABYSSAL_STONE_BRICKS.block().get()))
                 .save(this.output);
+
+
+        //Crystals
+        EssenceBoilerRecipeBuilder.create()
+                .ingredient(ModItems.SULFUR_CHUNK.get())
+                .inputFluid(Fluids.WATER, 1000)
+                .outputFluid(ModFluids.SOURCE_SULFURIC_ARCANUM.get(), 1000)
+                .duration(160)
+                .preserveFluidAmount()
+                .unlockedBy("has_sulfur_chunk", has(ModItems.SULFUR_CHUNK.get()))
+                .save(output, ResourceKey.create(
+                        Registries.RECIPE,
+                        Constants.id("sulfuric_arcanum")
+                ));
     }
 
     public static class Runner extends RecipeProvider.Runner {

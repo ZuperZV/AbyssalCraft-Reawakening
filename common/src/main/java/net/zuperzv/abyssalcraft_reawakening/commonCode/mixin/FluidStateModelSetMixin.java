@@ -32,26 +32,16 @@ public abstract class FluidStateModelSetMixin {
         Map<Fluid, FluidModel> models =
                 new HashMap<>(cir.getReturnValue());
 
-        FluidModel potionModel =
-                new FluidModel.Unbaked(
-                        new Material(
-                                Identifier.fromNamespaceAndPath(
-                                        "minecraft",
-                                        "block/water_still"
-                                )
-                        ),
-                        new Material(
-                                Identifier.fromNamespaceAndPath(
-                                        "minecraft",
-                                        "block/water_flow"
-                                )
-                        ),
-                        null,
-                        null
-                ).bake(
-                        materials,
-                        () -> "Potion"
-                );
+        FluidModel potionModel = waterTexturedModel(
+                materials,
+                () -> "Potion",
+                null
+        );
+        FluidModel sulfuricArcanumModel = waterTexturedModel(
+                materials,
+                () -> "Sulfuric Arcanum",
+                state -> 0xFFDDD8A6
+        );
 
         models.put(
                 ModFluids.SOURCE_POTION.get(),
@@ -62,9 +52,30 @@ public abstract class FluidStateModelSetMixin {
                 ModFluids.FLOWING_POTION.get(),
                 potionModel
         );
+        models.put(
+                ModFluids.SOURCE_SULFURIC_ARCANUM.get(),
+                sulfuricArcanumModel
+        );
+        models.put(
+                ModFluids.FLOWING_SULFURIC_ARCANUM.get(),
+                sulfuricArcanumModel
+        );
 
         cir.setReturnValue(
                 Map.copyOf(models)
         );
+    }
+
+    private static FluidModel waterTexturedModel(
+            MaterialBaker materials,
+            net.minecraft.client.resources.model.ModelDebugName modelName,
+            net.minecraft.client.color.block.BlockTintSource tint
+    ) {
+        return new FluidModel.Unbaked(
+                new Material(Identifier.withDefaultNamespace("block/water_still")),
+                new Material(Identifier.withDefaultNamespace("block/water_flow")),
+                null,
+                tint
+        ).bake(materials, modelName);
     }
 }

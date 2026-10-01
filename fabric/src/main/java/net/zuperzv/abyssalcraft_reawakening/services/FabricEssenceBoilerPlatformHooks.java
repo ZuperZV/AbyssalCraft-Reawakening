@@ -1,7 +1,9 @@
 package net.zuperzv.abyssalcraft_reawakening.services;
 
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
@@ -14,6 +16,8 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.EssenceBoilerPotion
 import net.zuperzv.abyssalcraft_reawakening.services.types.IEssenceBoilerPlatformHooks;
 
 public final class FabricEssenceBoilerPlatformHooks implements IEssenceBoilerPlatformHooks {
+    private static final long DROPLETS_PER_MILLIBUCKET =
+            FluidConstants.BUCKET / 1000;
 
     @Override
     public boolean tryEmptyFluidContainer(
@@ -26,7 +30,9 @@ public final class FabricEssenceBoilerPlatformHooks implements IEssenceBoilerPla
             return false;
         }
 
-        Storage<FluidVariant> storage = FluidStorage.ITEM.find(stack, null);
+        Storage<FluidVariant> storage = ContainerItemContext
+                .forPlayerInteraction(player, hand)
+                .find(FluidStorage.ITEM);
         if (storage == null) {
             return false;
         }
@@ -57,7 +63,10 @@ public final class FabricEssenceBoilerPlatformHooks implements IEssenceBoilerPla
                 continue;
             }
 
-            long amountToMove = Math.min(view.getAmount(), freeSpace);
+            long amountToMove = Math.min(
+                    view.getAmount(),
+                    (long) freeSpace * DROPLETS_PER_MILLIBUCKET
+            );
 
             try (Transaction transaction = Transaction.openOuter()) {
                 long extracted = storage.extract(
@@ -70,11 +79,16 @@ public final class FabricEssenceBoilerPlatformHooks implements IEssenceBoilerPla
                     continue;
                 }
 
+                if (extracted % DROPLETS_PER_MILLIBUCKET != 0) {
+                    continue;
+                }
+
+                int millibuckets = (int) (extracted / DROPLETS_PER_MILLIBUCKET);
                 int accepted = boiler.fillFluidTank(
-                        candidate.withAmount((int) extracted)
+                        candidate.withAmount(millibuckets)
                 );
 
-                if (accepted != extracted) {
+                if (accepted != millibuckets) {
                     continue;
                 }
 
@@ -103,7 +117,9 @@ public final class FabricEssenceBoilerPlatformHooks implements IEssenceBoilerPla
             return false;
         }
 
-        Storage<FluidVariant> storage = FluidStorage.ITEM.find(stack, null);
+        Storage<FluidVariant> storage = ContainerItemContext
+                .forPlayerInteraction(player, hand)
+                .find(FluidStorage.ITEM);
         if (storage == null) {
             return false;
         }
@@ -113,15 +129,17 @@ public final class FabricEssenceBoilerPlatformHooks implements IEssenceBoilerPla
         try (Transaction transaction = Transaction.openOuter()) {
             long inserted = storage.insert(
                     variant,
-                    tankFluid.amount(),
+                    (long) tankFluid.amount() * DROPLETS_PER_MILLIBUCKET,
                     transaction
             );
 
-            if (inserted <= 0) {
+            if (inserted <= 0
+                    || inserted % DROPLETS_PER_MILLIBUCKET != 0) {
                 return false;
             }
 
-            boiler.drainFluidTank((int) inserted);
+            int millibuckets = (int) (inserted / DROPLETS_PER_MILLIBUCKET);
+            boiler.drainFluidTank(millibuckets);
             transaction.commit();
             return true;
         }

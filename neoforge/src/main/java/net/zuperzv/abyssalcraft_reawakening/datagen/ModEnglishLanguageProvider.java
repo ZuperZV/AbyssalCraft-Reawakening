@@ -29,6 +29,7 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
     protected void addTranslations() {
         // Recipe mods
         add("recipe_mods.abyssalcraft_reawakening.ritual_altar", "Ritual Altar");
+        add("recipe_mods.abyssalcraft_reawakening.essence_boiler", "Essence Boiler");
 
         add("recipe_mods.abyssalcraft_reawakening.time", "Time");
         add("recipe_mods.abyssalcraft_reawakening.works_in_dimension", "Works in Dimension");
@@ -38,6 +39,8 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         add("recipe_mods.abyssalcraft_reawakening.both", "Both");
 
         add("tooltip.abyssalcraft_reawakening.gems", "Gems");
+        add("block.abyssalcraft_reawakening.sulfuric_arcanum", "Sulfuric Arcanum");
+        add("item.abyssalcraft_reawakening.sulfuric_arcanum_bucket", "Sulfuric Arcanum Bucket");
 
         add("name.abyssalcraft_reawakening.cluster", "Cluster");
 

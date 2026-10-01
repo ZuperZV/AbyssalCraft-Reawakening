@@ -42,6 +42,9 @@ public class FabricAbyssalCraft implements ModInitializer {
         RecipeSynchronization.synchronizeRecipeSerializer(
                 ModRecipes.RITUAL_ALTAR.serializer().get()
         );
+        RecipeSynchronization.synchronizeRecipeSerializer(
+                ModRecipes.ESSENCE_BOILER.serializer().get()
+        );
 
         Services.SPAWN_PLACEMENTS.applySpawnPlacements(SpawnPlacements::register);
         Services.ATTRIBUTES.applyEntityAttributeRegistrations(FabricDefaultAttributeRegistry::register);

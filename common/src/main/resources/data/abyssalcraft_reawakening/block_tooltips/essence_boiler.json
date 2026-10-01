@@ -1,0 +1,7 @@
+{
+  "block": "abyssalcraft_reawakening:essence_boiler",
+  "providers": [
+    "fluid_tank",
+    "progress"
+  ]
+}

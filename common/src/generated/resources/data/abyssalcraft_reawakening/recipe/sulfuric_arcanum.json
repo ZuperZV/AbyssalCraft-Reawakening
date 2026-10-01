@@ -1,0 +1,16 @@
+{
+  "type": "abyssalcraft_reawakening:essence_boiler",
+  "ingredients": [
+    "abyssalcraft_reawakening:sulfur_chunk"
+  ],
+  "input_fluid": {
+    "amount": 1000,
+    "fluid": "minecraft:water"
+  },
+  "output_fluid": {
+    "amount": 1000,
+    "fluid": "abyssalcraft_reawakening:source_sulfuric_arcanum"
+  },
+  "preserve_fluid_amount": true,
+  "time": 160
+}

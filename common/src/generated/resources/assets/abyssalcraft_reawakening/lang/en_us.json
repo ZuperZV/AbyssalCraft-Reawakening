@@ -1,4 +1,5 @@
 {
+  "block.abyssalcraft_reawakening.sulfuric_arcanum": "Sulfuric Arcanum",
   "block.minecraft.air": "Air",
   "effect.abyssalcraft_reawakening.coralium_plague": "Coralium Plague",
   "effect.abyssalcraft_reawakening.omnivision": "Omnivision",
@@ -340,6 +341,7 @@
   "item.abyssalcraft_reawakening.sulfur_crystal": "Sulfur Crystal",
   "item.abyssalcraft_reawakening.sulfur_crystal_fragment": "Sulfur Crystal Fragment",
   "item.abyssalcraft_reawakening.sulfur_crystal_shard": "Sulfur Crystal Shard",
+  "item.abyssalcraft_reawakening.sulfuric_arcanum_bucket": "Sulfuric Arcanum Bucket",
   "item.abyssalcraft_reawakening.token_of_jzahar": "Token Of Jzahar",
   "item.abyssalcraft_reawakening.transmutation_gem": "Transmutation Gem",
   "item.abyssalcraft_reawakening.wastelands_thorn": "Wastelands Thorn",
@@ -371,6 +373,7 @@
   "name.abyssalcraft_reawakening.cluster": "Cluster",
   "recipe_mods.abyssalcraft_reawakening.both": "Both",
   "recipe_mods.abyssalcraft_reawakening.day": "Day",
+  "recipe_mods.abyssalcraft_reawakening.essence_boiler": "Essence Boiler",
   "recipe_mods.abyssalcraft_reawakening.night": "Night",
   "recipe_mods.abyssalcraft_reawakening.ritual_altar": "Ritual Altar",
   "recipe_mods.abyssalcraft_reawakening.time": "Time",

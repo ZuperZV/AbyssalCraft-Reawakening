@@ -33,7 +33,7 @@ public class EssenceBoilerBlockEntityRenderer
         EssenceBoilerBlockEntityRenderer.RenderState> {
 
     private final ItemModelResolver itemModelResolver;
-    private static final float ITEM_SCALE = 0.37F;
+    private static final float ITEM_SCALE = 0.42F;
     private static final float ITEM_MIN_Y = 0.56F;
 
     private static final float[] ITEM_BASE_RADIUS = {
@@ -43,21 +43,21 @@ public class EssenceBoilerBlockEntityRenderer
     };
 
     private static final float[] ITEM_RADIUS_DRIFT = {
-            0.095F,
-            0.085F,
-            0.070F
+            0.040F,
+            0.035F,
+            0.030F
     };
 
     private static final float[] ITEM_DRIFT_SPEED = {
-            0.020F,
-            0.0175F,
-            0.023F
+            0.008F,
+            0.007F,
+            0.009F
     };
 
     private static final float[] ITEM_ORBIT_SPEED = {
-            1.10F,
-            0.85F,
-            1.35F
+            1.0F,
+            0.8F,
+            1.2F
     };
 
     private static final float[] ITEM_ORBIT_PHASE = {
@@ -67,9 +67,9 @@ public class EssenceBoilerBlockEntityRenderer
     };
 
     private static final float[] ITEM_SPIN_SPEED = {
-            2.0F,
-            2.7F,
-            1.6F
+            0.08F,
+            0.06F,
+            0.10F
     };
 
     private static final float[] ITEM_SPIN_PHASE = {
@@ -122,9 +122,9 @@ public class EssenceBoilerBlockEntityRenderer
     private static final float FLUID_BASE_Y = 0.50F;
     private static final float FLUID_HEIGHT = 0.50F;
 
-    private static final float FLUID_WAVE_AMOUNT = 0.006F;
+    private static final float FLUID_WAVE_AMOUNT = 0.0025F;
 
-    private static final float FLUID_WAVE_SPEED = 0.025F;
+    private static final float FLUID_WAVE_SPEED = 0.008F;
 
     private static final float FLUID_WAVE_FREQUENCY = 4.0F;
 
@@ -168,6 +168,27 @@ public class EssenceBoilerBlockEntityRenderer
 
         state.partialTick = partialTicks;
         state.gameTime = level.getGameTime();
+        state.craftingProgress = blockEntity.maxProgress <= 0
+                ? 0.0F
+                : Mth.clamp(
+                        (blockEntity.progress + partialTicks) / blockEntity.maxProgress,
+                        0.0F,
+                        1.0F
+                );
+        state.crafting = blockEntity.progress > 0;
+        state.craftingIngredientMask = blockEntity.getCraftingIngredientMask();
+        double animationTime = state.gameTime + state.partialTick;
+        if (state.animationClockInitialized) {
+            double elapsed = Math.max(0.0D, animationTime - state.lastAnimationTime);
+            float craftIntensity = smoothProgress(state.craftingProgress);
+            state.animationClock += elapsed;
+            state.rotationClock += elapsed * Mth.lerp(craftIntensity, 1.0F, 1.15F);
+        } else {
+            state.animationClock = animationTime;
+            state.rotationClock = animationTime;
+            state.animationClockInitialized = true;
+        }
+        state.lastAnimationTime = animationTime;
 
         state.itemCount = Math.min(
                 blockEntity.inventory.getSlots(),
@@ -199,10 +220,19 @@ public class EssenceBoilerBlockEntityRenderer
         EssenceBoilerFluid fluid =
                 blockEntity.getFluidTank();
 
-        state.fluidVisible = !fluid.isEmpty();
+        EssenceBoilerFluid craftingOutput =
+                blockEntity.getCraftingOutputFluid();
+        float fluidTransition = state.crafting && !craftingOutput.isEmpty()
+                ? state.craftingProgress
+                : 0.0F;
+
+        state.fluidVisible = !fluid.isEmpty()
+                || fluidTransition > 0.0F;
+        state.fluidSprite = null;
+        state.fluidColor = 0xFFFFFFFF;
 
         state.fluidAmountNormalized =
-                state.fluidVisible
+                !fluid.isEmpty()
                         ? Mth.clamp(
                         (float) fluid.amount()
                                 / (float) blockEntity.getFluidTankCapacity(),
@@ -211,7 +241,10 @@ public class EssenceBoilerBlockEntityRenderer
                 )
                         : 0.0F;
 
-        if (state.fluidVisible) {
+        state.transitionFluidSprite = null;
+        state.transitionFluidProgress = 0.0F;
+
+        if (!fluid.isEmpty()) {
             FluidModel fluidModel =
                     Minecraft.getInstance()
                             .getModelManager()
@@ -240,6 +273,57 @@ public class EssenceBoilerBlockEntityRenderer
                             level,
                             blockEntity.getBlockPos()
                     );
+        }
+
+        if (fluidTransition > 0.0F) {
+            FluidModel outputModel =
+                    Minecraft.getInstance()
+                            .getModelManager()
+                            .getFluidStateModelSet()
+                            .get(craftingOutput.fluid().defaultFluidState());
+            Material.Baked outputMaterial = outputModel.stillMaterial();
+            if (outputMaterial == null) {
+                state.transitionFluidSprite = null;
+                state.fluidVisible = !fluid.isEmpty();
+                return;
+            }
+            TextureAtlasSprite outputSprite = outputMaterial.sprite();
+            int outputColor = EssenceBoilerFluidColor.getTint(
+                    outputModel,
+                    craftingOutput,
+                    level,
+                    blockEntity.getBlockPos()
+            );
+            state.fluidAmountNormalized = Mth.lerp(
+                    fluidTransition,
+                    state.fluidAmountNormalized,
+                    Mth.clamp(
+                            (float) craftingOutput.amount() / blockEntity.getFluidTankCapacity(),
+                            0.0F,
+                            1.0F
+                    )
+            );
+
+            if (!fluid.isEmpty() && fluid.fluid() == craftingOutput.fluid()) {
+                state.fluidColor = interpolateColor(
+                        state.fluidColor,
+                        outputColor,
+                        fluidTransition
+                );
+            } else {
+                state.transitionFluidSprite = outputSprite;
+                state.transitionFluidColor = outputColor;
+                state.transitionFluidProgress = fluidTransition;
+                if (fluid.isEmpty()) {
+                    state.fluidSprite = outputSprite;
+                    state.fluidColor = withAlpha(outputColor, fluidTransition);
+                    state.transitionFluidSprite = null;
+                    state.transitionFluidProgress = 0.0F;
+                } else {
+                    state.fluidColor = withAlpha(state.fluidColor, 1.0F - fluidTransition);
+                    state.transitionFluidColor = withAlpha(outputColor, fluidTransition);
+                }
+            }
         }
 
         EssenceBoilerBlockEntity.WobbleStyle wobbleStyle =
@@ -279,6 +363,12 @@ public class EssenceBoilerBlockEntityRenderer
         );
 
         submitItems(
+                state,
+                poseStack,
+                collector
+        );
+
+        submitProgressBar(
                 state,
                 poseStack,
                 collector
@@ -327,10 +417,9 @@ public class EssenceBoilerBlockEntityRenderer
                 ITEM_SCALE
         );
 
-        float time =
-                state.gameTime
-                        + state.partialTick;
-
+        float time = (float) state.animationClock;
+        float rotationTime = (float) state.rotationClock;
+        float craftIntensity = smoothProgress(state.craftingProgress);
         for (int i = 0; i < state.itemCount; i++) {
             ItemStackRenderState itemState =
                     state.items[i];
@@ -339,11 +428,18 @@ public class EssenceBoilerBlockEntityRenderer
                 continue;
             }
 
+            float shrinkProgress = (state.craftingIngredientMask & (1 << i)) != 0
+                    ? Mth.clamp((state.craftingProgress - 0.78F) / 0.22F, 0.0F, 1.0F)
+                    : 0.0F;
+            shrinkProgress = shrinkProgress * shrinkProgress
+                    * (3.0F - 2.0F * shrinkProgress);
+            float itemScale = 1.0F - shrinkProgress * 0.985F;
+
             poseStack.pushPose();
 
             float orbitAngle =
                     (
-                            time
+                            rotationTime
                                     * ITEM_ORBIT_SPEED[i]
                                     + ITEM_ORBIT_PHASE[i]
                     )
@@ -373,13 +469,15 @@ public class EssenceBoilerBlockEntityRenderer
 
             float swayX =
                     Mth.sin(swayTime)
-                            * ITEM_SWAY_AMOUNT[i];
+                            * ITEM_SWAY_AMOUNT[i]
+                            * (1.0F + craftIntensity * 1.5F);
 
             float swayZ =
                     Mth.cos(
                             swayTime * 0.83F
                     )
-                            * ITEM_SWAY_AMOUNT[i];
+                            * ITEM_SWAY_AMOUNT[i]
+                            * (1.0F + craftIntensity * 1.5F);
 
             float bobTime =
                     time
@@ -388,7 +486,8 @@ public class EssenceBoilerBlockEntityRenderer
 
             float bobbingY =
                     Mth.sin(bobTime)
-                            * ITEM_BOB_AMOUNT[i];
+                            * ITEM_BOB_AMOUNT[i]
+                            * (1.0F + craftIntensity);
 
             float itemY =
                     Math.max(
@@ -403,10 +502,21 @@ public class EssenceBoilerBlockEntityRenderer
             );
 
             float spinDegrees =
-                    time
+                    rotationTime
                             * ITEM_SPIN_SPEED[i]
                             + ITEM_SPIN_PHASE[i];
 
+            poseStack.scale(itemScale, itemScale, itemScale);
+            float wiggleTime =
+                    time * 0.20F
+                            + ITEM_SPIN_PHASE[i] * Mth.DEG_TO_RAD;
+            float wiggleAmount = craftIntensity * 0.16F;
+            poseStack.mulPose(Axis.XP.rotation(
+                    Mth.sin(wiggleTime) * wiggleAmount
+            ));
+            poseStack.mulPose(Axis.ZP.rotation(
+                    Mth.cos(wiggleTime * 0.83F) * wiggleAmount
+            ));
             poseStack.mulPose(
                     Axis.YP.rotationDegrees(
                             spinDegrees
@@ -433,21 +543,66 @@ public class EssenceBoilerBlockEntityRenderer
         poseStack.popPose();
     }
 
+    private void submitProgressBar(
+            RenderState state,
+            PoseStack poseStack,
+            SubmitNodeCollector collector
+    ) {
+        if (!state.crafting) {
+            return;
+        }
+
+        float left = 0.18F;
+        float right = 0.82F;
+        float bottom = 0.91F;
+        float top = 0.95F;
+        float depth = 0.055F;
+        int background = 0xD0201728;
+        int fill = 0xF0A6DDD8;
+        float filledRight = Mth.lerp(state.craftingProgress, left, right);
+
+        collector.submitCustomGeometry(
+                poseStack,
+                RenderTypes.translucentMovingBlock(),
+                (pose, builder) -> {
+                    drawProgressQuad(builder, pose, left, bottom, right, top, depth, background, state.lightCoords);
+                    if (filledRight > left) {
+                        drawProgressQuad(builder, pose, left, bottom, filledRight, top, depth - 0.001F, fill, state.lightCoords);
+                    }
+                }
+        );
+    }
+
+    private static void drawProgressQuad(
+            VertexConsumer builder,
+            PoseStack.Pose pose,
+            float left,
+            float bottom,
+            float right,
+            float top,
+            float depth,
+            int color,
+            int light
+    ) {
+        builder.addVertex(pose, left, bottom, depth)
+                .setColor(color).setUv(0.0F, 1.0F).setOverlay(0).setLight(light).setNormal(pose, 0.0F, 0.0F, -1.0F);
+        builder.addVertex(pose, left, top, depth)
+                .setColor(color).setUv(0.0F, 0.0F).setOverlay(0).setLight(light).setNormal(pose, 0.0F, 0.0F, -1.0F);
+        builder.addVertex(pose, right, top, depth)
+                .setColor(color).setUv(1.0F, 0.0F).setOverlay(0).setLight(light).setNormal(pose, 0.0F, 0.0F, -1.0F);
+        builder.addVertex(pose, right, bottom, depth)
+                .setColor(color).setUv(1.0F, 1.0F).setOverlay(0).setLight(light).setNormal(pose, 0.0F, 0.0F, -1.0F);
+    }
+
     private void submitFluid(
             RenderState state,
             PoseStack poseStack,
             SubmitNodeCollector collector
     ) {
         if (!state.fluidVisible
-                || state.fluidSprite == null) {
+                || (state.fluidSprite == null && state.transitionFluidSprite == null)) {
             return;
         }
-
-        TextureAtlasSprite sprite =
-                state.fluidSprite;
-
-        int color =
-                state.fluidColor;
 
         float baseY =
                 FLUID_BASE_Y
@@ -456,14 +611,62 @@ public class EssenceBoilerBlockEntityRenderer
 
         float waveTime =
                 (state.gameTime + state.partialTick)
-                        * FLUID_WAVE_SPEED;
+                        * FLUID_WAVE_SPEED
+                        * (1.0F + state.craftingProgress * 0.5F);
+        float waveAmplitude = FLUID_WAVE_AMOUNT
+                * (1.0F + state.craftingProgress * 1.0F);
+
+        if (state.fluidSprite != null) {
+            submitFluidLayer(
+                        state,
+                        poseStack,
+                        collector,
+                        state.fluidSprite,
+                        state.fluidColor,
+                        baseY,
+                        waveTime,
+                        waveAmplitude,
+                        state.craftingProgress
+            );
+        }
+        if (state.transitionFluidSprite != null) {
+            submitFluidLayer(
+                            state,
+                            poseStack,
+                            collector,
+                            state.transitionFluidSprite,
+                            state.transitionFluidColor,
+                            baseY + 0.001F,
+                            waveTime,
+                            waveAmplitude,
+                            state.craftingProgress
+            );
+        }
+    }
+
+    private void submitFluidLayer(
+            RenderState state,
+            PoseStack poseStack,
+            SubmitNodeCollector collector,
+            TextureAtlasSprite sprite,
+            int color,
+            float baseY,
+            float waveTime,
+            float waveAmplitude,
+            float craftingProgress
+    ) {
+        if (sprite == null) {
+            return;
+        }
 
         float y00 =
-                baseY
+                        baseY
                         + calculateFluidWave(
                         FLUID_X_MIN,
                         FLUID_Z_MIN,
-                        waveTime
+                        waveTime,
+                        waveAmplitude,
+                        craftingProgress
                 );
 
         float y01 =
@@ -471,7 +674,9 @@ public class EssenceBoilerBlockEntityRenderer
                         + calculateFluidWave(
                         FLUID_X_MIN,
                         FLUID_Z_MAX,
-                        waveTime
+                        waveTime,
+                        waveAmplitude,
+                        craftingProgress
                 );
 
         float y11 =
@@ -479,7 +684,9 @@ public class EssenceBoilerBlockEntityRenderer
                         + calculateFluidWave(
                         FLUID_X_MAX,
                         FLUID_Z_MAX,
-                        waveTime
+                        waveTime,
+                        waveAmplitude,
+                        craftingProgress
                 );
 
         float y10 =
@@ -487,7 +694,9 @@ public class EssenceBoilerBlockEntityRenderer
                         + calculateFluidWave(
                         FLUID_X_MAX,
                         FLUID_Z_MIN,
-                        waveTime
+                        waveTime,
+                        waveAmplitude,
+                        craftingProgress
                 );
 
         RenderType renderType =
@@ -527,11 +736,27 @@ public class EssenceBoilerBlockEntityRenderer
         );
     }
 
+    private static int withAlpha(int color, float alpha) {
+        int scaledAlpha = Mth.clamp(Math.round(((color >>> 24) & 0xFF) * alpha), 0, 255);
+        return (color & 0x00FFFFFF) | (scaledAlpha << 24);
+    }
+
+    private static int interpolateColor(int from, int to, float amount) {
+        int alpha = Mth.lerpInt(amount, (from >>> 24) & 0xFF, (to >>> 24) & 0xFF);
+        int red = Mth.lerpInt(amount, (from >> 16) & 0xFF, (to >> 16) & 0xFF);
+        int green = Mth.lerpInt(amount, (from >> 8) & 0xFF, (to >> 8) & 0xFF);
+        int blue = Mth.lerpInt(amount, from & 0xFF, to & 0xFF);
+        return (alpha << 24) | (red << 16) | (green << 8) | blue;
+    }
+
     private static float calculateFluidWave(
             float x,
             float z,
-            float time
+            float time,
+            float amplitude,
+            float craftingProgress
     ) {
+        float craftingWiggle = smoothProgress(craftingProgress);
         float wave1 =
                 Mth.sin(
                         time
@@ -545,12 +770,23 @@ public class EssenceBoilerBlockEntityRenderer
                                 + z * FLUID_WAVE_FREQUENCY
                                 - x
                 );
+        float craftingSlosh = Mth.sin(time * 0.55F + x * 2.0F - z * 1.7F)
+                * amplitude
+                * craftingWiggle
+                * 1.0F;
 
         return (
                 wave1 * 0.65F
                         + wave2 * 0.35F
         )
-                * FLUID_WAVE_AMOUNT;
+                * amplitude
+                + craftingSlosh;
+    }
+
+    private static float smoothProgress(float progress) {
+        float clampedProgress = Mth.clamp(progress, 0.0F, 1.0F);
+        return clampedProgress * clampedProgress
+                * (3.0F - 2.0F * clampedProgress);
     }
 
     private static void drawFluidQuad(
@@ -741,11 +977,32 @@ public class EssenceBoilerBlockEntityRenderer
 
         public float partialTick;
 
+        public double animationClock;
+
+        public double rotationClock;
+
+        public double lastAnimationTime;
+
+        public boolean animationClockInitialized;
+
+        public boolean crafting;
+
+        public float craftingProgress;
+
+        public int craftingIngredientMask;
+
         public boolean fluidVisible;
 
         public float fluidAmountNormalized;
 
         public int fluidColor;
+
+        public float transitionFluidProgress;
+
+        public int transitionFluidColor;
+
+        @Nullable
+        public TextureAtlasSprite transitionFluidSprite;
 
         @Nullable
         public TextureAtlasSprite fluidSprite;

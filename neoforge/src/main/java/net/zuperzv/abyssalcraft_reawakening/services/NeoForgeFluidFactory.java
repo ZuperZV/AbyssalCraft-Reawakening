@@ -59,6 +59,9 @@ public final class NeoForgeFluidFactory implements IFluidFactory {
             case "potion" ->
                     createFluidType(ModFluidTypes.POTION);
 
+            case "sulfuric_arcanum" ->
+                    createFluidType(ModFluidTypes.SULFURIC_ARCANUM);
+
             default ->
                     throw new IllegalArgumentException(
                             "Unknown fluid type: " + name
