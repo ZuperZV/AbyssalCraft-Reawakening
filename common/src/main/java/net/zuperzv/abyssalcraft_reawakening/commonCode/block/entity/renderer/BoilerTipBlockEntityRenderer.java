@@ -63,7 +63,7 @@ public class BoilerTipBlockEntityRenderer implements
         );
 
         Level level = blockEntity.getLevel();
-        state.tipCount = MAX_TIPS;
+        state.tipCount = 1;
         if (level == null) {
             return;
         }

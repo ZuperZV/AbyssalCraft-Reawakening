@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "abyssalcraft_reawakening:item/alumina_crystal_dust_icon",
+    "tints": [
+      {
+        "type": "abyssalcraft_reawakening:crystal_tint",
+        "color": 14075890
+      }
+    ]
+  }
+}

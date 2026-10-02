@@ -1,0 +1,7 @@
+{
+  "parent": "abyssalcraft_reawakening:block/crystal",
+  "textures": {
+    "0": "abyssalcraft_reawakening:block/crystal_shard",
+    "particle": "abyssalcraft_reawakening:block/crystal_shard"
+  }
+}

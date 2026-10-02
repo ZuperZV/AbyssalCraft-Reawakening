@@ -1,6 +1,12 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "abyssalcraft_reawakening:item/aluminium_crystal_shard"
+    "model": "abyssalcraft_reawakening:item/aluminium_crystal_shard_icon",
+    "tints": [
+      {
+        "type": "abyssalcraft_reawakening:crystal_tint",
+        "color": 13162213
+      }
+    ]
   }
 }

@@ -1,6 +1,12 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "abyssalcraft_reawakening:item/nitrogen_crystal"
+    "model": "abyssalcraft_reawakening:item/nitrogen_crystal_icon",
+    "tints": [
+      {
+        "type": "abyssalcraft_reawakening:crystal_tint",
+        "color": 11061503
+      }
+    ]
   }
 }

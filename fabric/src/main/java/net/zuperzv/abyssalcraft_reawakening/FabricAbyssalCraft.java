@@ -10,6 +10,7 @@ import net.minecraft.client.color.item.ItemTintSources;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.DyedColorTintSource;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.data.CrystalTintSource;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.network.SetBookmarksPacket;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.network.SyncBookmarksPacket;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.ModRecipes;
@@ -36,6 +37,10 @@ public class FabricAbyssalCraft implements ModInitializer {
         ItemTintSources.ID_MAPPER.put(
                 Identifier.fromNamespaceAndPath(Constants.MOD_ID, "dyed_color_tint"),
                 DyedColorTintSource.MAP_CODEC
+        );
+        ItemTintSources.ID_MAPPER.put(
+                Identifier.fromNamespaceAndPath(Constants.MOD_ID, "crystal_tint"),
+                CrystalTintSource.MAP_CODEC
         );
 
         //JEI

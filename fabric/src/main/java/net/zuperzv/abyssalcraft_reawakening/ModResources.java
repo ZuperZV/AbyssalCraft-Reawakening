@@ -6,6 +6,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockColorRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ClientTooltipComponentCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -16,12 +17,15 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.color.block.BlockTintSources;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.item.properties.numeric.RangeSelectItemModelProperties;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.ModBlockEntities;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.CrystalProductBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.renderer.*;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.loader.BlockTooltipDataLoader;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.loader.CodexDataLoader;
@@ -49,6 +53,14 @@ public class ModResources implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        for (var crystalHandle : ModBlocks.CRYSTAL_BLOCKS.values()) {
+            CrystalProductBlock crystal = crystalHandle.get();
+            BlockColorRegistry.register(
+                    java.util.List.of(BlockTintSources.constant(crystal.getTint())),
+                    crystal
+            );
+        }
+
         ParticleProviderRegistry.getInstance().register(
                 ModParticleTypes.COLOR_BUBBLE.get(),
                 ColorBubbleParticle.Provider::new

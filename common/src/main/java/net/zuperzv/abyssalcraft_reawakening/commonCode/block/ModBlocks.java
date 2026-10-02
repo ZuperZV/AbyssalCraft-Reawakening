@@ -14,6 +14,8 @@ import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.*;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModDataItem;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.CrystalProductBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.tree.ModTreeGrowers;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
 import net.zuperzv.abyssalcraft_reawakening.services.util.BlockWithItemRegistryHandle;
@@ -24,7 +26,29 @@ import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
 public final class ModBlocks {
     private ModBlocks() {}
 
-    public static void load() {}
+    public static void load() {
+        ModDataItem.registerCrystalBlocks();
+    }
+
+    public static final java.util.Map<net.minecraft.resources.Identifier, RegistryHandle<CrystalProductBlock>> CRYSTAL_BLOCKS =
+            new java.util.LinkedHashMap<>();
+
+    public static void registerCrystalBlocks(java.util.List<ModDataItem.CrystalType> crystalTypes) {
+        for (ModDataItem.CrystalType crystal : crystalTypes) {
+            for (String product : java.util.List.of("fragment", "shard", "crystal")) {
+                var id = crystal.productId(product);
+                var handle = Services.REGISTRY.registerBlockWithItem(
+                        id.getPath(),
+                        properties -> new CrystalProductBlock(
+                                properties.noOcclusion().strength(1.5F),
+                                crystal.color(),
+                                product
+                        )
+                );
+                CRYSTAL_BLOCKS.put(id, handle.block());
+            }
+        }
+    }
 
     public static final BlockWithItemRegistryHandle<Block> STONE_RITUAL_ALTAR = Services.REGISTRY.registerBlockWithItem("stone_ritual_altar",
             properties -> new StoneRitualAltarBlock(properties.requiresCorrectToolForDrops().strength(5.0F, 6.0F)

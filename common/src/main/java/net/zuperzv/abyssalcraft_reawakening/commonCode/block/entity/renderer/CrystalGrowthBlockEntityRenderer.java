@@ -21,15 +21,17 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.material.Fluid;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.custom.CrystalGrowthBlockEntity;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.CrystalProductBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.EssenceBoilerFluid;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.EssenceBoilerFluidColor;
 import org.jetbrains.annotations.Nullable;
@@ -116,12 +118,14 @@ public class CrystalGrowthBlockEntityRenderer implements
             return;
         }
         state.hasSeed = true;
-        String itemName = BuiltInRegistries.ITEM.getKey(stack.getItem()).getPath();
-        state.crystal = itemName.endsWith("_crystal");
+        Identifier itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
+        var crystalBlockHandle = ModBlocks.CRYSTAL_BLOCKS.get(itemId);
+        CrystalProductBlock crystalBlock = crystalBlockHandle == null ? null : crystalBlockHandle.get();
+        state.crystal = crystalBlock != null && crystalBlock.getProduct().equals("crystal");
         if (state.crystal) {
-            state.crystalTint = Mth.hsvToRgb((itemName.hashCode() & 0xFFFF) / 65535.0F, 0.68F, 1.0F);
+            state.crystalTint = crystalBlock.getTint();
             state.crystalModel = Minecraft.getInstance().getModelManager()
-                    .getBlockStateModelSet().get(Blocks.AMETHYST_CLUSTER.defaultBlockState());
+                    .getBlockStateModelSet().get(crystalBlock.defaultBlockState());
         } else {
             itemModelResolver.updateForTopItem(
                     state.seed, stack, ItemDisplayContext.FIXED, level, null, 0

@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.item.properties.conditional.ComponentMatche
 import net.minecraft.client.renderer.item.properties.conditional.HasComponent;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.component.predicates.AnyValue;
@@ -37,9 +38,13 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.EssenceBoile
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.PortalActivatorBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.DyedColorTintSource;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.data.CrystalTintSource;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.ModFluids;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModArmorMaterials;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModDataItem;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.dataDrivenItems.DataItemRegistry;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.CrystalProductBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.property.CodexTierProperty;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.property.CoraliumGemsProperty;
 import net.zuperzv.abyssalcraft_reawakening.services.NeoForgeRegistryHelper;
@@ -98,6 +103,7 @@ public class ModModelProvider extends ModelProvider {
         createBoilerTipBlock(blockModels, ModBlocks.BOILER_TIP.block().get());
         createEssenceBoilerBlock(blockModels, ModBlocks.ESSENCE_BOILER.block().get(), "essence_boiler_parent", List.of(TextureSlot.create("0")));
         createCrystalGrowthChamber(blockModels, ModBlocks.CRYSTAL_GROWTH_CHAMBER.block().get());
+        createCrystalProducts(blockModels, itemModels);
 
         //Create Rotated Variants
         createRotatedVariantBlock(blockModels, ModBlocks.WASTITE.block().get());
@@ -211,6 +217,70 @@ public class ModModelProvider extends ModelProvider {
                 }
             }
         }
+    }
+
+    private void createCrystalProducts(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
+        for (var blockHandle : ModBlocks.CRYSTAL_BLOCKS.values()) {
+            CrystalProductBlock block = blockHandle.get();
+            generatedBlocks.add(block);
+            Identifier modelLocation = ModelLocationUtils.getModelLocation(block);
+            TextureSlot crystalTexture = TextureSlot.create("0");
+            Material blockTexture = new Material(Constants.id("block/crystal_shard"));
+            String parentModel = switch (block.getProduct()) {
+                case "fragment" -> "block/crystal_fragment";
+                case "shard" -> "block/crystal_shard";
+                default -> "block/crystal";
+            };
+            ModelTemplate template = new ModelTemplate(
+                    Optional.of(Constants.id(parentModel)),
+                    Optional.empty(),
+                    crystalTexture,
+                    TextureSlot.PARTICLE
+            );
+            Identifier model = template.create(
+                    modelLocation,
+                    new TextureMapping()
+                            .put(crystalTexture, blockTexture)
+                            .put(TextureSlot.PARTICLE, blockTexture),
+                    blockModels.modelOutput
+            );
+            blockModels.blockStateOutput.accept(
+                    createSimpleBlock(block, plainVariant(model))
+            );
+            generateCrystalIcon(itemModels, block.asItem(), block.getProduct(), block.getTint());
+        }
+
+        var crystalDustItems = DataItemRegistry.getInstance().getCrystalDustItems();
+        for (ModDataItem.CrystalType crystal : ModDataItem.CRYSTAL_TYPES) {
+            var dust = crystalDustItems.get(crystal.productId("dust"));
+            if (dust == null) {
+                throw new IllegalStateException("Crystal dust was not registered: "
+                        + crystal.productId("dust"));
+            }
+            generateCrystalIcon(itemModels, dust.get(), "dust", crystal.color());
+        }
+    }
+
+    private void generateCrystalIcon(
+            ItemModelGenerators itemModels,
+            Item item,
+            String product,
+            int color
+    ) {
+        generatedItems.add(item);
+        int textureVariant = new java.util.Random(BuiltInRegistries.ITEM.getKey(item).hashCode()).nextInt(3) + 1;
+        String textureName = product.equals("crystal")
+                ? "crystal_" + textureVariant
+                : "crystal_" + product + "_" + textureVariant;
+        Identifier iconModel = ModelTemplates.FLAT_ITEM.create(
+                Constants.id("item/" + BuiltInRegistries.ITEM.getKey(item).getPath() + "_icon"),
+                TextureMapping.layer0(new Material(Constants.id("item/" + textureName))),
+                itemModels.modelOutput
+        );
+        itemModels.itemModelOutput.accept(
+                item,
+                ItemModelUtils.tintedModel(iconModel, new ItemTintSource[]{new CrystalTintSource(color)})
+        );
     }
 
 

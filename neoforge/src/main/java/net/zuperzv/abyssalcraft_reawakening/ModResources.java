@@ -2,6 +2,7 @@ package net.zuperzv.abyssalcraft_reawakening;
 
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.StandingSignRenderer;
+import net.minecraft.client.color.block.BlockTintSources;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
@@ -19,9 +20,12 @@ import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.ModBlockEntities;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.CrystalProductBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.renderer.*;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.loader.BlockTooltipDataLoader;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.DyedColorTintSource;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.data.CrystalTintSource;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.loader.CodexDataLoader;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.loader.DataItemJsonLoader;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.screen.Helpers.BlockTooltipProviders;
@@ -59,11 +63,18 @@ public class ModResources {
                 Identifier.fromNamespaceAndPath(Constants.MOD_ID, "dyed_color_tint"),
                 DyedColorTintSource.MAP_CODEC
         );
-
         event.register(
-                Identifier.fromNamespaceAndPath(Constants.MOD_ID, "dyed_color_tint"),
-                DyedColorTintSource.MAP_CODEC
+                Identifier.fromNamespaceAndPath(Constants.MOD_ID, "crystal_tint"),
+                CrystalTintSource.MAP_CODEC
         );
+    }
+
+    @SubscribeEvent
+    public static void registerBlockColors(RegisterColorHandlersEvent.BlockTintSources event) {
+        for (var crystalHandle : ModBlocks.CRYSTAL_BLOCKS.values()) {
+            CrystalProductBlock crystal = crystalHandle.get();
+            event.register(java.util.List.of(BlockTintSources.constant(crystal.getTint())), crystal);
+        }
     }
 
     @SubscribeEvent

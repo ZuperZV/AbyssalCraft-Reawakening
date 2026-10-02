@@ -52,7 +52,7 @@ public class BoilerTipBlockEntity extends BlockEntity {
             return;
         }
 
-        int count = 1;
+        int count = MAX_TIPS;
         boolean redstonePowered = level.hasNeighborSignal(pos);
         int activeLane = -1;
         for (int lane = 0; lane < Math.min(count, MAX_TIPS); lane++) {

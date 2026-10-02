@@ -2,7 +2,9 @@ package net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.dataDrivenIt
 
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModDataItem;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
+import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -25,6 +27,7 @@ public final class DataItemRegistry {
 
     private final Map<Identifier, DataItemType> dataItemTypes =
             new LinkedHashMap<>();
+    private final Map<Identifier, RegistryHandle<Item>> crystalDustItems = new LinkedHashMap<>();
 
     private DataItemRegistry() {
     }
@@ -56,6 +59,10 @@ public final class DataItemRegistry {
         );
     }
 
+    public Map<Identifier, RegistryHandle<Item>> getCrystalDustItems() {
+        return Map.copyOf(crystalDustItems);
+    }
+
     public DataItemType getDataItemTypeById(
             Identifier id
     ) {
@@ -83,6 +90,11 @@ public final class DataItemRegistry {
             }
 
             registerScuteItems(scute);
+        }
+
+        for (ModDataItem.CrystalType crystal : ModDataItem.CRYSTAL_TYPES) {
+            Identifier id = crystal.productId("dust");
+            crystalDustItems.put(id, Services.REGISTRY.registerItem(id.getPath(), Item::new));
         }
     }
 
