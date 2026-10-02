@@ -20,6 +20,7 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.api.jei.custom.subtypeInt
 import net.zuperzv.abyssalcraft_reawakening.commonCode.api.multiblock.MultiblockDisplay;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.api.jei.custom.category.MultiblockRecipeCategory;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.api.jei.custom.category.EssenceBoilerRecipeCategory;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.api.jei.custom.category.CrystalGrowthRecipeCategory;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.api.jei.custom.category.RitualAltarRecipeCategory;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
@@ -78,6 +79,7 @@ public class JEIPlugin implements IModPlugin {
         registration.addRecipeCategories(
                 new EssenceBoilerRecipeCategory(guiHelper)
         );
+        registration.addRecipeCategories(new CrystalGrowthRecipeCategory(guiHelper));
 
         registration.addRecipeCategories(
                 new MultiblockRecipeCategory(
@@ -110,6 +112,11 @@ public class JEIPlugin implements IModPlugin {
                 registration,
                 ModJEIRecipeTypes.ESSENCE_BOILER,
                 ModRecipes.ESSENCE_BOILER.type().get()
+        );
+        registerRecipe(
+                registration,
+                ModJEIRecipeTypes.CRYSTAL_GROWTH,
+                ModRecipes.CRYSTAL_GROWTH.type().get()
         );
 
         registration.addRecipes(
@@ -187,6 +194,10 @@ public class JEIPlugin implements IModPlugin {
         registration.addCraftingStation(
                 ModJEIRecipeTypes.ESSENCE_BOILER,
                 new ItemStack(ModBlocks.ESSENCE_BOILER.item().get())
+        );
+        registration.addCraftingStation(
+                ModJEIRecipeTypes.CRYSTAL_GROWTH,
+                new ItemStack(ModBlocks.CRYSTAL_GROWTH_CHAMBER.item().get())
         );
 
         registration.addCraftingStation(

@@ -9,16 +9,16 @@ import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
-import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.custom.EssenceBoilerBlockEntity;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.EssenceBoilerFluid;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.EssenceBoilerPotionFluid;
 import net.zuperzv.abyssalcraft_reawakening.services.types.IEssenceBoilerPlatformHooks;
+import net.zuperzv.abyssalcraft_reawakening.services.types.IFluidTankAccess;
 
 public final class NeoForgeEssenceBoilerPlatformHooks implements IEssenceBoilerPlatformHooks {
 
     @Override
     public boolean tryEmptyFluidContainer(
-            EssenceBoilerBlockEntity boiler,
+            IFluidTankAccess boiler,
             Player player,
             InteractionHand hand
     ) {
@@ -100,7 +100,7 @@ public final class NeoForgeEssenceBoilerPlatformHooks implements IEssenceBoilerP
 
     @Override
     public boolean tryFillFluidContainer(
-            EssenceBoilerBlockEntity boiler,
+            IFluidTankAccess boiler,
             Player player,
             InteractionHand hand
     ) {

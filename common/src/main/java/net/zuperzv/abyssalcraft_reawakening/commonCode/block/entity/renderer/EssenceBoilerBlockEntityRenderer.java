@@ -612,7 +612,7 @@ public class EssenceBoilerBlockEntityRenderer
         float waveTime =
                 (state.gameTime + state.partialTick)
                         * FLUID_WAVE_SPEED
-                        * (1.0F + state.craftingProgress * 0.5F);
+                        * Mth.lerp(smoothProgress(state.craftingProgress), 1.0F, 0.4F);
         float waveAmplitude = FLUID_WAVE_AMOUNT
                 * (1.0F + state.craftingProgress * 1.0F);
 
@@ -757,20 +757,30 @@ public class EssenceBoilerBlockEntityRenderer
             float craftingProgress
     ) {
         float craftingWiggle = smoothProgress(craftingProgress);
+        float orbitRadius = Mth.lerp(craftingWiggle, 1.0F, 1.3F);
+        float centeredX = 0.5F + (x - 0.5F) * orbitRadius;
+        float centeredZ = 0.5F + (z - 0.5F) * orbitRadius;
+        float rotationAngle = time * 0.35F;
+        float rotatedX = 0.5F
+                + (centeredX - 0.5F) * Mth.cos(rotationAngle)
+                - (centeredZ - 0.5F) * Mth.sin(rotationAngle);
+        float rotatedZ = 0.5F
+                + (centeredX - 0.5F) * Mth.sin(rotationAngle)
+                + (centeredZ - 0.5F) * Mth.cos(rotationAngle);
         float wave1 =
                 Mth.sin(
                         time
-                                + x * FLUID_WAVE_FREQUENCY
-                                + z * 1.5F
+                                + rotatedX * FLUID_WAVE_FREQUENCY
+                                + rotatedZ * 1.5F
                 );
 
         float wave2 =
                 Mth.cos(
                         time * 0.72F
-                                + z * FLUID_WAVE_FREQUENCY
-                                - x
+                                + rotatedZ * FLUID_WAVE_FREQUENCY
+                                - rotatedX
                 );
-        float craftingSlosh = Mth.sin(time * 0.55F + x * 2.0F - z * 1.7F)
+        float craftingSlosh = Mth.sin(time * 0.55F + rotatedX * 2.0F - rotatedZ * 1.7F)
                 * amplitude
                 * craftingWiggle
                 * 1.0F;

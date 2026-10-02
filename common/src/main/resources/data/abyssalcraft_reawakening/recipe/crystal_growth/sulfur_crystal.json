@@ -1,0 +1,15 @@
+{
+  "type": "abyssalcraft_reawakening:crystal_growth",
+  "ingredients": [
+    "abyssalcraft_reawakening:sulfur_crystal_fragment",
+    "abyssalcraft_reawakening:sulfur_chunk"
+  ],
+  "input_fluid": {
+    "fluid": "abyssalcraft_reawakening:source_sulfuric_arcanum",
+    "amount": 500
+  },
+  "result": {
+    "id": "abyssalcraft_reawakening:sulfur_crystal"
+  },
+  "time": 320
+}

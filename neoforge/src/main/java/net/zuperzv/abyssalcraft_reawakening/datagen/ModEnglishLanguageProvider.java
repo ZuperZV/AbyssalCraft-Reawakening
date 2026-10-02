@@ -30,6 +30,7 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         // Recipe mods
         add("recipe_mods.abyssalcraft_reawakening.ritual_altar", "Ritual Altar");
         add("recipe_mods.abyssalcraft_reawakening.essence_boiler", "Essence Boiler");
+        add("recipe_mods.abyssalcraft_reawakening.crystal_growth", "Crystal Growth Chamber");
 
         add("recipe_mods.abyssalcraft_reawakening.time", "Time");
         add("recipe_mods.abyssalcraft_reawakening.works_in_dimension", "Works in Dimension");

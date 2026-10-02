@@ -10,6 +10,7 @@ public class ModRecipes {
 
     public static IRegistryHelper.RecipeRegistryHandle<RecipeType<StoneRitualAltarRecipe>, RecipeSerializer<StoneRitualAltarRecipe>> RITUAL_ALTAR;
     public static IRegistryHelper.RecipeRegistryHandle<RecipeType<EssenceBoilerRecipe>, RecipeSerializer<EssenceBoilerRecipe>> ESSENCE_BOILER;
+    public static IRegistryHelper.RecipeRegistryHandle<RecipeType<CrystalGrowthRecipe>, RecipeSerializer<CrystalGrowthRecipe>> CRYSTAL_GROWTH;
     public static IRegistryHelper.RecipeRegistryHandle<RecipeType<CoraliumGemRecipe>, RecipeSerializer<CoraliumGemRecipe>> CORALIUM_GEM;
 
     public static void load(IRegistryHelper registry) {
@@ -42,6 +43,20 @@ public class ModRecipes {
                 () -> new RecipeSerializer<>(
                         EssenceBoilerRecipe.CODEC,
                         EssenceBoilerRecipe.STREAM_CODEC
+                )
+        );
+
+        CRYSTAL_GROWTH = registry.registerRecipeTypeAndSerializer(
+                "crystal_growth",
+                () -> new RecipeType<CrystalGrowthRecipe>() {
+                    @Override
+                    public String toString() {
+                        return "crystal_growth";
+                    }
+                },
+                () -> new RecipeSerializer<>(
+                        CrystalGrowthRecipe.CODEC,
+                        CrystalGrowthRecipe.STREAM_CODEC
                 )
         );
 

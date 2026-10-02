@@ -6,8 +6,10 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.custom.EssenceBoilerBlockEntity;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.custom.CrystalGrowthBlockEntity;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.loader.BlockTooltipDataLoader;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.EssenceBoilerFluid;
+import net.zuperzv.abyssalcraft_reawakening.services.types.IFluidTankAccess;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -41,13 +43,11 @@ public final class BlockTooltipProviders {
                 "fluid_tank",
                 (context, tooltip) -> {
 
-                    if (!(context.blockEntity()
-                            instanceof EssenceBoilerBlockEntity boiler)) {
+                    if (!(context.blockEntity() instanceof IFluidTankAccess tank)) {
                         return;
                     }
 
-                    EssenceBoilerFluid fluid =
-                            boiler.getFluidTank();
+                    EssenceBoilerFluid fluid = tank.getFluidTank();
 
                     if (!fluid.isEmpty()) {
                         if (fluid.hasPotionContents()) {
@@ -76,7 +76,7 @@ public final class BlockTooltipProviders {
                                         "Amount: "
                                                 + fluid.amount()
                                                 + " / "
-                                                + boiler.getFluidTankCapacity()
+                                                + tank.getFluidTankCapacity()
                                                 + " mB"
                                 ).withStyle(ChatFormatting.GRAY)
                         );
@@ -88,21 +88,39 @@ public final class BlockTooltipProviders {
                 "progress",
                 (context, tooltip) -> {
 
-                    if (!(context.blockEntity()
-                            instanceof EssenceBoilerBlockEntity boiler)) {
+                    int progress;
+                    int maxProgress;
+                    if (context.blockEntity() instanceof EssenceBoilerBlockEntity boiler) {
+                        progress = boiler.progress;
+                        maxProgress = boiler.maxProgress;
+                    } else if (context.blockEntity() instanceof CrystalGrowthBlockEntity growth) {
+                        progress = growth.progress;
+                        maxProgress = growth.maxProgress;
+                    } else {
                         return;
                     }
-
-                    if (boiler.progress > 0) {
+                    if (progress > 0) {
                         tooltip.add(
                                 Component.literal(
                                         "Progress: "
-                                                + formatSeconds(boiler.progress)
+                                                + formatSeconds(progress)
                                                 + " s / "
-                                                + formatSeconds(boiler.maxProgress)
+                                                + formatSeconds(maxProgress)
                                                 + " s"
                                 ).withStyle(ChatFormatting.GRAY)
                         );
+                    }
+                }
+        );
+
+        register(
+                "growth_inputs",
+                (context, tooltip) -> {
+                    if (context.blockEntity() instanceof CrystalGrowthBlockEntity) {
+                        tooltip.add(Component.literal("Place a crystal fragment and catalyst inside.")
+                                .withStyle(ChatFormatting.GRAY));
+                        tooltip.add(Component.literal("Add the recipe's fluid with a bucket or Boiler Tip.")
+                                .withStyle(ChatFormatting.GRAY));
                     }
                 }
         );

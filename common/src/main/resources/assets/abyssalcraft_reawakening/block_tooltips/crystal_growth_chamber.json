@@ -1,0 +1,8 @@
+{
+  "block": "abyssalcraft_reawakening:crystal_growth_chamber",
+  "providers": [
+    "fluid_tank",
+    "progress",
+    "growth_inputs"
+  ]
+}

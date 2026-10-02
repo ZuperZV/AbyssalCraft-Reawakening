@@ -7,6 +7,7 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.api.multiblock.MultiblockDisplay;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.EssenceBoilerRecipe;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.CrystalGrowthRecipe;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.StoneRitualAltarRecipe;
 
 public class ModJEIRecipeTypes {
@@ -24,6 +25,9 @@ public class ModJEIRecipeTypes {
                     "essence_boiler",
                     EssenceBoilerRecipe.class
             );
+
+    public static final IRecipeType<RecipeHolder<CrystalGrowthRecipe>> CRYSTAL_GROWTH =
+            create(Constants.MOD_ID, "crystal_growth", CrystalGrowthRecipe.class);
 
     public static final IRecipeType<MultiblockDisplay> MULTIBLOCK =
             IRecipeType.create(

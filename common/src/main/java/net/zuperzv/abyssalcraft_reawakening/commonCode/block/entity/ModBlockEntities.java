@@ -32,6 +32,20 @@ public class ModBlockEntities {
                     ModBlocks.ESSENCE_BOILER.block()::get
             );
 
+    public static final RegistryHandle<BlockEntityType<BoilerTipBlockEntity>> BOILER_TIP_BE =
+            Services.REGISTRY.registerBlockEntityType(
+                    "boiler_tip_be",
+                    BoilerTipBlockEntity::new,
+                    ModBlocks.BOILER_TIP.block()::get
+            );
+
+    public static final RegistryHandle<BlockEntityType<CrystalGrowthBlockEntity>> CRYSTAL_GROWTH_BE =
+            Services.REGISTRY.registerBlockEntityType(
+                    "crystal_growth_chamber_be",
+                    CrystalGrowthBlockEntity::new,
+                    ModBlocks.CRYSTAL_GROWTH_CHAMBER.block()::get
+            );
+
     /*
     public static final RegistryHandle<BlockEntityType<StoneRitualPedestalBlockEntity>> PE_STATUE_BE =
             Services.REGISTRY.registerBlockEntityType(

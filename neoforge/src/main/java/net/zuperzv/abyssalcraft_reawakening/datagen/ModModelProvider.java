@@ -32,6 +32,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.BoilerTipBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.EssenceBoilerBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.PortalActivatorBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.ModDataComponentTypes;
@@ -94,7 +95,9 @@ public class ModModelProvider extends ModelProvider {
         generateBlockFromParent(blockModels, ModBlocks.STONE_RITUAL_ALTAR.block().get(), "ritual_altar", List.of(TextureSlot.create("0")));
         generateBlockFromParent(blockModels, ModBlocks.STONE_RITUAL_PEDESTAL.block().get(), "ritual_pedestal", List.of(TextureSlot.create("1"), TextureSlot.create("2")));
 
+        createBoilerTipBlock(blockModels, ModBlocks.BOILER_TIP.block().get());
         createEssenceBoilerBlock(blockModels, ModBlocks.ESSENCE_BOILER.block().get(), "essence_boiler_parent", List.of(TextureSlot.create("0")));
+        createCrystalGrowthChamber(blockModels, ModBlocks.CRYSTAL_GROWTH_CHAMBER.block().get());
 
         //Create Rotated Variants
         createRotatedVariantBlock(blockModels, ModBlocks.WASTITE.block().get());
@@ -532,6 +535,13 @@ public class ModModelProvider extends ModelProvider {
         generatedBlocks.add(block);
 
         blockModels.createRotatedVariantBlock(block);
+    }
+
+    private void createCrystalGrowthChamber(BlockModelGenerators blockModels, Block block) {
+        generatedBlocks.add(block);
+        Identifier model = ModelLocationUtils.getModelLocation(block);
+        blockModels.blockStateOutput.accept(createSimpleBlock(block, plainVariant(model)));
+        blockModels.registerSimpleItemModel(block, model);
     }
 
     public void createCrossBlock(
@@ -1236,6 +1246,47 @@ public class ModModelProvider extends ModelProvider {
                                         )
                         )
         );
+    }
+
+    private void createBoilerTipBlock(BlockModelGenerators blockModels, Block block) {
+        generatedBlocks.add(block);
+
+        ModelTemplate baseTemplate = new ModelTemplate(
+                Optional.of(Constants.id("block/boiler_tip_parent")),
+                Optional.empty()
+        );
+        ModelTemplate onTemplate = new ModelTemplate(
+                Optional.of(Constants.id("block/boiler_tip_on_parent")),
+                Optional.empty()
+        );
+        baseTemplate.create(block, new TextureMapping(), blockModels.modelOutput);
+        onTemplate.createWithSuffix(block, "_on", new TextureMapping(), blockModels.modelOutput);
+
+        var dispatch = PropertyDispatch.initial(BoilerTipBlock.FACING, BoilerTipBlock.ON);
+        for (Direction facing : Direction.values()) {
+            dispatch.select(facing, false, boilerTipVariant(block, facing));
+            dispatch.select(facing, true, boilerTipVariant(block, facing, "_on"));
+        }
+
+        blockModels.blockStateOutput.accept(
+                MultiVariantGenerator.dispatch(block).with(dispatch)
+        );
+    }
+
+    private static MultiVariant boilerTipVariant(Block block, Direction facing) {
+        return boilerTipVariant(block, facing, "");
+    }
+
+    private static MultiVariant boilerTipVariant(Block block, Direction facing, String suffix) {
+        MultiVariant variant = plainVariant(ModelLocationUtils.getModelLocation(block, suffix));
+        return switch (facing) {
+            case NORTH -> variant;
+            case EAST -> variant.with(Y_ROT_90);
+            case SOUTH -> variant.with(Y_ROT_180);
+            case WEST -> variant.with(Y_ROT_270);
+            case UP -> variant.with(X_ROT_270);
+            case DOWN -> variant.with(X_ROT_90);
+        };
     }
 
     public void createNetherPortalBlock(BlockModelGenerators blockModels, Block block) {

@@ -145,7 +145,7 @@ public final class EssenceBoilerRecipeCategory
 
     private void drawSlot(GuiGraphicsExtractor guiGraphics, int x, int y) {
         slotDrawable.draw(guiGraphics, x - 1, y - 1);
-    }
+      }
 
     private static int itemSlotX(int centerX, int index) {
         return switch (index) {

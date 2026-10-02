@@ -29,6 +29,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.phys.AABB;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.ModBlockEntities;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.helper.SimpleItemHandler;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.ModDataComponentTypes;
@@ -39,12 +40,13 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.EssenceBoilerRecip
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.ModRecipes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.StoneRitualAltarRecipe;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.helper.FluidRecipeInput;
+import net.zuperzv.abyssalcraft_reawakening.services.types.IFluidTankAccess;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.Optional;
 
-public class EssenceBoilerBlockEntity extends BlockEntity implements WorldlyContainer {
+public class EssenceBoilerBlockEntity extends BlockEntity implements WorldlyContainer, IFluidTankAccess {
     public static final int SLOT_INGREDIENT_1 = 0;
     public static final int SLOT_INGREDIENT_2 = 1;
     public static final int SLOT_INGREDIENT_3 = 2;
@@ -63,6 +65,7 @@ public class EssenceBoilerBlockEntity extends BlockEntity implements WorldlyCont
 
     public static final int DEFAULT_FLUID_CAPACITY = 1000;
     public static final int EVENT_WOBBLE = 1;
+    private static final int CRAFTING_REWIND_SPEED = 5;
 
     public int progress = 0;
     public int maxProgress = 60;
@@ -107,6 +110,10 @@ public class EssenceBoilerBlockEntity extends BlockEntity implements WorldlyCont
     ) {
         if (level.isClientSide()) {
             return;
+        }
+
+        if (boiler.progress <= 0) {
+            boiler.pickUpDroppedItems(level, pos);
         }
 
         if (boiler.tryCraftAmulet(level, pos, state)) {
@@ -181,13 +188,75 @@ public class EssenceBoilerBlockEntity extends BlockEntity implements WorldlyCont
                 }
             }
         } else {
-            boiler.progress = 0;
-            boiler.setCraftingOutputFluid(EssenceBoilerFluid.EMPTY);
-            boiler.setCraftingIngredientMask(0);
+            if (boiler.progress > 0) {
+                boiler.progress = Math.max(0, boiler.progress - CRAFTING_REWIND_SPEED);
+            }
+
+            if (boiler.progress == 0) {
+                boiler.setCraftingOutputFluid(EssenceBoilerFluid.EMPTY);
+                boiler.setCraftingIngredientMask(0);
+            }
         }
 
         boiler.setChanged();
         level.sendBlockUpdated(pos, state, state, Block.UPDATE_CLIENTS);
+    }
+
+    private void pickUpDroppedItems(Level level, BlockPos pos) {
+        AABB pickupArea = new AABB(
+                pos.getX() + 0.1D,
+                pos.getY() + 0.45D,
+                pos.getZ() + 0.1D,
+                pos.getX() + 0.9D,
+                pos.getY() + 1.25D,
+                pos.getZ() + 0.9D
+        );
+
+        for (ItemEntity itemEntity : level.getEntitiesOfClass(ItemEntity.class, pickupArea)) {
+            ItemStack droppedStack = itemEntity.getItem();
+            int slot = findDropInputSlot(droppedStack);
+            if (slot < 0) {
+                continue;
+            }
+
+            ItemStack remainder = inventory.insertItem(slot, droppedStack, false);
+            if (remainder.isEmpty()) {
+                itemEntity.discard();
+            } else if (remainder.getCount() != droppedStack.getCount()) {
+                itemEntity.setItem(remainder);
+            } else {
+                continue;
+            }
+
+            level.playSound(
+                    null,
+                    pos,
+                    SoundEvents.ITEM_PICKUP,
+                    SoundSource.BLOCKS,
+                    0.7F,
+                    1.2F
+            );
+        }
+    }
+
+    private int findDropInputSlot(ItemStack stack) {
+        if (stack.isEmpty()) {
+            return -1;
+        }
+
+        if (stack.is(Items.GLASS_BOTTLE)) {
+            return inventory.getStackInSlot(SLOT_CONTAINER).isEmpty()
+                    ? SLOT_CONTAINER
+                    : -1;
+        }
+
+        for (int slot = SLOT_INGREDIENT_1; slot <= SLOT_INGREDIENT_3; slot++) {
+            if (inventory.getStackInSlot(slot).isEmpty()) {
+                return slot;
+            }
+        }
+
+        return -1;
     }
 
     private boolean tryCraftAmulet(Level level, BlockPos pos, BlockState state) {

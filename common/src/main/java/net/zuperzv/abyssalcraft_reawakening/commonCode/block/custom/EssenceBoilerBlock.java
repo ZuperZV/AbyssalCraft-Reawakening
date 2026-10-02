@@ -348,10 +348,6 @@ public class EssenceBoilerBlock extends BaseEntityBlock {
             return InteractionResult.SUCCESS;
         }
 
-        if (boiler.progress > 0) {
-            return InteractionResult.SUCCESS;
-        }
-
         if (!stack.isEmpty()
                 && EssenceBoilerPlatformAccess.get().tryEmptyFluidContainer(
                 boiler,

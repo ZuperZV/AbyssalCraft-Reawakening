@@ -109,6 +109,14 @@ public class ModResources implements ClientModInitializer {
                 ModBlockEntities.ESSENCE_BOILER_BE.get(),
                 EssenceBoilerBlockEntityRenderer::new
         );
+        BlockEntityRendererRegistry.register(
+                ModBlockEntities.CRYSTAL_GROWTH_BE.get(),
+                CrystalGrowthBlockEntityRenderer::new
+        );
+        BlockEntityRendererRegistry.register(
+                ModBlockEntities.BOILER_TIP_BE.get(),
+                BoilerTipBlockEntityRenderer::new
+        );
 
         BlockEntityRendererRegistry.register(
                 ModBlockEntities.MOD_SHELF_BE.get(),

@@ -39,6 +39,14 @@ public final class ModBlocks {
             properties -> new EssenceBoilerBlock(properties.requiresCorrectToolForDrops().strength(5.0F, 6.0F)
                     .sound(SoundType.DEEPSLATE_TILES).lightLevel(state -> 15).ignitedByLava().noOcclusion()));
 
+    public static final BlockWithItemRegistryHandle<Block> BOILER_TIP = Services.REGISTRY.registerBlockWithItem("boiler_tip",
+            properties -> new BoilerTipBlock(properties.requiresCorrectToolForDrops().strength(2.0F).noOcclusion()));
+
+    public static final BlockWithItemRegistryHandle<Block> CRYSTAL_GROWTH_CHAMBER =
+            Services.REGISTRY.registerBlockWithItem("crystal_growth_chamber",
+                    properties -> new CrystalGrowthBlock(properties.requiresCorrectToolForDrops()
+                            .strength(4.0F, 5.0F).sound(SoundType.DEEPSLATE_TILES).noOcclusion()));
+
     //Abyssal
     public static final BlockWithItemRegistryHandle<Block> ABYSSAL_STONE = Services.REGISTRY.registerBlockWithItem("abyssal_stone",
             properties -> new Block(properties.mapColor(MapColor.COLOR_GREEN).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.STONE)));

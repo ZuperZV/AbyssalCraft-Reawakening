@@ -10,10 +10,10 @@ import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.custom.EssenceBoilerBlockEntity;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.EssenceBoilerFluid;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.EssenceBoilerPotionFluid;
 import net.zuperzv.abyssalcraft_reawakening.services.types.IEssenceBoilerPlatformHooks;
+import net.zuperzv.abyssalcraft_reawakening.services.types.IFluidTankAccess;
 
 public final class FabricEssenceBoilerPlatformHooks implements IEssenceBoilerPlatformHooks {
     private static final long DROPLETS_PER_MILLIBUCKET =
@@ -21,7 +21,7 @@ public final class FabricEssenceBoilerPlatformHooks implements IEssenceBoilerPla
 
     @Override
     public boolean tryEmptyFluidContainer(
-            EssenceBoilerBlockEntity boiler,
+            IFluidTankAccess boiler,
             Player player,
             InteractionHand hand
     ) {
@@ -102,7 +102,7 @@ public final class FabricEssenceBoilerPlatformHooks implements IEssenceBoilerPla
 
     @Override
     public boolean tryFillFluidContainer(
-            EssenceBoilerBlockEntity boiler,
+            IFluidTankAccess boiler,
             Player player,
             InteractionHand hand
     ) {

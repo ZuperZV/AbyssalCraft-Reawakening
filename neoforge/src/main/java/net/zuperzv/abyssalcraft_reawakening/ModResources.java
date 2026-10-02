@@ -72,6 +72,8 @@ public class ModResources {
         event.registerBlockEntityRenderer(ModBlockEntities.STONE_RITUAL_PEDESTAL_BE.get(), StoneRitualPedestalBlockEntityRenderer::new);
 
         event.registerBlockEntityRenderer(ModBlockEntities.ESSENCE_BOILER_BE.get(), EssenceBoilerBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.BOILER_TIP_BE.get(), BoilerTipBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.CRYSTAL_GROWTH_BE.get(), CrystalGrowthBlockEntityRenderer::new);
 
         event.registerBlockEntityRenderer(ModBlockEntities.MOD_SHELF_BE.get(), WitherwoodShelfBlockEntityRender::new);
 

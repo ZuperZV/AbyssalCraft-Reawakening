@@ -1,0 +1,15 @@
+{
+  "type": "abyssalcraft_reawakening:crystal_growth",
+  "ingredients": [
+    "abyssalcraft_reawakening:iron_crystal_fragment",
+    "minecraft:iron_ingot"
+  ],
+  "input_fluid": {
+    "fluid": "minecraft:water",
+    "amount": 1000
+  },
+  "result": {
+    "id": "abyssalcraft_reawakening:iron_crystal"
+  },
+  "time": 240
+}
