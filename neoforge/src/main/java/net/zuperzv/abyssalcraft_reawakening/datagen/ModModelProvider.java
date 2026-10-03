@@ -6,6 +6,8 @@ import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
 import net.minecraft.client.data.models.MultiVariant;
 import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
+import net.minecraft.client.data.models.blockstates.ConditionBuilder;
+import net.minecraft.client.data.models.blockstates.MultiPartGenerator;
 import net.minecraft.client.data.models.blockstates.PropertyDispatch;
 import net.minecraft.client.data.models.model.*;
 import net.minecraft.client.renderer.item.ClientItem;
@@ -1332,15 +1334,21 @@ public class ModModelProvider extends ModelProvider {
         baseTemplate.create(block, new TextureMapping(), blockModels.modelOutput);
         onTemplate.createWithSuffix(block, "_on", new TextureMapping(), blockModels.modelOutput);
 
-        var dispatch = PropertyDispatch.initial(BoilerTipBlock.FACING, BoilerTipBlock.ON);
+        var multipart = MultiPartGenerator.multiPart(block);
         for (Direction facing : Direction.values()) {
-            dispatch.select(facing, false, boilerTipVariant(block, facing));
-            dispatch.select(facing, true, boilerTipVariant(block, facing, "_on"));
+            var present = BoilerTipBlock.attachmentProperty(facing);
+            var connected = BoilerTipBlock.connectedProperty(facing);
+            multipart.with(
+                    new ConditionBuilder().term(present, true).term(connected, false).build(),
+                    boilerTipVariant(block, facing)
+            );
+            multipart.with(
+                    new ConditionBuilder().term(present, true).term(connected, true).build(),
+                    boilerTipVariant(block, facing, "_on")
+            );
         }
 
-        blockModels.blockStateOutput.accept(
-                MultiVariantGenerator.dispatch(block).with(dispatch)
-        );
+        blockModels.blockStateOutput.accept(multipart);
     }
 
     private static MultiVariant boilerTipVariant(Block block, Direction facing) {

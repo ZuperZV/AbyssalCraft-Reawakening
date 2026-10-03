@@ -1,8 +1,7 @@
 {
   "type": "abyssalcraft_reawakening:crystal_growth",
   "ingredients": [
-    "abyssalcraft_reawakening:sulfur_crystal_fragment",
-    "abyssalcraft_reawakening:sulfur_chunk"
+    "abyssalcraft_reawakening:sulfur_crystal_fragment"
   ],
   "input_fluid": {
     "fluid": "abyssalcraft_reawakening:source_sulfuric_arcanum",

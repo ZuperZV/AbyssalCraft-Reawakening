@@ -34,22 +34,19 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class CrystalGrowthBlockEntity extends BlockEntity implements WorldlyContainer, IFluidTankAccess {
-    public static final int SLOT_SEED = 0;
-    public static final int SLOT_CATALYST = 1;
-    public static final int SLOT_OUTPUT = 2;
+    public static final int SLOT_ITEM = 0;
     public static final int TANK_CAPACITY = 4000;
 
-    private static final int[] INPUT_SLOTS = {SLOT_SEED, SLOT_CATALYST};
-    private static final int[] OUTPUT_SLOTS = {SLOT_OUTPUT};
+    private static final int[] ITEM_SLOT = {SLOT_ITEM};
     private static final int REWIND_SPEED = 5;
 
     public int progress;
     public int maxProgress = 200;
 
-    public final SimpleItemHandler inventory = new SimpleItemHandler(3) {
+    public final SimpleItemHandler inventory = new SimpleItemHandler(1) {
         @Override
         public int getSlotLimit(int slot) {
-            return slot == SLOT_OUTPUT ? 64 : 64;
+            return 1;
         }
 
         @Override
@@ -105,12 +102,10 @@ public class CrystalGrowthBlockEntity extends BlockEntity implements WorldlyCont
                 pos.getX() + 0.9, pos.getY() + 1.25, pos.getZ() + 0.9);
         for (ItemEntity itemEntity : level.getEntitiesOfClass(ItemEntity.class, area)) {
             ItemStack dropped = itemEntity.getItem();
-            int slot = inventory.getStackInSlot(SLOT_SEED).isEmpty() ? SLOT_SEED
-                    : inventory.getStackInSlot(SLOT_CATALYST).isEmpty() ? SLOT_CATALYST : -1;
-            if (slot < 0) {
-                return;
+            if (!inventory.getStackInSlot(SLOT_ITEM).isEmpty()) {
+                continue;
             }
-            ItemStack remainder = inventory.insertItem(slot, dropped, false);
+            ItemStack remainder = inventory.insertItem(SLOT_ITEM, dropped, false);
             if (remainder.isEmpty()) {
                 itemEntity.discard();
             } else if (remainder.getCount() != dropped.getCount()) {
@@ -128,30 +123,21 @@ public class CrystalGrowthBlockEntity extends BlockEntity implements WorldlyCont
             inventory.extractItem(slot, 1, false);
         }
         drainFluidTank(recipe.inputFluid().amount());
-        ItemStack existing = inventory.getStackInSlot(SLOT_OUTPUT);
-        if (existing.isEmpty()) {
-            inventory.setStackInSlot(SLOT_OUTPUT, output);
-        } else {
-            existing.grow(output.getCount());
-            inventory.setStackInSlot(SLOT_OUTPUT, existing);
-        }
+        inventory.setStackInSlot(SLOT_ITEM, output);
         progress = 0;
         craftingIngredientMask = 0;
     }
 
     private boolean canOutput(ItemStack output) {
-        ItemStack existing = inventory.getStackInSlot(SLOT_OUTPUT);
-        return existing.isEmpty()
-                || ItemStack.isSameItemSameComponents(existing, output)
-                && existing.getCount() + output.getCount() <= existing.getMaxStackSize();
+        return output.getCount() <= inventory.getSlotLimit(SLOT_ITEM);
     }
 
     public ItemStack getGrowingResult() {
-        ItemStack output = inventory.getStackInSlot(SLOT_OUTPUT);
-        if (progress == 0 && !output.isEmpty()) {
-            return output;
-        }
-        return inventory.getStackInSlot(SLOT_SEED);
+        return inventory.getStackInSlot(SLOT_ITEM);
+    }
+
+    public int getGrowingResultSlot() {
+        return inventory.getStackInSlot(SLOT_ITEM).isEmpty() ? -1 : SLOT_ITEM;
     }
 
     public float getGrowthProgress() {
@@ -164,7 +150,7 @@ public class CrystalGrowthBlockEntity extends BlockEntity implements WorldlyCont
 
     private FluidRecipeInput getRecipeInput() {
         return new FluidRecipeInput(
-                new SimpleContainer(inventory.getStackInSlot(SLOT_SEED), inventory.getStackInSlot(SLOT_CATALYST)),
+                new SimpleContainer(inventory.getStackInSlot(SLOT_ITEM)),
                 fluidTank
         );
     }
@@ -280,12 +266,12 @@ public class CrystalGrowthBlockEntity extends BlockEntity implements WorldlyCont
 
     @Override
     public int[] getSlotsForFace(Direction direction) {
-        return direction == Direction.DOWN ? OUTPUT_SLOTS : INPUT_SLOTS;
+        return ITEM_SLOT;
     }
 
     @Override
     public boolean canPlaceItem(int slot, ItemStack stack) {
-        return slot == SLOT_SEED || slot == SLOT_CATALYST;
+        return slot == SLOT_ITEM;
     }
 
     @Override
@@ -295,7 +281,7 @@ public class CrystalGrowthBlockEntity extends BlockEntity implements WorldlyCont
 
     @Override
     public boolean canTakeItemThroughFace(int slot, ItemStack stack, Direction direction) {
-        return slot == SLOT_OUTPUT && direction == Direction.DOWN;
+        return slot == SLOT_ITEM && direction == Direction.DOWN;
     }
 
     @Override

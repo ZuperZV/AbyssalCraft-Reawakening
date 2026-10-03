@@ -2,8 +2,6 @@ package net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -112,24 +110,18 @@ public class CrystalGrowthBlock extends BaseEntityBlock {
         }
 
         if (stack.isEmpty()) {
-            return InteractionResult.PASS;
+            return takeStoredItem(growth, level, pos, player, hand);
         }
-        int slot = growth.inventory.getStackInSlot(CrystalGrowthBlockEntity.SLOT_SEED).isEmpty()
-                ? CrystalGrowthBlockEntity.SLOT_SEED
-                : growth.inventory.getStackInSlot(CrystalGrowthBlockEntity.SLOT_CATALYST).isEmpty()
-                ? CrystalGrowthBlockEntity.SLOT_CATALYST : -1;
-        if (slot < 0 || !growth.inventory.insertItem(slot, stack.copyWithCount(1), false).isEmpty()) {
-            return InteractionResult.PASS;
+        if (growth.inventory.getStackInSlot(CrystalGrowthBlockEntity.SLOT_ITEM).isEmpty()
+                && growth.inventory.insertItem(CrystalGrowthBlockEntity.SLOT_ITEM,
+                stack.copyWithCount(1), false).isEmpty()) {
+            if (!player.getAbilities().instabuild) {
+                stack.shrink(1);
+            }
+            level.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 0.7F, 1.15F);
+            return InteractionResult.SUCCESS;
         }
-        if (!player.getAbilities().instabuild) {
-            stack.shrink(1);
-        }
-        level.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 0.7F, 1.15F);
-        if (level instanceof ServerLevel serverLevel) {
-            serverLevel.sendParticles(ParticleTypes.END_ROD, pos.getX() + 0.5, pos.getY() + 0.8,
-                    pos.getZ() + 0.5, 3, 0.15, 0.1, 0.15, 0.01);
-        }
-        return InteractionResult.SUCCESS;
+        return takeStoredItem(growth, level, pos, player, hand);
     }
 
     @Override
@@ -148,20 +140,37 @@ public class CrystalGrowthBlock extends BaseEntityBlock {
             return InteractionResult.SUCCESS;
         }
 
-        for (int slot : new int[]{CrystalGrowthBlockEntity.SLOT_OUTPUT,
-                CrystalGrowthBlockEntity.SLOT_SEED, CrystalGrowthBlockEntity.SLOT_CATALYST}) {
-            ItemStack extracted = growth.inventory.getStackInSlot(slot);
-            if (extracted.isEmpty()) {
-                continue;
-            }
-            ItemStack taken = growth.inventory.extractItem(slot, player.isShiftKeyDown()
-                    ? extracted.getCount() : 1, false);
-            if (!player.getInventory().add(taken)) {
+        return takeStoredItem(growth, level, pos, player, InteractionHand.MAIN_HAND);
+    }
+
+    private InteractionResult takeStoredItem(
+            CrystalGrowthBlockEntity growth,
+            Level level,
+            BlockPos pos,
+            Player player,
+            InteractionHand hand
+    ) {
+        int visibleSlot = growth.getGrowingResultSlot();
+        if (visibleSlot < 0) {
+            return InteractionResult.PASS;
+        }
+
+        ItemStack stored = growth.inventory.getStackInSlot(visibleSlot);
+        ItemStack held = player.getItemInHand(hand);
+        if (!held.isEmpty()
+                && ItemStack.isSameItemSameComponents(held, stored)
+                && held.getCount() < held.getMaxStackSize()) {
+            held.grow(1);
+            growth.inventory.extractItem(visibleSlot, 1, false);
+        } else {
+            ItemStack taken = growth.inventory.extractItem(visibleSlot, 1, false);
+            if (held.isEmpty()) {
+                player.setItemInHand(hand, taken);
+            } else if (!player.getInventory().add(taken)) {
                 player.drop(taken, false);
             }
-            level.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 0.7F, 1.0F);
-            return InteractionResult.SUCCESS;
         }
-        return InteractionResult.PASS;
+        level.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 0.7F, 1.0F);
+        return InteractionResult.SUCCESS;
     }
 }

@@ -69,8 +69,8 @@ public record CrystalGrowthRecipe(
 
     public CrystalGrowthRecipe {
         ingredients = List.copyOf(ingredients);
-        if (ingredients.isEmpty() || ingredients.size() > 2) {
-            throw new IllegalArgumentException("Crystal growth recipes require one or two item ingredients");
+        if (ingredients.size() != 1) {
+            throw new IllegalArgumentException("Crystal growth recipes require exactly one item ingredient");
         }
         if (inputFluid == null || inputFluid.isEmpty()) {
             throw new IllegalArgumentException("Crystal growth recipes require a fluid input");
@@ -81,23 +81,7 @@ public record CrystalGrowthRecipe(
     }
 
     public int[] getMatchedIngredientSlots(FluidRecipeInput input) {
-        boolean[] used = new boolean[2];
-        int[] matched = new int[ingredients.size()];
-        for (int ingredientIndex = 0; ingredientIndex < ingredients.size(); ingredientIndex++) {
-            int slot = -1;
-            for (int inputSlot = 0; inputSlot < 2; inputSlot++) {
-                if (!used[inputSlot] && ingredients.get(ingredientIndex).test(input.getItem(inputSlot))) {
-                    slot = inputSlot;
-                    break;
-                }
-            }
-            if (slot < 0) {
-                return null;
-            }
-            used[slot] = true;
-            matched[ingredientIndex] = slot;
-        }
-        return matched;
+        return ingredients.getFirst().test(input.getItem(0)) ? new int[]{0} : null;
     }
 
     @Override

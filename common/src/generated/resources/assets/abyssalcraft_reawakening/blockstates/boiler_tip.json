@@ -1,50 +1,122 @@
 {
-  "variants": {
-    "facing=down,on=false": {
-      "model": "abyssalcraft_reawakening:block/boiler_tip",
-      "x": 90
+  "multipart": [
+    {
+      "apply": {
+        "model": "abyssalcraft_reawakening:block/boiler_tip",
+        "x": 90
+      },
+      "when": {
+        "down": "true",
+        "down_on": "false"
+      }
     },
-    "facing=down,on=true": {
-      "model": "abyssalcraft_reawakening:block/boiler_tip_on",
-      "x": 90
+    {
+      "apply": {
+        "model": "abyssalcraft_reawakening:block/boiler_tip_on",
+        "x": 90
+      },
+      "when": {
+        "down": "true",
+        "down_on": "true"
+      }
     },
-    "facing=east,on=false": {
-      "model": "abyssalcraft_reawakening:block/boiler_tip",
-      "y": 90
+    {
+      "apply": {
+        "model": "abyssalcraft_reawakening:block/boiler_tip",
+        "x": 270
+      },
+      "when": {
+        "up": "true",
+        "up_on": "false"
+      }
     },
-    "facing=east,on=true": {
-      "model": "abyssalcraft_reawakening:block/boiler_tip_on",
-      "y": 90
+    {
+      "apply": {
+        "model": "abyssalcraft_reawakening:block/boiler_tip_on",
+        "x": 270
+      },
+      "when": {
+        "up": "true",
+        "up_on": "true"
+      }
     },
-    "facing=north,on=false": {
-      "model": "abyssalcraft_reawakening:block/boiler_tip"
+    {
+      "apply": {
+        "model": "abyssalcraft_reawakening:block/boiler_tip"
+      },
+      "when": {
+        "north": "true",
+        "north_on": "false"
+      }
     },
-    "facing=north,on=true": {
-      "model": "abyssalcraft_reawakening:block/boiler_tip_on"
+    {
+      "apply": {
+        "model": "abyssalcraft_reawakening:block/boiler_tip_on"
+      },
+      "when": {
+        "north": "true",
+        "north_on": "true"
+      }
     },
-    "facing=south,on=false": {
-      "model": "abyssalcraft_reawakening:block/boiler_tip",
-      "y": 180
+    {
+      "apply": {
+        "model": "abyssalcraft_reawakening:block/boiler_tip",
+        "y": 180
+      },
+      "when": {
+        "south": "true",
+        "south_on": "false"
+      }
     },
-    "facing=south,on=true": {
-      "model": "abyssalcraft_reawakening:block/boiler_tip_on",
-      "y": 180
+    {
+      "apply": {
+        "model": "abyssalcraft_reawakening:block/boiler_tip_on",
+        "y": 180
+      },
+      "when": {
+        "south": "true",
+        "south_on": "true"
+      }
     },
-    "facing=up,on=false": {
-      "model": "abyssalcraft_reawakening:block/boiler_tip",
-      "x": 270
+    {
+      "apply": {
+        "model": "abyssalcraft_reawakening:block/boiler_tip",
+        "y": 270
+      },
+      "when": {
+        "west": "true",
+        "west_on": "false"
+      }
     },
-    "facing=up,on=true": {
-      "model": "abyssalcraft_reawakening:block/boiler_tip_on",
-      "x": 270
+    {
+      "apply": {
+        "model": "abyssalcraft_reawakening:block/boiler_tip_on",
+        "y": 270
+      },
+      "when": {
+        "west": "true",
+        "west_on": "true"
+      }
     },
-    "facing=west,on=false": {
-      "model": "abyssalcraft_reawakening:block/boiler_tip",
-      "y": 270
+    {
+      "apply": {
+        "model": "abyssalcraft_reawakening:block/boiler_tip",
+        "y": 90
+      },
+      "when": {
+        "east": "true",
+        "east_on": "false"
+      }
     },
-    "facing=west,on=true": {
-      "model": "abyssalcraft_reawakening:block/boiler_tip_on",
-      "y": 270
+    {
+      "apply": {
+        "model": "abyssalcraft_reawakening:block/boiler_tip_on",
+        "y": 90
+      },
+      "when": {
+        "east": "true",
+        "east_on": "true"
+      }
     }
-  }
+  ]
 }

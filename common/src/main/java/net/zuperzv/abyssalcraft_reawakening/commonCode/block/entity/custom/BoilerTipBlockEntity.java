@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.BoilerTipBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.ModBlockEntities;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.EssenceBoilerFluid;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.EssenceBoilerPotionFluid;
@@ -22,9 +23,10 @@ import org.jetbrains.annotations.Nullable;
 
 public class BoilerTipBlockEntity extends BlockEntity {
     private static final int TRANSFER_AMOUNT = 5;
-    private static final int MAX_TIPS = 1;
+    private static final int MAX_TIPS = Direction.values().length;
 
     private final EssenceBoilerFluid[] visualFluids = {
+            EssenceBoilerFluid.EMPTY, EssenceBoilerFluid.EMPTY,
             EssenceBoilerFluid.EMPTY, EssenceBoilerFluid.EMPTY,
             EssenceBoilerFluid.EMPTY, EssenceBoilerFluid.EMPTY
     };
@@ -39,33 +41,31 @@ public class BoilerTipBlockEntity extends BlockEntity {
             return;
         }
 
-        EssenceBoilerBlockEntity source = getSourceBoiler(level, pos, state);
-        if (source == null) {
-            tip.clearConnections();
-            return;
-        }
-
         BlockPos targetPos = tip.findBoilerBelow(level, pos);
-        if (targetPos == null
-                || !(level.getBlockEntity(targetPos) instanceof IFluidTankAccess target)) {
+        if (targetPos == null) {
             tip.clearConnections();
             return;
         }
 
-        int count = MAX_TIPS;
+        BlockEntity targetEntity = level.getBlockEntity(targetPos);
+        if (!(targetEntity instanceof IFluidTankAccess target)) {
+            tip.clearConnections();
+            return;
+        }
+
         boolean redstonePowered = level.hasNeighborSignal(pos);
-        int activeLane = -1;
-        for (int lane = 0; lane < Math.min(count, MAX_TIPS); lane++) {
-            if (tip.extracting[lane]) {
-                activeLane = lane;
-                break;
+        for (Direction direction : Direction.values()) {
+            int lane = direction.ordinal();
+            if (!BoilerTipBlock.hasAttachment(state, direction)) {
+                tip.clearConnection(direction);
+                continue;
             }
-        }
-        if (activeLane < 0 && redstonePowered && count > 0) {
-            activeLane = 0;
-        }
-        for (int lane = 0; lane < MAX_TIPS; lane++) {
-            if (lane >= count || lane != activeLane) {
+            EssenceBoilerBlockEntity source = findSourceBoiler(level, pos, direction);
+            if (source == null) {
+                tip.clearConnection(direction);
+                continue;
+            }
+            if (!tip.extracting[lane] && !redstonePowered) {
                 tip.setVisualFluid(lane, EssenceBoilerFluid.EMPTY);
                 continue;
             }
@@ -94,9 +94,8 @@ public class BoilerTipBlockEntity extends BlockEntity {
     }
 
     @Nullable
-    private static EssenceBoilerBlockEntity getSourceBoiler(Level level, BlockPos pos, BlockState state) {
-        Direction facing = state.getValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.FACING);
-        BlockPos sourcePos = pos.relative(facing.getOpposite());
+    private static EssenceBoilerBlockEntity findSourceBoiler(Level level, BlockPos pos, Direction direction) {
+        BlockPos sourcePos = pos.relative(direction.getOpposite());
         if (!level.getBlockState(sourcePos).is(ModBlocks.ESSENCE_BOILER.block().get())) {
             return null;
         }
@@ -139,21 +138,14 @@ public class BoilerTipBlockEntity extends BlockEntity {
         }
     }
 
-    public boolean isExtracting(int lane) {
-        return extracting[lane];
+    public boolean isExtracting(Direction direction) {
+        return extracting[direction.ordinal()];
     }
 
-    public void setExtracting(int lane, boolean active) {
+    public void setExtracting(Direction direction, boolean active) {
+        int lane = direction.ordinal();
         if (extracting[lane] == active) {
             return;
-        }
-        if (active) {
-            for (int otherLane = 0; otherLane < MAX_TIPS; otherLane++) {
-                if (otherLane != lane) {
-                    extracting[otherLane] = false;
-                    setVisualFluid(otherLane, EssenceBoilerFluid.EMPTY);
-                }
-            }
         }
         extracting[lane] = active;
         if (!active) {
@@ -164,16 +156,34 @@ public class BoilerTipBlockEntity extends BlockEntity {
     }
 
     public void clearConnections() {
-        boolean changed = false;
-        for (int lane = 0; lane < MAX_TIPS; lane++) {
-            changed |= extracting[lane];
-            extracting[lane] = false;
-            setVisualFluid(lane, EssenceBoilerFluid.EMPTY);
+        for (Direction direction : Direction.values()) {
+            clearConnection(direction);
         }
-        if (changed) {
+    }
+
+    public void clearConnection(Direction direction) {
+        int lane = direction.ordinal();
+        boolean changed = extracting[lane];
+        extracting[lane] = false;
+        boolean hadFluid = !visualFluids[lane].isEmpty();
+        setVisualFluid(lane, EssenceBoilerFluid.EMPTY);
+        if (changed && !hadFluid) {
             setChanged();
             sync();
         }
+    }
+
+    public void copyConnectionsTo(BoilerTipBlockEntity target, Direction excludedDirection) {
+        for (Direction direction : Direction.values()) {
+            if (direction == excludedDirection) {
+                continue;
+            }
+            int lane = direction.ordinal();
+            target.extracting[lane] = extracting[lane];
+            target.visualFluids[lane] = visualFluids[lane];
+        }
+        target.setChanged();
+        target.sync();
     }
 
     private void sync() {
@@ -185,10 +195,12 @@ public class BoilerTipBlockEntity extends BlockEntity {
     @Override
     protected void saveAdditional(ValueOutput output) {
         super.saveAdditional(output);
-        for (int lane = 0; lane < MAX_TIPS; lane++) {
-            output.putBoolean("extractFluid" + lane, extracting[lane]);
+        for (Direction direction : Direction.values()) {
+            int lane = direction.ordinal();
+            String key = direction.getName();
+            output.putBoolean("extractFluid_" + key, extracting[lane]);
             if (!visualFluids[lane].isEmpty()) {
-                output.store("visualFluid" + lane, EssenceBoilerFluid.CODEC.codec(), visualFluids[lane]);
+                output.store("visualFluid_" + key, EssenceBoilerFluid.CODEC.codec(), visualFluids[lane]);
             }
         }
     }
@@ -196,9 +208,11 @@ public class BoilerTipBlockEntity extends BlockEntity {
     @Override
     protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
-        for (int lane = 0; lane < MAX_TIPS; lane++) {
-            extracting[lane] = input.getBooleanOr("extractFluid" + lane, false);
-            visualFluids[lane] = input.read("visualFluid" + lane, EssenceBoilerFluid.CODEC.codec())
+        for (Direction direction : Direction.values()) {
+            int lane = direction.ordinal();
+            String key = direction.getName();
+            extracting[lane] = input.getBooleanOr("extractFluid_" + key, false);
+            visualFluids[lane] = input.read("visualFluid_" + key, EssenceBoilerFluid.CODEC.codec())
                     .orElse(EssenceBoilerFluid.EMPTY);
         }
     }

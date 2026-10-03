@@ -3,6 +3,7 @@ package net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.QuadInstance;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.FluidModel;
@@ -31,7 +32,7 @@ import java.util.List;
 
 public class BoilerTipBlockEntityRenderer implements
         BlockEntityRenderer<BoilerTipBlockEntity, BoilerTipBlockEntityRenderer.RenderState> {
-    private static final int MAX_TIPS = 4;
+    private static final int MAX_TIPS = Direction.values().length;
     private static final float MIN_X = 6.5F / 16.0F;
     private static final float MAX_X = 9.5F / 16.0F;
     private static final float MIN_Z = 12.0F / 16.0F;
@@ -63,20 +64,27 @@ public class BoilerTipBlockEntityRenderer implements
         );
 
         Level level = blockEntity.getLevel();
-        state.tipCount = 1;
+        state.tipCount = MAX_TIPS;
+        state.models.clear();
+        for (int lane = 0; lane < MAX_TIPS; lane++) {
+            state.sprites[lane] = null;
+            state.colors[lane] = 0xFFFFFFFF;
+            state.columnLengths[lane] = 0;
+        }
         if (level == null) {
             return;
         }
 
         state.light = state.lightCoords;
-        state.models.clear();
         BlockStateModel tipModel = Minecraft.getInstance().getModelManager()
                 .getBlockStateModelSet().get(blockEntity.getBlockState());
         tipModel.collectParts(RandomSource.create(0L), state.models);
-        for (int lane = 0; lane < state.tipCount; lane++) {
+        for (Direction direction : Direction.values()) {
+            int lane = direction.ordinal();
+            if (!BoilerTipBlock.hasAttachment(blockEntity.getBlockState(), direction)) {
+                continue;
+            }
             EssenceBoilerFluid fluid = blockEntity.getVisualFluid(lane);
-            state.sprites[lane] = null;
-            state.columnLengths[lane] = 0;
             if (fluid.isEmpty()) {
                 continue;
             }
@@ -108,28 +116,45 @@ public class BoilerTipBlockEntityRenderer implements
             SubmitNodeCollector collector,
             CameraRenderState camera
     ) {
+        submitTipModel(state, poseStack, collector);
         for (int lane = 0; lane < state.tipCount; lane++) {
-            float[] offset = laneOffset(lane, state.tipCount);
-            poseStack.pushPose();
-            if (state.tipCount > 1) {
-                poseStack.translate(0.5F + offset[0], 0.5F, 0.5F + offset[1]);
-                poseStack.scale(0.5F, 0.5F, 0.5F);
-                poseStack.translate(-0.5F, -0.5F, -0.5F);
-            }
-            submitTipModel(state, poseStack, collector);
             TextureAtlasSprite sprite = state.sprites[lane];
             if (sprite != null && state.columnLengths[lane] > 0) {
-                float laneBottomY = 0.5F - state.columnLengths[lane];
+                float laneBottomY = 1.0F - state.columnLengths[lane];
+                float y = state.columnLengths[lane] == state.columnLengths.length ? laneBottomY + 0.1F : laneBottomY;
                 int color = state.colors[lane];
                 int light = state.light;
+                Direction facing = Direction.values()[lane];
+                poseStack.pushPose();
+                rotateFluidPose(poseStack, facing);
                 collector.submitCustomGeometry(poseStack, RenderTypes.translucentMovingBlock(),
-                        (pose, builder) -> drawColumn(
-                                builder, pose, sprite, MIN_X, laneBottomY, MIN_Z,
-                                MAX_X, TOP_Y, MAX_Z, light, color
-                        ));
+                        (pose, builder) -> {
+                            drawFluidBox(
+                                    builder, pose, sprite,
+                                    MIN_X, y, MIN_Z, MAX_X, TOP_Y, MAX_Z, light, color
+                            );
+                            drawFluidBox(
+                                    builder, pose, sprite,
+                                    MIN_X, 11.0F / 16.0F, MAX_Z, MAX_X, TOP_Y, 17.0F / 16.0F, light, color
+                            );
+                        });
+                poseStack.popPose();
             }
-            poseStack.popPose();
         }
+    }
+
+    private static void rotateFluidPose(PoseStack poseStack, Direction facing) {
+        poseStack.translate(0.5F, 0.5F, 0.5F);
+        switch (facing) {
+            case EAST -> poseStack.mulPose(Axis.YP.rotationDegrees(270.0F));
+            case SOUTH -> poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
+            case WEST -> poseStack.mulPose(Axis.YP.rotationDegrees(90.0F));
+            case UP -> poseStack.mulPose(Axis.XP.rotationDegrees(90.0F));
+            case DOWN -> poseStack.mulPose(Axis.XP.rotationDegrees(270.0F));
+            default -> {
+            }
+        }
+        poseStack.translate(-0.5F, -0.5F, -0.5F);
     }
 
     private static void submitTipModel(
@@ -155,19 +180,7 @@ public class BoilerTipBlockEntityRenderer implements
         });
     }
 
-    private static float[] laneOffset(int lane, int count) {
-        if (count == 1) {
-            return new float[]{0.0F, 0.0F};
-        }
-        return switch (lane) {
-            case 0 -> new float[]{-0.25F, -0.25F};
-            case 1 -> new float[]{0.25F, -0.25F};
-            case 2 -> new float[]{-0.25F, 0.25F};
-            default -> new float[]{0.25F, 0.25F};
-        };
-    }
-
-    private static void drawColumn(
+    private static void drawFluidBox(
             VertexConsumer builder,
             PoseStack.Pose pose,
             TextureAtlasSprite sprite,
@@ -180,17 +193,53 @@ public class BoilerTipBlockEntityRenderer implements
             int light,
             int color
     ) {
+        float uX = spriteU(sprite, (x1 - x0) * 16.0F);
+        float uZ = spriteU(sprite, (z1 - z0) * 16.0F);
+        float vZ = spriteV(sprite, (z1 - z0) * 16.0F);
         float u0 = sprite.getU0();
-        float u1 = sprite.getU1();
         float v0 = sprite.getV0();
-        float v1 = sprite.getV1();
 
-        quad(builder, pose, x0, y0, z0, x0, y1, z0, x1, y1, z0, x1, y0, z0, u0, v0, u1, v1, 0, 0, -1, light, color);
-        quad(builder, pose, x1, y0, z1, x1, y1, z1, x0, y1, z1, x0, y0, z1, u0, v0, u1, v1, 0, 0, 1, light, color);
-        quad(builder, pose, x0, y0, z1, x0, y1, z1, x0, y1, z0, x0, y0, z0, u0, v0, u1, v1, -1, 0, 0, light, color);
-        quad(builder, pose, x1, y0, z0, x1, y1, z0, x1, y1, z1, x1, y0, z1, u0, v0, u1, v1, 1, 0, 0, light, color);
-        quad(builder, pose, x0, y1, z0, x0, y1, z1, x1, y1, z1, x1, y1, z0, u0, v0, u1, v1, 0, 1, 0, light, color);
-        quad(builder, pose, x0, y0, z1, x0, y0, z0, x1, y0, z0, x1, y0, z1, u0, v0, u1, v1, 0, -1, 0, light, color);
+        for (float segmentBottom = y0; segmentBottom < y1; ) {
+            float segmentTop = Math.min(segmentBottom + 1.0F, y1);
+            float segmentV = spriteV(sprite, (segmentTop - segmentBottom) * 16.0F);
+            float bottomV = sprite.getV0();
+            float topV = sprite.getV0() + segmentV;
+
+            quad(builder, pose,
+                    x0, segmentBottom, z0, x0, segmentTop, z0,
+                    x1, segmentTop, z0, x1, segmentBottom, z0,
+                    u0, topV, uX, bottomV, 0, 0, -1, light, color);
+            quad(builder, pose,
+                    x1, segmentBottom, z1, x1, segmentTop, z1,
+                    x0, segmentTop, z1, x0, segmentBottom, z1,
+                    u0, topV, uX, bottomV, 0, 0, 1, light, color);
+            quad(builder, pose,
+                    x0, segmentBottom, z1, x0, segmentTop, z1,
+                    x0, segmentTop, z0, x0, segmentBottom, z0,
+                    u0, topV, uZ, bottomV, -1, 0, 0, light, color);
+            quad(builder, pose,
+                    x1, segmentBottom, z0, x1, segmentTop, z0,
+                    x1, segmentTop, z1, x1, segmentBottom, z1,
+                    u0, topV, uZ, bottomV, 1, 0, 0, light, color);
+            segmentBottom = segmentTop;
+        }
+
+        quad(builder, pose,
+                x0, y1, z0, x0, y1, z1, x1, y1, z1, x1, y1, z0,
+                u0, v0 + vZ, uX, v0,
+                0, 1, 0, light, color);
+        quad(builder, pose,
+                x0, y0, z1, x0, y0, z0, x1, y0, z0, x1, y0, z1,
+                u0, v0 + vZ, uX, v0,
+                0, -1, 0, light, color);
+    }
+
+    private static float spriteU(TextureAtlasSprite sprite, float pixels) {
+        return sprite.getU0() + (sprite.getU1() - sprite.getU0()) * pixels / 16.0F;
+    }
+
+    private static float spriteV(TextureAtlasSprite sprite, float pixels) {
+        return (sprite.getV1() - sprite.getV0()) * pixels / 16.0F;
     }
 
     private static void quad(
@@ -232,7 +281,7 @@ public class BoilerTipBlockEntityRenderer implements
         private final List<BlockStateModelPart> models = new ArrayList<>();
         @Nullable
         private final TextureAtlasSprite[] sprites = new TextureAtlasSprite[MAX_TIPS];
-        private final int[] colors = {0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF};
+        private final int[] colors = new int[MAX_TIPS];
         private int light;
         private final int[] columnLengths = new int[MAX_TIPS];
         private int tipCount;

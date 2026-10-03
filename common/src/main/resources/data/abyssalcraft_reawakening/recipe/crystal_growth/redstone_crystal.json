@@ -1,8 +1,7 @@
 {
   "type": "abyssalcraft_reawakening:crystal_growth",
   "ingredients": [
-    "abyssalcraft_reawakening:redstone_crystal_fragment",
-    "minecraft:redstone"
+    "abyssalcraft_reawakening:redstone_crystal_fragment"
   ],
   "input_fluid": {
     "fluid": "minecraft:water",

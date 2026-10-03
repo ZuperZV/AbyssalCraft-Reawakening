@@ -1,6 +1,7 @@
 {
 	"format_version": "26.3",
 	"credit": "Made with Blockbench",
+	"render_type": "minecraft:translucent",
 	"texture_size": [32, 32],
 	"textures": {
 		"0": "abyssalcraft_reawakening:block/crystal_shard",
@@ -9,7 +10,7 @@
 	"elements": [
 		{
 			"from": [3, 0, 3],
-			"to": [13, 0, 13],
+			"to": [13, 0.01, 13],
 			"rotation": {"x": 0, "y": 90, "z": 0, "origin": [8, 0, 8]},
 			"faces": {
 				"north": {"uv": [0, 0, 5, 0], "texture": "#0", "tintindex": 0},
@@ -21,15 +22,15 @@
 			}
 		},
 		{
-			"from": [1, 0.15, 3],
-			"to": [11, 0.15, 13],
+			"from": [3, 0.15, 3],
+			"to": [13, 0.15, 13],
 			"rotation": {"angle": 0, "axis": "y", "origin": [1, 0.15, 3]},
 			"faces": {
 				"north": {"uv": [0, 0, 5, 0], "texture": "#0", "tintindex": 0},
 				"east": {"uv": [0, 0, 5, 0], "texture": "#0", "tintindex": 0},
 				"south": {"uv": [0, 0, 5, 0], "texture": "#0", "tintindex": 0},
 				"west": {"uv": [0, 0, 5, 0], "texture": "#0", "tintindex": 0},
-				"up": {"uv": [5, 0, 10, 5], "texture": "#0", "tintindex": 0},
+				"up": {"uv": [10, 5, 5, 0], "texture": "#0", "tintindex": 0},
 				"down": {"uv": [5, 5, 10, 10], "texture": "#0", "tintindex": 0}
 			}
 		},

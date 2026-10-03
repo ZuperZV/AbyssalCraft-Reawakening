@@ -30,8 +30,7 @@ public final class CrystalGrowthRecipeCategory
     private static final int HEIGHT = 64;
     private static final int INPUT_X = 20;
     private static final int OUTPUT_X = 118;
-    private static final int FIRST_INPUT_Y = 5;
-    private static final int SECOND_INPUT_Y = 25;
+    private static final int FIRST_INPUT_Y = 15;
     private static final int FLUID_X = 20;
     private static final int FLUID_Y = 45;
     private static final int ARROW_X = 65;
@@ -81,9 +80,6 @@ public final class CrystalGrowthRecipeCategory
     public void draw(RecipeHolder<CrystalGrowthRecipe> holder, IRecipeSlotsView slots,
                      GuiGraphicsExtractor graphics, double mouseX, double mouseY) {
         drawSlot(graphics, INPUT_X, FIRST_INPUT_Y);
-        if (holder.value().ingredients().size() > 1) {
-            drawSlot(graphics, INPUT_X, SECOND_INPUT_Y);
-        }
         if (!holder.value().inputFluid().fluid().getBucket().equals(Items.AIR)) {
             drawSlot(graphics, FLUID_X, FLUID_Y);
         }
@@ -111,10 +107,6 @@ public final class CrystalGrowthRecipeCategory
         CrystalGrowthRecipe recipe = holder.value();
         builder.addSlot(RecipeIngredientRole.INPUT, INPUT_X, FIRST_INPUT_Y)
                 .add(recipe.ingredients().getFirst());
-        if (recipe.ingredients().size() > 1) {
-            builder.addSlot(RecipeIngredientRole.INPUT, INPUT_X, SECOND_INPUT_Y)
-                    .add(recipe.ingredients().get(1));
-        }
 
         ItemStack bucket = new ItemStack(recipe.inputFluid().fluid().getBucket());
         if (!bucket.is(Items.AIR)) {

@@ -1,8 +1,7 @@
 {
   "type": "abyssalcraft_reawakening:crystal_growth",
   "ingredients": [
-    "abyssalcraft_reawakening:iron_crystal_fragment",
-    "minecraft:iron_ingot"
+    "abyssalcraft_reawakening:iron_crystal_fragment"
   ],
   "input_fluid": {
     "fluid": "minecraft:water",

@@ -53,11 +53,9 @@ public class CrystalGrowthBlockEntityRenderer implements
 
     public static class GrowthState extends BlockEntityRenderState {
         public Level level;
-        public float progress;
         public float rotation;
         public boolean hasSeed;
-        public boolean fullyGrown;
-        public boolean crystal;
+        public boolean blockProduct;
         public int crystalTint;
         public float fluidAmount;
         public int fluidColor = 0xFFFFFFFF;
@@ -66,7 +64,6 @@ public class CrystalGrowthBlockEntityRenderer implements
         @Nullable
         public BlockStateModel crystalModel;
         public final ItemStackRenderState seed = new ItemStackRenderState();
-        public final ItemStackRenderState catalyst = new ItemStackRenderState();
     }
 
     @Override
@@ -81,12 +78,9 @@ public class CrystalGrowthBlockEntityRenderer implements
         BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
         Level level = blockEntity.getLevel();
         state.level = level;
-        state.progress = blockEntity.getGrowthProgress();
-        state.rotation = level == null ? 0 : (level.getGameTime() + partialTicks) * 1.5F;
-        state.fullyGrown = blockEntity.progress == 0
-                && !blockEntity.inventory.getStackInSlot(CrystalGrowthBlockEntity.SLOT_OUTPUT).isEmpty();
+        state.rotation = level == null ? 0 : (level.getGameTime() + partialTicks) * 0.5F;
         state.hasSeed = false;
-        state.crystal = false;
+        state.blockProduct = false;
         state.crystalModel = null;
         state.fluidSprite = null;
         state.fluidAmount = level == null ? 0.0F
@@ -110,10 +104,6 @@ public class CrystalGrowthBlockEntityRenderer implements
         }
 
         ItemStack stack = blockEntity.getGrowingResult();
-        ItemStack catalyst = blockEntity.inventory.getStackInSlot(CrystalGrowthBlockEntity.SLOT_CATALYST);
-        itemModelResolver.updateForTopItem(
-                state.catalyst, catalyst, ItemDisplayContext.GROUND, level, null, 1
-        );
         if (stack.isEmpty()) {
             return;
         }
@@ -121,12 +111,13 @@ public class CrystalGrowthBlockEntityRenderer implements
         Identifier itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
         var crystalBlockHandle = ModBlocks.CRYSTAL_BLOCKS.get(itemId);
         CrystalProductBlock crystalBlock = crystalBlockHandle == null ? null : crystalBlockHandle.get();
-        state.crystal = crystalBlock != null && crystalBlock.getProduct().equals("crystal");
-        if (state.crystal) {
+        if (crystalBlock != null) {
             state.crystalTint = crystalBlock.getTint();
             state.crystalModel = Minecraft.getInstance().getModelManager()
                     .getBlockStateModelSet().get(crystalBlock.defaultBlockState());
-        } else {
+            state.blockProduct = state.crystalModel != null;
+        }
+        if (!state.blockProduct) {
             itemModelResolver.updateForTopItem(
                     state.seed, stack, ItemDisplayContext.FIXED, level, null, 0
             );
@@ -140,29 +131,23 @@ public class CrystalGrowthBlockEntityRenderer implements
             return;
         }
         submitFluid(state, poseStack, collector);
-        if (!state.catalyst.isEmpty()) {
-            poseStack.pushPose();
-            poseStack.translate(0.28F, 0.34F, 0.5F);
-            poseStack.mulPose(Axis.YP.rotationDegrees(-state.rotation));
-            poseStack.scale(0.2F, 0.2F, 0.2F);
-            state.catalyst.submit(poseStack, collector, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
-            poseStack.popPose();
-        }
         if (!state.hasSeed) {
             return;
         }
 
-        poseStack.pushPose();
-        float growth = state.fullyGrown ? 1.0F : state.progress;
-        float scale = 0.16F + growth * 0.38F;
-        poseStack.translate(0.5F, 0.45F + growth * 0.18F, 0.5F);
-        poseStack.mulPose(Axis.YP.rotationDegrees(state.rotation));
-        poseStack.scale(scale, scale, scale);
-        if (state.crystal && state.crystalModel != null) {
+        if (state.blockProduct) {
+            poseStack.pushPose();
+            poseStack.translate(0.0F, 2.0F / 16.0F, 0.0F);
             submitCrystalModel(state, poseStack, collector);
-        } else {
-            state.seed.submit(poseStack, collector, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+            poseStack.popPose();
+            return;
         }
+
+        poseStack.pushPose();
+        poseStack.translate(0.5F, 0.5F, 0.5F);
+        poseStack.mulPose(Axis.YP.rotationDegrees(state.rotation));
+        poseStack.scale(0.25F, 0.25F, 0.25F);
+        state.seed.submit(poseStack, collector, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
         poseStack.popPose();
     }
 
