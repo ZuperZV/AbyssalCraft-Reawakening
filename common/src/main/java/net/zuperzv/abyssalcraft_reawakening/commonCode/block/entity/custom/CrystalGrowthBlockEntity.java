@@ -13,6 +13,7 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -57,6 +58,8 @@ public class CrystalGrowthBlockEntity extends BlockEntity implements WorldlyCont
     };
 
     private EssenceBoilerFluid fluidTank = EssenceBoilerFluid.EMPTY;
+    private EssenceBoilerFluid craftingOutputFluid = EssenceBoilerFluid.EMPTY;
+    private ItemStack craftingOutputItem = ItemStack.EMPTY;
     private int craftingIngredientMask;
 
     public CrystalGrowthBlockEntity(BlockPos pos, BlockState state) {
@@ -72,24 +75,21 @@ public class CrystalGrowthBlockEntity extends BlockEntity implements WorldlyCont
             growth.pickUpDroppedItems(level, pos);
         }
 
-        Optional<RecipeHolder<CrystalGrowthRecipe>> recipe = growth.getCurrentRecipe();
-        if (recipe.isEmpty()) {
-            growth.progress = Math.max(0, growth.progress - REWIND_SPEED);
-            growth.craftingIngredientMask = 0;
-        } else {
-            CrystalGrowthRecipe value = recipe.get().value();
-            int[] matchedSlots = value.getMatchedIngredientSlots(growth.getRecipeInput());
-            growth.craftingIngredientMask = 0;
-            for (int slot : matchedSlots) {
-                growth.craftingIngredientMask |= 1 << slot;
-            }
-            growth.maxProgress = value.time();
-
-            ItemStack output = value.result().create();
-            if (!growth.canOutput(output)) {
+        if (growth.hasRecipe()) {
+            ItemStack output = growth.craftingOutputItem;
+            if (!output.isEmpty() && !growth.canOutput(output)) {
                 growth.progress = growth.maxProgress;
             } else if (++growth.progress >= growth.maxProgress) {
-                growth.craft(value, matchedSlots, output);
+                if (!growth.craftRecipe()) {
+                    growth.progress = growth.maxProgress;
+                }
+            }
+        } else {
+            growth.progress = Math.max(0, growth.progress - REWIND_SPEED);
+            if (growth.progress == 0) {
+                growth.setCraftingOutputFluid(EssenceBoilerFluid.EMPTY);
+                growth.setCraftingOutputItem(ItemStack.EMPTY);
+                growth.setCraftingIngredientMask(0);
             }
         }
 
@@ -114,22 +114,149 @@ public class CrystalGrowthBlockEntity extends BlockEntity implements WorldlyCont
         }
     }
 
-    private void craft(CrystalGrowthRecipe recipe, int[] matchedSlots, ItemStack output) {
-        if (level == null || !canOutput(output) || fluidTank.amount() < recipe.inputFluid().amount()) {
-            progress = maxProgress;
-            return;
+    public boolean hasRecipe() {
+        Optional<RecipeHolder<CrystalGrowthRecipe>> recipe = getCurrentRecipe();
+        if (recipe.isEmpty()) {
+            setCraftingIngredientMask(0);
+            return false;
         }
+
+        CrystalGrowthRecipe value = recipe.get().value();
+        if (!canAcceptFluidOutput(value)) {
+            setCraftingOutputFluid(EssenceBoilerFluid.EMPTY);
+            setCraftingIngredientMask(0);
+            return false;
+        }
+
+        int[] matchedSlots = value.getMatchedIngredientSlots(getRecipeInput());
+        if (matchedSlots == null) {
+            setCraftingIngredientMask(0);
+            return false;
+        }
+
+        int ingredientMask = 0;
+        for (int slot : matchedSlots) {
+            ingredientMask |= 1 << slot;
+        }
+
+        setCraftingIngredientMask(ingredientMask);
+        setCraftingOutputFluid(getFluidOutput(value).orElse(EssenceBoilerFluid.EMPTY));
+        setCraftingOutputItem(value.result().map(ItemStackTemplate::create).orElse(ItemStack.EMPTY));
+        maxProgress = value.time();
+        return true;
+    }
+
+    private boolean canAcceptFluidOutput(CrystalGrowthRecipe recipe) {
+        int consumedAmount = recipe.inputFluid()
+                .map(fluid -> recipe.preserveFluidAmount()
+                        ? fluidTank.amount()
+                        : fluid.amount())
+                .orElse(0);
+        int remainingAmount = fluidTank.amount() - consumedAmount;
+        if (remainingAmount < 0) {
+            return false;
+        }
+
+        if (recipe.outputFluid().isEmpty()) {
+            return true;
+        }
+
+        EssenceBoilerFluid output = getFluidOutput(recipe).orElseThrow();
+        if (remainingAmount > 0 && !fluidTank.isSame(output)) {
+            return false;
+        }
+
+        return remainingAmount + output.amount() <= getFluidTankCapacity();
+    }
+
+    private Optional<EssenceBoilerFluid> getFluidOutput(CrystalGrowthRecipe recipe) {
+        if (recipe.outputFluid().isEmpty()) {
+            return Optional.empty();
+        }
+
+        EssenceBoilerFluid output = recipe.outputFluid().get();
+        if (recipe.preserveFluidAmount() && !fluidTank.isEmpty()) {
+            output = output.withAmount(fluidTank.amount());
+        }
+        return Optional.of(output);
+    }
+
+    public boolean craftRecipe() {
+        Optional<RecipeHolder<CrystalGrowthRecipe>> recipeOpt = getCurrentRecipe();
+        if (recipeOpt.isEmpty()) {
+            return false;
+        }
+
+        CrystalGrowthRecipe recipe = recipeOpt.get().value();
+        if (!canAcceptFluidOutput(recipe)) {
+            return false;
+        }
+
+        int[] matchedSlots = recipe.getMatchedIngredientSlots(getRecipeInput());
+        if (matchedSlots == null) {
+            return false;
+        }
+
+        ItemStack result = recipe.result().map(ItemStackTemplate::create).orElse(ItemStack.EMPTY);
+        if (!result.isEmpty() && !canOutput(result)) {
+            return false;
+        }
+
         for (int slot : matchedSlots) {
             inventory.extractItem(slot, 1, false);
         }
-        drainFluidTank(recipe.inputFluid().amount());
-        inventory.setStackInSlot(SLOT_ITEM, output);
+
+        Optional<EssenceBoilerFluid> fluidOutput = getFluidOutput(recipe);
+        recipe.inputFluid().ifPresent(fluid -> drainFluidTank(
+                recipe.preserveFluidAmount() ? fluidTank.amount() : fluid.amount()
+        ));
+
+        if (fluidOutput.isPresent()) {
+            EssenceBoilerFluid output = fluidOutput.get();
+            if (fillFluidTank(output) != output.amount()) {
+                return false;
+            }
+        }
+
+        if (!result.isEmpty()) {
+            inventory.setStackInSlot(SLOT_ITEM, result);
+        }
+
+        setCraftingOutputFluid(EssenceBoilerFluid.EMPTY);
+        setCraftingOutputItem(ItemStack.EMPTY);
         progress = 0;
-        craftingIngredientMask = 0;
+        setChanged();
+        return true;
+    }
+
+    private void setCraftingIngredientMask(int mask) {
+        if (craftingIngredientMask != mask) {
+            craftingIngredientMask = mask;
+            setChanged();
+        }
+    }
+
+    private void setCraftingOutputFluid(EssenceBoilerFluid fluid) {
+        EssenceBoilerFluid output = fluid == null
+                ? EssenceBoilerFluid.EMPTY
+                : fluid;
+        if (!craftingOutputFluid.equals(output)) {
+            craftingOutputFluid = output;
+            setChanged();
+        }
+    }
+
+    private void setCraftingOutputItem(ItemStack item) {
+        ItemStack output = item == null || item.isEmpty() ? ItemStack.EMPTY : item;
+        if (!ItemStack.isSameItemSameComponents(craftingOutputItem, output)
+                || craftingOutputItem.getCount() != output.getCount()) {
+            craftingOutputItem = output;
+            setChanged();
+        }
     }
 
     private boolean canOutput(ItemStack output) {
-        return output.getCount() <= inventory.getSlotLimit(SLOT_ITEM);
+        return output.isEmpty() || output.getCount() <= inventory.getSlotLimit(SLOT_ITEM);
     }
 
     public ItemStack getGrowingResult() {
@@ -142,6 +269,14 @@ public class CrystalGrowthBlockEntity extends BlockEntity implements WorldlyCont
 
     public float getGrowthProgress() {
         return maxProgress <= 0 ? 0.0F : Math.min(1.0F, (float) progress / maxProgress);
+    }
+
+    public EssenceBoilerFluid getCraftingOutputFluid() {
+        return craftingOutputFluid;
+    }
+
+    public ItemStack getCraftingOutputItem() {
+        return craftingOutputItem;
     }
 
     public boolean isCraftingIngredient(int slot) {
@@ -236,9 +371,17 @@ public class CrystalGrowthBlockEntity extends BlockEntity implements WorldlyCont
         super.saveAdditional(output);
         output.putInt("progress", progress);
         output.putInt("maxProgress", maxProgress);
+        output.putInt("CraftingIngredientMask", craftingIngredientMask);
         inventory.save(output);
         if (!fluidTank.isEmpty()) {
             output.store("fluid", EssenceBoilerFluid.CODEC.codec(), fluidTank);
+        }
+        if (!craftingOutputFluid.isEmpty()) {
+            output.store("craftingOutputFluid", EssenceBoilerFluid.CODEC.codec(),
+                    craftingOutputFluid);
+        }
+        if (!craftingOutputItem.isEmpty()) {
+            output.store("craftingOutputItem", ItemStack.CODEC, craftingOutputItem);
         }
     }
 
@@ -247,10 +390,14 @@ public class CrystalGrowthBlockEntity extends BlockEntity implements WorldlyCont
         super.loadAdditional(input);
         progress = input.getIntOr("progress", 0);
         maxProgress = input.getIntOr("maxProgress", 200);
-        craftingIngredientMask = 0;
+        craftingIngredientMask = input.getIntOr("CraftingIngredientMask", 0);
         inventory.load(input);
         fluidTank = input.read("fluid", EssenceBoilerFluid.CODEC.codec())
                 .orElse(EssenceBoilerFluid.EMPTY);
+        craftingOutputFluid = input.read("craftingOutputFluid", EssenceBoilerFluid.CODEC.codec())
+                .orElse(EssenceBoilerFluid.EMPTY);
+        craftingOutputItem = input.read("craftingOutputItem", ItemStack.CODEC)
+                .orElse(ItemStack.EMPTY);
     }
 
     @Nullable

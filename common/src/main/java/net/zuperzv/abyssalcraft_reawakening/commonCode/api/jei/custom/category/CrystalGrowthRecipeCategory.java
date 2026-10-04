@@ -21,20 +21,23 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.api.jei.ModJEIRecipeTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.EssenceBoilerFluid;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.CrystalGrowthRecipe;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
+
 public final class CrystalGrowthRecipeCategory
         implements IRecipeCategory<RecipeHolder<CrystalGrowthRecipe>> {
-    private static final int WIDTH = 146;
-    private static final int HEIGHT = 64;
-    private static final int INPUT_X = 20;
-    private static final int OUTPUT_X = 118;
-    private static final int FIRST_INPUT_Y = 15;
-    private static final int FLUID_X = 20;
-    private static final int FLUID_Y = 45;
-    private static final int ARROW_X = 65;
-    private static final int ARROW_Y = 23;
+    private static final int WIDTH = 80;
+    private static final int HEIGHT = 38;
+    private static final int INPUT_X = 2;
+    private static final int OUTPUT_X = 60;
+    private static final int ITEM_Y = 0;
+    private static final int FLUID_Y = 20;
+    private static final int SINGLE_SLOT_Y = 10;
+    private static final int ARROW_X = 23;
+    private static final int ARROW_Y = 11;
 
     private final IDrawable icon;
     private final IDrawableAnimated progress;
@@ -79,11 +82,21 @@ public final class CrystalGrowthRecipeCategory
     @Override
     public void draw(RecipeHolder<CrystalGrowthRecipe> holder, IRecipeSlotsView slots,
                      GuiGraphicsExtractor graphics, double mouseX, double mouseY) {
-        drawSlot(graphics, INPUT_X, FIRST_INPUT_Y);
-        if (!holder.value().inputFluid().fluid().getBucket().equals(Items.AIR)) {
-            drawSlot(graphics, FLUID_X, FLUID_Y);
+        CrystalGrowthRecipe recipe = holder.value();
+        boolean hasInputFluid = hasBucket(recipe.inputFluid());
+        boolean hasOutputFluid = hasBucket(recipe.outputFluid());
+        if (recipe.hasItemInput()) {
+            drawSlot(graphics, INPUT_X, hasInputFluid ? ITEM_Y : SINGLE_SLOT_Y);
         }
-        drawSlot(graphics, OUTPUT_X, 21);
+        if (hasInputFluid) {
+            drawSlot(graphics, INPUT_X, recipe.hasItemInput() ? FLUID_Y : SINGLE_SLOT_Y);
+        }
+        if (recipe.hasItemResult()) {
+            drawSlot(graphics, OUTPUT_X, hasOutputFluid ? ITEM_Y : SINGLE_SLOT_Y);
+        }
+        if (hasOutputFluid) {
+            drawSlot(graphics, OUTPUT_X, recipe.hasItemResult() ? FLUID_Y : SINGLE_SLOT_Y);
+        }
         progress.draw(graphics, ARROW_X, ARROW_Y);
     }
 
@@ -105,17 +118,47 @@ public final class CrystalGrowthRecipeCategory
     public void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<CrystalGrowthRecipe> holder,
                           IFocusGroup focuses) {
         CrystalGrowthRecipe recipe = holder.value();
-        builder.addSlot(RecipeIngredientRole.INPUT, INPUT_X, FIRST_INPUT_Y)
-                .add(recipe.ingredients().getFirst());
 
-        ItemStack bucket = new ItemStack(recipe.inputFluid().fluid().getBucket());
-        if (!bucket.is(Items.AIR)) {
-            builder.addSlot(RecipeIngredientRole.INPUT, FLUID_X, FLUID_Y)
-                    .add(bucket)
-                    .addRichTooltipCallback((view, tooltip) -> tooltip.add(
-                            Component.literal("Input fluid: " + recipe.inputFluid().amount() + " mB")));
+        boolean hasInputFluid = hasBucket(recipe.inputFluid());
+        boolean hasOutputFluid = hasBucket(recipe.outputFluid());
+        if (recipe.hasItemInput()) {
+            builder.addSlot(RecipeIngredientRole.INPUT, INPUT_X,
+                            hasInputFluid ? ITEM_Y : SINGLE_SLOT_Y)
+                    .add(recipe.ingredients().getFirst());
         }
-        builder.addSlot(RecipeIngredientRole.OUTPUT, OUTPUT_X, 21)
-                .add(recipe.result().create());
+        if (hasInputFluid) {
+            addFluidSlot(builder, recipe, recipe.inputFluid(), INPUT_X,
+                    recipe.hasItemInput() ? FLUID_Y : SINGLE_SLOT_Y, false);
+        }
+
+        if (recipe.hasItemResult()) {
+            builder.addSlot(RecipeIngredientRole.OUTPUT, OUTPUT_X,
+                            hasOutputFluid ? ITEM_Y : SINGLE_SLOT_Y)
+                    .add(recipe.result().get().create());
+        }
+        if (hasOutputFluid) {
+            addFluidSlot(builder, recipe, recipe.outputFluid(), OUTPUT_X,
+                    recipe.hasItemResult() ? FLUID_Y : SINGLE_SLOT_Y, true);
+        }
+    }
+
+    private static void addFluidSlot(IRecipeLayoutBuilder builder, CrystalGrowthRecipe recipe,
+                                     Optional<EssenceBoilerFluid> fluid, int x, int y, boolean output) {
+        if (!hasBucket(fluid)) {
+            return;
+        }
+
+        EssenceBoilerFluid value = fluid.get();
+        builder.addSlot(output ? RecipeIngredientRole.OUTPUT : RecipeIngredientRole.INPUT, x, y)
+                .add(new ItemStack(value.fluid().getBucket()))
+                .addRichTooltipCallback((view, tooltip) -> tooltip.add(
+                        Component.literal((output ? "Output fluid: " : "Input fluid: ")
+                                + (output && recipe.preserveFluidAmount()
+                                ? "same amount as input"
+                                : value.amount() + " mB"))));
+    }
+
+    private static boolean hasBucket(Optional<EssenceBoilerFluid> fluid) {
+        return fluid.isPresent() && !fluid.get().fluid().getBucket().equals(Items.AIR);
     }
 }

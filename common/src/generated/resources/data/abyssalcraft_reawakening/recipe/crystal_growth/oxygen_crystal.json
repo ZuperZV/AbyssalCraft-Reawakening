@@ -1,0 +1,14 @@
+{
+  "type": "abyssalcraft_reawakening:crystal_growth",
+  "ingredients": [
+    "abyssalcraft_reawakening:oxygen_crystal_fragment"
+  ],
+  "input_fluid": {
+    "amount": 1000,
+    "fluid": "abyssalcraft_reawakening:source_potion"
+  },
+  "result": {
+    "id": "abyssalcraft_reawakening:oxygen_crystal"
+  },
+  "time": 780
+}

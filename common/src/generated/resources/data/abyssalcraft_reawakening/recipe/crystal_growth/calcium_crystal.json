@@ -1,0 +1,14 @@
+{
+  "type": "abyssalcraft_reawakening:crystal_growth",
+  "ingredients": [
+    "abyssalcraft_reawakening:calcium_crystal_fragment"
+  ],
+  "input_fluid": {
+    "amount": 2000,
+    "fluid": "minecraft:water"
+  },
+  "result": {
+    "id": "abyssalcraft_reawakening:calcium_crystal"
+  },
+  "time": 440
+}

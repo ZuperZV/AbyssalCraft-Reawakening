@@ -1,0 +1,14 @@
+{
+  "type": "abyssalcraft_reawakening:crystal_growth",
+  "ingredients": [
+    "abyssalcraft_reawakening:hydrogen_crystal_fragment"
+  ],
+  "input_fluid": {
+    "amount": 3000,
+    "fluid": "minecraft:water"
+  },
+  "result": {
+    "id": "abyssalcraft_reawakening:hydrogen_crystal"
+  },
+  "time": 500
+}

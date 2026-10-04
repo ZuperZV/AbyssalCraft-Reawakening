@@ -1,0 +1,23 @@
+{
+  "type": "abyssalcraft_reawakening:essence_boiler",
+  "ingredients": [
+    "abyssalcraft_reawakening:raw_coralium",
+    "abyssalcraft_reawakening:raw_coralium",
+    "abyssalcraft_reawakening:raw_coralium"
+  ],
+  "input_fluid": {
+    "amount": 1000,
+    "fluid": "minecraft:lava"
+  },
+  "output_fluid": {
+    "amount": 1500,
+    "fluid": "abyssalcraft_reawakening:source_sulfuric_arcanum"
+  },
+  "results": [
+    {
+      "count": 4,
+      "id": "abyssalcraft_reawakening:coralium_ingot"
+    }
+  ],
+  "time": 420
+}

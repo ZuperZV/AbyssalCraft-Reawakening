@@ -19,7 +19,10 @@ import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.model.geom.builders.UVPair;
 import net.minecraft.client.resources.model.sprite.Material;
+import net.minecraft.client.resources.model.geometry.BakedQuad;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
@@ -29,6 +32,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.material.Fluid;
+import org.joml.Vector3f;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.custom.CrystalGrowthBlockEntity;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.CrystalProductBlock;
@@ -57,12 +61,16 @@ public class CrystalGrowthBlockEntityRenderer implements
         public boolean hasSeed;
         public boolean blockProduct;
         public int crystalTint;
+        public float crystalMorphProgress = 1.0F;
+        public float seedScale = 1.0F;
         public float fluidAmount;
         public int fluidColor = 0xFFFFFFFF;
         @Nullable
         public TextureAtlasSprite fluidSprite;
         @Nullable
         public BlockStateModel crystalModel;
+        @Nullable
+        public BlockStateModel crystalFromModel;
         public final ItemStackRenderState seed = new ItemStackRenderState();
     }
 
@@ -82,47 +90,127 @@ public class CrystalGrowthBlockEntityRenderer implements
         state.hasSeed = false;
         state.blockProduct = false;
         state.crystalModel = null;
+        state.crystalFromModel = null;
         state.fluidSprite = null;
-        state.fluidAmount = level == null ? 0.0F
-                : Mth.clamp((float) blockEntity.getFluidTankAmount()
-                / blockEntity.getFluidTankCapacity(), 0.0F, 1.0F);
+        state.crystalMorphProgress = 1.0F;
+        state.seedScale = 1.0F;
+
+        float progress = Mth.clamp(blockEntity.getGrowthProgress(), 0.0F, 1.0F);
+        float eased = progress * progress * (3.0F - 2.0F * progress);
+
+        int capacity = Math.max(1, blockEntity.getFluidTankCapacity());
+        EssenceBoilerFluid tankFluid = blockEntity.getFluidTank();
+        EssenceBoilerFluid outputFluid = blockEntity.getCraftingOutputFluid();
+        float tankAmount = tankFluid.isEmpty()
+                ? 0.0F
+                : Mth.clamp((float) tankFluid.amount() / capacity, 0.0F, 1.0F);
+        float outputAmount = outputFluid.isEmpty()
+                ? 0.0F
+                : Mth.clamp((float) outputFluid.amount() / capacity, 0.0F, 1.0F);
+        state.fluidAmount = level == null ? 0.0F : Mth.lerp(progress, tankAmount, outputAmount);
         if (level == null) {
             return;
         }
 
-        EssenceBoilerFluid fluid = blockEntity.getFluidTank();
-        if (!fluid.isEmpty()) {
-            FluidModel model = Minecraft.getInstance().getModelManager()
-                    .getFluidStateModelSet().get(fluid.fluid().defaultFluidState());
-            Material.Baked still = model.stillMaterial();
-            if (still != null) {
-                state.fluidSprite = still.sprite();
-                state.fluidColor = EssenceBoilerFluidColor.getTint(
-                        model, fluid, level, blockEntity.getBlockPos()
-                );
+        FluidTint tank = resolveFluid(level, tankFluid, blockEntity.getBlockPos());
+        FluidTint output = resolveFluid(level, outputFluid, blockEntity.getBlockPos());
+        if (tank != null) {
+            state.fluidSprite = tank.sprite();
+            state.fluidColor = tank.color();
+        }
+        if (output != null) {
+            if (tank == null) {
+                state.fluidSprite = output.sprite();
+                state.fluidColor = output.color();
+            } else {
+                state.fluidColor = lerpColor(tank.color(), output.color(), progress);
             }
         }
 
         ItemStack stack = blockEntity.getGrowingResult();
-        if (stack.isEmpty()) {
+        ItemStack morphTarget = blockEntity.getCraftingOutputItem();
+        boolean morphing = progress > 0.0F
+                && !morphTarget.isEmpty()
+                && !ItemStack.isSameItemSameComponents(stack, morphTarget);
+        ItemStack display = morphing ? morphTarget : stack;
+        if (display.isEmpty()) {
             return;
         }
         state.hasSeed = true;
-        Identifier itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
-        var crystalBlockHandle = ModBlocks.CRYSTAL_BLOCKS.get(itemId);
-        CrystalProductBlock crystalBlock = crystalBlockHandle == null ? null : crystalBlockHandle.get();
-        if (crystalBlock != null) {
-            state.crystalTint = crystalBlock.getTint();
+
+        CrystalProductBlock renderCrystal = crystalFor(display);
+        if (renderCrystal != null) {
             state.crystalModel = Minecraft.getInstance().getModelManager()
-                    .getBlockStateModelSet().get(crystalBlock.defaultBlockState());
+                    .getBlockStateModelSet().get(renderCrystal.defaultBlockState());
             state.blockProduct = state.crystalModel != null;
         }
-        if (!state.blockProduct) {
-            itemModelResolver.updateForTopItem(
-                    state.seed, stack, ItemDisplayContext.FIXED, level, null, 0
-            );
+
+        if (state.blockProduct) {
+            CrystalProductBlock fromCrystal = crystalFor(stack);
+            CrystalProductBlock toCrystal = crystalFor(morphTarget);
+            if (morphing && fromCrystal != null && toCrystal != null) {
+                state.crystalFromModel = modelFor(fromCrystal);
+                state.crystalTint = lerpColor(fromCrystal.getTint(), toCrystal.getTint(), eased);
+                state.crystalMorphProgress = eased;
+            } else {
+                state.crystalTint = renderCrystal.getTint();
+            }
+            return;
         }
+
+        if (morphing) {
+            state.seedScale = Mth.lerp(eased, 0.4F, 1.0F);
+        }
+        itemModelResolver.updateForTopItem(
+                state.seed, display, ItemDisplayContext.FIXED, level, null, 0
+        );
     }
+
+    @Nullable
+    private static CrystalProductBlock crystalFor(ItemStack stack) {
+        if (stack.isEmpty()) {
+            return null;
+        }
+        Identifier itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
+        var crystalBlockHandle = ModBlocks.CRYSTAL_BLOCKS.get(itemId);
+        return crystalBlockHandle == null ? null : crystalBlockHandle.get();
+    }
+
+    @Nullable
+    private static BlockStateModel modelFor(CrystalProductBlock crystal) {
+        return Minecraft.getInstance().getModelManager()
+                .getBlockStateModelSet().get(crystal.defaultBlockState());
+    }
+
+    @Nullable
+    private static FluidTint resolveFluid(Level level, EssenceBoilerFluid fluid, BlockPos pos) {
+        if (fluid.isEmpty()) {
+            return null;
+        }
+        FluidModel model = Minecraft.getInstance().getModelManager()
+                .getFluidStateModelSet().get(fluid.fluid().defaultFluidState());
+        if (model == null) {
+            return null;
+        }
+        Material.Baked still = model.stillMaterial();
+        if (still == null) {
+            return null;
+        }
+        return new FluidTint(
+                still.sprite(),
+                EssenceBoilerFluidColor.getTint(model, fluid, level, pos)
+        );
+    }
+
+    private static int lerpColor(int from, int to, float t) {
+        int a = Mth.lerpInt(t, (from >>> 24) & 0xFF, (to >>> 24) & 0xFF);
+        int r = Mth.lerpInt(t, (from >> 16) & 0xFF, (to >> 16) & 0xFF);
+        int g = Mth.lerpInt(t, (from >> 8) & 0xFF, (to >> 8) & 0xFF);
+        int b = Mth.lerpInt(t, from & 0xFF, to & 0xFF);
+        return (a << 24) | (r << 16) | (g << 8) | b;
+    }
+
+    private record FluidTint(TextureAtlasSprite sprite, int color) {}
 
     @Override
     public void submit(GrowthState state, PoseStack poseStack,
@@ -138,7 +226,11 @@ public class CrystalGrowthBlockEntityRenderer implements
         if (state.blockProduct) {
             poseStack.pushPose();
             poseStack.translate(0.0F, 2.0F / 16.0F, 0.0F);
-            submitCrystalModel(state, poseStack, collector);
+            if (state.crystalFromModel != null && state.crystalModel != null) {
+                submitMorphedCrystal(state, poseStack, collector);
+            } else if (state.crystalModel != null) {
+                submitCrystalModel(state, state.crystalModel, state.crystalTint, poseStack, collector);
+            }
             poseStack.popPose();
             return;
         }
@@ -146,17 +238,19 @@ public class CrystalGrowthBlockEntityRenderer implements
         poseStack.pushPose();
         poseStack.translate(0.5F, 0.5F, 0.5F);
         poseStack.mulPose(Axis.YP.rotationDegrees(state.rotation));
-        poseStack.scale(0.25F, 0.25F, 0.25F);
+        float scale = 0.25F * state.seedScale;
+        poseStack.scale(scale, scale, scale);
         state.seed.submit(poseStack, collector, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
         poseStack.popPose();
     }
 
-    private void submitCrystalModel(GrowthState state, PoseStack poseStack, SubmitNodeCollector collector) {
+    private void submitCrystalModel(GrowthState state, BlockStateModel model, int tint,
+                                    PoseStack poseStack, SubmitNodeCollector collector) {
         List<BlockStateModelPart> parts = new ArrayList<>();
-        state.crystalModel.collectParts(RandomSource.create(0L), parts);
+        model.collectParts(RandomSource.create(0L), parts);
         collector.submitCustomGeometry(poseStack, RenderTypes.translucentMovingBlock(), (pose, builder) -> {
             QuadInstance quad = new QuadInstance();
-            quad.setColor(0xFF000000 | state.crystalTint);
+            quad.setColor(0xFF000000 | tint);
             quad.setLightCoords(state.lightCoords);
             quad.setOverlayCoords(OverlayTexture.NO_OVERLAY);
             for (BlockStateModelPart part : parts) {
@@ -170,6 +264,79 @@ public class CrystalGrowthBlockEntityRenderer implements
                 }
             }
         });
+    }
+
+    private void submitMorphedCrystal(GrowthState state, PoseStack poseStack,
+                                      SubmitNodeCollector collector) {
+        List<BlockStateModelPart> fromParts = new ArrayList<>();
+        List<BlockStateModelPart> toParts = new ArrayList<>();
+        state.crystalFromModel.collectParts(RandomSource.create(0L), fromParts);
+        state.crystalModel.collectParts(RandomSource.create(0L), toParts);
+        float progress = state.crystalMorphProgress;
+        int color = 0xFF000000 | state.crystalTint;
+
+        collector.submitCustomGeometry(poseStack, RenderTypes.translucentMovingBlock(), (pose, builder) -> {
+            QuadInstance quad = new QuadInstance();
+            quad.setColor(color);
+            quad.setLightCoords(state.lightCoords);
+            quad.setOverlayCoords(OverlayTexture.NO_OVERLAY);
+            int partCount = Math.min(fromParts.size(), toParts.size());
+            for (int partIndex = 0; partIndex < partCount; partIndex++) {
+                BlockStateModelPart fromPart = fromParts.get(partIndex);
+                BlockStateModelPart toPart = toParts.get(partIndex);
+                for (net.minecraft.core.Direction direction : net.minecraft.core.Direction.values()) {
+                    submitMorphedQuads(builder, pose, quad, fromPart.getQuads(direction),
+                            toPart.getQuads(direction), progress);
+                }
+                submitMorphedQuads(builder, pose, quad, fromPart.getQuads(null),
+                        toPart.getQuads(null), progress);
+            }
+        });
+    }
+
+    private static void submitMorphedQuads(VertexConsumer builder, PoseStack.Pose pose,
+                                           QuadInstance quad, List<BakedQuad> fromQuads,
+                                           List<BakedQuad> toQuads, float progress) {
+        int count = Math.max(fromQuads.size(), toQuads.size());
+        for (int i = 0; i < count; i++) {
+            if (i >= fromQuads.size()) {
+                builder.putBakedQuad(pose, toQuads.get(i), quad);
+            } else if (i >= toQuads.size()) {
+                builder.putBakedQuad(pose, fromQuads.get(i), quad);
+            } else {
+                builder.putBakedQuad(pose, interpolateQuad(fromQuads.get(i), toQuads.get(i), progress), quad);
+            }
+        }
+    }
+
+    private static BakedQuad interpolateQuad(BakedQuad from, BakedQuad to, float progress) {
+        return new BakedQuad(
+                interpolatePosition(from.position(0), to.position(0), progress),
+                interpolatePosition(from.position(1), to.position(1), progress),
+                interpolatePosition(from.position(2), to.position(2), progress),
+                interpolatePosition(from.position(3), to.position(3), progress),
+                interpolateUV(from.packedUV0(), to.packedUV0(), progress),
+                interpolateUV(from.packedUV1(), to.packedUV1(), progress),
+                interpolateUV(from.packedUV2(), to.packedUV2(), progress),
+                interpolateUV(from.packedUV3(), to.packedUV3(), progress),
+                to.direction(), to.materialInfo()
+        );
+    }
+
+    private static long interpolateUV(long from, long to, float progress) {
+        return UVPair.pack(
+                Mth.lerp(progress, UVPair.unpackU(from), UVPair.unpackU(to)),
+                Mth.lerp(progress, UVPair.unpackV(from), UVPair.unpackV(to))
+        );
+    }
+
+    private static Vector3f interpolatePosition(org.joml.Vector3fc from, org.joml.Vector3fc to,
+                                                float progress) {
+        return new Vector3f(
+                Mth.lerp(progress, from.x(), to.x()),
+                Mth.lerp(progress, from.y(), to.y()),
+                Mth.lerp(progress, from.z(), to.z())
+        );
     }
 
     private void submitFluid(GrowthState state, PoseStack poseStack, SubmitNodeCollector collector) {

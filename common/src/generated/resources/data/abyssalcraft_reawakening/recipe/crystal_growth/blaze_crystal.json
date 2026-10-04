@@ -1,0 +1,14 @@
+{
+  "type": "abyssalcraft_reawakening:crystal_growth",
+  "ingredients": [
+    "abyssalcraft_reawakening:blaze_crystal_fragment"
+  ],
+  "input_fluid": {
+    "amount": 2000,
+    "fluid": "minecraft:lava"
+  },
+  "result": {
+    "id": "abyssalcraft_reawakening:blaze_crystal"
+  },
+  "time": 500
+}

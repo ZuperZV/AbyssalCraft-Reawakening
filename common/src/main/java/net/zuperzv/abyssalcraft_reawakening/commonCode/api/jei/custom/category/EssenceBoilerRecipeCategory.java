@@ -26,19 +26,19 @@ import org.jetbrains.annotations.NotNull;
 public final class EssenceBoilerRecipeCategory
         implements IRecipeCategory<RecipeHolder<EssenceBoilerRecipe>> {
 
-    private static final int WIDTH = 168;
-    private static final int HEIGHT = 68;
-    private static final int INPUT_CENTER_X = 37;
-    private static final int OUTPUT_CENTER_X = 131;
+    private static final int WIDTH = 105;
+    private static final int HEIGHT = 50;
+    private static final int INPUT_CENTER_X = 29;
+    private static final int OUTPUT_CENTER_X = 89;
     private static final int ITEM_TOP_Y = 4;
-    private static final int ITEM_SIDE_Y = 22;
-    private static final int ITEM_SIDE_OFFSET = 18;
+    private static final int ITEM_SIDE_Y = 22 - (16/2);
+    private static final int ITEM_SIDE_OFFSET = 19;
     private static final int FLUID_INPUT_X = INPUT_CENTER_X - 8;
-    private static final int FLUID_INPUT_Y = 46;
+    private static final int FLUID_INPUT_Y = 40 - (16/2) - 2;
     private static final int FLUID_OUTPUT_X = OUTPUT_CENTER_X - 8;
-    private static final int FLUID_OUTPUT_Y = 46;
-    private static final int ARROW_X = 72;
-    private static final int ARROW_Y = 20;
+    private static final int FLUID_OUTPUT_Y = FLUID_INPUT_Y;
+    private static final int ARROW_X = 42;
+    private static final int ARROW_Y = 1;
 
     private final mezz.jei.api.gui.drawable.IDrawable icon;
     private final IDrawableAnimated progress;

@@ -1,0 +1,18 @@
+{
+  "type": "abyssalcraft_reawakening:crystal_growth",
+  "ingredients": [
+    "abyssalcraft_reawakening:zinc_crystal_fragment"
+  ],
+  "input_fluid": {
+    "amount": 1500,
+    "fluid": "abyssalcraft_reawakening:source_sulfuric_arcanum"
+  },
+  "output_fluid": {
+    "amount": 500,
+    "fluid": "minecraft:water"
+  },
+  "result": {
+    "id": "abyssalcraft_reawakening:zinc_crystal"
+  },
+  "time": 540
+}

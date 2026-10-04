@@ -16,6 +16,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
@@ -28,14 +29,17 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.StoneRitualAltarRe
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.customCraftingTable.CoraliumGemRecipe;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.dimension.ModDimensions;
 import net.zuperzv.abyssalcraft_reawakening.datagen.custom.StoneRitualAltarRecipeBuilder;
+import net.zuperzv.abyssalcraft_reawakening.datagen.custom.CrystalGrowthRecipeBuilder;
 import net.zuperzv.abyssalcraft_reawakening.datagen.custom.EssenceBoilerRecipeBuilder;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModDataItem;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItemTags;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.helper.TimeOfDay;
 import org.jspecify.annotations.NonNull;
 
 import javax.annotation.Nullable;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public class ModRecipeProvider extends RecipeProvider {
@@ -1944,6 +1948,141 @@ public class ModRecipeProvider extends RecipeProvider {
                         Registries.RECIPE,
                         Constants.id("sulfuric_arcanum")
                 ));
+
+        EssenceBoilerRecipeBuilder.create()
+                .ingredient(ModItems.RAW_CORALIUM.get())
+                .ingredient(ModItems.RAW_CORALIUM.get())
+                .ingredient(ModItems.RAW_CORALIUM.get())
+                .inputFluid(Fluids.LAVA, 1000)
+                .outputFluid(ModFluids.SOURCE_SULFURIC_ARCANUM.get(), 1500)
+                .result(ModItems.CORALIUM_INGOT.get(), 4)
+                .duration(420)
+                .unlockedBy("has_coralium", has(ModItems.RAW_CORALIUM.get()))
+                .save(output, ResourceKey.create(
+                        Registries.RECIPE,
+                        Constants.id("coralium_ingot_boiler")
+                ));
+
+
+        //Crystals Growth
+        for (ModDataItem.CrystalType crystal : ModDataItem.CRYSTAL_TYPES) {
+            crystalGrowth(output, crystal.name());
+        }
+
+        /*
+        CrystalGrowthRecipeBuilder.create()
+                .ingredient(crystalProduct("iron", "fragment"))
+                .inputFluid(ModFluids.SOURCE_SULFURIC_ARCANUM.get(), 1000)
+                .outputFluid(Fluids.WATER, 100)
+                .duration(240)
+                .unlockedBy("has_iron_crystal_fragment", has(crystalProduct("iron", "fragment")))
+                .save(output, ResourceKey.create(
+                        Registries.RECIPE,
+                        Constants.id("crystal_growth/test_partial_fluid_output")
+                ));
+
+        CrystalGrowthRecipeBuilder.create()
+                .ingredient(crystalProduct("iron", "fragment"))
+                .inputFluid(ModFluids.SOURCE_SULFURIC_ARCANUM.get(), 1000)
+                .result(crystalProduct("iron", "crystal"))
+                .duration(240)
+                .unlockedBy("has_iron_crystal_fragment", has(crystalProduct("iron", "fragment")))
+                .save(output, ResourceKey.create(
+                        Registries.RECIPE,
+                        Constants.id("crystal_growth/test_no_fluid_output")
+                ));
+
+        CrystalGrowthRecipeBuilder.create()
+                .inputFluid(ModFluids.SOURCE_SULFURIC_ARCANUM.get(), 500)
+                .result(crystalProduct("sulfur", "crystal"))
+                .outputFluid(ModFluids.SOURCE_SULFURIC_ARCANUM.get(), 100)
+                .duration(320)
+                .unlockedBy("has_sulfur_crystal_fragment", has(crystalProduct("sulfur", "fragment")))
+                .save(output, ResourceKey.create(
+                        Registries.RECIPE,
+                        Constants.id("crystal_growth/test_no_item_input")
+                ));
+         */
+    }
+
+    private void crystalGrowth(RecipeOutput output, String crystal) {
+        CrystalGrowthSettings settings = CRYSTAL_GROWTH.get(crystal);
+        if (settings == null) {
+            throw new IllegalStateException("Missing crystal growth settings for " + crystal);
+        }
+
+        ItemLike fragment = crystalProduct(crystal, "fragment");
+        ItemLike grown = crystalProduct(crystal, "crystal");
+
+        CrystalGrowthRecipeBuilder builder = CrystalGrowthRecipeBuilder.create()
+                .ingredient(fragment)
+                .inputFluid(settings.fluid(), settings.amount())
+                .result(grown)
+                .duration(settings.time())
+                .unlockedBy("has_" + crystal + "_crystal_fragment", has(fragment));
+
+        if (settings.outputFluid() != null) {
+            builder.outputFluid(settings.outputFluid(), settings.outputAmount());
+        }
+
+        builder.save(output, ResourceKey.create(
+                Registries.RECIPE,
+                Constants.id("crystal_growth/" + crystal + "_crystal")
+        ));
+    }
+
+    private static final Map<String, CrystalGrowthSettings> CRYSTAL_GROWTH = Map.ofEntries(
+            Map.entry("iron", CrystalGrowthSettings.consuming(Fluids.WATER, 1000, 540)),
+            Map.entry("gold", CrystalGrowthSettings.consuming(ModFluids.SOURCE_SULFURIC_ARCANUM.get(), 4000, 340)),
+            Map.entry("sulfur", CrystalGrowthSettings.consuming(Fluids.LAVA, 250, 2120)),
+            Map.entry("carbon", CrystalGrowthSettings.consuming(ModFluids.SOURCE_SULFURIC_ARCANUM.get(), 1000, 560)),
+            Map.entry("oxygen", CrystalGrowthSettings.consuming(ModFluids.SOURCE_POTION.get(), 1000, 780)),
+            Map.entry("hydrogen", CrystalGrowthSettings.consuming(Fluids.WATER, 3000, 500)),
+            Map.entry("nitrogen", CrystalGrowthSettings.consuming(ModFluids.SOURCE_POTION.get(), 2500, 400)),
+            Map.entry("silicon", CrystalGrowthSettings.producing(ModFluids.SOURCE_SULFURIC_ARCANUM.get(), 2500, Fluids.LAVA, 1000, 300)),
+            Map.entry("potassium", CrystalGrowthSettings.consuming(Fluids.LAVA, 1000, 620)),
+            Map.entry("phosphorus", CrystalGrowthSettings.consuming(ModFluids.SOURCE_SULFURIC_ARCANUM.get(), 1500, 640)),
+            Map.entry("nitrate", CrystalGrowthSettings.consuming(ModFluids.SOURCE_POTION.get(), 1500, 460)),
+            Map.entry("methane", CrystalGrowthSettings.consuming(Fluids.LAVA, 750, 580)),
+            Map.entry("redstone", CrystalGrowthSettings.producing(ModFluids.SOURCE_SULFURIC_ARCANUM.get(), 1000, Fluids.LAVA, 1000, 680)),
+            Map.entry("magnesium", CrystalGrowthSettings.consuming(Fluids.LAVA, 1250, 340)),
+            Map.entry("zinc", CrystalGrowthSettings.producing(ModFluids.SOURCE_SULFURIC_ARCANUM.get(), 1500, Fluids.WATER, 500, 540)),
+            Map.entry("aluminium", CrystalGrowthSettings.consuming(ModFluids.SOURCE_SULFURIC_ARCANUM.get(), 1750, 660)),
+            Map.entry("calcium", CrystalGrowthSettings.consuming(Fluids.WATER, 2000, 440)),
+            Map.entry("silica", CrystalGrowthSettings.consuming(Fluids.LAVA, 500, 680)),
+            Map.entry("alumina", CrystalGrowthSettings.consuming(ModFluids.SOURCE_POTION.get(), 1750, 300)),
+            Map.entry("magnesia", CrystalGrowthSettings.consuming(ModFluids.SOURCE_SULFURIC_ARCANUM.get(), 1250, 720)),
+            Map.entry("blaze", CrystalGrowthSettings.consuming(Fluids.LAVA, 2000, 500)),
+            Map.entry("beryllium", CrystalGrowthSettings.consuming(ModFluids.SOURCE_SULFURIC_ARCANUM.get(), 875, 640)),
+            Map.entry("abyssalnite", CrystalGrowthSettings.consuming(ModFluids.SOURCE_POTION.get(), 4000, 720)),
+            Map.entry("coralium", CrystalGrowthSettings.consuming(Fluids.WATER, 4000, 520)),
+            Map.entry("beryl", CrystalGrowthSettings.consuming(ModFluids.SOURCE_POTION.get(), 3000, 660)),
+            Map.entry("dreadium", CrystalGrowthSettings.producing(ModFluids.SOURCE_SULFURIC_ARCANUM.get(), 2000, Fluids.LAVA, 100, 1420))
+    );
+
+    private record CrystalGrowthSettings(Fluid fluid, int amount, int time,
+                                         @Nullable Fluid outputFluid, int outputAmount) {
+        private static CrystalGrowthSettings consuming(Fluid fluid, int amount, int time) {
+            return new CrystalGrowthSettings(fluid, amount, time, null, 0);
+        }
+
+        private static CrystalGrowthSettings producing(Fluid fluid, int amount, Fluid outputFluid,
+                                                       int outputAmount, int time) {
+            return new CrystalGrowthSettings(fluid, amount, time, outputFluid, outputAmount);
+        }
+    }
+
+    private static ItemLike crystalProduct(String crystal, String product) {
+        for (ModDataItem.CrystalType type : ModDataItem.CRYSTAL_TYPES) {
+            if (type.name().equals(crystal)) {
+                var handle = ModBlocks.CRYSTAL_BLOCKS.get(type.productId(product));
+                if (handle == null) {
+                    throw new IllegalStateException("Unknown crystal product: " + crystal + "/" + product);
+                }
+                return handle.get();
+            }
+        }
+        throw new IllegalStateException("Unknown crystal type: " + crystal);
     }
 
     public static class Runner extends RecipeProvider.Runner {

@@ -4,7 +4,10 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.PotionContents;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.CrystalProductBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.custom.EssenceBoilerBlockEntity;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.custom.CrystalGrowthBlockEntity;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.loader.BlockTooltipDataLoader;
@@ -38,6 +41,35 @@ public final class BlockTooltipProviders {
     }
 
     public static void registerDefaults() {
+
+        register(
+                "growth_inputs",
+                (context, tooltip) -> {
+                    if (context.blockEntity() instanceof CrystalGrowthBlockEntity growth) {
+                        ItemStack stored = growth.getItem(CrystalGrowthBlockEntity.SLOT_ITEM);
+                        if (isCrystalFragment(stored)) {
+                            tooltip.add(
+                                    Component.literal("Fragment: ")
+                                            .append(stored.getHoverName())
+                                            .withStyle(ChatFormatting.GRAY)
+                            );
+
+                            if (true) {
+                                tooltip.add(
+                                        Component.literal("Fragment: ")
+                                                .append(stored.getHoverName())
+                                                .withStyle(ChatFormatting.GRAY)
+                                );
+                            }
+                        } else {
+                            tooltip.add(
+                                    Component.literal("Place a crystal fragment")
+                                            .withStyle(ChatFormatting.LIGHT_PURPLE)
+                            );
+                        }
+                    }
+                }
+        );
 
         register(
                 "fluid_tank",
@@ -112,22 +144,16 @@ public final class BlockTooltipProviders {
                     }
                 }
         );
-
-        register(
-                "growth_inputs",
-                (context, tooltip) -> {
-                    if (context.blockEntity() instanceof CrystalGrowthBlockEntity) {
-                        tooltip.add(Component.literal("Place a crystal fragment and catalyst inside.")
-                                .withStyle(ChatFormatting.GRAY));
-                        tooltip.add(Component.literal("Add the recipe's fluid with a bucket or Boiler Tip.")
-                                .withStyle(ChatFormatting.GRAY));
-                    }
-                }
-        );
     }
 
     private static String formatSeconds(int ticks) {
         return String.format(Locale.ROOT, "%.1f", ticks / 20.0);
+    }
+
+    public static boolean isCrystalFragment(ItemStack stack) {
+        return stack.getItem() instanceof BlockItem blockItem
+                && blockItem.getBlock() instanceof CrystalProductBlock product
+                && "fragment".equals(product.getProduct());
     }
 
     public static void applyProviders(

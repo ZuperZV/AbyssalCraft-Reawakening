@@ -1,0 +1,18 @@
+{
+  "type": "abyssalcraft_reawakening:crystal_growth",
+  "ingredients": [
+    "abyssalcraft_reawakening:dreadium_crystal_fragment"
+  ],
+  "input_fluid": {
+    "amount": 2000,
+    "fluid": "abyssalcraft_reawakening:source_sulfuric_arcanum"
+  },
+  "output_fluid": {
+    "amount": 100,
+    "fluid": "minecraft:lava"
+  },
+  "result": {
+    "id": "abyssalcraft_reawakening:dreadium_crystal"
+  },
+  "time": 1420
+}

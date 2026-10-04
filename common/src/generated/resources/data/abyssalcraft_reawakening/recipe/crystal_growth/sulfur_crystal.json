@@ -4,11 +4,11 @@
     "abyssalcraft_reawakening:sulfur_crystal_fragment"
   ],
   "input_fluid": {
-    "fluid": "abyssalcraft_reawakening:source_sulfuric_arcanum",
-    "amount": 500
+    "amount": 250,
+    "fluid": "minecraft:lava"
   },
   "result": {
     "id": "abyssalcraft_reawakening:sulfur_crystal"
   },
-  "time": 320
+  "time": 2120
 }

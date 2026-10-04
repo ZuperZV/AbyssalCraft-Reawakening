@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "abyssalcraft_reawakening:crystal_growth/zinc_crystal"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_zinc_crystal_fragment": {
+      "conditions": {
+        "items": [
+          {
+            "items": "abyssalcraft_reawakening:zinc_crystal_fragment"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_zinc_crystal_fragment"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "abyssalcraft_reawakening:crystal_growth/zinc_crystal"
+    ]
+  }
+}

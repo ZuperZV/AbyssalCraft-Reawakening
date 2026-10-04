@@ -120,6 +120,9 @@ public class NeoForgeAbyssalCraft {
             event.sendRecipes(
                     ModRecipes.ESSENCE_BOILER.type().get()
             );
+            event.sendRecipes(
+                    ModRecipes.CRYSTAL_GROWTH.type().get()
+            );
         }
 
         @SubscribeEvent

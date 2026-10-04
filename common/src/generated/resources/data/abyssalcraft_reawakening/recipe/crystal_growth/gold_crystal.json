@@ -4,11 +4,11 @@
     "abyssalcraft_reawakening:gold_crystal_fragment"
   ],
   "input_fluid": {
-    "fluid": "minecraft:water",
-    "amount": 1000
+    "amount": 4000,
+    "fluid": "abyssalcraft_reawakening:source_sulfuric_arcanum"
   },
   "result": {
     "id": "abyssalcraft_reawakening:gold_crystal"
   },
-  "time": 240
+  "time": 340
 }

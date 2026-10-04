@@ -65,27 +65,16 @@ public class JEIPlugin implements IModPlugin {
     public void registerCategories(
             IRecipeCategoryRegistration registration
     ) {
-        var guiHelper =
-                registration
-                        .getJeiHelpers()
-                        .getGuiHelper();
+        var guiHelper = registration
+                .getJeiHelpers()
+                .getGuiHelper();
 
-        registration.addRecipeCategories(
-                new RitualAltarRecipeCategory(
-                        guiHelper
-                )
-        );
+        registration.addRecipeCategories(new RitualAltarRecipeCategory(guiHelper));
 
-        registration.addRecipeCategories(
-                new EssenceBoilerRecipeCategory(guiHelper)
-        );
+        registration.addRecipeCategories(new EssenceBoilerRecipeCategory(guiHelper));
         registration.addRecipeCategories(new CrystalGrowthRecipeCategory(guiHelper));
 
-        registration.addRecipeCategories(
-                new MultiblockRecipeCategory(
-                        guiHelper
-                )
-        );
+        registration.addRecipeCategories(new MultiblockRecipeCategory(guiHelper));
     }
 
     @Override
