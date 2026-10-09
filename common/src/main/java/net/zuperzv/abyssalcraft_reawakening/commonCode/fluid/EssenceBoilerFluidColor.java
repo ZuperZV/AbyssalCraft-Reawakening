@@ -36,6 +36,10 @@ public final class EssenceBoilerFluidColor {
         PotionContents potionContents = fluid.potionContents();
         boolean hasPotionTint = potionContents != null && potionContents != PotionContents.EMPTY;
 
+        if (hasPotionTint && EssenceBoilerPotionFluid.isPotionFluid(fluid)) {
+            return 0xFF000000 | potionContents.getColor();
+        }
+
         if (!hasPotionTint) {
             return hasFluidTint ? fluidTint : NO_TINT;
         }

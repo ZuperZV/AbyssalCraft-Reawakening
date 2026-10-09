@@ -27,6 +27,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -716,6 +717,9 @@ public class ModModelProvider extends ModelProvider {
         if (item.getDescriptionId().toLowerCase().contains("spear")) {
             generateSpearWithWood(itemModels, item);
             return;
+        } else if (item == ModFluids.POTION_BUCKET.get()) {
+            generatePotionBucket(itemModels, item);
+            return;
         } else if (isTool(item)) {
             generateWoodTool(itemModels, item);
             return;
@@ -732,6 +736,25 @@ public class ModModelProvider extends ModelProvider {
                 item,
                 ItemModelUtils.plainModel(
                         Identifier.withDefaultNamespace("item/water_bucket")
+                )
+        );
+    }
+
+    private void generatePotionBucket(ItemModelGenerators itemModels, Item item) {
+        generatedItems.add(item);
+        Identifier model = itemModels.generateLayeredItem(
+                item,
+                new Material(Constants.id("item/bucket")),
+                new Material(Constants.id("item/bucket_tint"))
+        );
+        itemModels.itemModelOutput.accept(
+                item,
+                ItemModelUtils.tintedModel(
+                        model,
+                        new ItemTintSource[]{
+                                itemModels.BLANK_LAYER,
+                                new net.minecraft.client.color.item.Potion(PotionContents.BASE_POTION_COLOR)
+                        }
                 )
         );
     }

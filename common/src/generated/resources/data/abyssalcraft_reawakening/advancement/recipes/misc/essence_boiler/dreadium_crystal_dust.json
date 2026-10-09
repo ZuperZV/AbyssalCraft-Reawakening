@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_dreadium_source": {
+      "conditions": {
+        "items": [
+          {
+            "items": "abyssalcraft_reawakening:dreadium_ingot"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "abyssalcraft_reawakening:essence_boiler/dreadium_crystal_dust"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_dreadium_source"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "abyssalcraft_reawakening:essence_boiler/dreadium_crystal_dust"
+    ]
+  }
+}

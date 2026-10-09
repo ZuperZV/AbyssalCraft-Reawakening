@@ -14,6 +14,10 @@ public final class ModItemTags {
     public static final TagKey<Item> DREADIUM_MATERIALS = create("dreadium_materials");
     public static final TagKey<Item> ETHAXIUM_MATERIALS = create("ethaxium_materials");
     public static final TagKey<Item> WITHERWOOD_LOGS = create("witherwood_logs");
+    public static final TagKey<Item> GEMS = TagKey.create(
+            Registries.ITEM,
+            net.minecraft.resources.Identifier.fromNamespaceAndPath("c", "gems")
+    );
 
     public static TagKey<Item> create(String name) {
         return TagKey.create(Registries.ITEM, Constants.id(name));

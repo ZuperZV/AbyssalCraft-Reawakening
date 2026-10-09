@@ -7,8 +7,9 @@
     "amount": 750,
     "fluid": "minecraft:lava"
   },
+  "minimum_input_fluid": 750,
   "result": {
     "id": "abyssalcraft_reawakening:methane_crystal"
   },
-  "time": 580
+  "time": 58000
 }

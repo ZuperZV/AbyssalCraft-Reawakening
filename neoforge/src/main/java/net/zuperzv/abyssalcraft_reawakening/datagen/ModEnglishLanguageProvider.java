@@ -40,8 +40,18 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         add("recipe_mods.abyssalcraft_reawakening.both", "Both");
 
         add("tooltip.abyssalcraft_reawakening.gems", "Gems");
+        add("tooltip.abyssalcraft_reawakening.fragment", "Fragment: %s");
+        add("tooltip.abyssalcraft_reawakening.place_crystal_fragment", "Place a crystal fragment");
+        add("tooltip.abyssalcraft_reawakening.growth_requires_fluid", "Next step: add at least %s mB of %s");
+        add("tooltip.abyssalcraft_reawakening.growth_requires_fluid_any_amount", "Next step: add %s");
+        add("tooltip.abyssalcraft_reawakening.potion", "Potion: %s");
+        add("tooltip.abyssalcraft_reawakening.fluid", "Fluid: %s");
+        add("tooltip.abyssalcraft_reawakening.amount", "Amount: %s / %s mB");
+        add("tooltip.abyssalcraft_reawakening.progress", "Progress: %s s / %s s");
         add("block.abyssalcraft_reawakening.sulfuric_arcanum", "Sulfuric Arcanum");
         add("item.abyssalcraft_reawakening.sulfuric_arcanum_bucket", "Sulfuric Arcanum Bucket");
+        add("item.minecraft.potion.effect.crystallization", "Potion of Crystallization");
+        add("item.minecraft.potion.effect.long_crystallization", "Long Potion of Crystallization");
 
         add("name.abyssalcraft_reawakening.cluster", "Cluster");
 

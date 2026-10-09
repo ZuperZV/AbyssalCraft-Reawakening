@@ -7,8 +7,9 @@
     "amount": 1500,
     "fluid": "abyssalcraft_reawakening:source_sulfuric_arcanum"
   },
+  "minimum_input_fluid": 1500,
   "result": {
     "id": "abyssalcraft_reawakening:phosphorus_crystal"
   },
-  "time": 640
+  "time": 64000
 }

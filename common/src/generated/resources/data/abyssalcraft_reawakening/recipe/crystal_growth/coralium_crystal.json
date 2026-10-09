@@ -7,8 +7,9 @@
     "amount": 4000,
     "fluid": "minecraft:water"
   },
+  "minimum_input_fluid": 4000,
   "result": {
     "id": "abyssalcraft_reawakening:coralium_crystal"
   },
-  "time": 520
+  "time": 52000
 }

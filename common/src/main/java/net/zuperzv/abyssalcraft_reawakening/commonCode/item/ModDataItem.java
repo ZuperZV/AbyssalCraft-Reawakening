@@ -21,7 +21,7 @@ public final class ModDataItem { //TODO make this work
     public static final List<CrystalType> CRYSTAL_TYPES = List.of(
             new CrystalType("iron", 0xD5D5D5),
             new CrystalType("gold", 0xFFD84D),
-            new CrystalType("sulfur", 0xE8E34A),
+            new CrystalType("sulfur", 0xe8d08f),
             new CrystalType("carbon", 0x454545),
             new CrystalType("oxygen", 0x8FD7FF),
             new CrystalType("hydrogen", 0xE8F6FF),

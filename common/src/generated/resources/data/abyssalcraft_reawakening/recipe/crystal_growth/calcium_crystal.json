@@ -7,8 +7,9 @@
     "amount": 2000,
     "fluid": "minecraft:water"
   },
+  "minimum_input_fluid": 2000,
   "result": {
     "id": "abyssalcraft_reawakening:calcium_crystal"
   },
-  "time": 440
+  "time": 44000
 }

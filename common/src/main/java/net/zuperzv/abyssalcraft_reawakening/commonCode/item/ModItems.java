@@ -407,9 +407,7 @@ public class ModItems {
                     ));
 
 
-    // ========================================================================
     // Coralium
-    // ========================================================================
 
     public static final RegistryHandle<Item> CORALIUM_GEM =
             Services.REGISTRY.registerItem("coralium_gem",

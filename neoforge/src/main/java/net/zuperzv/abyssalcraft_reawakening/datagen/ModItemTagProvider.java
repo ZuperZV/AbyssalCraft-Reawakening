@@ -3,6 +3,7 @@ package net.zuperzv.abyssalcraft_reawakening.datagen;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.common.data.ItemTagsProvider;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
@@ -19,6 +20,16 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NonNull Provider provider) {
+        tag(ModItemTags.GEMS)
+                .add(Items.AMETHYST_SHARD)
+                .add(Items.DIAMOND)
+                .add(Items.EMERALD)
+                .add(Items.LAPIS_LAZULI)
+                .add(Items.QUARTZ)
+                .add(ModItems.SHADOW_GEM.get())
+                .add(ModItems.CORALIUM_GEM.get())
+                .add(ModItems.TRANSMUTATION_GEM.get());
+
         tag(ItemTags.CAULDRON_CAN_REMOVE_DYE)
                 .add(ModItems.NECRONOMICON.get());
 

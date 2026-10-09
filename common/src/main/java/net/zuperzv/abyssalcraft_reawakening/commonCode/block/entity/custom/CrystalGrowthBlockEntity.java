@@ -52,12 +52,19 @@ public class CrystalGrowthBlockEntity extends BlockEntity implements WorldlyCont
 
         @Override
         protected void onContentsChanged(int slot) {
+            if (slot == SLOT_ITEM && inventory.getStackInSlot(SLOT_ITEM).isEmpty()) {
+                progress = 0;
+                setCraftingOutputFluid(EssenceBoilerFluid.EMPTY);
+                setCraftingOutputItem(ItemStack.EMPTY);
+                setCraftingIngredientMask(0);
+            }
             setChanged();
             sync();
         }
     };
 
     private EssenceBoilerFluid fluidTank = EssenceBoilerFluid.EMPTY;
+    private EssenceBoilerFluid nextRequiredFluid = EssenceBoilerFluid.EMPTY;
     private EssenceBoilerFluid craftingOutputFluid = EssenceBoilerFluid.EMPTY;
     private ItemStack craftingOutputItem = ItemStack.EMPTY;
     private int craftingIngredientMask;
@@ -115,6 +122,7 @@ public class CrystalGrowthBlockEntity extends BlockEntity implements WorldlyCont
     }
 
     public boolean hasRecipe() {
+        updateNextRequiredFluid();
         Optional<RecipeHolder<CrystalGrowthRecipe>> recipe = getCurrentRecipe();
         if (recipe.isEmpty()) {
             setCraftingIngredientMask(0);
@@ -146,9 +154,39 @@ public class CrystalGrowthBlockEntity extends BlockEntity implements WorldlyCont
         return true;
     }
 
+    private void updateNextRequiredFluid() {
+        EssenceBoilerFluid required = EssenceBoilerFluid.EMPTY;
+        if (level != null && level.getServer() != null
+                && !inventory.getStackInSlot(SLOT_ITEM).isEmpty()) {
+            FluidRecipeInput itemOnlyInput = new FluidRecipeInput(
+                    new SimpleContainer(inventory.getStackInSlot(SLOT_ITEM)),
+                    EssenceBoilerFluid.EMPTY);
+            for (RecipeHolder<?> holder : level.getServer().getRecipeManager().getRecipes()) {
+                if (holder.value() instanceof CrystalGrowthRecipe recipe
+                        && recipe.getMatchedIngredientSlots(itemOnlyInput) != null) {
+                    required = recipe.inputFluid().orElse(EssenceBoilerFluid.EMPTY);
+                    if (!required.isEmpty()) {
+                        required = required.withAmount(recipe.getMinimumInputFluid());
+                    }
+                    break;
+                }
+            }
+        }
+        if (!nextRequiredFluid.equals(required)) {
+            nextRequiredFluid = required;
+            setChanged();
+            sync();
+        }
+    }
+
+    public EssenceBoilerFluid getNextRequiredFluid() {
+        return nextRequiredFluid;
+    }
+
     private boolean canAcceptFluidOutput(CrystalGrowthRecipe recipe) {
         int consumedAmount = recipe.inputFluid()
                 .map(fluid -> recipe.preserveFluidAmount()
+                        || recipe.outputFluid().isPresent()
                         ? fluidTank.amount()
                         : fluid.amount())
                 .orElse(0);
@@ -175,8 +213,14 @@ public class CrystalGrowthBlockEntity extends BlockEntity implements WorldlyCont
         }
 
         EssenceBoilerFluid output = recipe.outputFluid().get();
-        if (recipe.preserveFluidAmount() && !fluidTank.isEmpty()) {
-            output = output.withAmount(fluidTank.amount());
+        if (!fluidTank.isEmpty()) {
+            if (recipe.preserveFluidAmount()) {
+                output = output.withAmount(fluidTank.amount());
+            } else if (recipe.inputFluid().isPresent()) {
+                int requiredAmount = recipe.inputFluid().get().amount();
+                long scaledAmount = (long) output.amount() * fluidTank.amount() / requiredAmount;
+                output = output.withAmount((int) Math.max(1L, Math.min(Integer.MAX_VALUE, scaledAmount)));
+            }
         }
         return Optional.of(output);
     }
@@ -208,7 +252,9 @@ public class CrystalGrowthBlockEntity extends BlockEntity implements WorldlyCont
 
         Optional<EssenceBoilerFluid> fluidOutput = getFluidOutput(recipe);
         recipe.inputFluid().ifPresent(fluid -> drainFluidTank(
-                recipe.preserveFluidAmount() ? fluidTank.amount() : fluid.amount()
+                recipe.preserveFluidAmount() || recipe.outputFluid().isPresent()
+                        ? fluidTank.amount()
+                        : fluid.amount()
         ));
 
         if (fluidOutput.isPresent()) {
@@ -372,6 +418,9 @@ public class CrystalGrowthBlockEntity extends BlockEntity implements WorldlyCont
         output.putInt("progress", progress);
         output.putInt("maxProgress", maxProgress);
         output.putInt("CraftingIngredientMask", craftingIngredientMask);
+        if (!nextRequiredFluid.isEmpty()) {
+            output.store("nextRequiredFluid", EssenceBoilerFluid.CODEC.codec(), nextRequiredFluid);
+        }
         inventory.save(output);
         if (!fluidTank.isEmpty()) {
             output.store("fluid", EssenceBoilerFluid.CODEC.codec(), fluidTank);
@@ -391,6 +440,8 @@ public class CrystalGrowthBlockEntity extends BlockEntity implements WorldlyCont
         progress = input.getIntOr("progress", 0);
         maxProgress = input.getIntOr("maxProgress", 200);
         craftingIngredientMask = input.getIntOr("CraftingIngredientMask", 0);
+        nextRequiredFluid = input.read("nextRequiredFluid", EssenceBoilerFluid.CODEC.codec())
+                .orElse(EssenceBoilerFluid.EMPTY);
         inventory.load(input);
         fluidTank = input.read("fluid", EssenceBoilerFluid.CODEC.codec())
                 .orElse(EssenceBoilerFluid.EMPTY);

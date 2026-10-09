@@ -5,10 +5,14 @@
   ],
   "input_fluid": {
     "amount": 1500,
-    "fluid": "abyssalcraft_reawakening:source_potion"
+    "fluid": "abyssalcraft_reawakening:source_potion",
+    "potion_contents": {
+      "potion": "minecraft:healing"
+    }
   },
+  "minimum_input_fluid": 1500,
   "result": {
     "id": "abyssalcraft_reawakening:nitrate_crystal"
   },
-  "time": 460
+  "time": 46000
 }

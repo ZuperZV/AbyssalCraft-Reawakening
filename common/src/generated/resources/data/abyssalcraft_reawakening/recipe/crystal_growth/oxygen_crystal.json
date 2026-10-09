@@ -5,10 +5,14 @@
   ],
   "input_fluid": {
     "amount": 1000,
-    "fluid": "abyssalcraft_reawakening:source_potion"
+    "fluid": "abyssalcraft_reawakening:source_potion",
+    "potion_contents": {
+      "potion": "minecraft:water_breathing"
+    }
   },
+  "minimum_input_fluid": 1000,
   "result": {
     "id": "abyssalcraft_reawakening:oxygen_crystal"
   },
-  "time": 780
+  "time": 78000
 }

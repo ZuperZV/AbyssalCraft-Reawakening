@@ -33,5 +33,10 @@ public class ModEffects {
                             0x557672
                     )
             );
-}
 
+    public static final RegistryHandle<CrystallizationEffect> CRYSTALLIZATION =
+            Services.REGISTRY.registerMobEffect(
+                    "crystallization",
+                    CrystallizationEffect::new
+            );
+}

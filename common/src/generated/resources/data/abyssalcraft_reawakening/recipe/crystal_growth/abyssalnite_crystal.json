@@ -5,10 +5,14 @@
   ],
   "input_fluid": {
     "amount": 4000,
-    "fluid": "abyssalcraft_reawakening:source_potion"
+    "fluid": "abyssalcraft_reawakening:source_potion",
+    "potion_contents": {
+      "potion": "minecraft:night_vision"
+    }
   },
+  "minimum_input_fluid": 4000,
   "result": {
     "id": "abyssalcraft_reawakening:abyssalnite_crystal"
   },
-  "time": 720
+  "time": 72000
 }

@@ -1,0 +1,26 @@
+{
+  "type": "abyssalcraft_reawakening:crystal_growth",
+  "ingredients": [
+    "abyssalcraft_reawakening:alumina_crystal_dust"
+  ],
+  "input_fluid": {
+    "amount": 250,
+    "fluid": "abyssalcraft_reawakening:source_potion",
+    "potion_contents": {
+      "custom_effects": [
+        {
+          "duration": 3600,
+          "id": "abyssalcraft_reawakening:crystallization",
+          "show_icon": true
+        }
+      ],
+      "custom_name": "crystallization",
+      "potion": "minecraft:awkward"
+    }
+  },
+  "minimum_input_fluid": 250,
+  "result": {
+    "id": "abyssalcraft_reawakening:alumina_crystal_fragment"
+  },
+  "time": 1200
+}

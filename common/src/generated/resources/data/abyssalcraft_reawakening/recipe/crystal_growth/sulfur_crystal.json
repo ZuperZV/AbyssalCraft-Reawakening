@@ -7,8 +7,9 @@
     "amount": 250,
     "fluid": "minecraft:lava"
   },
+  "minimum_input_fluid": 250,
   "result": {
     "id": "abyssalcraft_reawakening:sulfur_crystal"
   },
-  "time": 2120
+  "time": 212000
 }

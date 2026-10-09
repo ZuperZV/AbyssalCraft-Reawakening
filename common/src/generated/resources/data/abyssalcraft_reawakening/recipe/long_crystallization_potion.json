@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:potion",
+    "#c:gems",
+    "minecraft:redstone"
+  ],
+  "result": {
+    "components": {
+      "minecraft:potion_contents": {
+        "custom_effects": [
+          {
+            "duration": 9600,
+            "id": "abyssalcraft_reawakening:crystallization",
+            "show_icon": true
+          }
+        ],
+        "custom_name": "long_crystallization",
+        "potion": "minecraft:awkward"
+      }
+    },
+    "id": "minecraft:potion"
+  }
+}

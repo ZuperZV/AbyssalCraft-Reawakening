@@ -9,6 +9,9 @@ import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeUnlockAdvancementBuilder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.core.Holder;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
@@ -50,6 +53,19 @@ public final class EssenceBoilerRecipeBuilder implements RecipeBuilder {
 
     public EssenceBoilerRecipeBuilder inputFluid(Fluid fluid, int amount) {
         inputFluid = Optional.of(new EssenceBoilerFluid(fluid, amount, null));
+        return this;
+    }
+
+    public EssenceBoilerRecipeBuilder inputPotion(Holder<Potion> potion, int amount) {
+        return inputPotion(new PotionContents(potion), amount);
+    }
+
+    public EssenceBoilerRecipeBuilder inputPotion(PotionContents potion, int amount) {
+        inputFluid = Optional.of(new EssenceBoilerFluid(
+                net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.ModFluids.SOURCE_POTION.get(),
+                amount,
+                potion
+        ));
         return this;
     }
 

@@ -7,8 +7,9 @@
     "amount": 500,
     "fluid": "minecraft:lava"
   },
+  "minimum_input_fluid": 500,
   "result": {
     "id": "abyssalcraft_reawakening:silica_crystal"
   },
-  "time": 680
+  "time": 68000
 }

@@ -7,8 +7,9 @@
     "amount": 1250,
     "fluid": "minecraft:lava"
   },
+  "minimum_input_fluid": 1250,
   "result": {
     "id": "abyssalcraft_reawakening:magnesium_crystal"
   },
-  "time": 340
+  "time": 34000
 }

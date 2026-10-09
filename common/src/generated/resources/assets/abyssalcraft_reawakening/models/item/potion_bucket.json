@@ -1,6 +1,7 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "abyssalcraft_reawakening:item/potion_bucket"
+    "layer0": "abyssalcraft_reawakening:item/bucket",
+    "layer1": "abyssalcraft_reawakening:item/bucket_tint"
   }
 }

@@ -7,8 +7,9 @@
     "amount": 1000,
     "fluid": "abyssalcraft_reawakening:source_sulfuric_arcanum"
   },
+  "minimum_input_fluid": 1000,
   "result": {
     "id": "abyssalcraft_reawakening:carbon_crystal"
   },
-  "time": 560
+  "time": 56000
 }

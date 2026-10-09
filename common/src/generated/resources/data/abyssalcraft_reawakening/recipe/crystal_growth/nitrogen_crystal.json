@@ -5,10 +5,14 @@
   ],
   "input_fluid": {
     "amount": 2500,
-    "fluid": "abyssalcraft_reawakening:source_potion"
+    "fluid": "abyssalcraft_reawakening:source_potion",
+    "potion_contents": {
+      "potion": "minecraft:slow_falling"
+    }
   },
+  "minimum_input_fluid": 2500,
   "result": {
     "id": "abyssalcraft_reawakening:nitrogen_crystal"
   },
-  "time": 400
+  "time": 40000
 }

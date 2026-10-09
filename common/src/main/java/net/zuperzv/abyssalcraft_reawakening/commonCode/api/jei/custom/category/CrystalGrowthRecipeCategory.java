@@ -15,6 +15,7 @@ import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -149,13 +150,23 @@ public final class CrystalGrowthRecipeCategory
         }
 
         EssenceBoilerFluid value = fluid.get();
+        ItemStack bucket = new ItemStack(value.fluid().getBucket());
+        if (value.hasPotionContents()) {
+            bucket.set(DataComponents.POTION_CONTENTS, value.potionContents());
+        }
         builder.addSlot(output ? RecipeIngredientRole.OUTPUT : RecipeIngredientRole.INPUT, x, y)
-                .add(new ItemStack(value.fluid().getBucket()))
-                .addRichTooltipCallback((view, tooltip) -> tooltip.add(
-                        Component.literal((output ? "Output fluid: " : "Input fluid: ")
-                                + (output && recipe.preserveFluidAmount()
-                                ? "same amount as input"
-                                : value.amount() + " mB"))));
+                .add(bucket)
+                .addRichTooltipCallback((view, tooltip) -> {
+                    tooltip.add(Component.literal((output ? "Output fluid: " : "Input fluid: ")
+                            + (output && recipe.preserveFluidAmount()
+                            ? "same amount as input"
+                            : value.amount() + " mB")));
+                    if (value.hasPotionContents()) {
+                        tooltip.add(Component.translatable(
+                                "tooltip.abyssalcraft_reawakening.potion",
+                                value.potionContents().getName("item.minecraft.potion.effect.")));
+                    }
+                });
     }
 
     private static boolean hasBucket(Optional<EssenceBoilerFluid> fluid) {

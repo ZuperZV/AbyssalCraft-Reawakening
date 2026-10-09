@@ -5,10 +5,14 @@
   ],
   "input_fluid": {
     "amount": 3000,
-    "fluid": "abyssalcraft_reawakening:source_potion"
+    "fluid": "abyssalcraft_reawakening:source_potion",
+    "potion_contents": {
+      "potion": "minecraft:luck"
+    }
   },
+  "minimum_input_fluid": 3000,
   "result": {
     "id": "abyssalcraft_reawakening:beryl_crystal"
   },
-  "time": 660
+  "time": 66000
 }

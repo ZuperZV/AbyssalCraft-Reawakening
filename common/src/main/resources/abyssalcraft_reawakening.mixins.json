@@ -6,6 +6,7 @@
   "mixins": [
     "AxeItemAccessor",
     "AxeItemMixin",
+    "CrystallizationDamageMixin",
     "DyedItemColorMixin",
     "GuiAccessor",
     "GuiHeartMixin",
@@ -17,7 +18,10 @@
     "AdvancementsScreenMixin",
     "AdvancementTabMixin",
     "BlockTooltipOverlayMixin",
+    "CustomFluidFogColorMixin",
     "FluidStateModelSetMixin",
+    "FluidParticleTintMixin",
+    "ParticlePositionAccessor",
     "GuiArmorBarMixin",
     "GuiGraphicsExtractorMixin",
     "GuiGraphicsMixin",

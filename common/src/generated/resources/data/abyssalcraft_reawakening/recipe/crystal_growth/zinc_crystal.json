@@ -7,6 +7,7 @@
     "amount": 1500,
     "fluid": "abyssalcraft_reawakening:source_sulfuric_arcanum"
   },
+  "minimum_input_fluid": 1,
   "output_fluid": {
     "amount": 500,
     "fluid": "minecraft:water"
@@ -14,5 +15,5 @@
   "result": {
     "id": "abyssalcraft_reawakening:zinc_crystal"
   },
-  "time": 540
+  "time": 54000
 }

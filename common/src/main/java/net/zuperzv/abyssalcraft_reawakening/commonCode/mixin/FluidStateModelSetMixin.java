@@ -8,7 +8,9 @@ import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.client.resources.model.sprite.MaterialBaker;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.material.Fluid;
-import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.ModFluids;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.client.color.block.BlockTintSource;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.CustomFluidTints;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -32,34 +34,31 @@ public abstract class FluidStateModelSetMixin {
         Map<Fluid, FluidModel> models =
                 new HashMap<>(cir.getReturnValue());
 
-        FluidModel potionModel = waterTexturedModel(
-                materials,
-                () -> "Potion",
-                null
-        );
-        FluidModel sulfuricArcanumModel = waterTexturedModel(
-                materials,
-                () -> "Sulfuric Arcanum",
-                state -> 0xFFDDD8A6
-        );
+        CustomFluidTints.all().forEach((fluid, color) -> {
+            BlockTintSource tint = new BlockTintSource() {
+                @Override
+                public int color(BlockState state) {
+                    return color;
+                }
 
-        models.put(
-                ModFluids.SOURCE_POTION.get(),
-                potionModel
-        );
-
-        models.put(
-                ModFluids.FLOWING_POTION.get(),
-                potionModel
-        );
-        models.put(
-                ModFluids.SOURCE_SULFURIC_ARCANUM.get(),
-                sulfuricArcanumModel
-        );
-        models.put(
-                ModFluids.FLOWING_SULFURIC_ARCANUM.get(),
-                sulfuricArcanumModel
-        );
+                @Override
+                public int colorInWorld(
+                        BlockState state,
+                        net.minecraft.client.renderer.block.BlockAndTintGetter level,
+                        net.minecraft.core.BlockPos pos
+                ) {
+                    return CustomFluidTints.getColor(fluid, level, pos);
+                }
+            };
+            models.put(
+                    fluid,
+                    waterTexturedModel(
+                            materials,
+                            () -> "Custom Fluid " + fluid,
+                            tint
+                    )
+            );
+        });
 
         cir.setReturnValue(
                 Map.copyOf(models)

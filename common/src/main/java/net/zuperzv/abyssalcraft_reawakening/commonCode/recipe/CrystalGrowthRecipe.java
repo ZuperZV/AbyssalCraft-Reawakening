@@ -28,7 +28,8 @@ public record CrystalGrowthRecipe(
         Optional<ItemStackTemplate> result,
         Optional<EssenceBoilerFluid> outputFluid,
         boolean preserveFluidAmount,
-        int time
+        int time,
+        int minimumInputFluid
 ) implements Recipe<FluidRecipeInput> {
 
     private static final int MAX_ITEM_INGREDIENTS = 1;
@@ -50,7 +51,9 @@ public record CrystalGrowthRecipe(
                     Codec.BOOL.optionalFieldOf("preserve_fluid_amount", false)
                             .forGetter(CrystalGrowthRecipe::preserveFluidAmount),
                     Codec.INT.fieldOf("time")
-                            .forGetter(CrystalGrowthRecipe::time)
+                            .forGetter(CrystalGrowthRecipe::time),
+                    Codec.INT.optionalFieldOf("minimum_input_fluid", 0)
+                            .forGetter(CrystalGrowthRecipe::minimumInputFluid)
             ).apply(instance, CrystalGrowthRecipe::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, CrystalGrowthRecipe> STREAM_CODEC =
@@ -79,6 +82,7 @@ public record CrystalGrowthRecipe(
 
                     buffer.writeBoolean(recipe.preserveFluidAmount());
                     buffer.writeVarInt(recipe.time());
+                    buffer.writeVarInt(recipe.minimumInputFluid());
                 }
 
                 @Override
@@ -109,6 +113,7 @@ public record CrystalGrowthRecipe(
                             result,
                             outputFluid,
                             preserveFluidAmount,
+                            buffer.readVarInt(),
                             buffer.readVarInt()
                     );
                 }
@@ -145,6 +150,9 @@ public record CrystalGrowthRecipe(
                     "Preserving fluid amount requires both input_fluid and output_fluid"
             );
         }
+        if (minimumInputFluid < 0 || (minimumInputFluid > 0 && inputFluid.isEmpty())) {
+            throw new IllegalArgumentException("Minimum input fluid requires an input fluid and cannot be negative");
+        }
         if (time <= 0) {
             throw new IllegalArgumentException("Crystal growth time must be greater than zero");
         }
@@ -166,6 +174,16 @@ public record CrystalGrowthRecipe(
         return outputFluid.isPresent();
     }
 
+    public int getMinimumInputFluid() {
+        if (inputFluid.isEmpty()) {
+            return 0;
+        }
+        if (minimumInputFluid > 0) {
+            return minimumInputFluid;
+        }
+        return outputFluid.isPresent() ? 1 : inputFluid.get().amount();
+    }
+
     public Optional<ItemStack> createResult() {
         return result.map(ItemStackTemplate::create);
     }
@@ -176,9 +194,10 @@ public record CrystalGrowthRecipe(
             EssenceBoilerFluid requiredFluid = inputFluid.get();
             EssenceBoilerFluid tankFluid = input.fluid();
             if (tankFluid.isEmpty()
-                    || !tankFluid.isSame(requiredFluid)
-                    || (!preserveFluidAmount
-                    && tankFluid.amount() < requiredFluid.amount())) {
+                    || tankFluid.fluid() != requiredFluid.fluid()
+                    || (requiredFluid.hasPotionContents()
+                    && !requiredFluid.potionContents().equals(tankFluid.potionContents()))
+                    || tankFluid.amount() < getMinimumInputFluid()) {
                 return false;
             }
         }

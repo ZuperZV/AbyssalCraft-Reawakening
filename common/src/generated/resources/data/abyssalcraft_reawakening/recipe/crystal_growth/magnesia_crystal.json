@@ -7,8 +7,9 @@
     "amount": 1250,
     "fluid": "abyssalcraft_reawakening:source_sulfuric_arcanum"
   },
+  "minimum_input_fluid": 1250,
   "result": {
     "id": "abyssalcraft_reawakening:magnesia_crystal"
   },
-  "time": 720
+  "time": 72000
 }

@@ -5,10 +5,14 @@
   ],
   "input_fluid": {
     "amount": 1750,
-    "fluid": "abyssalcraft_reawakening:source_potion"
+    "fluid": "abyssalcraft_reawakening:source_potion",
+    "potion_contents": {
+      "potion": "minecraft:fire_resistance"
+    }
   },
+  "minimum_input_fluid": 1750,
   "result": {
     "id": "abyssalcraft_reawakening:alumina_crystal"
   },
-  "time": 300
+  "time": 30000
 }

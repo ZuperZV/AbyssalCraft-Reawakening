@@ -2,6 +2,7 @@
   "block.abyssalcraft_reawakening.sulfuric_arcanum": "Sulfuric Arcanum",
   "block.minecraft.air": "Air",
   "effect.abyssalcraft_reawakening.coralium_plague": "Coralium Plague",
+  "effect.abyssalcraft_reawakening.crystallization": "Crystallization",
   "effect.abyssalcraft_reawakening.omnivision": "Omnivision",
   "entity.abyssalcraft_reawakening.abyssal_zombie": "Abyssal Zombie",
   "entity.abyssalcraft_reawakening.groundling": "Groundling",
@@ -372,6 +373,8 @@
   "item.abyssalcraft_reawakening.zinc_crystal_dust": "Zinc Crystal Dust",
   "item.abyssalcraft_reawakening.zinc_crystal_fragment": "Zinc Crystal Fragment",
   "item.abyssalcraft_reawakening.zinc_crystal_shard": "Zinc Crystal Shard",
+  "item.minecraft.potion.effect.crystallization": "Potion of Crystallization",
+  "item.minecraft.potion.effect.long_crystallization": "Long Potion of Crystallization",
   "itemGroup.abyssalcraft_reawakeningabyssalcraft_tab": "Abyssalcraft Reawakening",
   "name.abyssalcraft_reawakening.cluster": "Cluster",
   "recipe_mods.abyssalcraft_reawakening.both": "Both",
@@ -383,5 +386,13 @@
   "recipe_mods.abyssalcraft_reawakening.time": "Time",
   "recipe_mods.abyssalcraft_reawakening.works_at": "Works at",
   "recipe_mods.abyssalcraft_reawakening.works_in_dimension": "Works in Dimension",
-  "tooltip.abyssalcraft_reawakening.gems": "Gems"
+  "tooltip.abyssalcraft_reawakening.amount": "Amount: %s / %s mB",
+  "tooltip.abyssalcraft_reawakening.fluid": "Fluid: %s",
+  "tooltip.abyssalcraft_reawakening.fragment": "Fragment: %s",
+  "tooltip.abyssalcraft_reawakening.gems": "Gems",
+  "tooltip.abyssalcraft_reawakening.growth_requires_fluid": "Next step: add at least %s mB of %s",
+  "tooltip.abyssalcraft_reawakening.growth_requires_fluid_any_amount": "Next step: add %s",
+  "tooltip.abyssalcraft_reawakening.place_crystal_fragment": "Place a crystal fragment",
+  "tooltip.abyssalcraft_reawakening.potion": "Potion: %s",
+  "tooltip.abyssalcraft_reawakening.progress": "Progress: %s s / %s s"
 }

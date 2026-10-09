@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_potassium_crystal_dust": {
+      "conditions": {
+        "items": [
+          {
+            "items": "abyssalcraft_reawakening:potassium_crystal_dust"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "abyssalcraft_reawakening:crystal_growth/potassium_crystal_fragment"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_potassium_crystal_dust"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "abyssalcraft_reawakening:crystal_growth/potassium_crystal_fragment"
+    ]
+  }
+}

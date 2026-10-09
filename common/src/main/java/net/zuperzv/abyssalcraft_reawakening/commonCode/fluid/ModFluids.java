@@ -6,6 +6,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.PotionLiquidBlock;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.PotionBucketItem;
 import net.zuperzv.abyssalcraft_reawakening.services.types.FluidDefinition;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
 
@@ -32,16 +34,16 @@ public final class ModFluids {
     public static final RegistryHandle<LiquidBlock> POTION_BLOCK =
             Services.REGISTRY.registerBlock(
                     "potion_block",
-                    properties -> new GlowingLiquidBlock(
+                    properties -> new PotionLiquidBlock(
                             SOURCE_POTION.get(),
-                            properties
+                            properties.replaceable()
                     )
             );
 
     public static final RegistryHandle<Item> POTION_BUCKET =
             Services.REGISTRY.registerItem(
                     "potion_bucket",
-                    properties -> new BucketItem(
+                    properties -> new PotionBucketItem(
                             SOURCE_POTION.get(),
                             properties
                                     .craftRemainder(Items.BUCKET)
@@ -70,7 +72,7 @@ public final class ModFluids {
                     "sulfuric_arcanum",
                     properties -> new GlowingLiquidBlock(
                     SOURCE_SULFURIC_ARCANUM.get(),
-                    properties
+                    properties.replaceable()
                     )
             );
 

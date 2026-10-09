@@ -6,7 +6,8 @@
   "mixins": [],
   "client": [
     "AdvancementsScreenMixin",
-    "AdvancementTabMixin"
+    "AdvancementTabMixin",
+    "CustomFluidScreenOverlayNeoForgeMixin"
   ],
   "server": [],
   "injectors": {

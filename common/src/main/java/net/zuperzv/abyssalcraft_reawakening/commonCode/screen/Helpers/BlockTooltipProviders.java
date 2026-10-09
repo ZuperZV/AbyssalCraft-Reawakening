@@ -3,6 +3,8 @@ package net.zuperzv.abyssalcraft_reawakening.commonCode.screen.Helpers;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.locale.Language;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -49,21 +51,13 @@ public final class BlockTooltipProviders {
                         ItemStack stored = growth.getItem(CrystalGrowthBlockEntity.SLOT_ITEM);
                         if (isCrystalFragment(stored)) {
                             tooltip.add(
-                                    Component.literal("Fragment: ")
-                                            .append(stored.getHoverName())
+                                    Component.translatable("tooltip.abyssalcraft_reawakening.fragment", stored.getHoverName())
                                             .withStyle(ChatFormatting.GRAY)
                             );
-
-                            if (true) {
-                                tooltip.add(
-                                        Component.literal("Fragment: ")
-                                                .append(stored.getHoverName())
-                                                .withStyle(ChatFormatting.GRAY)
-                                );
-                            }
+                            addNextFluidRequirement(growth, tooltip);
                         } else {
                             tooltip.add(
-                                    Component.literal("Place a crystal fragment")
+                                    Component.translatable("tooltip.abyssalcraft_reawakening.place_crystal_fragment")
                                             .withStyle(ChatFormatting.LIGHT_PURPLE)
                             );
                         }
@@ -85,32 +79,20 @@ public final class BlockTooltipProviders {
                         if (fluid.hasPotionContents()) {
                             PotionContents potionContents = fluid.potionContents();
                             tooltip.add(
-                                    Component.literal("Potion: ")
-                                            .append(potionContents.getName("item.minecraft.potion.effect."))
+                                    Component.translatable("tooltip.abyssalcraft_reawakening.potion", potionContents.getName("item.minecraft.potion.effect."))
                                             .withStyle(ChatFormatting.GRAY)
                             );
                         } else {
-                            String fluidName = BuiltInRegistries.FLUID.getKey(fluid.fluid())
-                                    .getPath()
-                                    .replace('_', ' ');
-                            fluidName = Character.toUpperCase(fluidName.charAt(0))
-                                    + fluidName.substring(1);
+                            Component fluidName = getFluidName(fluid.fluid());
                             tooltip.add(
-                                    Component.literal(
-                                            "Fluid: "
-                                                    + fluidName
-                                    ).withStyle(ChatFormatting.GRAY)
+                                    Component.translatable("tooltip.abyssalcraft_reawakening.fluid", fluidName)
+                                            .withStyle(ChatFormatting.GRAY)
                             );
                         }
 
                         tooltip.add(
-                                Component.literal(
-                                        "Amount: "
-                                                + fluid.amount()
-                                                + " / "
-                                                + tank.getFluidTankCapacity()
-                                                + " mB"
-                                ).withStyle(ChatFormatting.GRAY)
+                                Component.translatable("tooltip.abyssalcraft_reawakening.amount", fluid.amount(), tank.getFluidTankCapacity())
+                                        .withStyle(ChatFormatting.GRAY)
                         );
                     }
                 }
@@ -133,17 +115,61 @@ public final class BlockTooltipProviders {
                     }
                     if (progress > 0) {
                         tooltip.add(
-                                Component.literal(
-                                        "Progress: "
-                                                + formatSeconds(progress)
-                                                + " s / "
-                                                + formatSeconds(maxProgress)
-                                                + " s"
-                                ).withStyle(ChatFormatting.GRAY)
+                                Component.translatable("tooltip.abyssalcraft_reawakening.progress", formatSeconds(progress), formatSeconds(maxProgress))
+                                        .withStyle(ChatFormatting.GRAY)
                         );
                     }
                 }
         );
+    }
+
+    private static void addNextFluidRequirement(
+            CrystalGrowthBlockEntity growth,
+            List<Component> tooltip
+    ) {
+        EssenceBoilerFluid required = growth.getNextRequiredFluid();
+        if (required.isEmpty()) {
+            return;
+        }
+        int minimumAmount = required.amount();
+        EssenceBoilerFluid tank = growth.getFluidTank();
+        if (tank.isSame(required) && tank.amount() >= minimumAmount) {
+            return;
+        }
+
+        Component fluidName = required.hasPotionContents()
+                ? Component.translatable(
+                        "tooltip.abyssalcraft_reawakening.potion",
+                        required.potionContents().getName("item.minecraft.potion.effect."))
+                : getFluidName(required.fluid());
+        var requirement = minimumAmount <= 1
+                ? Component.translatable("tooltip.abyssalcraft_reawakening.growth_requires_fluid_any_amount", fluidName)
+                : Component.translatable(
+                        "tooltip.abyssalcraft_reawakening.growth_requires_fluid",
+                        minimumAmount,
+                        fluidName);
+        tooltip.add(requirement.withStyle(ChatFormatting.LIGHT_PURPLE));
+    }
+
+    private static Component getFluidName(net.minecraft.world.level.material.Fluid fluid) {
+        String blockKey = BuiltInRegistries.FLUID.getKey(fluid).toLanguageKey("block");
+        if (Language.getInstance().has(blockKey)) {
+            return Component.translatable(blockKey);
+        }
+
+        String fluidPath = BuiltInRegistries.FLUID.getKey(fluid).getPath();
+        if (fluidPath.startsWith("source_")) {
+            fluidPath = fluidPath.substring("source_".length());
+        }
+        String path = fluidPath.replace('_', ' ');
+        StringBuilder name = new StringBuilder();
+        for (String word : path.split(" ")) {
+            if (!word.isEmpty()) {
+                if (!name.isEmpty()) name.append(' ');
+                name.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1));
+            }
+        }
+        return Component.literal(name.toString());
     }
 
     private static String formatSeconds(int ticks) {

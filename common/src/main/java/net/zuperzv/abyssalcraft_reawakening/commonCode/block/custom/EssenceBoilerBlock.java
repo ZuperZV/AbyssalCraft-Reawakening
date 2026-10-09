@@ -48,6 +48,7 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.custom.Essen
 import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.EssenceBoilerFluid;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.EssenceBoilerFluidColor;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.EssenceBoilerPotionFluid;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.ModFluids;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.particle.ColorBubbleData;
 import net.zuperzv.abyssalcraft_reawakening.services.EssenceBoilerPlatformAccess;
@@ -556,8 +557,10 @@ public class EssenceBoilerBlock extends BaseEntityBlock {
             return false;
         }
 
-        int potionAmount =
-                EssenceBoilerPotionFluid.amountPerPotion();
+        boolean potionBucket = stack.is(ModFluids.POTION_BUCKET.get());
+        int potionAmount = potionBucket
+                ? 1000
+                : EssenceBoilerPotionFluid.amountPerPotion();
 
         int freeSpace =
                 boiler.getFluidTankCapacity()
@@ -586,14 +589,14 @@ public class EssenceBoilerBlock extends BaseEntityBlock {
                 ItemUtils.createFilledResult(
                         stack,
                         player,
-                        new ItemStack(Items.GLASS_BOTTLE)
+                        new ItemStack(potionBucket ? Items.BUCKET : Items.GLASS_BOTTLE)
                 )
         );
 
         level.playSound(
                 null,
                 boiler.getBlockPos(),
-                SoundEvents.BOTTLE_EMPTY,
+                potionBucket ? SoundEvents.BUCKET_EMPTY : SoundEvents.BOTTLE_EMPTY,
                 SoundSource.BLOCKS,
                 1.0F,
                 1.0F
@@ -614,9 +617,9 @@ public class EssenceBoilerBlock extends BaseEntityBlock {
     ) {
         Level level = boiler.getLevel();
 
-        if (level == null
-                || stack.isEmpty()
-                || !stack.is(Items.GLASS_BOTTLE)) {
+        boolean bucket = stack.is(Items.BUCKET);
+        boolean bottle = stack.is(Items.GLASS_BOTTLE);
+        if (level == null || stack.isEmpty() || (!bucket && !bottle)) {
             return false;
         }
 
@@ -631,8 +634,7 @@ public class EssenceBoilerBlock extends BaseEntityBlock {
             return false;
         }
 
-        int potionAmount =
-                EssenceBoilerPotionFluid.amountPerPotion();
+        int potionAmount = bucket ? 1000 : EssenceBoilerPotionFluid.amountPerPotion();
 
         if (fluid.amount() < potionAmount) {
             return true;
@@ -646,8 +648,9 @@ public class EssenceBoilerBlock extends BaseEntityBlock {
             return true;
         }
 
-        ItemStack potion =
-                new ItemStack(Items.POTION);
+        ItemStack potion = new ItemStack(
+                bucket ? ModFluids.POTION_BUCKET.get() : Items.POTION
+        );
 
         potion.set(
                 DataComponents.POTION_CONTENTS,
@@ -673,7 +676,7 @@ public class EssenceBoilerBlock extends BaseEntityBlock {
         level.playSound(
                 null,
                 boiler.getBlockPos(),
-                SoundEvents.BOTTLE_FILL,
+                bucket ? SoundEvents.BUCKET_FILL : SoundEvents.BOTTLE_FILL,
                 SoundSource.BLOCKS,
                 1.0F,
                 1.0F

@@ -2,6 +2,7 @@ package net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity;
 
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.ModFluids;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.custom.*;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
@@ -44,6 +45,13 @@ public class ModBlockEntities {
                     "crystal_growth_chamber_be",
                     CrystalGrowthBlockEntity::new,
                     ModBlocks.CRYSTAL_GROWTH_CHAMBER.block()::get
+            );
+
+    public static final RegistryHandle<BlockEntityType<PotionFluidBlockEntity>> POTION_FLUID_BE =
+            Services.REGISTRY.registerBlockEntityType(
+                    "potion_fluid_be",
+                    PotionFluidBlockEntity::new,
+                    ModFluids.POTION_BLOCK::get
             );
 
     /*

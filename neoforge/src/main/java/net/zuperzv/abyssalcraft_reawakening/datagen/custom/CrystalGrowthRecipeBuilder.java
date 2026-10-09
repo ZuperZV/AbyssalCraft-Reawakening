@@ -1,6 +1,7 @@
 package net.zuperzv.abyssalcraft_reawakening.datagen.custom;
 
 import net.minecraft.advancements.Criterion;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeBuilder;
@@ -9,6 +10,8 @@ import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeUnlockAdvancementBuilder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
@@ -27,6 +30,7 @@ public final class CrystalGrowthRecipeBuilder implements RecipeBuilder {
     private Optional<ItemStackTemplate> result = Optional.empty();
     private Optional<EssenceBoilerFluid> outputFluid = Optional.empty();
     private boolean preserveFluidAmount;
+    private int minimumInputFluid;
     private final RecipeUnlockAdvancementBuilder advancementBuilder =
             new RecipeUnlockAdvancementBuilder();
     private int recipeTime = 200;
@@ -49,6 +53,24 @@ public final class CrystalGrowthRecipeBuilder implements RecipeBuilder {
 
     public CrystalGrowthRecipeBuilder inputFluid(Fluid fluid, int amount) {
         inputFluid = Optional.of(new EssenceBoilerFluid(fluid, amount, null));
+        return this;
+    }
+
+    public CrystalGrowthRecipeBuilder inputPotion(PotionContents potion, int amount) {
+        inputFluid = Optional.of(new EssenceBoilerFluid(
+                net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.ModFluids.SOURCE_POTION.get(),
+                amount,
+                potion
+        ));
+        return this;
+    }
+
+    public CrystalGrowthRecipeBuilder inputPotion(Holder<Potion> potion, int amount) {
+        return inputPotion(new PotionContents(potion), amount);
+    }
+
+    public CrystalGrowthRecipeBuilder minimumInputFluid(int amount) {
+        minimumInputFluid = amount;
         return this;
     }
 
@@ -110,7 +132,8 @@ public final class CrystalGrowthRecipeBuilder implements RecipeBuilder {
                 result,
                 outputFluid,
                 preserveFluidAmount,
-                recipeTime
+                recipeTime,
+                minimumInputFluid
         );
         output.accept(
                 id,

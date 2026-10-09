@@ -7,8 +7,9 @@
     "amount": 2000,
     "fluid": "minecraft:lava"
   },
+  "minimum_input_fluid": 2000,
   "result": {
     "id": "abyssalcraft_reawakening:blaze_crystal"
   },
-  "time": 500
+  "time": 50000
 }

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_magnesium_crystal_dust": {
+      "conditions": {
+        "items": [
+          {
+            "items": "abyssalcraft_reawakening:magnesium_crystal_dust"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "abyssalcraft_reawakening:crystal_growth/magnesium_crystal_fragment"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_magnesium_crystal_dust"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "abyssalcraft_reawakening:crystal_growth/magnesium_crystal_fragment"
+    ]
+  }
+}
