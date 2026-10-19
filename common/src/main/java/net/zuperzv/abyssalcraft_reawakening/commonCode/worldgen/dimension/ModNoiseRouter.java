@@ -165,6 +165,15 @@ public class ModNoiseRouter {
                     )
             );
 
+    public static final ResourceKey<NormalNoise.NoiseParameters> SITARITE_GROUND =
+            ResourceKey.create(
+                    Registries.NOISE,
+                    Identifier.fromNamespaceAndPath(
+                            Constants.MOD_ID,
+                            "sitaritere_ground"
+                    )
+            );
+
     public static NoiseRouter abyssalWasteland(
             HolderGetter<DensityFunction> functions,
             HolderGetter<NormalNoise.NoiseParameters> noises

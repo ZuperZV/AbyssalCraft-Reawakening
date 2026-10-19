@@ -19,6 +19,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
@@ -70,6 +71,8 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
             DeferredRegister.create(Registries.FEATURE, Constants.MOD_ID);
     public static final DeferredRegister<MobEffect> MOB_EFFECTS =
             DeferredRegister.create(BuiltInRegistries.MOB_EFFECT, Constants.MOD_ID);
+    private static final DeferredRegister<Potion> POTIONS =
+            DeferredRegister.create(BuiltInRegistries.POTION, Constants.MOD_ID);
     private static final DeferredRegister<Fluid> FLUIDS =
             DeferredRegister.create(Registries.FLUID, Constants.MOD_ID);
     private static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES =
@@ -89,6 +92,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
         PLACEMENT_MODIFIERS.register(eventBus);
         FEATURES.register(eventBus);
         MOB_EFFECTS.register(eventBus);
+        POTIONS.register(eventBus);
         FLUIDS.register(eventBus);
         PARTICLE_TYPES.register(eventBus);
     }
@@ -409,6 +413,23 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 
             @Override
             public T get() {
+                return holder.get();
+            }
+        };
+    }
+
+    @Override
+    public RegistryHandle<Potion> registerPotion(String name, Supplier<Potion> potion) {
+        Identifier id = Constants.id(name);
+        DeferredHolder<Potion, Potion> holder = POTIONS.register(name, potion);
+        return new RegistryHandle<>() {
+            @Override
+            public Identifier id() {
+                return id;
+            }
+
+            @Override
+            public Potion get() {
                 return holder.get();
             }
         };

@@ -22,6 +22,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
@@ -373,6 +374,23 @@ public class FabricRegistryHelper implements IRegistryHelper {
 
             @Override
             public T get() {
+                return registered;
+            }
+        };
+    }
+
+    @Override
+    public RegistryHandle<Potion> registerPotion(String name, Supplier<Potion> potion) {
+        Identifier id = Constants.id(name);
+        Potion registered = Registry.register(BuiltInRegistries.POTION, id, potion.get());
+        return new RegistryHandle<>() {
+            @Override
+            public Identifier id() {
+                return id;
+            }
+
+            @Override
+            public Potion get() {
                 return registered;
             }
         };

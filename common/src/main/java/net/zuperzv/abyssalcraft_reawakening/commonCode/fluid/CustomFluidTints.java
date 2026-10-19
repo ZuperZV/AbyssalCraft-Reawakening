@@ -18,7 +18,9 @@ public final class CustomFluidTints {
             ModFluids.SOURCE_POTION.get(), PotionFluidColor.WORLD_COLOR,
             ModFluids.FLOWING_POTION.get(), PotionFluidColor.WORLD_COLOR,
             ModFluids.SOURCE_SULFURIC_ARCANUM.get(), 0xFFDDD8A6,
-            ModFluids.FLOWING_SULFURIC_ARCANUM.get(), 0xFFDDD8A6
+            ModFluids.FLOWING_SULFURIC_ARCANUM.get(), 0xFFDDD8A6,
+            ModFluids.SOURCE_CORALIUM.get(), 0xFF80DFFF,
+            ModFluids.FLOWING_CORALIUM.get(), 0xFF80DFFF
     );
 
     private CustomFluidTints() {

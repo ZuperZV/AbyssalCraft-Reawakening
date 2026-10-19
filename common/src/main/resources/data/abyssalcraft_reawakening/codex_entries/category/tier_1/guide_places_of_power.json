@@ -1,0 +1,21 @@
+{
+  "id": "guide_places_of_power",
+  "title": "Places of Power",
+  "type": "item",
+  "icon": "abyssalcraft_reawakening:monolith_stone_pillar",
+  "search_items": [
+    "abyssalcraft_reawakening:monolith_stone",
+    "abyssalcraft_reawakening:monolith_stone_pillar"
+  ],
+  "related": [],
+  "right_side": [
+    {
+      "modules": [
+        {
+          "module_type": "text",
+          "text": "A Place of Power is a saved structure built from Monolith Stone, pillars, and PE statues. Its exact arrangement is checked from the structure template; improvisation is for poetry, not multiblocks. Activate it with a Necronomicon on the marked Monolith Stone. Once valid, it prevents statue disruptions and strengthens the flow.\n\nWhen a statue sends lightning, calls trouble, or makes the ground misbehave, do not merely move the furniture. Build the proper place around it. The recipe pages in this book show how to craft the required blocks."
+        }
+      ]
+    }
+  ]
+}

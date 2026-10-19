@@ -6,6 +6,7 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.ModBlockEnti
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.loader.DataItemJsonLoader;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.effect.ModEffects;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.effect.ModPotions;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.ModEntityAttributes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.ModEntityTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.entity.model.ModModelLayer;
@@ -58,6 +59,7 @@ public class CommonClass {
         ModWorldgen.load();
         ModFeatures.load();
         ModEffects.load();
+        ModPotions.load();
         ModParticleTypes.load();
         ModBlockEntities.load();
         ModRecipes.load(Services.REGISTRY);

@@ -1,0 +1,30 @@
+{
+  "id": "guide_crystal_workshop",
+  "title": "The Essence Boiler",
+  "type": "item",
+  "icon": "abyssalcraft_reawakening:essence_boiler",
+  "search_items": [
+    "abyssalcraft_reawakening:essence_boiler",
+    "abyssalcraft_reawakening:crystal_growth_chamber",
+    "abyssalcraft_reawakening:iron_crystal_dust"
+  ],
+  "related": [],
+  "right_side": [
+    {
+      "modules": [
+        {
+          "module_type": "text",
+          "text": "Crystals turn familiar materials into precise alchemy. The Essence Boiler pairs a source item with Awkward Potion fluid to make matching dust. The recipe below shows one example; change its source item to see another crystal recipe in the recipe list."
+        },
+        {
+          "module_type": "fluid_recipe",
+          "recipe_type": "essence_boiler",
+          "input": "minecraft:raw_iron",
+          "input_fluid_text": "Fluid: 250 mB Awkward Potion",
+          "output": "abyssalcraft_reawakening:iron_crystal_dust",
+          "output_count": 2
+        }
+      ]
+    }
+  ]
+}

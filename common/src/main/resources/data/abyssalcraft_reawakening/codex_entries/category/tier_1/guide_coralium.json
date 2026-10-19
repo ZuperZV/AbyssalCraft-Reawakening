@@ -1,0 +1,32 @@
+{
+  "id": "guide_coralium",
+  "title": "Coralium",
+  "type": "item",
+  "icon": "abyssalcraft_reawakening:coralium_ingot",
+  "search_items": [
+    "abyssalcraft_reawakening:coralium_ore",
+    "abyssalcraft_reawakening:coralium_chunk",
+    "abyssalcraft_reawakening:coralium_pearl",
+    "abyssalcraft_reawakening:coralium_gem",
+    "abyssalcraft_reawakening:coralium_ingot"
+  ],
+  "related": [],
+  "right_side": [
+    {
+      "modules": [
+        {
+          "module_type": "text",
+          "text": "Coralium is a strange resource found beyond the first gateway. Chunks smelt into ingots; the Coralium Gem has a shaped crafting recipe with its own facet component. Pearls are used in further crafting and gateways. The examples here show how to begin processing it."
+        },
+        {
+          "module_type": "furnace_recipe",
+          "recipe_type": "smelting",
+          "input": "abyssalcraft_reawakening:chunk_of_coralium",
+          "output": "abyssalcraft_reawakening:coralium_ingot",
+          "experience": 0.6,
+          "cooking_time": 250
+        }
+      ]
+    }
+  ]
+}

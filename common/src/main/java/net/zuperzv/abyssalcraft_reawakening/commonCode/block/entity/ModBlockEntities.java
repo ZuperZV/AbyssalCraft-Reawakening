@@ -69,6 +69,7 @@ public class ModBlockEntities {
                     ModBlocks.ENERGY_COLLECTOR.block()::get,
                     ModBlocks.ENERGY_RELAY.block()::get,
                     ModBlocks.ENERGY_CONTAINER.block()::get,
+                    ModBlocks.LUNAR_JAR.block()::get,
                     ModBlocks.SACRIFICIAL_ALTAR.block()::get,
                     ModBlocks.ENERGY_DEPOSITIONER.block()::get
             );

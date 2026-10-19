@@ -18,6 +18,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ItemLike;
@@ -142,4 +143,6 @@ public interface IRegistryHelper {
             String name,
             Supplier<T> effect
     );
+
+    RegistryHandle<Potion> registerPotion(String name, Supplier<Potion> potion);
 }

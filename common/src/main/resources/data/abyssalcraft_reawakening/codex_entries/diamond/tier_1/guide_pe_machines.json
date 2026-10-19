@@ -1,0 +1,114 @@
+{
+  "id": "guide_pe_machines",
+  "title": "PE Machines",
+  "type": "item",
+  "icon": "abyssalcraft_reawakening:energy_pedestal",
+  "search_items": [
+    "abyssalcraft_reawakening:energy_pedestal",
+    "abyssalcraft_reawakening:energy_collector",
+    "abyssalcraft_reawakening:energy_relay",
+    "abyssalcraft_reawakening:energy_container",
+    "abyssalcraft_reawakening:sacrificial_altar",
+    "abyssalcraft_reawakening:energy_depositioner",
+    "abyssalcraft_reawakening:stone_tablet"
+  ],
+  "related": [],
+  "right_side": [
+    {
+      "modules": [
+        {
+          "module_type": "text",
+          "text": "Pedestals and collectors accept PE from statues. A pedestal can charge a Stone Tablet or a held Necronomicon; a collector is a simple receiver. Both hold 10,000 PE. A relay passes energy to adjacent machines. Containers store a reserve; altars and depositioners serve their own purposes."
+        }
+      ]
+    },
+    {
+      "modules": [
+        {
+          "module_type": "text",
+          "text": "Craft a pedestal, collector, or relay with these patterns. Place a relay between adjacent machines to pass energy along."
+        },
+        {
+          "module_type": "recipe",
+          "recipe_type": "crafting",
+          "result": "abyssalcraft_reawakening:energy_pedestal",
+          "pattern": [
+            "OMO",
+            "MGM",
+            "OMO"
+          ],
+          "key": {
+            "O": "minecraft:obsidian",
+            "M": "abyssalcraft_reawakening:monolith_stone",
+            "G": "abyssalcraft_reawakening:shadow_gem"
+          }
+        },
+        {
+          "module_type": "recipe",
+          "recipe_type": "crafting",
+          "result": "abyssalcraft_reawakening:energy_collector",
+          "pattern": [
+            "MGM",
+            "G G",
+            "MGM"
+          ],
+          "key": {
+            "M": "abyssalcraft_reawakening:monolith_stone",
+            "G": "abyssalcraft_reawakening:shadow_gem"
+          }
+        },
+        {
+          "module_type": "recipe",
+          "recipe_type": "crafting",
+          "result": "abyssalcraft_reawakening:energy_relay",
+          "pattern": [
+            " G ",
+            "MPM",
+            " G "
+          ],
+          "key": {
+            "G": "abyssalcraft_reawakening:shadow_gem",
+            "M": "abyssalcraft_reawakening:monolith_stone_pillar",
+            "P": "abyssalcraft_reawakening:energy_pedestal"
+          }
+        }
+      ]
+    },
+    {
+      "modules": [
+        {
+          "module_type": "text",
+          "text": "A container holds a reserve. The sacrificial altar turns nearby creature deaths into PE. To take PE out, hold a Stone Tablet and right-click the altar; up to 1,000 PE transfers into the tablet. You can also right-click while holding a Necronomicon to transfer PE directly into the book. The depositioner uses charged Stone Tablets as fuel."
+        },
+        {
+          "module_type": "recipe",
+          "recipe_type": "crafting",
+          "result": "abyssalcraft_reawakening:energy_container",
+          "pattern": [
+            "CCC",
+            "CNC",
+            "CCC"
+          ],
+          "key": {
+            "C": "abyssalcraft_reawakening:energy_collector",
+            "N": "minecraft:chest"
+          }
+        },
+        {
+          "module_type": "recipe",
+          "recipe_type": "crafting",
+          "result": "abyssalcraft_reawakening:stone_tablet",
+          "pattern": [
+            " D ",
+            "DSD",
+            " D "
+          ],
+          "key": {
+            "D": "minecraft:deepslate",
+            "S": "abyssalcraft_reawakening:shadow_gem"
+          }
+        }
+      ]
+    }
+  ]
+}

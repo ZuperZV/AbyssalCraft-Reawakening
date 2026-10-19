@@ -48,6 +48,7 @@ public class PEMachineBlockEntity extends BlockEntity {
     private int rangeUpgrade;
     private int powerUpgrade;
     private int durationUpgrade;
+    private ItemStack displayedCharm = ItemStack.EMPTY;
 
     public PEMachineBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.PE_MACHINE_BE.get(), pos, state);
@@ -79,12 +80,14 @@ public class PEMachineBlockEntity extends BlockEntity {
         PEMachineBlock.Kind kind = getKind();
 
         if (kind == PEMachineBlock.Kind.STATUE && applyCharm(held)) {
+            displayedCharm = held.copyWithCount(1);
             held.shrink(1);
             sync();
             return InteractionResult.SUCCESS;
         }
 
-        if (kind == PEMachineBlock.Kind.PEDESTAL && held.is(ModItems.STONE_TABLET.get()) && pe > 0) {
+        if ((kind == PEMachineBlock.Kind.PEDESTAL || kind == PEMachineBlock.Kind.SACRIFICIAL_ALTAR)
+                && held.is(ModItems.STONE_TABLET.get()) && pe > 0) {
             PotentialEnergyData tabletEnergy = held.get(ModDataComponentTypes.POTENTIAL_ENERGY.get());
             int stored = tabletEnergy == null ? 0 : tabletEnergy.getPotentialEnergy();
             int amount = Math.min(pe, 1000 - stored);
@@ -130,6 +133,7 @@ public class PEMachineBlockEntity extends BlockEntity {
 
     public int getStoredPE() { return pe; }
     public int getCapacityPE() { return capacity(); }
+    public ItemStack getDisplayedCharm() { return displayedCharm; }
 
     private void sync() {
         setChanged();
@@ -154,10 +158,10 @@ public class PEMachineBlockEntity extends BlockEntity {
 
     private int capacity() {
         return switch (getKind()) {
-            case STATUE -> 1000;
+            case STATUE, LUNAR_JAR, SACRIFICIAL_ALTAR -> 10;
             case RELAY -> 500;
             case PEDESTAL, COLLECTOR -> 10_000;
-            case CONTAINER, SACRIFICIAL_ALTAR, DEPOSITIONER -> MAX_PE;
+            case CONTAINER, DEPOSITIONER -> MAX_PE;
         };
     }
 
@@ -253,7 +257,8 @@ public class PEMachineBlockEntity extends BlockEntity {
                 .filter(PEMachineBlockEntity.class::isInstance)
                 .map(PEMachineBlockEntity.class::cast)
                 .filter(target -> target.getKind() == PEMachineBlock.Kind.PEDESTAL
-                        || target.getKind() == PEMachineBlock.Kind.COLLECTOR)
+                        || target.getKind() == PEMachineBlock.Kind.COLLECTOR
+                        || target.getKind() == PEMachineBlock.Kind.LUNAR_JAR)
                 .findFirst()
                 .ifPresent(target -> {
                     int accepted = target.insert(offer);
@@ -407,6 +412,7 @@ public class PEMachineBlockEntity extends BlockEntity {
         output.putInt("range_upgrade", rangeUpgrade);
         output.putInt("power_upgrade", powerUpgrade);
         output.putInt("duration_upgrade", durationUpgrade);
+        output.store("displayed_charm", ItemStack.CODEC, displayedCharm);
     }
 
     @Override
@@ -416,5 +422,6 @@ public class PEMachineBlockEntity extends BlockEntity {
         rangeUpgrade = Math.max(0, Math.min(5, input.getIntOr("range_upgrade", 0)));
         powerUpgrade = Math.max(0, Math.min(5, input.getIntOr("power_upgrade", 0)));
         durationUpgrade = Math.max(0, Math.min(5, input.getIntOr("duration_upgrade", 0)));
+        displayedCharm = input.read("displayed_charm", ItemStack.CODEC).orElse(ItemStack.EMPTY);
     }
 }

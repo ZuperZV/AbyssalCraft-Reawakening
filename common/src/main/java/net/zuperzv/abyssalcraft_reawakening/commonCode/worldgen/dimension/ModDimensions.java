@@ -197,10 +197,10 @@ public class ModDimensions {
                                                 // CORALLIUM LAKE
                                                 Pair.of(
                                                         new Climate.ParameterPoint(
-                                                                Climate.Parameter.span(-0.85f, -0.65f), // temperature
-                                                                Climate.Parameter.span(-0.95f, -0.65f), // humidity
-                                                                Climate.Parameter.span(-1.00f, -0.85f), // continentalness
-                                                                Climate.Parameter.span(-0.20f, 0.20f),  // erosion
+                                                                Climate.Parameter.span(-0.83f, -0.67f), // temperature
+                                                                Climate.Parameter.span(-0.88f, -0.72f), // humidity
+                                                                Climate.Parameter.span(-0.99f, -0.86f), // continentalness
+                                                                Climate.Parameter.span(-0.08f, 0.08f),  // erosion
                                                                 depth,
                                                                 weirdness,
                                                                 Climate.quantizeCoord(0.0f)
@@ -211,10 +211,10 @@ public class ModDimensions {
                                                 // DARKLANDS MOUNTAINS
                                                 Pair.of(
                                                         new Climate.ParameterPoint(
-                                                                Climate.Parameter.span(0.25f, 0.50f),
-                                                                Climate.Parameter.span(0.60f, 0.90f),
-                                                                Climate.Parameter.span(0.55f, 0.80f),
-                                                                Climate.Parameter.span(-0.20f, 0.10f),
+                                                                Climate.Parameter.span(0.30f, 0.45f),
+                                                                Climate.Parameter.span(0.67f, 0.83f),
+                                                                Climate.Parameter.span(0.60f, 0.75f),
+                                                                Climate.Parameter.span(-0.13f, 0.03f),
                                                                 depth,
                                                                 weirdness,
                                                                 Climate.quantizeCoord(0.0f)
@@ -225,10 +225,10 @@ public class ModDimensions {
                                                 // ABYSSAL PLATEAU
                                                 Pair.of(
                                                         new Climate.ParameterPoint(
-                                                                Climate.Parameter.span(0.35f, 0.60f),
-                                                                Climate.Parameter.span(0.55f, 0.80f),
-                                                                Climate.Parameter.span(0.75f, 1.00f),
-                                                                Climate.Parameter.span(-0.70f, -0.40f),
+                                                                Climate.Parameter.span(0.40f, 0.55f),
+                                                                Climate.Parameter.span(0.60f, 0.75f),
+                                                                Climate.Parameter.span(0.80f, 0.95f),
+                                                                Climate.Parameter.span(-0.63f, -0.47f),
                                                                 depth,
                                                                 weirdness,
                                                                 Climate.quantizeCoord(0.0f)
@@ -239,10 +239,10 @@ public class ModDimensions {
                                                 // ABYSSAL WASTELANDS
                                                 Pair.of(
                                                         new Climate.ParameterPoint(
-                                                                Climate.Parameter.span(0.10f, 0.35f),
-                                                                Climate.Parameter.span(0.35f, 0.55f),
-                                                                Climate.Parameter.span(0.25f, 0.60f),
-                                                                Climate.Parameter.span(-0.25f, 0.05f),
+                                                                Climate.Parameter.span(0.15f, 0.30f),
+                                                                Climate.Parameter.span(0.37f, 0.53f),
+                                                                Climate.Parameter.span(0.34f, 0.51f),
+                                                                Climate.Parameter.span(-0.18f, -0.02f),
                                                                 depth,
                                                                 weirdness,
                                                                 Climate.quantizeCoord(0.0f)
@@ -253,10 +253,10 @@ public class ModDimensions {
                                                 // DARKLANDS FOREST
                                                 Pair.of(
                                                         new Climate.ParameterPoint(
-                                                                Climate.Parameter.span(-0.05f, 0.25f),
-                                                                Climate.Parameter.span(0.40f, 0.65f),
-                                                                Climate.Parameter.span(0.45f, 0.75f),
-                                                                Climate.Parameter.span(0.20f, 0.60f),
+                                                                Climate.Parameter.span(0.02f, 0.18f),
+                                                                Climate.Parameter.span(0.45f, 0.60f),
+                                                                Climate.Parameter.span(0.52f, 0.68f),
+                                                                Climate.Parameter.span(0.32f, 0.48f),
                                                                 depth,
                                                                 weirdness,
                                                                 Climate.quantizeCoord(0.0f)
@@ -267,10 +267,10 @@ public class ModDimensions {
                                                 // ABYSSAL SWAMP
                                                 Pair.of(
                                                         new Climate.ParameterPoint(
-                                                                Climate.Parameter.span(-0.65f, -0.35f),
-                                                                Climate.Parameter.span(-0.35f, 0.00f),
-                                                                Climate.Parameter.span(0.55f, 0.85f),
-                                                                Climate.Parameter.span(0.20f, 0.65f),
+                                                                Climate.Parameter.span(-0.58f, -0.42f),
+                                                                Climate.Parameter.span(-0.26f, -0.09f),
+                                                                Climate.Parameter.span(0.62f, 0.78f),
+                                                                Climate.Parameter.span(0.34f, 0.51f),
                                                                 depth,
                                                                 weirdness,
                                                                 Climate.quantizeCoord(0.0f)
@@ -281,10 +281,10 @@ public class ModDimensions {
                                                 // ABYSSAL DESERT
                                                 Pair.of(
                                                         new Climate.ParameterPoint(
-                                                                Climate.Parameter.span(-0.05f, 0.30f),
-                                                                Climate.Parameter.span(0.00f, 0.30f),
-                                                                Climate.Parameter.span(0.65f, 1.00f),
-                                                                Climate.Parameter.span(-1.00f, -0.55f),
+                                                                Climate.Parameter.span(0.05f, 0.20f),
+                                                                Climate.Parameter.span(0.07f, 0.23f),
+                                                                Climate.Parameter.span(0.75f, 0.90f),
+                                                                Climate.Parameter.span(-0.90f, -0.65f),
                                                                 depth,
                                                                 weirdness,
                                                                 Climate.quantizeCoord(0.0f)

@@ -1,0 +1,21 @@
+{
+  "id": "guide_future_realms",
+  "title": "Sealed Leaves",
+  "type": "item",
+  "icon": "minecraft:ender_eye",
+  "search_items": [
+    "abyssalcraft_reawakening:dreadlands_infused_gateway_key",
+    "abyssalcraft_reawakening:omothol_forged_gateway_key"
+  ],
+  "related": [],
+  "right_side": [
+    {
+      "modules": [
+        {
+          "module_type": "text",
+          "text": "Several leaves of the Necronomicon remain sealed. Their recipes and instructions will be added when those parts of the craft are ready. A book may be mysterious; a guide should still be honest."
+        }
+      ]
+    }
+  ]
+}

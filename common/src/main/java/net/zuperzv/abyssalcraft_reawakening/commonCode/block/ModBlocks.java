@@ -94,6 +94,11 @@ public final class ModBlocks {
     public static final BlockWithItemRegistryHandle<Block> ENERGY_COLLECTOR = peMachine("energy_collector", PEMachineBlock.Kind.COLLECTOR);
     public static final BlockWithItemRegistryHandle<Block> ENERGY_RELAY = peMachine("energy_relay", PEMachineBlock.Kind.RELAY);
     public static final BlockWithItemRegistryHandle<Block> ENERGY_CONTAINER = peMachine("energy_container", PEMachineBlock.Kind.CONTAINER);
+    public static final BlockWithItemRegistryHandle<Block> LUNAR_JAR = peMachine("lunar_jar", PEMachineBlock.Kind.LUNAR_JAR);
+    public static final BlockWithItemRegistryHandle<Block> LUNAR_INFUSER = Services.REGISTRY.registerBlockWithItem("lunar_infuser",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_BLACK).strength(4.0F, 6.0F).noOcclusion()));
+    public static final BlockWithItemRegistryHandle<Block> LUNAR_LIGHT_BEAM_EMITTER = Services.REGISTRY.registerBlockWithItem("lunar_light_beam_emitter",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_BLACK).strength(4.0F, 6.0F).noOcclusion()));
     public static final BlockWithItemRegistryHandle<Block> SACRIFICIAL_ALTAR = peMachine("sacrificial_altar", PEMachineBlock.Kind.SACRIFICIAL_ALTAR);
     public static final BlockWithItemRegistryHandle<Block> ENERGY_DEPOSITIONER = peMachine("energy_depositioner", PEMachineBlock.Kind.DEPOSITIONER);
 
@@ -114,6 +119,9 @@ public final class ModBlocks {
             properties -> new Block(properties.mapColor(MapColor.COLOR_RED).requiresCorrectToolForDrops().strength(7.0F, 14.0F).sound(SoundType.CALCITE)));
 
     public static final BlockWithItemRegistryHandle<Block> AZURE_WASTE_STONE = Services.REGISTRY.registerBlockWithItem("azure_waste_stone",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_LIGHT_BLUE).requiresCorrectToolForDrops().strength(6.0F, 13.0F).sound(SoundType.CALCITE)));
+
+    public static final BlockWithItemRegistryHandle<Block> SITARITE = Services.REGISTRY.registerBlockWithItem("sitarite",
             properties -> new Block(properties.mapColor(MapColor.COLOR_LIGHT_BLUE).requiresCorrectToolForDrops().strength(6.0F, 13.0F).sound(SoundType.CALCITE)));
 
     public static final BlockWithItemRegistryHandle<Block> ABYSSAL_COBBLESTONE = Services.REGISTRY.registerBlockWithItem("abyssal_cobblestone",

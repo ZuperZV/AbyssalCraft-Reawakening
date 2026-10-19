@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class PEMachineBlock extends BaseEntityBlock {
     public enum Kind {
-        STATUE, PEDESTAL, COLLECTOR, RELAY, CONTAINER, SACRIFICIAL_ALTAR, DEPOSITIONER
+        STATUE, PEDESTAL, COLLECTOR, RELAY, CONTAINER, LUNAR_JAR, SACRIFICIAL_ALTAR, DEPOSITIONER
     }
 
     public static final MapCodec<PEMachineBlock> CODEC = simpleCodec(properties -> new PEMachineBlock(properties, Kind.PEDESTAL));

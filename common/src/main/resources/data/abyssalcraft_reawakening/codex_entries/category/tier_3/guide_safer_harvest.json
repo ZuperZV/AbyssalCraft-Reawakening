@@ -1,0 +1,21 @@
+{
+  "id": "guide_safer_harvest",
+  "title": "A Safer Harvest",
+  "type": "item",
+  "icon": "abyssalcraft_reawakening:cthulhu_statue",
+  "search_items": [
+    "abyssalcraft_reawakening:cthulhu_statue",
+    "abyssalcraft_reawakening:monolith_stone"
+  ],
+  "related": [],
+  "right_side": [
+    {
+      "modules": [
+        {
+          "module_type": "text",
+          "text": "A statue's disruptions are warnings with poor manners: hostile visitors, fire, lightning, sudden travel, or changed ground may follow an unprotected harvest. A [[Place of Power|guide_places_of_power]] is the proper remedy. Its structure protects the work and improves the flow.\n\nThe old transcript speaks in solemn names and half-buried warnings. Keep the useful lesson: power has a cost when handled carelessly. Build the pattern, check the statue's range, and let the machine do the dangerous work at a measured pace."
+        }
+      ]
+    }
+  ]
+}

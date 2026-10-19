@@ -1,4 +1,7 @@
 {
+  "block.abyssalcraft_reawakening.lunar_infuser": "Lunar Infuser",
+  "block.abyssalcraft_reawakening.lunar_jar": "Lunar Jar",
+  "block.abyssalcraft_reawakening.lunar_light_beam_emitter": "Lunar Light Beam Emitter",
   "block.abyssalcraft_reawakening.sulfuric_arcanum": "Sulfuric Arcanum",
   "block.minecraft.air": "Air",
   "effect.abyssalcraft_reawakening.coralium_plague": "Coralium Plague",
@@ -8,6 +11,7 @@
   "entity.abyssalcraft_reawakening.groundling": "Groundling",
   "entity.abyssalcraft_reawakening.witherwood_boat": "Witherwood Boat",
   "entity.abyssalcraft_reawakening.witherwood_chest_boat": "Witherwood Chest Boat",
+  "fluid.abyssalcraft_reawakening.coralium": "Liquid Coralium",
   "item.abyssalcraft_reawakening.abyssal": "Abyssal",
   "item.abyssalcraft_reawakening.abyssal_cobblestone": "Abyssal Cobblestone",
   "item.abyssalcraft_reawakening.abyssal_ghoul_flesh": "Abyssal Ghoul Flesh",
@@ -93,6 +97,7 @@
   "item.abyssalcraft_reawakening.coralium_block": "Block of Coralium",
   "item.abyssalcraft_reawakening.coralium_boots": "Coralium Boots",
   "item.abyssalcraft_reawakening.coralium_bricks": "Coralium Bricks",
+  "item.abyssalcraft_reawakening.coralium_bucket": "Liquid Coralium Bucket",
   "item.abyssalcraft_reawakening.coralium_chestplate": "Coralium Chestplate",
   "item.abyssalcraft_reawakening.coralium_cobblestone": "Coralium Cobblestone",
   "item.abyssalcraft_reawakening.coralium_crystal": "Coralium Crystal",
@@ -229,6 +234,9 @@
   "item.abyssalcraft_reawakening.life_crystal": "Life Crystal",
   "item.abyssalcraft_reawakening.lost_page": "Lost Page",
   "item.abyssalcraft_reawakening.luminous_thistle": "Luminous Thistle",
+  "item.abyssalcraft_reawakening.lunar_infuser": "Lunar Infuser",
+  "item.abyssalcraft_reawakening.lunar_jar": "Lunar Jar",
+  "item.abyssalcraft_reawakening.lunar_light_beam_emitter": "Lunar Light Beam Emitter",
   "item.abyssalcraft_reawakening.magnesia_crystal": "Magnesia Crystal",
   "item.abyssalcraft_reawakening.magnesia_crystal_dust": "Magnesia Crystal Dust",
   "item.abyssalcraft_reawakening.magnesia_crystal_fragment": "Magnesia Crystal Fragment",
@@ -338,6 +346,7 @@
   "item.abyssalcraft_reawakening.silicon_crystal_fragment": "Silicon Crystal Fragment",
   "item.abyssalcraft_reawakening.silicon_crystal_shard": "Silicon Crystal Shard",
   "item.abyssalcraft_reawakening.silver_key": "Silver Key",
+  "item.abyssalcraft_reawakening.sitarite": "Sitarite",
   "item.abyssalcraft_reawakening.skin_of_the_abyssal_wasteland": "Skin Of The Abyssal Wasteland",
   "item.abyssalcraft_reawakening.skin_of_the_dreadlands": "Skin Of The Dreadlands",
   "item.abyssalcraft_reawakening.skin_of_the_omothol": "Skin Of The Omothol",
@@ -412,5 +421,6 @@
   "tooltip.abyssalcraft_reawakening.pe": "Potential Energy: %s / %s PE",
   "tooltip.abyssalcraft_reawakening.place_crystal_fragment": "Place a crystal fragment",
   "tooltip.abyssalcraft_reawakening.potion": "Potion: %s",
-  "tooltip.abyssalcraft_reawakening.progress": "Progress: %s s / %s s"
+  "tooltip.abyssalcraft_reawakening.progress": "Progress: %s s / %s s",
+  "tooltip.abyssalcraft_reawakening.sacrificial_altar_extract": "Right-click with a Stone Tablet or Necronomicon to take stored PE"
 }

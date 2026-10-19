@@ -1,0 +1,34 @@
+{
+  "id": "guide_growth",
+  "title": "Crystal Growth",
+  "type": "item",
+  "icon": "abyssalcraft_reawakening:crystal_growth_chamber",
+  "search_items": [
+    "abyssalcraft_reawakening:crystal_growth_chamber"
+  ],
+  "related": [],
+  "right_side": [
+    {
+      "modules": [
+        {
+          "module_type": "text",
+          "text": "The Growth Chamber turns crystal dust into fragments, then grows fragments into full crystals. The examples below show the exact fluid and amount for two stages of iron crystal growth. Other crystals use their own source materials and fluid conditions."
+        },
+        {
+          "module_type": "fluid_recipe",
+          "recipe_type": "crystal_growth",
+          "input": "abyssalcraft_reawakening:iron_crystal_dust",
+          "input_fluid_text": "Fluid: 250 mB Potion of Crystallization",
+          "output": "abyssalcraft_reawakening:iron_crystal_fragment"
+        },
+        {
+          "module_type": "fluid_recipe",
+          "recipe_type": "crystal_growth",
+          "input": "abyssalcraft_reawakening:iron_crystal_fragment",
+          "input_fluid_text": "Fluid: 1,000 mB Water",
+          "output": "abyssalcraft_reawakening:iron_crystal"
+        }
+      ]
+    }
+  ]
+}

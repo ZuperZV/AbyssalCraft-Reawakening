@@ -58,6 +58,14 @@ public final class ModFluidTypes {
                     SULFURIC_ARCANUM_FLUID_TYPE.fogColor()
             );
 
+    public static final BaseFluidType CORALIUM_FLUID_TYPE = new BaseFluidType(
+            128f / 255f, 223f / 255f, 1.0f
+    );
+
+    public static final FluidTypeDefinition CORALIUM = new FluidTypeDefinition(
+            "coralium", 350, 1200, 2500, 1.0F, CORALIUM_FLUID_TYPE.fogColor()
+    );
+
     public record FluidTypeDefinition(
             String name,
             int temperature,

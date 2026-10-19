@@ -1,0 +1,35 @@
+{
+  "id": "guide_wasteland",
+  "title": "Across the Gateway",
+  "type": "item",
+  "icon": "abyssalcraft_reawakening:abyssal_stone",
+  "search_items": [
+    "abyssalcraft_reawakening:abyssal_stone",
+    "abyssalcraft_reawakening:skin_of_the_abyssal_wasteland",
+    "abyssalcraft_reawakening:abyssalnite_ore",
+    "abyssalcraft_reawakening:coralium_ore"
+  ],
+  "related": [],
+  "right_side": [
+    {
+      "modules": [
+        {
+          "module_type": "text",
+          "text": "Past the first gateway lie bleak plateaus, dark forests, and strange waters. Mark your route home before wandering. The land has its own materials, including [[Abyssalnite|guide_abyssalnite]] and [[Coralium|guide_coralium]].\n\nTo strengthen the Necronomicon, place it on the Stone Ritual Altar and arrange four Skins of the Abyssal Wasteland around the altar. The recipe below lists the offerings."
+        },
+        {
+          "module_type": "ingredient_recipe",
+          "recipe_type": "ritual_altar",
+          "ingredients": [
+            "abyssalcraft_reawakening:skin_of_the_abyssal_wasteland",
+            "abyssalcraft_reawakening:skin_of_the_abyssal_wasteland",
+            "abyssalcraft_reawakening:skin_of_the_abyssal_wasteland",
+            "abyssalcraft_reawakening:skin_of_the_abyssal_wasteland",
+            "abyssalcraft_reawakening:necronomicon"
+          ],
+          "result": "abyssalcraft_reawakening:necronomicon"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "guide_gateway",
+  "title": "The First Gateway",
+  "type": "item",
+  "icon": "abyssalcraft_reawakening:gateway_key",
+  "search_items": [
+    "abyssalcraft_reawakening:gateway_key",
+    "abyssalcraft_reawakening:coralium_pearl",
+    "abyssalcraft_reawakening:oblivion_catalyst"
+  ],
+  "related": [],
+  "right_side": [
+    {
+      "modules": [
+        {
+          "module_type": "text",
+          "text": "A Gateway Key opens a passage into stranger country. Build the empty portal frame shown by the key's tooltip, then use the key on the frame. Bring food, a weapon, and enough sense to turn back.\n\nBeyond the first passage lie dark country, strange stone, and signs that the place has long been watched. The old book names Asorah among its keepers. See [[Across the Gateway|guide_wasteland]]."
+        }
+      ]
+    }
+  ]
+}

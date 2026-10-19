@@ -50,14 +50,21 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         add("tooltip.abyssalcraft_reawakening.progress", "Progress: %s s / %s s");
         add("block.abyssalcraft_reawakening.sulfuric_arcanum", "Sulfuric Arcanum");
         add("item.abyssalcraft_reawakening.sulfuric_arcanum_bucket", "Sulfuric Arcanum Bucket");
-        add("item.minecraft.potion.effect.crystallization", "Potion of Crystallization");
-        add("item.minecraft.potion.effect.long_crystallization", "Long Potion of Crystallization");
+        add("block.abyssalcraft_reawakening.lunar_jar", "Lunar Jar");
+        add("block.abyssalcraft_reawakening.lunar_infuser", "Lunar Infuser");
+        add("block.abyssalcraft_reawakening.lunar_light_beam_emitter", "Lunar Light Beam Emitter");
+        add("fluid.abyssalcraft_reawakening.coralium", "Liquid Coralium");
+        add("item.abyssalcraft_reawakening.coralium_bucket", "Liquid Coralium Bucket");
+        add("effect.abyssalcraft_reawakening.crystallization", "Crystallization");
         add("tooltip.abyssalcraft_reawakening.pe", "Potential Energy: %s / %s PE");
+        add("tooltip.abyssalcraft_reawakening.sacrificial_altar_extract", "Right-click with a Stone Tablet or Necronomicon to take stored PE");
         add("message.abyssalcraft_reawakening.place_of_power_active", "Place of Power active (%s Monolith Stone, %s Pillars, %s Statues)");
         add("message.abyssalcraft_reawakening.place_of_power_incomplete", "Place of Power incomplete (%s Monolith Stone, %s Pillars, %s Statues)");
 
         add("name.abyssalcraft_reawakening.cluster", "Cluster");
 
+        add("item.minecraft.potion.effect.crystallization", "Potion of Crystallization");
+        add("item.minecraft.potion.effect.long_crystallization", "Long Potion of Crystallization");
 
         add("item.abyssalcraft_reawakening.necronomicon", "Necronomicon");
         add("item.abyssalcraft_reawakening.necronomicon_tier", "%s %s");

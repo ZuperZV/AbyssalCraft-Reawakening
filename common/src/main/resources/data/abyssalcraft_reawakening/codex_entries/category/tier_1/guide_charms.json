@@ -1,0 +1,89 @@
+{
+  "id": "guide_charms",
+  "title": "Ritual Charms",
+  "type": "item",
+  "icon": "abyssalcraft_reawakening:ritual_charm",
+  "search_items": [
+    "abyssalcraft_reawakening:ritual_charm",
+    "abyssalcraft_reawakening:range_ritual_charm",
+    "abyssalcraft_reawakening:duration_ritual_charm",
+    "abyssalcraft_reawakening:power_ritual_charm"
+  ],
+  "related": [],
+  "right_side": [
+    {
+      "modules": [
+        {
+          "module_type": "text",
+          "text": "A charm improves one part of a statue's work. The plain Ritual Charm resets improvements. Range extends useful reach; Duration shortens the wait between transfers; Power increases each transfer. A deity charm must match its statue. A mismatched charm is an expensive misunderstanding. The statue displays one charm above its plinth; applying another replaces the displayed charm."
+        },
+        {
+          "module_type": "recipe",
+          "recipe_type": "crafting",
+          "result": "abyssalcraft_reawakening:ritual_charm",
+          "pattern": [
+            " S ",
+            "SPS",
+            " S "
+          ],
+          "key": {
+            "S": "minecraft:string",
+            "P": "minecraft:paper"
+          }
+        },
+        {
+          "module_type": "recipe",
+          "recipe_type": "crafting",
+          "result": "abyssalcraft_reawakening:range_ritual_charm",
+          "pattern": [
+            " G ",
+            "GRG",
+            " G "
+          ],
+          "key": {
+            "G": "abyssalcraft_reawakening:shadow_gem",
+            "R": "abyssalcraft_reawakening:ritual_charm"
+          }
+        }
+      ]
+    },
+    {
+      "modules": [
+        {
+          "module_type": "recipe",
+          "recipe_type": "crafting",
+          "result": "abyssalcraft_reawakening:duration_ritual_charm",
+          "pattern": [
+            " G ",
+            "GRC",
+            " G "
+          ],
+          "key": {
+            "G": "abyssalcraft_reawakening:shadow_gem",
+            "R": "abyssalcraft_reawakening:ritual_charm",
+            "C": "minecraft:clock"
+          }
+        },
+        {
+          "module_type": "recipe",
+          "recipe_type": "crafting",
+          "result": "abyssalcraft_reawakening:power_ritual_charm",
+          "pattern": [
+            " G ",
+            "GRB",
+            " G "
+          ],
+          "key": {
+            "G": "abyssalcraft_reawakening:shadow_gem",
+            "R": "abyssalcraft_reawakening:ritual_charm",
+            "B": "minecraft:blaze_powder"
+          }
+        },
+        {
+          "module_type": "text",
+          "text": "Use the right charm on the statue. Read the item tooltip before spending a rare deity charm; the statue keeps track of its improvements."
+        }
+      ]
+    }
+  ]
+}

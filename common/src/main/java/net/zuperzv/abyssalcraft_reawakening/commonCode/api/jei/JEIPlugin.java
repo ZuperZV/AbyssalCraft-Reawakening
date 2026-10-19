@@ -7,6 +7,7 @@ import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.IVanillaCategoryExtensionRegistration;
+import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -34,6 +35,22 @@ import java.util.List;
 
 @JeiPlugin
 public class JEIPlugin implements IModPlugin {
+
+    private static volatile IJeiRuntime jeiRuntime;
+
+    public static IJeiRuntime getJeiRuntime() {
+        return jeiRuntime;
+    }
+
+    @Override
+    public void onRuntimeAvailable(IJeiRuntime runtime) {
+        jeiRuntime = runtime;
+    }
+
+    @Override
+    public void onRuntimeUnavailable() {
+        jeiRuntime = null;
+    }
 
     public static RecipeMap syncedRecipes =
             RecipeMap.EMPTY;

@@ -1,0 +1,26 @@
+{
+  "id": "guide_statues",
+  "title": "PE Statues",
+  "type": "item",
+  "icon": "abyssalcraft_reawakening:cthulhu_statue",
+  "search_items": [
+    "abyssalcraft_reawakening:cthulhu_statue",
+    "abyssalcraft_reawakening:hastur_statue",
+    "abyssalcraft_reawakening:jzahar_statue",
+    "abyssalcraft_reawakening:yog_sothoth_statue",
+    "abyssalcraft_reawakening:azathoth_statue",
+    "abyssalcraft_reawakening:nyarlathotep_statue",
+    "abyssalcraft_reawakening:shub_niggurath_statue"
+  ],
+  "related": [],
+  "right_side": [
+    {
+      "modules": [
+        {
+          "module_type": "text",
+          "text": "A statue is a slow PE source, not a decoration with ambitions. Give it a sound base and place a [[Collector or Pedestal|guide_pe_machines]] within reach. Statues pass PE through solid blocks; height and distance still matter. A nearby Necronomicon may receive PE directly.\n\nIf the statue answers with a disruption, take the hint: there is a steadier way to harvest. See [[Places of Power|guide_places_of_power]]. The seven statue names are old and grand; their recipes use the matching charm, a Shadow Gem, and Monolith Stone."
+        }
+      ]
+    }
+  ]
+}

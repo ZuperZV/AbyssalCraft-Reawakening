@@ -1,6 +1,16 @@
 package net.zuperzv.abyssalcraft_reawakening.commonCode.screen;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import mezz.jei.api.gui.IRecipeLayoutDrawable;
+import mezz.jei.api.recipe.IFocus;
+import mezz.jei.api.recipe.IFocusFactory;
+import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
+import mezz.jei.api.recipe.category.IRecipeCategory;
+import mezz.jei.api.runtime.IJeiRuntime;
+import mezz.jei.api.runtime.IRecipesGui;
+import mezz.jei.api.ingredients.ITypedIngredient;
+import mezz.jei.api.runtime.IClickableIngredient;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.client.Minecraft;
@@ -12,8 +22,10 @@ import net.minecraft.client.gui.screens.advancements.AdvancementsScreen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.PageButton;
 import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.multiplayer.ClientAdvancements;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.CommonComponents;
@@ -24,9 +36,9 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.DyedItemColor;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.CodexTierData;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.api.jei.JEIPlugin;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.CodexBookmarksData;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.loader.CodexDataLoader;
@@ -39,11 +51,14 @@ import net.zuperzv.abyssalcraft_reawakening.services.Services;
 import net.zuperzv.abyssalcraft_reawakening.services.util.MouseUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.lwjgl.glfw.GLFW;
 
 public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu> {
     public NecronomiconEntry selectedEntry = null;
@@ -57,10 +72,8 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
     private ItemStack hoveredStack = ItemStack.EMPTY;
     private final List<ClickableItemRegion> clickableItemRegions = new ArrayList<>();
     private final List<TextLinkRegion> textLinkRegions = new ArrayList<>();
-    /*
     private final List<RenderedJeiLayout> renderedJeiLayouts = new ArrayList<>();
     private final Map<String, Optional<IRecipeLayoutDrawable<?>>> jeiLayoutCache = new HashMap<>();
-     */
 
     public static final Identifier BOOK_TEXTURE =
             Identifier.fromNamespaceAndPath(Constants.MOD_ID, "textures/gui/book.png");
@@ -113,10 +126,11 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
     private static final int ITEM_SIZE = 16;
     private static final int ITEM_PADDING = 2;
     private static final int LINE_HEIGHT = 10;
-    private static final int TEXT_COLOR = 0x181512;
-    private static final int LINK_COLOR = 0x1f1f1f;
-    private static final int LINK_COLOR_LOCKED = 0x141414;
-    private static final int LINK_COLOR_HOVER = 0x3a3a3a;
+    private static final int PAGE_SCROLL_BOTTOM_PADDING = 16;
+    private static final int TEXT_COLOR = 0xFF181512;
+    private static final int LINK_COLOR = 0xFF1F1F1F;
+    private static final int LINK_COLOR_LOCKED = 0xFF141414;
+    private static final int LINK_COLOR_HOVER = 0xFF3A3A3A;
     private static final int LINK_UNDERLINE_OFFSET = 9;
     private static final int SLOT_BORDER_COLOR = 0xFF1B1B1B;
 
@@ -366,41 +380,51 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
                         entryIndex < entryList.size() - 1;
     }
 
-    /*
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (super.keyPressed(keyCode, scanCode, modifiers)) {
-            return true;
-        } else {
-            var runtime = JEIPlugin.getJeiRuntime();
-            if (runtime != null && !hoveredStack.isEmpty()) {
-                var keyMappings = runtime.getKeyMappings();
-                InputConstants.Key key = InputConstants.getKey(keyCode, scanCode);
+    public boolean keyPressed(KeyEvent event) {
+        var runtime = Services.PLATFORM.isModLoaded("jei") ? JEIPlugin.getJeiRuntime() : null;
+        if (runtime != null && (searchBox == null || !searchBox.isFocused())) {
+            var keyMappings = runtime.getKeyMappings();
+            InputConstants.Key key = InputConstants.getKey(event);
 
+            Minecraft minecraft = Minecraft.getInstance();
+            double mouseX = minecraft.mouseHandler.xpos() / minecraft.getWindow().getGuiScale();
+            double mouseY = minecraft.mouseHandler.ypos() / minecraft.getWindow().getGuiScale();
+            ItemStack stackUnderMouse = getJeiClickableIngredient(mouseX, mouseY)
+                    .map(IClickableIngredient::getTypedIngredient)
+                    .map(ITypedIngredient::getIngredient)
+                    .filter(ItemStack.class::isInstance)
+                    .map(ItemStack.class::cast)
+                    .orElse(hoveredStack);
+
+            if (!stackUnderMouse.isEmpty()) {
                 if (keyMappings.getShowRecipe().isActiveAndMatches(key)) {
-                    openJeiForStack(hoveredStack, false); // recipes (R)
+                    openJeiForStack(stackUnderMouse, false);
+                    return true;
                 }
                 if (keyMappings.getShowUses().isActiveAndMatches(key)) {
-                    openJeiForStack(hoveredStack, true); // uses (U)
+                    openJeiForStack(stackUnderMouse, true);
+                    return true;
                 }
             }
+        }
 
-            switch (keyCode) {
-                case 266, GLFW.GLFW_KEY_LEFT:
-                    this.backWardButton.onPress();
-                    return true;
-                case 267, GLFW.GLFW_KEY_RIGHT:
-                    this.forwardButton.onPress();
-                    return true;
-                case GLFW.GLFW_KEY_UP, GLFW.GLFW_KEY_DOWN:
-                    this.backButton.onPress();
-                    return true;
-                default:
-                    return false;
-            }
+        if (super.keyPressed(event)) return true;
+
+        switch (event.key()) {
+            case 266, GLFW.GLFW_KEY_LEFT:
+                this.backWardButton.onPress(event);
+                return true;
+            case 267, GLFW.GLFW_KEY_RIGHT:
+                this.forwardButton.onPress(event);
+                return true;
+            case GLFW.GLFW_KEY_UP, GLFW.GLFW_KEY_DOWN:
+                this.backButton.onPress(event);
+                return true;
+            default:
+                return false;
         }
     }
-     */
 
     private int getCurrentPageContentHeight(int areaW) {
         if (selectedEntry == null || selectedEntry.right_side == null || selectedEntry.right_side.isEmpty()) return 0;
@@ -422,9 +446,27 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
                 continue;
             }
 
+            if ("fluid_recipe".equals(module.module_type)) {
+                drawY += getFluidRecipeModuleHeight(module, areaW - 4);
+                continue;
+            }
+
+            if ("ingredient_recipe".equals(module.module_type)) {
+                Optional<Integer> jeiHeight = getJeiRecipeModuleHeight(module, areaW - 4);
+                if (jeiHeight.isPresent()) {
+                    drawY += jeiHeight.get();
+                    continue;
+                }
+                int ingredientCount = module.ingredients == null ? 0 : Math.min(6, module.ingredients.size());
+                drawY += 12 + Math.max(1, Mth.ceil(ingredientCount / 3.0F)) * 20 + 2;
+                continue;
+            }
+
             drawY += LINE_HEIGHT + 2;
         }
-        return drawY;
+        // Keep a small blank tail after the last module so the final line/item can
+        // be scrolled completely above the bottom edge of the clipped page.
+        return drawY + PAGE_SCROLL_BOTTOM_PADDING;
     }
 
     private int getCategoryOverviewContentHeight() {
@@ -491,17 +533,16 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
         return super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount);
     }
 
-    /*
     public static void openJeiForStack(ItemStack stack, boolean showUses) {
+        if (!Services.PLATFORM.isModLoaded("jei")) return;
         IJeiRuntime runtime = JEIPlugin.getJeiRuntime();
         if (runtime == null || stack.isEmpty()) return;
 
         IFocusFactory focusFactory = runtime.getJeiHelpers().getFocusFactory();
         IRecipesGui recipesGui = runtime.getRecipesGui();
 
-        Optional<ITypedIngredient<ItemStack>> typed = runtime.getJeiHelpers()
-                .getIngredientManager()
-                .createTypedIngredient(VanillaTypes.ITEM_STACK, stack);
+        Optional<ITypedIngredient<ItemStack>> typed = runtime.getIngredientManager()
+                .createTypedIngredient(stack, true);
 
         if (typed.isPresent()) {
             IFocus<ItemStack> focus = focusFactory.createFocus(
@@ -512,7 +553,6 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
             recipesGui.show(focus);
         }
     }
-     */
 
     @Override
     protected void extractLabels(GuiGraphicsExtractor graphics, int xm, int ym) {
@@ -548,8 +588,6 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
 
         renderBook(guiGraphics, x, y);
 
-        //renderJeiOverlays(guiGraphics, mouseX, mouseY);
-
         renderBg(guiGraphics, delta, mouseX, mouseY);
 
 
@@ -567,6 +605,8 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
             drawSelectedPage(guiGraphics, RenderMouseX, RenderMouseY, RenderX, RenderY);
             drawIconAndTitle(guiGraphics, RenderMouseX, RenderMouseY, RenderX, RenderY);
         }
+
+        renderJeiOverlays(guiGraphics, mouseX, mouseY);
 
         this.updateButtonVisibility();
 
@@ -747,12 +787,12 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
             }
 
             guiGraphics.item(cat.icon, areaX + ITEM_PADDING, drawY + (SLOT_HEIGHT - ITEM_SIZE) / 2);
-            //renderItemWithTooltip(guiGraphics, cat.icon, areaX + ITEM_PADDING, drawY + (SLOT_HEIGHT - ITEM_SIZE) / 2, mouseX, mouseY, false); // this adds a tooltip to the Category Item
+            renderItemWithTooltip(guiGraphics, cat.icon, areaX + ITEM_PADDING, drawY + (SLOT_HEIGHT - ITEM_SIZE) / 2, mouseX, mouseY, false); // this adds a tooltip to the Category Item
             registerClickableItem(cat.icon, areaX + ITEM_PADDING, drawY + (SLOT_HEIGHT - ITEM_SIZE) / 2, ITEM_SIZE, ITEM_SIZE);
 
             Component message = Component.literal(cat.getDisplayTitle());
 
-            guiGraphics.text(font, message, areaX + ITEM_SIZE + ITEM_PADDING * 2, drawY + (SLOT_HEIGHT - 8) / 2, 0xFFFFFF);
+            guiGraphics.text(font, message, areaX + ITEM_SIZE + ITEM_PADDING * 2, drawY + (SLOT_HEIGHT - 8) / 2, 0xFFFFFFFF);
 
             guiGraphics.pose().popMatrix();
 
@@ -803,7 +843,7 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
             renderScaledItem(guiGraphics, stack, areaX + ITEM_PADDING + 8, drawY + (SLOT_HEIGHT - ITEM_SIZE) / 2 + 8, Z_TOOLTIP - 5, 10);
 
             Component entryTitle = getEntryTitleComponent(entry);
-            guiGraphics.text(font, entryTitle, areaX + ITEM_SIZE + ITEM_PADDING * 2, drawY + (SLOT_HEIGHT - 8) / 2, 0xFFFFFF);
+            guiGraphics.text(font, entryTitle, areaX + ITEM_SIZE + ITEM_PADDING * 2, drawY + (SLOT_HEIGHT - 8) / 2, 0xFFFFFFFF);
 
             guiGraphics.pose().popMatrix();
 
@@ -819,11 +859,10 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
         int yIcon = y + 11;
         int xIcon = x + 146;
 
-        guiGraphics.text(this.font, getEntryTitleComponent(selectedEntry), x + 14, y + 14, ChatFormatting.DARK_GRAY.getColor(), false);
+        guiGraphics.text(this.font, getEntryTitleComponent(selectedEntry), x + 14, y + 14 - 5, 0xFF000000 | ChatFormatting.DARK_GRAY.getColor(), false);
 
         if (selectedEntry.icon != null && !selectedEntry.icon.equals("")) {
             ItemStack iconStack = RecipeHelper.parseItem(selectedEntry.icon.toString());
-            renderItemWithTooltip(guiGraphics, iconStack, xIcon + 34, yIcon + 7, mouseX, mouseY);
             guiGraphics.blit(
                     RenderPipelines.GUI_TEXTURED,
                     BOOK_TEXTURE,
@@ -837,6 +876,7 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
                     256
             );
             drawColoredOverlay(guiGraphics, xIcon, yIcon, 0, 180, 84, 30, 0);
+            renderEntryIcon(guiGraphics, iconStack, xIcon + 34, yIcon + 7, mouseX, mouseY);
         }
     }
 
@@ -859,9 +899,20 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
         );
         drawColoredOverlay(guiGraphics, xIcon, yIcon, 0, 180, 84, 30, 0);
 
-        renderItemWithTooltip(guiGraphics, iconStack, xIcon + 34, yIcon + 7, mouseX, mouseY, false);
+        renderEntryIcon(guiGraphics, iconStack, xIcon + 34, yIcon + 7, mouseX, mouseY);
 
-        guiGraphics.text(this.font, Component.translatable(iconStack.getItem().getDescriptionId()), x + 14, y + 14, ChatFormatting.DARK_GRAY.getColor(), false);
+        guiGraphics.text(this.font, Component.translatable(iconStack.getItem().getDescriptionId()), x + 14, y + 14 - 5, 0xFF000000 | ChatFormatting.DARK_GRAY.getColor(), false);
+    }
+
+    private void renderEntryIcon(GuiGraphicsExtractor guiGraphics, ItemStack stack, int x, int y, int mouseX, int mouseY) {
+        if (stack == null || stack.isEmpty()) return;
+
+        // Entry icons sit on a decorative page frame. Give the item an explicit GUI
+        // layer so the frame's later extraction cannot cover it on either loader.
+        renderScaledItem(guiGraphics, stack, x, y, Z_TOOLTIP - 10, 16);
+        if (mouseX >= x && mouseX <= x + 16 && mouseY >= y && mouseY <= y + 16) {
+            hoveredStack = stack;
+        }
     }
 
     private void drawSelectedPage(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, int x, int y) {
@@ -897,8 +948,14 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
                     case "furnace_recipe" -> {
                         drawY = renderRecipeModule(guiGraphics, module, drawX, drawY, areaX, areaY, areaW, areaH, mouseX, mouseY);
                     }
+                    case "fluid_recipe" -> {
+                        drawY = renderFluidRecipeModule(guiGraphics, module, drawX, drawY, areaX, areaY, areaW, areaH, mouseX, mouseY);
+                    }
+                    case "ingredient_recipe" -> {
+                        drawY = renderIngredientRecipeModule(guiGraphics, module, drawX, drawY, areaX, areaY, areaW, areaH, mouseX, mouseY);
+                    }
                     default -> {
-                        guiGraphics.text(this.font, Component.literal("Unknown module type: " + module.module_type), drawX, drawY, 0xFF0000);
+                        guiGraphics.text(this.font, Component.literal("Unknown module type: " + module.module_type), drawX, drawY, 0xFFFF0000);
                         drawY += LINE_HEIGHT + 2;
                     }
                 }
@@ -1079,43 +1136,23 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
 
     private int renderRecipeModule(GuiGraphicsExtractor guiGraphics, CodexModule module, int drawX, int drawY, int areaX, int areaY, int areaW, int areaH, int mouseX, int mouseY) {
         boolean isFurnace = "furnace_recipe".equals(module.module_type);
-        String title = isFurnace ? "Furnace Recipe:" : "Crafting Recipe:";
-        int titleColor = isFurnace ? 0xFFAA00 : 0xAAAAFF;
+        String title = switch (module.recipe_type == null ? "" : module.recipe_type) {
+            case "essence_boiler" -> "Essence Boiler Recipe:";
+            case "crystal_growth" -> "Crystal Growth Recipe:";
+            case "ritual_altar" -> "Ritual Altar Recipe:";
+            case "crafting", "crafting_table" -> "Crafting Recipe:";
+            case "smelting", "furnace" -> "Furnace Recipe:";
+            default -> isFurnace ? "Furnace Recipe:" : "Crafting Recipe:";
+        };
+        int titleColor = isFurnace ? 0xFFFFAA00 : 0xFFAAAAFF;
 
         guiGraphics.text(this.font, Component.literal(title), drawX, drawY, titleColor);
         drawY += 12;
 
-        /*
         Optional<IRecipeLayoutDrawable<?>> jeiLayout = getJeiLayoutForModule(module);
         if (jeiLayout.isPresent()) {
-            IRecipeLayoutDrawable<?> layout = jeiLayout.get();
-            Rect2i rect = layout.getRectWithBorder();
-            int layoutWidth = rect.getWidth();
-            int layoutHeight = rect.getHeight();
-            int maxLayoutWidth = Math.max(1, areaW - 4);
-            float layoutScale = Math.min(1.0f, (float) maxLayoutWidth / (float) layoutWidth);
-            int scaledLayoutWidth = Math.max(1, Mth.ceil(layoutWidth * layoutScale));
-            int scaledLayoutHeight = Math.max(1, Mth.ceil(layoutHeight * layoutScale));
-            int layoutX = drawX + Math.max(0, (maxLayoutWidth - scaledLayoutWidth) / 2) + 2;
-            int layoutY = drawY;
-            int scaledMouseX = Mth.floor(toUnscaledCoordinate(mouseX, layoutX, layoutScale));
-            int scaledMouseY = Mth.floor(toUnscaledCoordinate(mouseY, layoutY, layoutScale));
-
-            layout.setPosition(layoutX, layoutY);
-            renderedJeiLayouts.add(new RenderedJeiLayout(layout, layoutX, layoutY, layoutScale));
-            layout.tick();
-            guiGraphics.pose().pushMatrix();
-            guiGraphics.pose().translate(layoutX, layoutY);
-            applyLayer(guiGraphics, 0);
-            guiGraphics.pose().scale(layoutScale, layoutScale, 1.0f);
-            guiGraphics.pose().translate(-layoutX, -layoutY);
-            applyLayer(guiGraphics, 0);
-            layout.drawRecipe(guiGraphics, scaledMouseX, scaledMouseY);
-            guiGraphics.pose().popMatrix();
-
-            return drawY + scaledLayoutHeight + 6;
+            return drawJeiRecipeModule(guiGraphics, jeiLayout.get(), drawX, drawY, areaW - 4, mouseX, mouseY);
         }
-         */
 
         if (isFurnace) {
             ItemStack input = RecipeHelper.parseItem(module.input);
@@ -1188,19 +1225,120 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
         return drawY + slotSize * 3 + 25;
     }
 
-    private int getRecipeModuleHeight(CodexModule module, int maxWidth) {
-        int titleHeight = 12;
-        /*
+    private int renderFluidRecipeModule(GuiGraphicsExtractor guiGraphics, CodexModule module, int drawX, int drawY,
+                                        int areaX, int areaY, int areaW, int areaH, int mouseX, int mouseY) {
+        guiGraphics.text(this.font, Component.literal(getRecipeTitle(module.recipe_type)), drawX, drawY, 0xFFAAAAFF);
+        int y = drawY + 12;
         Optional<IRecipeLayoutDrawable<?>> jeiLayout = getJeiLayoutForModule(module);
         if (jeiLayout.isPresent()) {
-            Rect2i rect = jeiLayout.get().getRectWithBorder();
-            int layoutWidth = Math.max(1, rect.getWidth());
-            float layoutScale = Math.min(1.0f, (float) Math.max(1, maxWidth) / (float) layoutWidth);
-            int layoutHeight = Mth.ceil(rect.getHeight() * layoutScale);
-            return titleHeight + layoutHeight + 6;
+            return drawJeiRecipeModule(guiGraphics, jeiLayout.get(), drawX, y, areaW - 4, mouseX, mouseY);
         }
-         */
 
+        ItemStack input = RecipeHelper.parseItem(module.input);
+        ItemStack output = RecipeHelper.parseItem(module.output);
+        if (!output.isEmpty() && module.output_count > 1) output.setCount(module.output_count);
+
+        drawRecipeItemSlot(guiGraphics, input, drawX, y, areaX, areaY, areaW, areaH, mouseX, mouseY);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ARROW_TEXTURE, drawX + 25, y + 2, 0, 0, 23, 15, 23, 15);
+        drawRecipeItemSlot(guiGraphics, output, drawX + 50, y, areaX, areaY, areaW, areaH, mouseX, mouseY);
+        y += 22;
+        y = renderRecipeLabel(guiGraphics, module.input_fluid_text, drawX, y, areaW - 4);
+        y = renderRecipeLabel(guiGraphics, module.output_fluid_text, drawX, y, areaW - 4);
+        return y + 2;
+    }
+
+    private int renderIngredientRecipeModule(GuiGraphicsExtractor guiGraphics, CodexModule module, int drawX, int drawY,
+                                             int areaX, int areaY, int areaW, int areaH, int mouseX, int mouseY) {
+        guiGraphics.text(this.font, Component.literal(getRecipeTitle(module.recipe_type)), drawX, drawY, 0xFFAAAAFF);
+        int y = drawY + 12;
+        Optional<IRecipeLayoutDrawable<?>> jeiLayout = getJeiLayoutForModule(module);
+        if (jeiLayout.isPresent()) {
+            return drawJeiRecipeModule(guiGraphics, jeiLayout.get(), drawX, y, areaW - 4, mouseX, mouseY);
+        }
+
+        List<String> ingredients = module.ingredients == null ? List.of() : module.ingredients;
+        for (int index = 0; index < ingredients.size() && index < 6; index++) {
+            int slotX = drawX + (index % 3) * 20;
+            int slotY = y + (index / 3) * 20;
+            drawRecipeItemSlot(guiGraphics, RecipeHelper.parseItem(ingredients.get(index)), slotX, slotY,
+                    areaX, areaY, areaW, areaH, mouseX, mouseY);
+        }
+
+        guiGraphics.text(this.font, Component.literal("→"), drawX + 61, y + 13, TEXT_COLOR, false);
+        ItemStack result = RecipeHelper.parseItem(module.result);
+        if (!result.isEmpty() && module.output_count > 1) result.setCount(module.output_count);
+        drawRecipeItemSlot(guiGraphics, result, drawX + 75, y + 10,
+                areaX, areaY, areaW, areaH, mouseX, mouseY);
+        int rows = Math.max(1, Mth.ceil(ingredients.size() / 3.0F));
+        return y + rows * 20 + 2;
+    }
+
+    private void drawRecipeItemSlot(GuiGraphicsExtractor guiGraphics, ItemStack stack, int x, int y,
+                                    int areaX, int areaY, int areaW, int areaH, int mouseX, int mouseY) {
+        drawSlotBackground(guiGraphics, x, y);
+        renderItem(guiGraphics, stack, x + 1, y + 1);
+        guiGraphics.disableScissor();
+        renderItemTooltip(guiGraphics, stack, x + 1, y + 1, mouseX, mouseY);
+        guiGraphics.enableScissor(areaX, areaY, areaX + areaW, areaY + areaH);
+    }
+
+    private int drawJeiRecipeModule(GuiGraphicsExtractor guiGraphics, IRecipeLayoutDrawable<?> layout,
+                                    int x, int y, int maxWidth, int mouseX, int mouseY) {
+        layout.setPosition(x, y);
+        Rect2i bounds = layout.getRectWithBorder();
+        float scale = Math.min(1.0F, (float) maxWidth / Math.max(1, bounds.getWidth()));
+        int scaledHeight = Math.max(1, Mth.ceil(bounds.getHeight() * scale));
+
+        guiGraphics.pose().pushMatrix();
+        guiGraphics.pose().translate(x, y);
+        guiGraphics.pose().scale(scale, scale);
+        guiGraphics.pose().translate(-x, -y);
+        layout.drawRecipe(guiGraphics,
+                Mth.floor(toUnscaledCoordinate(mouseX, x, scale)),
+                Mth.floor(toUnscaledCoordinate(mouseY, y, scale)));
+        guiGraphics.pose().popMatrix();
+
+        renderedJeiLayouts.add(new RenderedJeiLayout(layout, x, y, scale));
+        return y + scaledHeight + 2;
+    }
+
+    private int renderRecipeLabel(GuiGraphicsExtractor guiGraphics, String text, int x, int y, int maxWidth) {
+        if (text == null || text.isBlank()) return y;
+        TextLayout layout = layoutText(text, x, y, maxWidth);
+        for (PositionedTextToken token : layout.tokens) {
+            guiGraphics.text(this.font, token.text, token.x, token.y, TEXT_COLOR, false);
+        }
+        return y + layout.height + 4;
+    }
+
+    private String getRecipeTitle(String recipeType) {
+        return switch (recipeType == null ? "" : recipeType) {
+            case "essence_boiler" -> "Essence Boiler Recipe:";
+            case "crystal_growth" -> "Crystal Growth Recipe:";
+            case "ritual_altar" -> "Ritual Altar Recipe:";
+            default -> "Recipe:";
+        };
+    }
+
+    private int getFluidRecipeModuleHeight(CodexModule module, int maxWidth) {
+        Optional<Integer> jeiHeight = getJeiRecipeModuleHeight(module, maxWidth - 4);
+        if (jeiHeight.isPresent()) return jeiHeight.get();
+
+        int height = 12 + 22;
+        if (module.input_fluid_text != null && !module.input_fluid_text.isBlank()) {
+            height += measureTextHeight(module.input_fluid_text, maxWidth);
+        }
+        if (module.output_fluid_text != null && !module.output_fluid_text.isBlank()) {
+            height += measureTextHeight(module.output_fluid_text, maxWidth);
+        }
+        return height + 2;
+    }
+
+    private int getRecipeModuleHeight(CodexModule module, int maxWidth) {
+        Optional<Integer> jeiHeight = getJeiRecipeModuleHeight(module, maxWidth - 4);
+        if (jeiHeight.isPresent()) return jeiHeight.get();
+
+        int titleHeight = 12;
         if ("furnace_recipe".equals(module.module_type)) {
             return titleHeight + 25;
         }
@@ -1209,28 +1347,39 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
             return titleHeight + 18 * 3 + 25;
         }
 
-        return titleHeight + LINE_HEIGHT;
+        // The no-JEI fallback draws its title, one hint line, and four pixels of
+        // spacing. Keep the scroll measurement in sync with renderRecipeModule.
+        return titleHeight + LINE_HEIGHT + 4;
     }
 
-    /*
+    private Optional<Integer> getJeiRecipeModuleHeight(CodexModule module, int maxWidth) {
+        Optional<IRecipeLayoutDrawable<?>> layout = getJeiLayoutForModule(module);
+        if (layout.isEmpty()) return Optional.empty();
+
+        Rect2i bounds = layout.get().getRectWithBorder();
+        float scale = Math.min(1.0F, (float) maxWidth / Math.max(1, bounds.getWidth()));
+        return Optional.of(12 + Mth.ceil(bounds.getHeight() * scale) + 2);
+    }
+
     private Optional<IRecipeLayoutDrawable<?>> getJeiLayoutForModule(CodexModule module) {
         if (module == null) return Optional.empty();
+        if (!Services.PLATFORM.isModLoaded("jei")) return Optional.empty();
         if (JEIPlugin.getJeiRuntime() == null) return Optional.empty();
 
         String key = buildJeiLayoutKey(module);
         return jeiLayoutCache.computeIfAbsent(key, k -> createJeiLayoutForModule(module));
     }
-     */
 
     private String buildJeiLayoutKey(CodexModule module) {
         return String.valueOf(module.module_type) + "|" +
                 String.valueOf(module.recipe_type) + "|" +
                 String.valueOf(module.result) + "|" +
                 String.valueOf(module.input) + "|" +
-                String.valueOf(module.output);
+                String.valueOf(module.output) + "|" +
+                String.valueOf(module.pattern) + "|" +
+                String.valueOf(module.key);
     }
 
-    /*
     private Optional<IRecipeLayoutDrawable<?>> createJeiLayoutForModule(CodexModule module) {
         IJeiRuntime runtime = JEIPlugin.getJeiRuntime();
         if (runtime == null) return Optional.empty();
@@ -1239,47 +1388,30 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
         if (focusData == null || focusData.stack.isEmpty()) return Optional.empty();
 
         Optional<ITypedIngredient<ItemStack>> typed = runtime.getIngredientManager()
-                .createTypedIngredient(VanillaTypes.ITEM_STACK, focusData.stack);
+                .createTypedIngredient(focusData.stack, true);
         if (typed.isEmpty()) return Optional.empty();
 
         IFocusFactory focusFactory = runtime.getJeiHelpers().getFocusFactory();
         IFocus<ItemStack> focus = focusFactory.createFocus(focusData.role, typed.get());
         IFocusGroup focusGroup = focusFactory.createFocusGroup(List.of(focus));
 
-        List<RecipeType<?>> preferredTypes = getPreferredRecipeTypes(module);
-        return createJeiLayoutForFocus(focus, focusGroup, preferredTypes);
+        return createJeiLayoutForFocus(focus, focusGroup, module.recipe_type);
     }
 
-     */
-
-    /*
     @SuppressWarnings({"rawtypes", "unchecked"})
-    private Optional<IRecipeLayoutDrawable<?>> createJeiLayoutForFocus(IFocus<?> focus, IFocusGroup focusGroup, List<RecipeType<?>> preferredTypes) {
+    private Optional<IRecipeLayoutDrawable<?>> createJeiLayoutForFocus(IFocus<?> focus, IFocusGroup focusGroup, String requestedRecipeType) {
         IJeiRuntime runtime = JEIPlugin.getJeiRuntime();
         if (runtime == null) return Optional.empty();
 
         var recipeManager = runtime.getRecipeManager();
-        List<IRecipeCategory<?>> categories = new ArrayList<>();
-
-        for (RecipeType<?> type : preferredTypes) {
-            try {
-                IRecipeCategory category = recipeManager.getRecipeCategory((RecipeType) type);
-                if (category != null) {
-                    categories.add(category);
-                }
-            } catch (Exception ignored) {
-            }
-        }
-
-        if (categories.isEmpty()) {
-            categories.addAll(recipeManager.createRecipeCategoryLookup()
-                    .limitFocus(List.of(focus))
-                    .get()
-                    .toList());
-        }
+        List<IRecipeCategory<?>> categories = recipeManager.createRecipeCategoryLookup()
+                .limitFocus(List.of(focus))
+                .get()
+                .toList();
 
         for (IRecipeCategory category : categories) {
-            RecipeType type = category.getRecipeType();
+            var type = category.getRecipeType();
+            if (!matchesRecipeType(type.getUid().toString(), requestedRecipeType)) continue;
             Optional recipe = recipeManager.createRecipeLookup(type)
                     .limitFocus(List.of(focus))
                     .get()
@@ -1295,9 +1427,21 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
 
         return Optional.empty();
     }
-    */
 
-    /*
+    private static boolean matchesRecipeType(String categoryId, String requestedRecipeType) {
+        if (requestedRecipeType == null || requestedRecipeType.isBlank()) return true;
+        String requested = requestedRecipeType.toLowerCase(java.util.Locale.ROOT);
+        String category = categoryId.toLowerCase(java.util.Locale.ROOT);
+        return switch (requested) {
+            case "crafting", "crafting_table" -> category.equals("minecraft:crafting");
+            case "smelting", "furnace", "furnace_recipe" -> category.equals("minecraft:smelting");
+            case "essence_boiler" -> category.endsWith(":essence_boiler");
+            case "crystal_growth" -> category.endsWith(":crystal_growth");
+            case "ritual_altar" -> category.endsWith(":ritual_altar");
+            default -> category.equals(requested) || category.endsWith(":" + requested);
+        };
+    }
+
     private void renderJeiOverlays(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
         if (renderedJeiLayouts.isEmpty()) return;
         guiGraphics.pose().pushMatrix();
@@ -1309,7 +1453,7 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
             guiGraphics.pose().pushMatrix();
             guiGraphics.pose().translate(rendered.x, rendered.y);
             applyLayer(guiGraphics, 0);
-            guiGraphics.pose().scale(rendered.scale, rendered.scale, 1.0f);
+            guiGraphics.pose().scale(rendered.scale, rendered.scale);
             guiGraphics.pose().translate(-rendered.x, -rendered.y);
             applyLayer(guiGraphics, 0);
             rendered.layout.drawOverlays(guiGraphics, scaledMouseX, scaledMouseY);
@@ -1318,43 +1462,6 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
         guiGraphics.pose().popMatrix();
     }
 
-     */
-
-    private List<RecipeType<?>> getPreferredRecipeTypes(CodexModule module) {
-
-        List<RecipeType<?>> types = new ArrayList<>();
-
-        if ("recipe".equals(module.module_type)) {
-            String type = module.recipe_type == null ? "" : module.recipe_type.toLowerCase();
-
-            if (!type.isEmpty() && !"crafting_table".equals(type)) {
-                /*
-                Optional<RecipeType<?>> customType = JEIPlugin.getJeiRuntime()
-                        .getRecipeManager()
-                        .getRecipeType(Identifier.parse(type));
-
-                if (customType.isPresent()) {
-                    types.add(customType.get());
-                    return types;
-                }
-                 */
-            }
-            types.add(RecipeType.CRAFTING);
-            types.add(RecipeType.STONECUTTING);
-            types.add(RecipeType.SMITHING);
-        }
-
-        else if ("furnace_recipe".equals(module.module_type)) {
-            types.add(RecipeType.SMELTING);
-            types.add(RecipeType.BLASTING);
-            types.add(RecipeType.SMOKING);
-            types.add(RecipeType.CAMPFIRE_COOKING);
-        }
-
-        return types;
-    }
-
-    /*
     private JeiFocusData getJeiFocusData(CodexModule module) {
         if ("furnace_recipe".equals(module.module_type) && module.input != null) {
             ItemStack input = RecipeHelper.parseItem(module.input);
@@ -1371,7 +1478,6 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
 
         return null;
     }
-     */
 
     private void drawSlotBackground(GuiGraphicsExtractor guiGraphics, int x, int y) {
         guiGraphics.fill(x, y, x + 18, y + 18, SLOT_BORDER_COLOR);
@@ -1422,7 +1528,7 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
     private void clearInteractiveRegions() {
         clickableItemRegions.clear();
         textLinkRegions.clear();
-        //renderedJeiLayouts.clear();
+        renderedJeiLayouts.clear();
     }
 
     private void registerClickableItem(ItemStack stack, int x, int y, int width, int height) {
@@ -1430,8 +1536,8 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
         clickableItemRegions.add(new ClickableItemRegion(stack, x, y, width, height));
     }
 
-    /*
     public Optional<IClickableIngredient<?>> getJeiClickableIngredient(double mouseX, double mouseY) {
+        if (!Services.PLATFORM.isModLoaded("jei")) return Optional.empty();
         IJeiRuntime runtime = JEIPlugin.getJeiRuntime();
         if (runtime == null) return Optional.empty();
 
@@ -1463,7 +1569,9 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
 
             Rect2i area = new Rect2i(region.x, region.y, region.width, region.height);
             Optional<IClickableIngredient<ItemStack>> clickable =
-                    ingredientManager.createClickableIngredient(VanillaTypes.ITEM_STACK, region.stack, area, true);
+                    ingredientManager.getClickableIngredientFactory()
+                            .createBuilder(region.stack)
+                            .buildWithArea(area);
             if (clickable.isPresent()) {
                 return Optional.of(clickable.get());
             }
@@ -1471,7 +1579,6 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
 
         return Optional.empty();
     }
-     */
 
     private double toUnscaledCoordinate(double mouseCoordinate, int origin, float scale) {
         if (scale == 0.0f || scale == 1.0f) {
@@ -2273,7 +2380,6 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
         }
     }
 
-    /*
     private static class RenderedJeiLayout {
         private final IRecipeLayoutDrawable<?> layout;
         private final int x;
@@ -2287,7 +2393,6 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
             this.scale = scale;
         }
     }
-     */
 
     private static class TextSegment {
         private final String text;
@@ -2345,7 +2450,6 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
         }
     }
 
-    /*
     private static class JeiFocusData {
         private final ItemStack stack;
         private final RecipeIngredientRole role;
@@ -2355,19 +2459,18 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
             this.role = role;
         }
     }
-     */
 
-    /*
     private static <T> Optional<IClickableIngredient<?>> createClickableIngredient(
             IJeiRuntime runtime,
             ITypedIngredient<T> typedIngredient,
             Rect2i area
     ) {
         return runtime.getIngredientManager()
-                .createClickableIngredient(typedIngredient.getType(), typedIngredient.getIngredient(), area, true)
+                .getClickableIngredientFactory()
+                .createBuilder(typedIngredient)
+                .buildWithArea(area)
                 .map(clickable -> (IClickableIngredient<?>) clickable);
     }
-     */
 
     private List<NecronomiconEntry> getAvailableEntries() {
 

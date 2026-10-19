@@ -1,0 +1,35 @@
+{
+  "id": "guide_necronomicon",
+  "title": "The Necronomicon",
+  "type": "item",
+  "icon": "abyssalcraft_reawakening:necronomicon",
+  "search_items": [
+    "abyssalcraft_reawakening:necronomicon"
+  ],
+  "related": [],
+  "right_side": [
+    {
+      "modules": [
+        {
+          "module_type": "text",
+          "text": "A book made from paper, iron, and meat that has already had a full life. Sensible enough. The Necronomicon records discoveries and grows as you advance. Keep it with you; it is used in rites and can receive nearby PE from a working statue. The recipe is ordinary crafting, so the grid shows the pattern."
+        },
+        {
+          "module_type": "recipe",
+          "recipe_type": "crafting",
+          "result": "abyssalcraft_reawakening:necronomicon",
+          "pattern": [
+            "AAC",
+            "ABA",
+            "AAC"
+          ],
+          "key": {
+            "A": "minecraft:rotten_flesh",
+            "B": "minecraft:book",
+            "C": "minecraft:iron_ingot"
+          }
+        }
+      ]
+    }
+  ]
+}

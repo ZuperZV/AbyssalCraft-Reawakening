@@ -1,0 +1,29 @@
+{
+  "id": "guide_abyssalnite",
+  "title": "Abyssalnite",
+  "type": "item",
+  "icon": "abyssalcraft_reawakening:abyssalnite_ingot",
+  "search_items": [
+    "abyssalcraft_reawakening:abyssalnite_ore",
+    "abyssalcraft_reawakening:abyssalnite_ingot"
+  ],
+  "related": [],
+  "right_side": [
+    {
+      "modules": [
+        {
+          "module_type": "text",
+          "text": "Abyssalnite is a metal found beyond the first gateway. Mine its ore, smelt the raw material, and use the ingot to make equipment. It is a little piece of that place, which is a polite way of saying it will not be found in your garden."
+        },
+        {
+          "module_type": "furnace_recipe",
+          "recipe_type": "smelting",
+          "input": "abyssalcraft_reawakening:raw_abyssalnite",
+          "output": "abyssalcraft_reawakening:abyssalnite_ingot",
+          "experience": 0.7,
+          "cooking_time": 200
+        }
+      ]
+    }
+  ]
+}

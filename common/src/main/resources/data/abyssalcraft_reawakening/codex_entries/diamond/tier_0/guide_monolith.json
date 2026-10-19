@@ -1,0 +1,47 @@
+{
+  "id": "guide_monolith",
+  "title": "Monolith Stone",
+  "type": "item",
+  "icon": "abyssalcraft_reawakening:monolith_stone",
+  "search_items": [
+    "abyssalcraft_reawakening:monolith_stone",
+    "abyssalcraft_reawakening:monolith_stone_pillar"
+  ],
+  "related": [],
+  "right_side": [
+    {
+      "modules": [
+        {
+          "module_type": "text",
+          "text": "The monolith is the foundation of the PE craft. The Shadow Gem belongs in the middle; surround it with Deepslate Bricks. A pillar is two Monolith Stones stacked in the grid. Use these blocks to make a [[Statue|guide_statues]] or the machines in the next tier."
+        },
+        {
+          "module_type": "recipe",
+          "recipe_type": "crafting",
+          "result": "abyssalcraft_reawakening:monolith_stone",
+          "pattern": [
+            "DDD",
+            "DSD",
+            "DDD"
+          ],
+          "key": {
+            "D": "minecraft:deepslate_bricks",
+            "S": "abyssalcraft_reawakening:shadow_gem"
+          }
+        },
+        {
+          "module_type": "recipe",
+          "recipe_type": "crafting",
+          "result": "abyssalcraft_reawakening:monolith_stone_pillar",
+          "pattern": [
+            "M",
+            "M"
+          ],
+          "key": {
+            "M": "abyssalcraft_reawakening:monolith_stone"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.PotionLiquidBlock;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.CoraliumLiquidBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.PotionBucketItem;
 import net.zuperzv.abyssalcraft_reawakening.services.types.FluidDefinition;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
@@ -87,6 +88,15 @@ public final class ModFluids {
                     )
             );
 
+    public static final RegistryHandle<FlowingFluid> SOURCE_CORALIUM = Services.REGISTRY.registerFluid(
+            "source_coralium", () -> Services.FLUIDS.createSource(coraliumDefinition()));
+    public static final RegistryHandle<FlowingFluid> FLOWING_CORALIUM = Services.REGISTRY.registerFluid(
+            "flowing_coralium", () -> Services.FLUIDS.createFlowing(coraliumDefinition()));
+    public static final RegistryHandle<LiquidBlock> CORALIUM_BLOCK = Services.REGISTRY.registerBlock(
+            "liquid_coralium", properties -> new CoraliumLiquidBlock(SOURCE_CORALIUM.get(), properties.replaceable()));
+    public static final RegistryHandle<Item> CORALIUM_BUCKET = Services.REGISTRY.registerItem(
+            "coralium_bucket", properties -> new BucketItem(SOURCE_CORALIUM.get(), properties.craftRemainder(Items.BUCKET).stacksTo(1)));
+
     private static FluidDefinition potionDefinition() {
         return new FluidDefinition(
                 "potion",
@@ -117,5 +127,11 @@ public final class ModFluids {
                 () -> SULFURIC_ARCANUM_BLOCK.get(),
                 () -> SULFURIC_ARCANUM_BUCKET.get()
         );
+    }
+
+    private static FluidDefinition coraliumDefinition() {
+        return new FluidDefinition("coralium", 2, 1, 5, 100.0F,
+                () -> SOURCE_CORALIUM.get(), () -> FLOWING_CORALIUM.get(),
+                () -> CORALIUM_BLOCK.get(), () -> CORALIUM_BUCKET.get());
     }
 }

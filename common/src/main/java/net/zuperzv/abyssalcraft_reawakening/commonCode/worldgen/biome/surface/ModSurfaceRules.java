@@ -17,6 +17,9 @@ public class ModSurfaceRules {
     private static final SurfaceRules.RuleSource ABYSSAL_STONE =
             makeStateRule(ModBlocks.ABYSSAL_STONE.block().get());
 
+    private static final SurfaceRules.RuleSource ABYSSAL_COBBLESTONE =
+            makeStateRule(ModBlocks.ABYSSAL_COBBLESTONE.block().get());
+
     private static final SurfaceRules.RuleSource CORALIUM_STONE =
             makeStateRule(ModBlocks.CORALIUM_STONE.block().get());
 
@@ -28,6 +31,9 @@ public class ModSurfaceRules {
 
     private static final SurfaceRules.RuleSource SCARLET_SHALE =
             makeStateRule(ModBlocks.SCARLET_SHALE.block().get());
+
+    private static final SurfaceRules.RuleSource SITARITE =
+            makeStateRule(ModBlocks.SITARITE.block().get());
 
     private static final SurfaceRules.RuleSource CORRUPTED_SOIL =
             makeStateRule(ModBlocks.CORRUPTED_SOIL.block().get());
@@ -155,7 +161,54 @@ public class ModSurfaceRules {
                                                 0.0,
                                                 0.5
                                         ),
-                                        CORALIUM_STONE
+                                        CORALIUM_COBBLESTONE
+                                )
+                        )
+                ),
+
+                // Noise >= 0.5
+                CORALIUM_STONE
+        );
+
+        SurfaceRules.RuleSource sitaritereGround = SurfaceRules.sequence(
+
+                // Noise < 0.0
+                SurfaceRules.ifTrue(
+                        SurfaceRules.noiseCondition(
+                                ModNoiseRouter.SITARITE_GROUND,
+                                -1.0,
+                                0.0
+                        ),
+                        SITARITE
+                ),
+
+                // Noise 0.0 - 0.5
+                SurfaceRules.ifTrue(
+                        SurfaceRules.noiseCondition(
+                                ModNoiseRouter.SITARITE_GROUND,
+                                0.0,
+                                0.5
+                        ),
+                        ABYSSAL_COBBLESTONE
+                ),
+
+                // 4 BLOCKS UNDER SURFACE
+                SurfaceRules.ifTrue(
+                        SurfaceRules.stoneDepthCheck(
+                                7,
+                                false,
+                                CaveSurface.FLOOR
+                        ),
+
+                        SurfaceRules.sequence(
+
+                                SurfaceRules.ifTrue(
+                                        SurfaceRules.noiseCondition(
+                                                ModNoiseRouter.ABYSSAL_GROUND,
+                                                0.0,
+                                                0.5
+                                        ),
+                                        ABYSSAL_COBBLESTONE
                                 )
                         )
                 ),

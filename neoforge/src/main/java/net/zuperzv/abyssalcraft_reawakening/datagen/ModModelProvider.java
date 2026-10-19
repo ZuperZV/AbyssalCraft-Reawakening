@@ -108,6 +108,11 @@ public class ModModelProvider extends ModelProvider {
         createCrystalGrowthChamber(blockModels, ModBlocks.CRYSTAL_GROWTH_CHAMBER.block().get());
         createCrystalProducts(blockModels, itemModels);
         createPEMachineModels(blockModels);
+        createLunarBlockModel(blockModels, ModBlocks.LUNAR_JAR.block().get(), "lunar_jar");
+        createLunarBlockModel(blockModels, ModBlocks.LUNAR_INFUSER.block().get(), "lunar_infuser");
+        createLunarBlockModel(blockModels, ModBlocks.LUNAR_LIGHT_BEAM_EMITTER.block().get(), "lunar_light_beam_emitter");
+        createNonTemplateModelBlock(blockModels, ModFluids.CORALIUM_BLOCK.get(), Blocks.WATER);
+        generateWaterFluidBucket(itemModels, ModFluids.CORALIUM_BUCKET.get());
 
         //Create Rotated Variants
         createRotatedVariantBlock(blockModels, ModBlocks.WASTITE.block().get());
@@ -721,6 +726,9 @@ public class ModModelProvider extends ModelProvider {
         } else if (item == ModFluids.POTION_BUCKET.get()) {
             generatePotionBucket(itemModels, item);
             return;
+        } else if (item == ModFluids.CORALIUM_BUCKET.get()) {
+            generateWaterFluidBucket(itemModels, item);
+            return;
         } else if (isTool(item)) {
             generateWoodTool(itemModels, item);
             return;
@@ -733,10 +741,19 @@ public class ModModelProvider extends ModelProvider {
 
     private void generateWaterFluidBucket(ItemModelGenerators itemModels, Item item) {
         generatedItems.add(item);
+        Identifier model = itemModels.generateLayeredItem(
+                item,
+                new Material(Constants.id("item/bucket")),
+                new Material(Constants.id("item/bucket_tint"))
+        );
         itemModels.itemModelOutput.accept(
                 item,
-                ItemModelUtils.plainModel(
-                        Identifier.withDefaultNamespace("item/water_bucket")
+                ItemModelUtils.tintedModel(
+                        model,
+                        new ItemTintSource[]{
+                                itemModels.BLANK_LAYER,
+                                new CrystalTintSource(0x80DFFF)
+                        }
                 )
         );
     }
@@ -1431,6 +1448,13 @@ public class ModModelProvider extends ModelProvider {
         createPECube(blockModels, ModBlocks.ENERGY_CONTAINER.block().get(), "minecraft:block/respawn_anchor_side0");
         createPECube(blockModels, ModBlocks.SACRIFICIAL_ALTAR.block().get(), "minecraft:block/red_nether_bricks");
         createPECube(blockModels, ModBlocks.ENERGY_DEPOSITIONER.block().get(), "minecraft:block/ancient_debris");
+    }
+
+    private void createLunarBlockModel(BlockModelGenerators blockModels, Block block, String modelName) {
+        generatedBlocks.add(block);
+        Identifier model = Constants.id("block/" + modelName);
+        blockModels.blockStateOutput.accept(createSimpleBlock(block, plainVariant(model)));
+        blockModels.registerSimpleItemModel(block, model);
     }
 
     private void createPECube(BlockModelGenerators blockModels, Block block, String texture) {

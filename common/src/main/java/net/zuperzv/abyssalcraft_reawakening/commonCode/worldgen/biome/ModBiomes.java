@@ -193,11 +193,6 @@ public final class ModBiomes {
                 ModWorldgen.FOREST_WITHERWOOD_TREE_PLACED
         );
 
-        builder.addFeature(
-                GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModWorldgen.WASTITE_SPIKE_PLACED
-        );
-
         // FOSSILS
         addVanillaFossil(builder);
 
@@ -252,11 +247,6 @@ public final class ModBiomes {
         builder.addFeature(
                 GenerationStep.Decoration.VEGETAL_DECORATION,
                 ModWorldgen.WITHERWOOD_TREE_PLACED
-        );
-
-        builder.addFeature(
-                GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModWorldgen.WASTITE_SPIKE_PLACED
         );
 
         // FOSSILS
@@ -315,11 +305,6 @@ public final class ModBiomes {
                 ModWorldgen.WITHERWOOD_TREE_PLACED
         );
 
-        builder.addFeature(
-                GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModWorldgen.WASTITE_SPIKE_PLACED
-        );
-
         // FOSSILS
         addVanillaFossil(builder);
 
@@ -376,11 +361,6 @@ public final class ModBiomes {
                 ModWorldgen.WITHERWOOD_TREE_PLACED
         );
 
-        builder.addFeature(
-                GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModWorldgen.WASTITE_SPIKE_PLACED
-        );
-
         // FOSSILS
         addVanillaFossil(builder);
 
@@ -433,11 +413,6 @@ public final class ModBiomes {
         builder.addFeature(
                 GenerationStep.Decoration.VEGETAL_DECORATION,
                 ModWorldgen.WITHERWOOD_TREE_PLACED
-        );
-
-        builder.addFeature(
-                GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModWorldgen.WASTITE_SPIKE_PLACED
         );
 
         // FOSSILS

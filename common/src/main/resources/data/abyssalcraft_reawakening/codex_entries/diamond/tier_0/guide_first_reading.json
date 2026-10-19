@@ -1,0 +1,20 @@
+{
+  "id": "guide_first_reading",
+  "title": "A Field Guide to the Unquiet",
+  "type": "item",
+  "icon": "minecraft:book",
+  "search_items": [
+    "minecraft:book"
+  ],
+  "related": [],
+  "right_side": [
+    {
+      "modules": [
+        {
+          "module_type": "text",
+          "text": "Welcome, curious reader. This book is a field guide, not a dare. Begin with the [[Necronomicon|guide_necronomicon]], learn how [[Potential Energy|guide_pe]] behaves, then follow the trail to the first [[Gateway Key|guide_gateway]]. Gold words open their own entries when clicked.\n\nThe pages open as the Necronomicon grows through its tiers. A locked page means 'later', not 'you missed a secret'."
+        }
+      ]
+    }
+  ]
+}

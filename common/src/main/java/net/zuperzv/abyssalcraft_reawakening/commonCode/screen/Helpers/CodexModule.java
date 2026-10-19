@@ -19,6 +19,10 @@ public class CodexModule {
     // Furnace recipe
     public String input;
     public String output;
+    public String input_fluid_text;
+    public String output_fluid_text;
+    public int output_count = 1;
+    public List<String> ingredients;
     public float experience;
     public int cooking_time;
 }

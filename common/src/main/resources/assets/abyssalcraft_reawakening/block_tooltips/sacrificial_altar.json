@@ -1,6 +1,7 @@
 ﻿{
   "block":  "abyssalcraft_reawakening:sacrificial_altar",
   "providers":  [
-    "pe_storage"
+    "pe_storage",
+    "pe_altar_extract"
   ]
 }

@@ -10,6 +10,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.CrystalProductBlock;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.custom.EssenceBoilerBlockEntity;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.custom.CrystalGrowthBlockEntity;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.custom.PEMachineBlockEntity;
@@ -50,6 +51,14 @@ public final class BlockTooltipProviders {
                 tooltip.add(Component.translatable(
                         "tooltip.abyssalcraft_reawakening.pe",
                         machine.getStoredPE(), machine.getCapacityPE()).withStyle(ChatFormatting.LIGHT_PURPLE));
+            }
+        });
+
+        register("pe_altar_extract", (context, tooltip) -> {
+            if (context.blockEntity() instanceof PEMachineBlockEntity machine
+                    && machine.getBlockState().is(ModBlocks.SACRIFICIAL_ALTAR.block().get())) {
+                tooltip.add(Component.translatable("tooltip.abyssalcraft_reawakening.sacrificial_altar_extract")
+                        .withStyle(ChatFormatting.GRAY));
             }
         });
 

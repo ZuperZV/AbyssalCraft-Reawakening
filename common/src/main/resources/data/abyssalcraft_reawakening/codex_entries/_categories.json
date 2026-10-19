@@ -1,18 +1,18 @@
 {
-    "categories":  [
-                       {
-                           "folder":  "diamond",
-                           "id":  "diamond",
-                           "title":  "First Principles",
-                           "icon":  "minecraft:book",
-                           "order":  0
-                       },
-                       {
-                           "folder":  "category",
-                           "id":  "category",
-                           "title":  "The Unseen",
-                           "icon":  "minecraft:ender_eye",
-                           "order":  1
-                       }
-                   ]
+  "categories": [
+    {
+      "folder": "diamond",
+      "id": "first_principles",
+      "title": "First Principles",
+      "icon": "minecraft:book",
+      "order": 0
+    },
+    {
+      "folder": "category",
+      "id": "field_notes",
+      "title": "Field Notes",
+      "icon": "minecraft:ender_eye",
+      "order": 1
+    }
+  ]
 }

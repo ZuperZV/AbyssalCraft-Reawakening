@@ -71,6 +71,15 @@ public final class ModWorldgenProvider extends DatapackBuiltinEntriesProvider {
                         3
                 )
         );
+
+        context.register(
+                ModNoiseRouter.SITARITE_GROUND,
+                new NormalNoise.NoiseParameters(
+                        -1,
+                        1,
+                        2
+                )
+        );
     }
 
     public static void bootstrapNoiseSettings(

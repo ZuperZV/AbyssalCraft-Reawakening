@@ -81,6 +81,7 @@ public class ModResources {
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(ModBlockEntities.STONE_RITUAL_ALTAR_BE.get(), StoneRitualAltarBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.STONE_RITUAL_PEDESTAL_BE.get(), StoneRitualPedestalBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.PE_MACHINE_BE.get(), PEMachineBlockEntityRenderer::new);
 
         event.registerBlockEntityRenderer(ModBlockEntities.ESSENCE_BOILER_BE.get(), EssenceBoilerBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.BOILER_TIP_BE.get(), BoilerTipBlockEntityRenderer::new);

@@ -16,6 +16,8 @@ import net.neoforged.neoforge.client.event.RecipesReceivedEvent;
 import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
+import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -25,6 +27,7 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.Necronomicon
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.NecronomiconTooltipComponent;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.StaffClientTooltip;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.StaffTooltipComponent;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.effect.ModPotionBrewing;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.network.SetBookmarksPacket;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.network.SyncBookmarksPacket;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.particle.ColorBubbleParticle;
@@ -48,8 +51,13 @@ public class NeoForgeAbyssalCraft {
         eventBus.addListener(this::registerPayloadHandlers);
         eventBus.addListener(this::onRegisterSpawnPlacements);
         eventBus.addListener(this::onEntityAttributeCreation);
+        NeoForge.EVENT_BUS.addListener(this::registerBrewingRecipes);
 
         NeoForgeRegistryHelper.register(eventBus);
+    }
+
+    private void registerBrewingRecipes(RegisterBrewingRecipesEvent event) {
+        ModPotionBrewing.register(event.getBuilder());
     }
 
     private void registerPayloadHandlers(RegisterPayloadHandlersEvent event) {

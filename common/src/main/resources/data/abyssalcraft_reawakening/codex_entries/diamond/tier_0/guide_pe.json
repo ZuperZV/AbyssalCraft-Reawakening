@@ -1,0 +1,21 @@
+{
+  "id": "guide_pe",
+  "title": "Potential Energy",
+  "type": "item",
+  "icon": "abyssalcraft_reawakening:shadow_gem",
+  "search_items": [
+    "abyssalcraft_reawakening:shadow_gem",
+    "abyssalcraft_reawakening:stone_tablet"
+  ],
+  "related": [],
+  "right_side": [
+    {
+      "modules": [
+        {
+          "module_type": "text",
+          "text": "Potential Energy, usually shortened to PE, is the quiet current behind this craft. A [[PE Statue|guide_statues]] makes it; a [[Pedestal or Collector|guide_pe_machines]] receives it; relays carry it onward. PE is stored by the machine, not printed into chat. A little patience is part of the apparatus.\n\nStart with a [[Monolith Stone|guide_monolith]]. Deepslate bricks and a Shadow Gem make a useful first anchor."
+        }
+      ]
+    }
+  ]
+}
