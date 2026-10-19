@@ -54,6 +54,25 @@ public class ModBlockEntities {
                     ModFluids.POTION_BLOCK::get
             );
 
+    public static final RegistryHandle<BlockEntityType<PEMachineBlockEntity>> PE_MACHINE_BE =
+            Services.REGISTRY.registerBlockEntityType(
+                    "pe_machine",
+                    PEMachineBlockEntity::new,
+                    ModBlocks.CTHULHU_STATUE.block()::get,
+                    ModBlocks.HASTUR_STATUE.block()::get,
+                    ModBlocks.JZAHAR_STATUE.block()::get,
+                    ModBlocks.YOG_SOTHOTH_STATUE.block()::get,
+                    ModBlocks.AZATHOTH_STATUE.block()::get,
+                    ModBlocks.NYARLATHOTEP_STATUE.block()::get,
+                    ModBlocks.SHUB_NIGGURATH_STATUE.block()::get,
+                    ModBlocks.ENERGY_PEDESTAL.block()::get,
+                    ModBlocks.ENERGY_COLLECTOR.block()::get,
+                    ModBlocks.ENERGY_RELAY.block()::get,
+                    ModBlocks.ENERGY_CONTAINER.block()::get,
+                    ModBlocks.SACRIFICIAL_ALTAR.block()::get,
+                    ModBlocks.ENERGY_DEPOSITIONER.block()::get
+            );
+
     /*
     public static final RegistryHandle<BlockEntityType<StoneRitualPedestalBlockEntity>> PE_STATUE_BE =
             Services.REGISTRY.registerBlockEntityType(

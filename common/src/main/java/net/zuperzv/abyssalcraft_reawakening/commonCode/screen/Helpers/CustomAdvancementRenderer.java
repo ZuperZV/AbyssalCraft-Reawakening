@@ -16,9 +16,12 @@ public class CustomAdvancementRenderer {
 
     public static void renderTooltipsOnly(AdvancementsScreen screen, GuiGraphicsExtractor graphics, int mouseX, int mouseY, int guiLeft, int guiTop, NecronomiconScreen codexScreen, int X, int Y) {
         AdvancementTab selected = getSelectedTab(screen);
-        if (selected == null) return;
+        if (selected == null) {
+            graphics.pose().popMatrix();
+            return;
+        }
 
-        int x = guiLeft - 5;
+        int x = guiLeft - 5 -15;
         int y = guiTop + 20;
 
         int codexX = (codexScreen.width - codexScreen.getImageWidth()) / 2;
@@ -35,7 +38,7 @@ public class CustomAdvancementRenderer {
             graphics.blit(
                     RenderPipelines.GUI_TEXTURED,
                     codexScreen.BOOK_TEXTURE,
-                    codexX - 10,
+                    codexX - 10 - 15,
                     codexY + 15,
                     12,
                     211,
@@ -48,8 +51,8 @@ public class CustomAdvancementRenderer {
             graphics.blit(
                     RenderPipelines.GUI_TEXTURED,
                     codexScreen.BOOK_TEXTURE,
-                    codexX - 10,
-                    codexY + 127,
+                    codexX - 10 - 15,
+                    codexY + 151,
                     12,
                     224,
                     85,
@@ -69,7 +72,14 @@ public class CustomAdvancementRenderer {
         int advH = 127;
 
         if (MouseUtil.isMouseOver(mouseX, mouseY, advX, advY, advW, advH)) {
-            drawTooltips(graphics, mouseX - x, mouseY - y, x, y, selected);
+            drawTooltips(
+                    graphics,
+                    mouseX - x - 5,
+                    mouseY - y,
+                    x - 14,
+                    y + 20,
+                    selected
+            );
         }
 
         graphics.pose().popMatrix();
@@ -128,7 +138,10 @@ public class CustomAdvancementRenderer {
 
         for (AdvancementWidget widget : widgets.values()) {
             if (widget.isMouseOver(i, j, mouseX, mouseY)) {
+                p_282892_.pose().pushMatrix();
+                p_282892_.pose().translate(14.0F, -19.0F);
                 widget.extractHover(p_282892_, i, j, fade, p_282652_, p_283595_);
+                p_282892_.pose().popMatrix();
                 break;
             }
         }
@@ -139,17 +152,15 @@ public class CustomAdvancementRenderer {
     public static void drawContents(GuiGraphicsExtractor graphics, int x, int y, AdvancementTab tab) {
         AdvancementTabMixin mixin = (AdvancementTabMixin) tab;
 
-        int viewWidth = 102;
-        int viewHeight = 112;
-
         if (!mixin.isCentered()) {
             mixin.setScrollX(46 - (mixin.getMaxX() + mixin.getMinX()) / 2.0);
             mixin.setScrollY(56 - (mixin.getMaxY() + mixin.getMinY()) / 2.0);
             mixin.setCentered(true);
         }
 
-        graphics.enableScissor(x + 14,  y, x + 122, y + 109);
-        graphics.enableScissor(x, y, x + viewWidth + 30, y + viewHeight);
+        //graphics.fill(x,  y - 18, x + 80, y + 109 + 15 - 9, 0xFF000000);
+        graphics.enableScissor(x,  y - 18, x + 80, y + 109 + 15 - 9);
+
         graphics.pose().pushMatrix();
         graphics.pose().translate((float)x, (float)y);
 
@@ -171,7 +182,6 @@ public class CustomAdvancementRenderer {
         mixin.getRoot().extractRenderState(graphics, scrollX, scrollY);
 
         graphics.pose().popMatrix();
-        graphics.disableScissor();
         graphics.disableScissor();
     }
 }

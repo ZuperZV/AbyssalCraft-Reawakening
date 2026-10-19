@@ -261,6 +261,7 @@ public class NecronomiconItem extends Item {
 
         initializeEnergy(stack);
 
+        /*
         if (player.isShiftKeyDown()) {
             increaseEnergy(stack, 10);
 
@@ -268,6 +269,7 @@ public class NecronomiconItem extends Item {
                     ? InteractionResult.SUCCESS
                     : InteractionResult.CONSUME;
         }
+         */
 
         if (!level.isClientSide()) {
             player.openMenu(this.getMenuProvider(stack));

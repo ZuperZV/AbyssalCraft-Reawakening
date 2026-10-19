@@ -1,0 +1,6 @@
+﻿{
+  "block":  "abyssalcraft_reawakening:energy_depositioner",
+  "providers":  [
+    "pe_storage"
+  ]
+}

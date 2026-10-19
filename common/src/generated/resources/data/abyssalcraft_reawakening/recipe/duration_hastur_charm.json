@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": "abyssalcraft_reawakening:hastur_charm",
+    "G": "abyssalcraft_reawakening:shadow_gem",
+    "R": "abyssalcraft_reawakening:duration_ritual_charm"
+  },
+  "pattern": [
+    " G ",
+    "GRC",
+    " G "
+  ],
+  "result": {
+    "id": "abyssalcraft_reawakening:duration_hastur_charm"
+  }
+}

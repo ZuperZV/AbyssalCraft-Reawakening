@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": "abyssalcraft_reawakening:shadow_gem",
+    "M": "abyssalcraft_reawakening:monolith_stone"
+  },
+  "pattern": [
+    "MGM",
+    "G G",
+    "MGM"
+  ],
+  "result": {
+    "id": "abyssalcraft_reawakening:energy_collector"
+  }
+}

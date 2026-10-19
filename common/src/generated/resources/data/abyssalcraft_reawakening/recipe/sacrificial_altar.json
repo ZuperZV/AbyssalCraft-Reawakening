@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "M": "abyssalcraft_reawakening:monolith_stone",
+    "O": "minecraft:nether_bricks",
+    "P": "abyssalcraft_reawakening:energy_pedestal"
+  },
+  "pattern": [
+    "OMO",
+    "MPM",
+    "OMO"
+  ],
+  "result": {
+    "id": "abyssalcraft_reawakening:sacrificial_altar"
+  }
+}

@@ -1,0 +1,6 @@
+﻿{
+  "block":  "abyssalcraft_reawakening:energy_pedestal",
+  "providers":  [
+    "pe_storage"
+  ]
+}

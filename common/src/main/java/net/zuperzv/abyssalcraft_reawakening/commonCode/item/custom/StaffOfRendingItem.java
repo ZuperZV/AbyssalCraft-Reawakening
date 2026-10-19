@@ -18,6 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.level.Level;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.EnergyData;
@@ -196,6 +197,15 @@ public class StaffOfRendingItem extends Item {
             int damage = Math.min(5, Math.max(1, amount / 2));
 
             closest.hurt(level.damageSources().playerAttack(player), damage);
+            if (level instanceof ServerLevel serverLevel) {
+                Vec3 center = closest.position().add(0, closest.getBbHeight() * 0.55, 0);
+
+                for (int x : new int[]{-1, 1}) for (int y : new int[]{-1, 1}) for (int z : new int[]{-1, 1}) {
+                    serverLevel.sendParticles(ParticleTypes.END_ROD,
+                            center.x + x * 0.16, center.y + y * 0.16, center.z + z * 0.16,
+                            0, x * 0.015, y * 0.015, z * 0.015, 1.0);
+                }
+            }
 
             increaseEnergy(stack, type, amount);
         }

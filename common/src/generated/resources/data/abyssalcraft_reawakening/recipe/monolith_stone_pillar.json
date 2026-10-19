@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "M": "abyssalcraft_reawakening:monolith_stone"
+  },
+  "pattern": [
+    "M",
+    "M"
+  ],
+  "result": {
+    "id": "abyssalcraft_reawakening:monolith_stone_pillar"
+  }
+}

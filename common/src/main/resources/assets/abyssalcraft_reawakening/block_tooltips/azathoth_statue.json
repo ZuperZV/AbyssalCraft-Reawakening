@@ -1,0 +1,6 @@
+﻿{
+  "block":  "abyssalcraft_reawakening:azathoth_statue",
+  "providers":  [
+    "pe_storage"
+  ]
+}

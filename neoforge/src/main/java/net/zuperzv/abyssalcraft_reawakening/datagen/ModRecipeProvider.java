@@ -71,6 +71,8 @@ public class ModRecipeProvider extends RecipeProvider {
                 new Key('B', Items.BOOK),
                 new Key('C', Items.IRON_INGOT));
 
+        addPotentialEnergyRecipes();
+
         StoneRitualAltarRecipeBuilder.altar(
                 RecipeCategory.MISC,
                 new ItemStackTemplate(
@@ -2015,6 +2017,116 @@ public class ModRecipeProvider extends RecipeProvider {
                         Constants.id("crystal_growth/test_no_item_input")
                 ));
          */
+    }
+
+    private void addPotentialEnergyRecipes() {
+        saveShaped("monolith_stone", RecipeCategory.BUILDING_BLOCKS, ModBlocks.MONOLITH_STONE.item().get(),
+                new String[]{"DDD", "DSD", "DDD"},
+                new Key('D', Items.DEEPSLATE_BRICKS), new Key('S', ModItems.SHADOW_GEM.get()));
+
+        saveShaped("monolith_stone_pillar", RecipeCategory.BUILDING_BLOCKS, ModBlocks.MONOLITH_STONE_PILLAR.item().get(),
+                new String[]{"M", "M"}, new Key('M', ModBlocks.MONOLITH_STONE.item().get()));
+
+        addStatueRecipe("cthulhu_statue", ModBlocks.CTHULHU_STATUE.item().get(), ModItems.CTHULHU_CHARM.get());
+        addStatueRecipe("hastur_statue", ModBlocks.HASTUR_STATUE.item().get(), ModItems.HASTUR_CHARM.get());
+        addStatueRecipe("jzahar_statue", ModBlocks.JZAHAR_STATUE.item().get(), ModItems.JZAHAR_CHARM.get());
+        addStatueRecipe("yog_sothoth_statue", ModBlocks.YOG_SOTHOTH_STATUE.item().get(), ModItems.YOG_SOTHOTH_CHARM.get());
+        addStatueRecipe("azathoth_statue", ModBlocks.AZATHOTH_STATUE.item().get(), ModItems.AZATHOTH_CHARM.get());
+        addStatueRecipe("nyarlathotep_statue", ModBlocks.NYARLATHOTEP_STATUE.item().get(), ModItems.NYARLATHOTEP_CHARM.get());
+        addStatueRecipe("shub_niggurath_statue", ModBlocks.SHUB_NIGGURATH_STATUE.item().get(), ModItems.SHUB_NIGGURATH_CHARM.get());
+        addRitualCharmRecipes();
+
+        saveShaped("energy_pedestal", RecipeCategory.MISC, ModBlocks.ENERGY_PEDESTAL.item().get(),
+                new String[]{"OMO", "MGM", "OMO"}, new Key('O', Items.OBSIDIAN),
+                new Key('M', ModBlocks.MONOLITH_STONE.item().get()), new Key('G', ModItems.SHADOW_GEM.get()));
+
+        saveShaped("energy_collector", RecipeCategory.MISC, ModBlocks.ENERGY_COLLECTOR.item().get(),
+                new String[]{"MGM", "G G", "MGM"}, new Key('M', ModBlocks.MONOLITH_STONE.item().get()),
+                new Key('G', ModItems.SHADOW_GEM.get()));
+
+        saveShaped("energy_relay", RecipeCategory.MISC, ModBlocks.ENERGY_RELAY.item().get(),
+                new String[]{" G ", "MPM", " G "}, new Key('G', ModItems.SHADOW_GEM.get()),
+                new Key('M', ModBlocks.MONOLITH_STONE_PILLAR.item().get()),
+                new Key('P', ModBlocks.ENERGY_PEDESTAL.item().get()));
+
+        saveShaped("energy_container", RecipeCategory.MISC, ModBlocks.ENERGY_CONTAINER.item().get(),
+                new String[]{"CCC", "CNC", "CCC"}, new Key('C', ModBlocks.ENERGY_COLLECTOR.item().get()),
+                new Key('N', Items.CHEST));
+
+        saveShaped("sacrificial_altar", RecipeCategory.MISC, ModBlocks.SACRIFICIAL_ALTAR.item().get(),
+                new String[]{"OMO", "MPM", "OMO"}, new Key('O', Items.NETHER_BRICKS),
+                new Key('M', ModBlocks.MONOLITH_STONE.item().get()),
+                new Key('P', ModBlocks.ENERGY_PEDESTAL.item().get()));
+
+        saveShaped("stone_tablet", RecipeCategory.MISC, ModItems.STONE_TABLET.get(),
+                new String[]{" D ", "DSD", " D "}, new Key('D', Items.DEEPSLATE),
+                new Key('S', ModItems.SHADOW_GEM.get()));
+
+        saveShaped("energy_depositioner", RecipeCategory.MISC, ModBlocks.ENERGY_DEPOSITIONER.item().get(),
+                new String[]{" M ", "STS", " C "}, new Key('M', ModBlocks.MONOLITH_STONE_PILLAR.item().get()),
+                new Key('S', ModItems.STONE_TABLET.get()), new Key('T', ModItems.SHADOW_GEM.get()),
+                new Key('C', ModBlocks.ENERGY_CONTAINER.item().get()));
+    }
+
+    private void addStatueRecipe(String id, ItemLike statue, ItemLike charm) {
+        saveShaped(id, RecipeCategory.MISC, statue,
+                new String[]{" M ", "MCM", " G "}, new Key('M', ModBlocks.MONOLITH_STONE.item().get()),
+                new Key('C', charm), new Key('G', ModItems.SHADOW_GEM.get()));
+    }
+
+    private void addRitualCharmRecipes() {
+        saveShaped("ritual_charm", RecipeCategory.MISC, ModItems.RITUAL_CHARM.get(),
+                new String[]{" S ", "SPS", " S "}, new Key('S', Items.STRING), new Key('P', Items.PAPER));
+        saveShaped("range_ritual_charm", RecipeCategory.MISC, ModItems.RANGE_RITUAL_CHARM.get(),
+                new String[]{" G ", "GRG", " G "}, new Key('G', ModItems.SHADOW_GEM.get()), new Key('R', ModItems.RITUAL_CHARM.get()));
+        saveShaped("duration_ritual_charm", RecipeCategory.MISC, ModItems.DURATION_RITUAL_CHARM.get(),
+                new String[]{" G ", "GRC", " G "}, new Key('G', ModItems.SHADOW_GEM.get()),
+                new Key('R', ModItems.RITUAL_CHARM.get()), new Key('C', Items.CLOCK));
+        saveShaped("power_ritual_charm", RecipeCategory.MISC, ModItems.POWER_RITUAL_CHARM.get(),
+                new String[]{" G ", "GRB", " G "}, new Key('G', ModItems.SHADOW_GEM.get()),
+                new Key('R', ModItems.RITUAL_CHARM.get()), new Key('B', Items.BLAZE_POWDER));
+
+        addGodCharms("cthulhu", ModItems.CTHULHU_CHARM.get(), ModItems.RANGE_CTHULHU_CHARM.get(),
+                ModItems.DURATION_CTHULHU_CHARM.get(), ModItems.POWER_CTHULHU_CHARM.get());
+        addGodCharms("hastur", ModItems.HASTUR_CHARM.get(), ModItems.RANGE_HASTUR_CHARM.get(),
+                ModItems.DURATION_HASTUR_CHARM.get(), ModItems.POWER_HASTUR_CHARM.get());
+        addGodCharms("jzahar", ModItems.JZAHAR_CHARM.get(), ModItems.RANGE_JZAHAR_CHARM.get(),
+                ModItems.DURATION_JZAHAR_CHARM.get(), ModItems.POWER_JZAHAR_CHARM.get());
+        addGodCharms("yog_sothoth", ModItems.YOG_SOTHOTH_CHARM.get(), ModItems.RANGE_YOG_SOTHOTH_CHARM.get(),
+                ModItems.DURATION_YOG_SOTHOTH_CHARM.get(), ModItems.POWER_YOG_SOTHOTH_CHARM.get());
+        addGodCharms("azathoth", ModItems.AZATHOTH_CHARM.get(), ModItems.RANGE_AZATHOTH_CHARM.get(),
+                ModItems.DURATION_AZATHOTH_CHARM.get(), ModItems.POWER_AZATHOTH_CHARM.get());
+        addGodCharms("nyarlathotep", ModItems.NYARLATHOTEP_CHARM.get(), ModItems.RANGE_NYARLATHOTEP_CHARM.get(),
+                ModItems.DURATION_NYARLATHOTEP_CHARM.get(), ModItems.POWER_NYARLATHOTEP_CHARM.get());
+        addGodCharms("shub_niggurath", ModItems.SHUB_NIGGURATH_CHARM.get(), ModItems.RANGE_SHUB_NIGGURATH_CHARM.get(),
+                ModItems.DURATION_SHUB_NIGGURATH_CHARM.get(), ModItems.POWER_SHUB_NIGGURATH_CHARM.get());
+    }
+
+    private void addGodCharms(String god, ItemLike charm, ItemLike range, ItemLike duration, ItemLike power) {
+        saveShaped(god + "_charm", RecipeCategory.MISC, charm,
+                new String[]{" G ", "GRG", " G "}, new Key('G', ModItems.SHADOW_GEM.get()),
+                new Key('R', ModItems.RITUAL_CHARM.get()));
+        saveShaped("range_" + god + "_charm", RecipeCategory.MISC, range,
+                new String[]{" G ", "GRC", " G "}, new Key('G', ModItems.SHADOW_GEM.get()),
+                new Key('R', ModItems.RANGE_RITUAL_CHARM.get()), new Key('C', charm));
+        saveShaped("duration_" + god + "_charm", RecipeCategory.MISC, duration,
+                new String[]{" G ", "GRC", " G "}, new Key('G', ModItems.SHADOW_GEM.get()),
+                new Key('R', ModItems.DURATION_RITUAL_CHARM.get()), new Key('C', charm));
+        saveShaped("power_" + god + "_charm", RecipeCategory.MISC, power,
+                new String[]{" G ", "GRC", " G "}, new Key('G', ModItems.SHADOW_GEM.get()),
+                new Key('R', ModItems.POWER_RITUAL_CHARM.get()), new Key('C', charm));
+    }
+
+    private void saveShaped(String id, RecipeCategory category, ItemLike result, String[] pattern, Key... keys) {
+        ShapedRecipeBuilder builder = shaped(category, result);
+        for (String row : pattern) builder.pattern(row);
+        ItemLike unlock = null;
+        for (Key key : keys) {
+            builder.define(key.key(), key.ingredient());
+            if (unlock == null && key.unlockItem() != null) unlock = key.unlockItem();
+        }
+        if (unlock != null) builder.unlockedBy(getHasName(unlock), has(unlock));
+        builder.save(output, ResourceKey.create(Registries.RECIPE, Constants.id(id)));
     }
 
     private void crystallizationPotionRecipe(RecipeOutput output) {

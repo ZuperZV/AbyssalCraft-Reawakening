@@ -6,6 +6,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.CoraliumGemsData;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.component.CodexTierData;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
@@ -72,6 +73,8 @@ public final class ModCreativeTabItemSorter {
 
             if (item == ModItems.CORALIUM_GEM.get()) {
                 result.addAll(getCoraliumGemVariants());
+            } else if (item == ModItems.NECRONOMICON.get()) {
+                result.addAll(getNecronomiconTierVariants());
             } else {
                 result.add(new ItemStack(item));
             }
@@ -94,6 +97,21 @@ public final class ModCreativeTabItemSorter {
                     new CoraliumGemsData(gems)
             );
 
+            result.add(stack);
+        }
+
+        return result;
+    }
+
+    private static List<ItemStack> getNecronomiconTierVariants() {
+        List<ItemStack> result = new ArrayList<>();
+
+        for (int tier = 1; tier <= 5; tier++) {
+            ItemStack stack = new ItemStack(ModItems.NECRONOMICON.get());
+            stack.set(
+                    ModDataComponentTypes.CODEX_TIER.get(),
+                    new CodexTierData(tier)
+            );
             result.add(stack);
         }
 

@@ -107,6 +107,7 @@ public class ModModelProvider extends ModelProvider {
         createEssenceBoilerBlock(blockModels, ModBlocks.ESSENCE_BOILER.block().get(), "essence_boiler_parent", List.of(TextureSlot.create("0")));
         createCrystalGrowthChamber(blockModels, ModBlocks.CRYSTAL_GROWTH_CHAMBER.block().get());
         createCrystalProducts(blockModels, itemModels);
+        createPEMachineModels(blockModels);
 
         //Create Rotated Variants
         createRotatedVariantBlock(blockModels, ModBlocks.WASTITE.block().get());
@@ -1412,6 +1413,32 @@ public class ModModelProvider extends ModelProvider {
     private void generateCubeBlock(BlockModelGenerators blockModels, Block block) {
         generatedBlocks.add(block);
         blockModels.createTrivialCube(block);
+    }
+
+    private void createPEMachineModels(BlockModelGenerators blockModels) {
+        createPECube(blockModels, ModBlocks.MONOLITH_STONE.block().get(), "minecraft:block/deepslate_tiles");
+        createPECube(blockModels, ModBlocks.MONOLITH_STONE_PILLAR.block().get(), "minecraft:block/polished_blackstone_bricks");
+        createPECube(blockModels, ModBlocks.CTHULHU_STATUE.block().get(), "minecraft:block/chiseled_deepslate");
+        createPECube(blockModels, ModBlocks.HASTUR_STATUE.block().get(), "minecraft:block/gold_block");
+        createPECube(blockModels, ModBlocks.JZAHAR_STATUE.block().get(), "minecraft:block/ancient_debris_side");
+        createPECube(blockModels, ModBlocks.YOG_SOTHOTH_STATUE.block().get(), "minecraft:block/amethyst_block");
+        createPECube(blockModels, ModBlocks.AZATHOTH_STATUE.block().get(), "minecraft:block/obsidian");
+        createPECube(blockModels, ModBlocks.NYARLATHOTEP_STATUE.block().get(), "minecraft:block/crying_obsidian");
+        createPECube(blockModels, ModBlocks.SHUB_NIGGURATH_STATUE.block().get(), "minecraft:block/moss_block");
+        createPECube(blockModels, ModBlocks.ENERGY_PEDESTAL.block().get(), "minecraft:block/obsidian");
+        createPECube(blockModels, ModBlocks.ENERGY_COLLECTOR.block().get(), "minecraft:block/amethyst_block");
+        createPECube(blockModels, ModBlocks.ENERGY_RELAY.block().get(), "minecraft:block/crying_obsidian");
+        createPECube(blockModels, ModBlocks.ENERGY_CONTAINER.block().get(), "minecraft:block/respawn_anchor_side0");
+        createPECube(blockModels, ModBlocks.SACRIFICIAL_ALTAR.block().get(), "minecraft:block/red_nether_bricks");
+        createPECube(blockModels, ModBlocks.ENERGY_DEPOSITIONER.block().get(), "minecraft:block/ancient_debris");
+    }
+
+    private void createPECube(BlockModelGenerators blockModels, Block block, String texture) {
+        generatedBlocks.add(block);
+        Material material = new Material(Identifier.parse(texture));
+        Identifier model = ModelTemplates.CUBE_ALL.create(block, TextureMapping.cube(material), blockModels.modelOutput);
+        blockModels.blockStateOutput.accept(createSimpleBlock(block, plainVariant(model)));
+        blockModels.registerSimpleItemModel(block, model);
     }
 
     private Iterable<Block> getModBlocks() {

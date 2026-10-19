@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": "minecraft:blaze_powder",
+    "G": "abyssalcraft_reawakening:shadow_gem",
+    "R": "abyssalcraft_reawakening:ritual_charm"
+  },
+  "pattern": [
+    " G ",
+    "GRB",
+    " G "
+  ],
+  "result": {
+    "id": "abyssalcraft_reawakening:power_ritual_charm"
+  }
+}

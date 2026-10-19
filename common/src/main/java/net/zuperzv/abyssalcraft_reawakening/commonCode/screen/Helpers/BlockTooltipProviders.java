@@ -12,6 +12,7 @@ import net.minecraft.world.item.alchemy.PotionContents;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.CrystalProductBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.custom.EssenceBoilerBlockEntity;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.custom.CrystalGrowthBlockEntity;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.custom.PEMachineBlockEntity;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.loader.BlockTooltipDataLoader;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.EssenceBoilerFluid;
 import net.zuperzv.abyssalcraft_reawakening.services.types.IFluidTankAccess;
@@ -44,6 +45,14 @@ public final class BlockTooltipProviders {
 
     public static void registerDefaults() {
 
+        register("pe_storage", (context, tooltip) -> {
+            if (context.blockEntity() instanceof PEMachineBlockEntity machine) {
+                tooltip.add(Component.translatable(
+                        "tooltip.abyssalcraft_reawakening.pe",
+                        machine.getStoredPE(), machine.getCapacityPE()).withStyle(ChatFormatting.LIGHT_PURPLE));
+            }
+        });
+
         register(
                 "growth_inputs",
                 (context, tooltip) -> {
@@ -55,7 +64,7 @@ public final class BlockTooltipProviders {
                                             .withStyle(ChatFormatting.GRAY)
                             );
                             addNextFluidRequirement(growth, tooltip);
-                        } else {
+                        } else if(!isCrystal(stored)) {
                             tooltip.add(
                                     Component.translatable("tooltip.abyssalcraft_reawakening.place_crystal_fragment")
                                             .withStyle(ChatFormatting.LIGHT_PURPLE)
@@ -180,6 +189,11 @@ public final class BlockTooltipProviders {
         return stack.getItem() instanceof BlockItem blockItem
                 && blockItem.getBlock() instanceof CrystalProductBlock product
                 && "fragment".equals(product.getProduct());
+    }
+    public static boolean isCrystal(ItemStack stack) {
+        return stack.getItem() instanceof BlockItem blockItem
+                && blockItem.getBlock() instanceof CrystalProductBlock product
+                && "crystal".equals(product.getProduct());
     }
 
     public static void applyProviders(

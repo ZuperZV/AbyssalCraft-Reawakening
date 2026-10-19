@@ -1,31 +1,24 @@
 {
-  "id": "entry_1",
-  "title": "Entry 1",
-  "title_key": "codex_arcanum.abyssalcraft_reawakening.guide.entry_1.title",
-  "type": "item",
-  "icon": "minecraft:book",
-  "search_items": [],
-  "related": [],
-  "right_side": [
-    {
-      "modules": [
-        {
-          "module_type": "text",
-          "text": "hmmmm",
-          "text_key": "codex_arcanum.abyssalcraft_reawakening.guide.entry_1.page.1.module.1"
-        }
-      ]
-    },
-    {
-      "modules": [
-        {
-          "module_type": "recipe",
-          "recipe_type": "crafting_table",
-          "pattern": [],
-          "key": {},
-          "result": "minecraft:bamboo_planks"
-        }
-      ]
-    }
-  ]
+    "id":  "first_reading",
+    "title":  "A Note to the Reader",
+    "title_key":  "codex_arcanum.abyssalcraft_reawakening.guide.first_reading.title",
+    "type":  "item",
+    "icon":  "minecraft:book",
+    "search_items":  [
+
+                     ],
+    "related":  [
+
+                ],
+    "right_side":  [
+                       {
+                           "modules":  [
+                                           {
+                                               "module_type":  "text",
+                                               "text_key":  "codex_arcanum.abyssalcraft_reawakening.guide.first_reading.page.1.module.1",
+                                               "text":  "This book was not written to make the unknown seem tame. It records what can be observed, what can be repeated, and what should be approached with care. Its pages open as knowledge is earned. A locked passage is not a punishment; it is a door that has not yet learned your name. Read slowly. The world is generous with signs and sparing with explanations."
+                                           }
+                                       ]
+                       }
+                   ]
 }

@@ -94,8 +94,8 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
 
     private AdvancementsScreen advancementsScreen;
     public boolean showAdvancement = true;
-    public int advancementX = 30;
-    public int advancementY = 18;
+    public int advancementX = 44;
+    public int advancementY = 0;
 
     private final int SEARCH_TEX_X_P = 158;
     private final int SEARCH_TEX_Y_P = -16;
@@ -113,7 +113,7 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
     private static final int ITEM_SIZE = 16;
     private static final int ITEM_PADDING = 2;
     private static final int LINE_HEIGHT = 10;
-    private static final int TEXT_COLOR = 0x282828;
+    private static final int TEXT_COLOR = 0x181512;
     private static final int LINK_COLOR = 0x1f1f1f;
     private static final int LINK_COLOR_LOCKED = 0x141414;
     private static final int LINK_COLOR_HOVER = 0x3a3a3a;
@@ -541,6 +541,7 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
             RenderMouseY = mouseY - FabricY;
         }
 
+
         renderBookmarks(guiGraphics);
 
         renderSearch(guiGraphics, mouseX, mouseY, x, y);
@@ -550,6 +551,7 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
         //renderJeiOverlays(guiGraphics, mouseX, mouseY);
 
         renderBg(guiGraphics, delta, mouseX, mouseY);
+
 
         if ((isInCategoryView) || (selectedCategory != null && selectedEntry == null)) {
             drawIconAndTitle(guiGraphics, RenderMouseX, RenderMouseY, RenderX, RenderY, getBookItem());
@@ -575,6 +577,8 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
             guiGraphics.setTooltipForNextFrame(this.font, hoveredStack, RenderMouseX, RenderMouseY);
             guiGraphics.pose().popMatrix();
         }
+
+        renderAdvancementTooltips(guiGraphics, mouseX, mouseY, x, y);
 
         renderSearchBar(guiGraphics, mouseX, mouseY);
     }
@@ -869,9 +873,15 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
         guiGraphics.enableScissor(areaX, areaY, areaX + areaW, areaY + areaH);
 
         if (selectedEntry != null && selectedEntry.right_side != null && !selectedEntry.right_side.isEmpty()) {
-            if (selectedPage < 0 || selectedPage >= selectedEntry.right_side.size()) return;
+            if (selectedPage < 0 || selectedPage >= selectedEntry.right_side.size()) {
+                guiGraphics.disableScissor();
+                return;
+            }
             NecronomiconPage page = selectedEntry.right_side.get(selectedPage);
-            if (page == null || page.modules == null) return;
+            if (page == null || page.modules == null) {
+                guiGraphics.disableScissor();
+                return;
+            }
 
             int drawY = areaY - scrollOffset;
             int drawX = areaX + 2;
@@ -941,6 +951,26 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
             }
 
             int tokenWidth = this.font.width(token.text);
+            if (!token.whitespace && tokenWidth > maxWidth) {
+                StringBuilder piece = new StringBuilder();
+                for (int i = 0; i < token.text.length(); i++) {
+                    String next = piece.toString() + token.text.charAt(i);
+                    if (!piece.isEmpty() && this.font.width(next) > maxWidth) {
+                        int pieceWidth = this.font.width(piece.toString());
+                        positioned.add(new PositionedTextToken(piece.toString(), cursorX, cursorY, pieceWidth, token.entry, token.link));
+                        cursorX = startX;
+                        cursorY += LINE_HEIGHT;
+                        piece.setLength(0);
+                    }
+                    piece.append(token.text.charAt(i));
+                }
+                if (!piece.isEmpty()) {
+                    String pieceText = piece.toString();
+                    positioned.add(new PositionedTextToken(pieceText, cursorX, cursorY, this.font.width(pieceText), token.entry, token.link));
+                    cursorX += this.font.width(pieceText);
+                }
+                continue;
+            }
             if (!token.whitespace && cursorX > startX && cursorX - startX + tokenWidth > maxWidth) {
                 cursorX = startX;
                 cursorY += LINE_HEIGHT;
@@ -1473,22 +1503,13 @@ public class NecronomiconScreen extends AbstractContainerScreen<NecronomiconMenu
     }
 
     protected void renderBg(GuiGraphicsExtractor guiGraphics, float partialTick, int mouseX, int mouseY) {
+    }
 
+    private void renderAdvancementTooltips(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, int x, int y) {
         if (showAdvancement && advancementsScreen != null) {
-
-            int x = (width - imageWidth) / 2;
-            int y = (height - imageHeight) / 2;
-
-            int advX = x + 16;
-            int advY = y + 22;
-            int advW = 92;
-            int advH = 138;
-
-            //if (MouseUtil.isMouseOver(mouseX, mouseY, advX, advY, advW, advH)) {
-
             guiGraphics.pose().pushMatrix();
             guiGraphics.pose().translate(advancementX, advancementY);
-            applyLayer(guiGraphics, 0);
+            applyLayer(guiGraphics, Z_TOOLTIP - 1);
 
             CustomAdvancementRenderer.renderTooltipsOnly(
                     advancementsScreen,

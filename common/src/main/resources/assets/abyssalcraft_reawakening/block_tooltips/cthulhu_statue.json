@@ -1,0 +1,6 @@
+﻿{
+  "block":  "abyssalcraft_reawakening:cthulhu_statue",
+  "providers":  [
+    "pe_storage"
+  ]
+}

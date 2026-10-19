@@ -23,8 +23,21 @@ dependencies {
 }
 
 tasks.named('compileJava', JavaCompile) {
-    dependsOn(configurations.commonJava)
-    source(configurations.commonJava)
+    dependsOn project(':common').tasks.named('classes')
+}
+
+// The loader launchers expose only their own source-set output as the mod root.
+// Put the already compiled common classes there so mixins and common code are
+// visible to both the development launcher and the packaged loader mod.
+def syncCommonClasses = tasks.register('syncCommonClasses', Copy) {
+    dependsOn project(':common').tasks.named('classes')
+    dependsOn tasks.named('compileJava')
+    from project(':common').sourceSets.main.output.classesDirs
+    into sourceSets.main.output.classesDirs.singleFile
+}
+
+tasks.named('classes') {
+    dependsOn syncCommonClasses
 }
 
 processResources {

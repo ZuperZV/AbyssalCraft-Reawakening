@@ -1,0 +1,6 @@
+﻿{
+  "block":  "abyssalcraft_reawakening:energy_relay",
+  "providers":  [
+    "pe_storage"
+  ]
+}

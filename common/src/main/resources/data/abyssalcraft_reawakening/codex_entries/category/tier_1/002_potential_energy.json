@@ -1,0 +1,24 @@
+{
+    "id":  "potential_energy",
+    "title":  "Potential Energy",
+    "title_key":  "codex_arcanum.abyssalcraft_reawakening.guide.potential_energy.title",
+    "type":  "item",
+    "icon":  "minecraft:amethyst_shard",
+    "search_items":  [
+
+                     ],
+    "related":  [
+
+                ],
+    "right_side":  [
+                       {
+                           "modules":  [
+                                           {
+                                               "module_type":  "text",
+                                               "text_key":  "codex_arcanum.abyssalcraft_reawakening.guide.potential_energy.page.1.module.1",
+                                               "text":  "Potential Energy gathers where the world has been touched by forces older than its stone. A statue can draw it slowly from the unseen currents beneath a place. Pedestals and collectors receive that current; relays carry it onward, and containers keep what would otherwise fade. A Necronomicon held nearby may drink from a willing source. PE is spent by rituals and other workings, so keep a reserve before beginning anything costly."
+                                           }
+                                       ]
+                       }
+                   ]
+}

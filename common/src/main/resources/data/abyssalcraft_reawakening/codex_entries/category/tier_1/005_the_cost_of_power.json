@@ -1,0 +1,24 @@
+{
+    "id":  "the_cost_of_power",
+    "title":  "The Cost of Power",
+    "title_key":  "codex_arcanum.abyssalcraft_reawakening.guide.the_cost_of_power.title",
+    "type":  "item",
+    "icon":  "minecraft:lightning_rod",
+    "search_items":  [
+
+                     ],
+    "related":  [
+
+                ],
+    "right_side":  [
+                       {
+                           "modules":  [
+                                           {
+                                               "module_type":  "text",
+                                               "text_key":  "codex_arcanum.abyssalcraft_reawakening.guide.the_cost_of_power.page.1.module.1",
+                                               "text":  "Power drawn without a Place of Power is never entirely private. Sometimes the current answers with a sudden threat, a flash of fire, a lost measure of energy, or a change in the nearby ground. These are disruptions: warnings that the force has noticed its use. A proper Place of Power wards off these disturbances while the statue works. The silence that follows is a protection, not a promise that every ritual is safe."
+                                           }
+                                       ]
+                       }
+                   ]
+}

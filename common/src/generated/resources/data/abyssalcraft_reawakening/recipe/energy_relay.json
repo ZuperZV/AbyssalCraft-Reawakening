@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": "abyssalcraft_reawakening:shadow_gem",
+    "M": "abyssalcraft_reawakening:monolith_stone_pillar",
+    "P": "abyssalcraft_reawakening:energy_pedestal"
+  },
+  "pattern": [
+    " G ",
+    "MPM",
+    " G "
+  ],
+  "result": {
+    "id": "abyssalcraft_reawakening:energy_relay"
+  }
+}

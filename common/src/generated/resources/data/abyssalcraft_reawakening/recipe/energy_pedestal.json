@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": "abyssalcraft_reawakening:shadow_gem",
+    "M": "abyssalcraft_reawakening:monolith_stone",
+    "O": "minecraft:obsidian"
+  },
+  "pattern": [
+    "OMO",
+    "MGM",
+    "OMO"
+  ],
+  "result": {
+    "id": "abyssalcraft_reawakening:energy_pedestal"
+  }
+}

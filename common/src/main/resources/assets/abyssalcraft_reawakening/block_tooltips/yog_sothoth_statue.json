@@ -1,0 +1,6 @@
+﻿{
+  "block":  "abyssalcraft_reawakening:yog_sothoth_statue",
+  "providers":  [
+    "pe_storage"
+  ]
+}

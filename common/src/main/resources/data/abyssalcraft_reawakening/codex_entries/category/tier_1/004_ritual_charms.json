@@ -1,0 +1,24 @@
+{
+    "id":  "ritual_charms",
+    "title":  "Ritual Charms",
+    "title_key":  "codex_arcanum.abyssalcraft_reawakening.guide.ritual_charms.title",
+    "type":  "item",
+    "icon":  "minecraft:gold_nugget",
+    "search_items":  [
+
+                     ],
+    "related":  [
+
+                ],
+    "right_side":  [
+                       {
+                           "modules":  [
+                                           {
+                                               "module_type":  "text",
+                                               "text_key":  "codex_arcanum.abyssalcraft_reawakening.guide.ritual_charms.page.1.module.1",
+                                               "text":  "A charm binds a narrow intention to a statue. Range carries its influence farther. Duration shortens the pause between workings. Power strengthens each transfer. The charm must answer to the statue that bears it; a mismatched name is only ornament. A plain Ritual Charm can loosen the bindings and restore the statue to its former balance."
+                                           }
+                                       ]
+                       }
+                   ]
+}

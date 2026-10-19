@@ -1,0 +1,6 @@
+﻿{
+  "block":  "abyssalcraft_reawakening:energy_collector",
+  "providers":  [
+    "pe_storage"
+  ]
+}

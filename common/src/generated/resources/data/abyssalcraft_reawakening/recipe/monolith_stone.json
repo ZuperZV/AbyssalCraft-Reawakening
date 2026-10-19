@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "D": "minecraft:deepslate_bricks",
+    "S": "abyssalcraft_reawakening:shadow_gem"
+  },
+  "pattern": [
+    "DDD",
+    "DSD",
+    "DDD"
+  ],
+  "result": {
+    "id": "abyssalcraft_reawakening:monolith_stone"
+  }
+}

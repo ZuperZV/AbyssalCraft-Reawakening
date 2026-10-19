@@ -1,0 +1,6 @@
+﻿{
+  "block":  "abyssalcraft_reawakening:hastur_statue",
+  "providers":  [
+    "pe_storage"
+  ]
+}

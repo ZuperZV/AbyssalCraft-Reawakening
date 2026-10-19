@@ -52,6 +52,9 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         add("item.abyssalcraft_reawakening.sulfuric_arcanum_bucket", "Sulfuric Arcanum Bucket");
         add("item.minecraft.potion.effect.crystallization", "Potion of Crystallization");
         add("item.minecraft.potion.effect.long_crystallization", "Long Potion of Crystallization");
+        add("tooltip.abyssalcraft_reawakening.pe", "Potential Energy: %s / %s PE");
+        add("message.abyssalcraft_reawakening.place_of_power_active", "Place of Power active (%s Monolith Stone, %s Pillars, %s Statues)");
+        add("message.abyssalcraft_reawakening.place_of_power_incomplete", "Place of Power incomplete (%s Monolith Stone, %s Pillars, %s Statues)");
 
         add("name.abyssalcraft_reawakening.cluster", "Cluster");
 

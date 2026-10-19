@@ -1,0 +1,24 @@
+{
+    "id":  "places_of_power",
+    "title":  "Places of Power",
+    "title_key":  "codex_arcanum.abyssalcraft_reawakening.guide.places_of_power.title",
+    "type":  "item",
+    "icon":  "minecraft:chiseled_deepslate",
+    "search_items":  [
+
+                     ],
+    "related":  [
+
+                ],
+    "right_side":  [
+                       {
+                           "modules":  [
+                                           {
+                                               "module_type":  "text",
+                                               "text_key":  "codex_arcanum.abyssalcraft_reawakening.guide.places_of_power.page.1.module.1",
+                                               "text":  "A Place of Power steadies the current around a statue. Monolith Stone forms its foundation, pillars raise the watchful figures, and the arrangement must be exact. When the pattern is complete, the statue draws more surely and the usual disruptions cannot find purchase. The book can reveal the pattern; study its structure entry before building. A misplaced stone is enough to leave the circle silent."
+                                           }
+                                       ]
+                       }
+                   ]
+}

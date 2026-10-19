@@ -71,6 +71,38 @@ public final class ModBlocks {
                     properties -> new CrystalGrowthBlock(properties.requiresCorrectToolForDrops()
                             .strength(4.0F, 5.0F).sound(SoundType.DEEPSLATE_TILES).noOcclusion()));
 
+    // Potential Energy network
+    public static final BlockWithItemRegistryHandle<Block> MONOLITH_STONE =
+            Services.REGISTRY.registerBlockWithItem("monolith_stone",
+                    properties -> new MonolithStoneBlock(properties.mapColor(MapColor.COLOR_BLACK)
+                            .requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.DEEPSLATE)));
+
+    public static final BlockWithItemRegistryHandle<Block> MONOLITH_STONE_PILLAR =
+            Services.REGISTRY.registerBlockWithItem("monolith_stone_pillar",
+                    properties -> new RotatedPillarBlock(properties.mapColor(MapColor.COLOR_BLACK)
+                            .requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.DEEPSLATE)));
+
+    public static final BlockWithItemRegistryHandle<Block> CTHULHU_STATUE = peMachine("cthulhu_statue", PEMachineBlock.Kind.STATUE);
+    public static final BlockWithItemRegistryHandle<Block> HASTUR_STATUE = peMachine("hastur_statue", PEMachineBlock.Kind.STATUE);
+    public static final BlockWithItemRegistryHandle<Block> JZAHAR_STATUE = peMachine("jzahar_statue", PEMachineBlock.Kind.STATUE);
+    public static final BlockWithItemRegistryHandle<Block> YOG_SOTHOTH_STATUE = peMachine("yog_sothoth_statue", PEMachineBlock.Kind.STATUE);
+    public static final BlockWithItemRegistryHandle<Block> AZATHOTH_STATUE = peMachine("azathoth_statue", PEMachineBlock.Kind.STATUE);
+    public static final BlockWithItemRegistryHandle<Block> NYARLATHOTEP_STATUE = peMachine("nyarlathotep_statue", PEMachineBlock.Kind.STATUE);
+    public static final BlockWithItemRegistryHandle<Block> SHUB_NIGGURATH_STATUE = peMachine("shub_niggurath_statue", PEMachineBlock.Kind.STATUE);
+
+    public static final BlockWithItemRegistryHandle<Block> ENERGY_PEDESTAL = peMachine("energy_pedestal", PEMachineBlock.Kind.PEDESTAL);
+    public static final BlockWithItemRegistryHandle<Block> ENERGY_COLLECTOR = peMachine("energy_collector", PEMachineBlock.Kind.COLLECTOR);
+    public static final BlockWithItemRegistryHandle<Block> ENERGY_RELAY = peMachine("energy_relay", PEMachineBlock.Kind.RELAY);
+    public static final BlockWithItemRegistryHandle<Block> ENERGY_CONTAINER = peMachine("energy_container", PEMachineBlock.Kind.CONTAINER);
+    public static final BlockWithItemRegistryHandle<Block> SACRIFICIAL_ALTAR = peMachine("sacrificial_altar", PEMachineBlock.Kind.SACRIFICIAL_ALTAR);
+    public static final BlockWithItemRegistryHandle<Block> ENERGY_DEPOSITIONER = peMachine("energy_depositioner", PEMachineBlock.Kind.DEPOSITIONER);
+
+    private static BlockWithItemRegistryHandle<Block> peMachine(String name, PEMachineBlock.Kind kind) {
+        return Services.REGISTRY.registerBlockWithItem(name,
+                properties -> new PEMachineBlock(properties.mapColor(MapColor.COLOR_BLACK)
+                        .requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.DEEPSLATE), kind));
+    }
+
     //Abyssal
     public static final BlockWithItemRegistryHandle<Block> ABYSSAL_STONE = Services.REGISTRY.registerBlockWithItem("abyssal_stone",
             properties -> new Block(properties.mapColor(MapColor.COLOR_GREEN).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.STONE)));
