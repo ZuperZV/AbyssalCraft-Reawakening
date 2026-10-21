@@ -6,7 +6,7 @@ import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.recipe.v1.sync.RecipeSynchronization;
-import net.fabricmc.fabric.api.registry.FabricBrewingRecipeRegistryBuilder;
+import net.fabricmc.fabric.api.registry.FabricPotionBrewingBuilder;
 import net.minecraft.client.color.item.ItemTintSources;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.SpawnPlacements;
@@ -26,7 +26,7 @@ public class FabricAbyssalCraft implements ModInitializer {
     public void onInitialize() {
         Constants.LOG.info("Hello Fabric world!");
         CommonClass.init();
-        FabricBrewingRecipeRegistryBuilder.BUILD.register(ModPotionBrewing::register);
+        FabricPotionBrewingBuilder.BUILD.register(ModPotionBrewing::register);
 
         PayloadTypeRegistry.serverboundPlay().register(SetBookmarksPacket.TYPE, SetBookmarksPacket.STREAM_CODEC);
         PayloadTypeRegistry.clientboundPlay().register(SyncBookmarksPacket.TYPE, SyncBookmarksPacket.STREAM_CODEC);

@@ -22,7 +22,6 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.effect.ModEffects;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.GlowingLiquidBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.ModFluids;
 
-/** Liquid Coralium transmutes nearby water and stone and spreads its plague to living creatures. */
 public final class CoraliumLiquidBlock extends GlowingLiquidBlock {
     private static final ThreadLocal<Boolean> TRANSMUTING_NEIGHBORS =
             ThreadLocal.withInitial(() -> false);
