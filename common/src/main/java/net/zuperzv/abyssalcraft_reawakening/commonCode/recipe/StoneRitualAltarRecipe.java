@@ -219,7 +219,6 @@ public record StoneRitualAltarRecipe(
 
                     Ingredient.CONTENTS_STREAM_CODEC.encode(buf, recipe.moldIngredient());
 
-
                     buf.writeVarInt(recipe.additionalIngredients().size());
 
                     for (Ingredient ingredient : recipe.additionalIngredients()) {
@@ -490,6 +489,14 @@ public record StoneRitualAltarRecipe(
         BlockPos center = blockInput.pos();
 
         if (!moldIngredient.test(moldStack)) return false;
+        if (moldStack.is(ModItems.NECRONOMICON.get())) {
+            var inputTier = moldStack.get(ModDataComponentTypes.CODEX_TIER.get());
+            var outputTier = output.create().get(ModDataComponentTypes.CODEX_TIER.get());
+            if (inputTier == null || outputTier == null
+                    || inputTier.getTier() + 1 != outputTier.getTier()) {
+                return false;
+            }
+        }
 
         if (dimension.isPresent() && !level.dimension().equals(dimension.get())) {
             return false;

@@ -75,14 +75,14 @@ public final class NeoForgeFluidFactory implements IFluidFactory {
     private FluidType createFluidType(
             ModFluidTypes.FluidTypeDefinition definition
     ) {
-        return new FluidType(
-                FluidType.Properties.create()
-                        .density(definition.density())
-                        .temperature(definition.temperature())
-                        .viscosity(definition.viscosity())
-                        .fallDistanceModifier(
-                                definition.fallDistanceModifier()
-                        )
-        );
+        FluidType.Properties properties = FluidType.Properties.create()
+                .density(definition.density())
+                .temperature(definition.temperature())
+                .viscosity(definition.viscosity())
+                .fallDistanceModifier(definition.fallDistanceModifier());
+        if (definition.name().equals("coralium")) {
+            properties.canConvertToSource(true);
+        }
+        return new FluidType(properties);
     }
 }

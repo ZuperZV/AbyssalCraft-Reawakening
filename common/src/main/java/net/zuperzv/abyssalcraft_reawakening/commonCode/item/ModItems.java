@@ -1,8 +1,11 @@
 package net.zuperzv.abyssalcraft_reawakening.commonCode.item;
 
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.DyedItemColor;
+import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.level.Level;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
@@ -15,6 +18,7 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.NecronomiconI
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.StaffOfRendingItem;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.dataDrivenItems.DataItemRegistry;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.dimension.ModDimensions;
+import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
 import org.jspecify.annotations.NonNull;
@@ -31,6 +35,19 @@ public class ModItems {
         return Services.REGISTRY.registerItem(name, Item::new);
     }
 
+    private static RegistryHandle<Item> horseArmorItem(String name, ArmorMaterial material) {
+        return Services.REGISTRY.registerItem(name,
+                properties -> new Item(properties.horseArmor(material)));
+    }
+
+    private static RegistryHandle<Item> nautilusArmorItem(String name, ArmorMaterial material) {
+        return Services.REGISTRY.registerItem(name,
+                properties -> new Item(properties.nautilusArmor(material)));
+    }
+
+    private static final ResourceKey<JukeboxSong> RAW_SEWER_SONG =
+            ResourceKey.create(Registries.JUKEBOX_SONG, Constants.id("raw_sewer"));
+
     // Misc
 
     public static final RegistryHandle<Item> SHOGGOTH_PROJECTILE =
@@ -41,6 +58,9 @@ public class ModItems {
 
     public static final RegistryHandle<Item> STAFF_OF_THE_GATEKEEPER =
             simpleItem("staff_of_the_gatekeeper");
+
+    public static final RegistryHandle<Item> ABYSSAL_TRIM_SMITHING_TEMPLATE =
+            simpleItem("abyssal_trim_smithing_template");
 
     public static final RegistryHandle<Item> POWERSTONE_TRACKER =
             simpleItem("powerstone_tracker");
@@ -71,6 +91,12 @@ public class ModItems {
 
     public static final RegistryHandle<Item> LIFE_CRYSTAL =
             simpleItem("life_crystal");
+
+    public static final RegistryHandle<Item> MUSIC_DISC_RAW_SEWER =
+            Services.REGISTRY.registerItem("music_disc_raw_sewer",
+                    properties -> new Item(
+                            properties.stacksTo(1).jukeboxPlayable(RAW_SEWER_SONG)
+                    ));
 
     // Necronomicon
 
@@ -237,6 +263,15 @@ public class ModItems {
             Services.REGISTRY.registerItem("anti_ghoul_flesh",
                     properties -> new Item(
                             properties.food(ModFoods.ANTI_GHOUL_FLESH)
+                    ));
+
+    public static final RegistryHandle<BlockItem> DREADROOT =
+            Services.REGISTRY.registerBlockItem(
+                    "dreadroot",
+                    ModBlocks.DREADROOT_CROP,
+                    (block, properties) -> new BlockItem(
+                            block,
+                            properties.food(ModFoods.DREADROOT)
                     ));
 
 
@@ -809,6 +844,28 @@ public class ModItems {
                                     ArmorType.BOOTS
                             )
                     ));
+
+    // Mount armor
+
+    public static final RegistryHandle<Item> ABYSSALNITE_HORSE_ARMOR =
+            horseArmorItem("abyssalnite_horse_armor", ModArmorMaterials.ABYSSALNITE_ARMOR_MATERIAL);
+    public static final RegistryHandle<Item> ABYSSALNITE_NAUTILUS_ARMOR =
+            nautilusArmorItem("abyssalnite_nautilus_armor", ModArmorMaterials.ABYSSALNITE_ARMOR_MATERIAL);
+
+    public static final RegistryHandle<Item> CORALIUM_HORSE_ARMOR =
+            horseArmorItem("coralium_horse_armor", ModArmorMaterials.REFINED_CORALIUM_ARMOR_MATERIAL);
+    public static final RegistryHandle<Item> CORALIUM_NAUTILUS_ARMOR =
+            nautilusArmorItem("coralium_nautilus_armor", ModArmorMaterials.REFINED_CORALIUM_ARMOR_MATERIAL);
+
+    public static final RegistryHandle<Item> DREADIUM_HORSE_ARMOR =
+            horseArmorItem("dreadium_horse_armor", ModArmorMaterials.DREADIUM_ARMOR_MATERIAL);
+    public static final RegistryHandle<Item> DREADIUM_NAUTILUS_ARMOR =
+            nautilusArmorItem("dreadium_nautilus_armor", ModArmorMaterials.DREADIUM_ARMOR_MATERIAL);
+
+    public static final RegistryHandle<Item> ETHAXIUM_HORSE_ARMOR =
+            horseArmorItem("ethaxium_horse_armor", ModArmorMaterials.ETHAXIUM_ARMOR_MATERIAL);
+    public static final RegistryHandle<Item> ETHAXIUM_NAUTILUS_ARMOR =
+            nautilusArmorItem("ethaxium_nautilus_armor", ModArmorMaterials.ETHAXIUM_ARMOR_MATERIAL);
 
 
     // Anti Items

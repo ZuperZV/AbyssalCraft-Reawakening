@@ -37,8 +37,7 @@ public class NoFluidBelowPlacement extends PlacementFilter {
             var state = level.getBlockState(check);
             var fluid = level.getFluidState(check);
 
-            if (fluid.is(net.minecraft.tags.FluidTags.WATER)
-                    || fluid.is(net.minecraft.tags.FluidTags.LAVA)) {
+            if (!fluid.isEmpty()) {
                 return false;
             }
 

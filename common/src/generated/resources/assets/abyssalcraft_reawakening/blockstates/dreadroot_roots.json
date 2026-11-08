@@ -1,0 +1,11 @@
+{
+  "variants": {
+    "face=ceiling": {
+      "model": "abyssalcraft_reawakening:block/dreadroot_roots"
+    },
+    "face=floor": {
+      "model": "abyssalcraft_reawakening:block/dreadroot_roots",
+      "x": 180
+    }
+  }
+}

@@ -13,14 +13,14 @@ public class ModEntitySpawnPlacements {
     public static void load() {
         Services.SPAWN_PLACEMENTS.registerSpawnPlacement(
                 ModEntityTypes.ABYSSAL_ZOMBIE,
-                SpawnPlacementTypes.ON_GROUND,
+                SpawnPlacementTypes.NO_RESTRICTIONS,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 AbyssalZombieEntity::canSpawn
         );
 
         Services.SPAWN_PLACEMENTS.registerSpawnPlacement(
                 ModEntityTypes.GROUNDLING,
-                SpawnPlacementTypes.ON_GROUND,
+                SpawnPlacementTypes.NO_RESTRICTIONS,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 GroundlingEntity::canSpawn
         );

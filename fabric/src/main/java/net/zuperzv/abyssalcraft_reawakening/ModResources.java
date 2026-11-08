@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockColorRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ClientTooltipComponentCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityRenderLayerRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
@@ -19,6 +20,7 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.color.block.BlockTintSources;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.item.properties.numeric.RangeSelectItemModelProperties;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
@@ -36,13 +38,16 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.StaffClientT
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.StaffTooltipComponent;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.property.CodexTierProperty;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.property.CoraliumGemsProperty;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.item.client.AbyssalniteArmorRenderLayer;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.network.SyncBookmarksPacket;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.particle.ColorBubbleParticle;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.particle.ModParticleTypes;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.particle.SulfurBubbleParticle;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.screen.Helpers.BlockTooltipProviders;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.screen.ModMenuTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.screen.NecronomiconScreen;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
+import net.zuperzv.abyssalcraft_reawakening.services.FabricShaderRenderer;
 import net.zuperzv.abyssalcraft_reawakening.services.util.ModWoodTypes;
 
 import java.util.concurrent.CompletableFuture;
@@ -53,6 +58,8 @@ public class ModResources implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        FabricShaderRenderer.register();
+
         for (var crystalHandle : ModBlocks.CRYSTAL_BLOCKS.values()) {
             CrystalProductBlock crystal = crystalHandle.get();
             BlockColorRegistry.register(
@@ -65,10 +72,21 @@ public class ModResources implements ClientModInitializer {
                 ModParticleTypes.COLOR_BUBBLE.get(),
                 ColorBubbleParticle.Provider::new
         );
+        ParticleProviderRegistry.getInstance().register(
+                ModParticleTypes.CROASIUS_GAS.get(),
+                SulfurBubbleParticle.Provider::new
+        );
 
         Services.CLIENT_REGISTRY.applyModelLayerRegistrations((location, supplier) -> ModelLayerRegistry.registerModelLayer(location, supplier::get));
         Services.CLIENT_REGISTRY.applyEntityRendererRegistrations(
                 EntityRenderers::register
+        );
+        LivingEntityRenderLayerRegistrationCallback.EVENT.register(
+                (entityType, entityRenderer, registrationHelper, context) -> {
+                    if (entityRenderer.getModel() instanceof HumanoidModel<?>) {
+                        registrationHelper.register(AbyssalniteArmorRenderLayer.create(entityRenderer));
+                    }
+                }
         );
 
         Services.I_MULTIBLOCK_INPUT.register();

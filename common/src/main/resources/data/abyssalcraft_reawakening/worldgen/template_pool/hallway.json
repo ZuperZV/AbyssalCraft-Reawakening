@@ -1,8 +1,17 @@
 {
   "name": "abyssalcraft_reawakening:hallway",
-  "fallback": "minecraft:empty",
+  "fallback": "abyssalcraft_reawakening:end",
   "elements": [
     {
+      "weight": 50,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "abyssalcraft_reawakening:ruins/hallway/end",
+        "processors": "minecraft:mossify_10_percent",
+        "override_liquid_settings": "ignore_waterlogging"
+      }
+    },{
       "weight": 20,
       "element": {
         "element_type": "minecraft:single_pool_element",
@@ -43,21 +52,51 @@
       }
     },
     {
-      "weight": 30,
+      "weight": 35,
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "abyssalcraft_reawakening:ruins/hallway/hallway_5",
+        "location": "abyssalcraft_reawakening:ruins/hallway/hallway_6",
         "processors": "minecraft:mossify_10_percent",
         "override_liquid_settings": "ignore_waterlogging"
       }
     },
     {
-      "weight": 25,
+      "weight": 35,
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "abyssalcraft_reawakening:ruins/hallway/hallway_5",
+        "location": "abyssalcraft_reawakening:ruins/hallway/hallway_7",
+        "processors": "minecraft:mossify_10_percent",
+        "override_liquid_settings": "ignore_waterlogging"
+      }
+    },
+    {
+      "weight": 35,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "abyssalcraft_reawakening:ruins/hallway/hallway_8",
+        "processors": "minecraft:mossify_10_percent",
+        "override_liquid_settings": "ignore_waterlogging"
+      }
+    },
+    {
+      "weight": 10,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "abyssalcraft_reawakening:ruins/hallway/hallway_11",
+        "processors": "minecraft:mossify_10_percent",
+        "override_liquid_settings": "ignore_waterlogging"
+      }
+    },
+    {
+      "weight": 45,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "abyssalcraft_reawakening:ruins/room/room_1",
         "processors": "minecraft:mossify_10_percent",
         "override_liquid_settings": "ignore_waterlogging"
       }

@@ -6,12 +6,15 @@ import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityT
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
+import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -59,6 +62,28 @@ public class FabricRegistryHelper implements IRegistryHelper {
 
             @Override
             public T get() {
+                return registered;
+            }
+        };
+    }
+
+    @Override
+    public RegistryHandle<SoundEvent> registerSoundEvent(String name) {
+        Identifier id = Constants.id(name);
+        SoundEvent registered = Registry.register(
+                BuiltInRegistries.SOUND_EVENT,
+                id,
+                SoundEvent.createVariableRangeEvent(id)
+        );
+
+        return new RegistryHandle<>() {
+            @Override
+            public Identifier id() {
+                return id;
+            }
+
+            @Override
+            public SoundEvent get() {
                 return registered;
             }
         };
@@ -440,6 +465,28 @@ public class FabricRegistryHelper implements IRegistryHelper {
 
             @Override
             public T get() {
+                return registered;
+            }
+        };
+    }
+
+    @Override
+    public RegistryHandle<SimpleParticleType> registerSimpleParticleType(String name, boolean overrideLimit) {
+        Identifier id = Constants.id(name);
+        SimpleParticleType registered = Registry.register(
+                BuiltInRegistries.PARTICLE_TYPE,
+                id,
+                FabricParticleTypes.simple(overrideLimit)
+        );
+
+        return new RegistryHandle<>() {
+            @Override
+            public Identifier id() {
+                return id;
+            }
+
+            @Override
+            public SimpleParticleType get() {
                 return registered;
             }
         };

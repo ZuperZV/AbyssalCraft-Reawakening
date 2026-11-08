@@ -305,6 +305,12 @@ public final class ModBiomes {
                 ModWorldgen.WITHERWOOD_TREE_PLACED
         );
 
+        // CORALIUM MOUND
+        builder.addFeature(
+                GenerationStep.Decoration.LAKES,
+                ModWorldgen.CORALIUM_MOUND_PLACED
+        );
+
         // FOSSILS
         addVanillaFossil(builder);
 
@@ -394,7 +400,7 @@ public final class ModBiomes {
                 .build();
     }
 
-    //TODO
+    // ABYSSAL SWAMP - Water-adjacent swamp with unique features
     public static Biome AbyssalSwampBiome(
             BootstrapContext<Biome> context) {
 
@@ -404,12 +410,41 @@ public final class ModBiomes {
         BiomeGenerationSettings.Builder builder =
                 baseGeneration(context);
 
-        // SURFACE
+        addDarklandsUnderground(builder);
+
+        // SURFACE - Mud and water-adjacent terrain
         builder.addFeature(
                 GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
                 ModWorldgen.ABYSSAL_MUD_DISK_PLACED
         );
 
+        // SWAMP VEGETATION - Dense plant growth near water
+        builder.addFeature(
+                GenerationStep.Decoration.VEGETAL_DECORATION,
+                ModWorldgen.GLOOM_MOSS_PLACED
+        );
+
+        builder.addFeature(
+                GenerationStep.Decoration.VEGETAL_DECORATION,
+                ModWorldgen.GLOOM_MOSS_CARPET_PLACED
+        );
+
+        builder.addFeature(
+                GenerationStep.Decoration.VEGETAL_DECORATION,
+                ModWorldgen.SWAMP_VINES_PLACED
+        );
+
+        builder.addFeature(
+                GenerationStep.Decoration.VEGETAL_DECORATION,
+                ModWorldgen.GLOWING_FUNGUS_PLACED
+        );
+
+        builder.addFeature(
+                GenerationStep.Decoration.VEGETAL_DECORATION,
+                ModWorldgen.MURKY_WATER_LILY_PLACED
+        );
+
+        // TREES - Sparse witherwood near water
         builder.addFeature(
                 GenerationStep.Decoration.VEGETAL_DECORATION,
                 ModWorldgen.WITHERWOOD_TREE_PLACED
@@ -418,10 +453,10 @@ public final class ModBiomes {
         // FOSSILS
         addVanillaFossil(builder);
 
-        // VEGETATION
+        // COMMON VEGETATION
         addCommonVegetation(builder);
 
-        //ENTITY
+        // ENTITY SPAWNS
         addCommonEntities(spawnBuilder);
 
         // SKY
@@ -435,14 +470,14 @@ public final class ModBiomes {
         return new Biome.BiomeBuilder()
                 .hasPrecipitation(true)
                 .downfall(1.0f)
-                .temperature(0.8f)
+                .temperature(0.6f)
                 .generationSettings(builder.build())
                 .mobSpawnSettings(spawnBuilder.build())
                 .specialEffects(
                         new BiomeSpecialEffects.Builder()
-                                .waterColor(0x111C24)
-                                .grassColorOverride(0x263C2D)
-                                .foliageColorOverride(0x304D38)
+                                .waterColor(0x1A3A2A)
+                                .grassColorOverride(0x2A4A30)
+                                .foliageColorOverride(0x1A5A3A)
                                 .build()
                 )
                 .build();
@@ -475,6 +510,7 @@ public final class ModBiomes {
                 GenerationStep.Decoration.VEGETAL_DECORATION,
                 ModWorldgen.WASTITE_SPIKE_PLACED
         );
+
 
         // FOSSILS
         addVanillaFossil(builder);

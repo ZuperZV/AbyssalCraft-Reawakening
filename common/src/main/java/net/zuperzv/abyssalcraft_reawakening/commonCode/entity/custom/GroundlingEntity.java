@@ -72,12 +72,9 @@ public class GroundlingEntity extends Monster {
         builder.define(DATA_ATTACK_ID, 0);
     }
 
-    public static boolean checkMonsterSpawnRules(final EntityType<? extends Mob> type, final ServerLevelAccessor level, final EntitySpawnReason spawnReason, final BlockPos pos, final RandomSource random) {
-        return level.getDifficulty() != Difficulty.PEACEFUL && (EntitySpawnReason.ignoresLightRequirements(spawnReason) || checkMobSpawnRules(type, level, spawnReason, pos, random));
-    }
-
     public static boolean canSpawn(EntityType<GroundlingEntity> entityType, ServerLevelAccessor level, EntitySpawnReason spawnReason, BlockPos pos, RandomSource random) {
-        return checkMonsterSpawnRules(entityType, level, spawnReason, pos, random);
+        return level.getDifficulty() != Difficulty.PEACEFUL
+                && level.getFluidState(pos.below()).isEmpty();
     }
 
 

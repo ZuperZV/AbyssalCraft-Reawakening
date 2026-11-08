@@ -19,32 +19,32 @@ public final class ModDataItem { //TODO make this work
     public static final List<DataItemType> SCUTE_TYPES = new ArrayList<>();
     public static final List<DataItemType> MOD_SCUTE_TYPES = new ArrayList<>();
     public static final List<CrystalType> CRYSTAL_TYPES = List.of(
-            new CrystalType("iron", 0xD5D5D5),
-            new CrystalType("gold", 0xFFD84D),
-            new CrystalType("sulfur", 0xe8d08f),
-            new CrystalType("carbon", 0x454545),
-            new CrystalType("oxygen", 0x8FD7FF),
-            new CrystalType("hydrogen", 0xE8F6FF),
-            new CrystalType("nitrogen", 0xA8C8FF),
-            new CrystalType("phosphorus", 0xFF9B52),
-            new CrystalType("potassium", 0xD9A7FF),
-            new CrystalType("nitrate", 0xE7E7D9),
-            new CrystalType("methane", 0xB4E4D2),
-            new CrystalType("redstone", 0xE53935),
-            new CrystalType("abyssalnite", 0x897cac),
-            new CrystalType("coralium", 0x6e9082),
-            new CrystalType("dreadium", 0xc34145),
-            new CrystalType("blaze", 0xFF6A22),
-            new CrystalType("silicon", 0xB8C7C9),
-            new CrystalType("magnesium", 0xE5E5F0),
-            new CrystalType("aluminium", 0xC8D6E5),
-            new CrystalType("silica", 0xD9F2E6),
-            new CrystalType("alumina", 0xD6C7F2),
-            new CrystalType("magnesia", 0xCFE8E1),
-            new CrystalType("zinc", 0xA7D4D1),
-            new CrystalType("calcium", 0xF2E6CC),
-            new CrystalType("beryllium", 0x9DE3A0),
-            new CrystalType("beryl", 0x70D5B2)
+            new CrystalType("iron", 0xD5D5D5, false),
+            new CrystalType("gold", 0xFFD84D, false),
+            new CrystalType("sulfur", 0xe8d08f, true),
+            new CrystalType("carbon", 0x454545, false),
+            new CrystalType("oxygen", 0x8FD7FF, false),
+            new CrystalType("hydrogen", 0xE8F6FF, false),
+            new CrystalType("nitrogen", 0xA8C8FF, false),
+            new CrystalType("phosphorus", 0xFF9B52, false),
+            new CrystalType("potassium", 0xD9A7FF, false),
+            new CrystalType("nitrate", 0xE7E7D9, false),
+            new CrystalType("methane", 0xB4E4D2, false),
+            new CrystalType("redstone", 0xE53935, false),
+            new CrystalType("abyssalnite", 0x897cac, false),
+            new CrystalType("coralium", 0x6e9082, false),
+            new CrystalType("dreadium", 0xc34145, false),
+            new CrystalType("blaze", 0xFF6A22, false),
+            new CrystalType("silicon", 0xB8C7C9, false),
+            new CrystalType("magnesium", 0xE5E5F0, false),
+            new CrystalType("aluminium", 0xC8D6E5, false),
+            new CrystalType("silica", 0xD9F2E6, false),
+            new CrystalType("alumina", 0xD6C7F2, false),
+            new CrystalType("magnesia", 0xCFE8E1, false),
+            new CrystalType("zinc", 0xA7D4D1, false),
+            new CrystalType("calcium", 0xF2E6CC, false),
+            new CrystalType("beryllium", 0x9DE3A0, false),
+            new CrystalType("beryl", 0x70D5B2, false)
     );
 
     //TEST
@@ -110,7 +110,7 @@ public final class ModDataItem { //TODO make this work
         ModBlocks.registerCrystalBlocks(CRYSTAL_TYPES);
     }
 
-    public record CrystalType(String name, int color) {
+    public record CrystalType(String name, int color, boolean hasBlockVersion) {
         public Identifier productId(String product) {
             String path = switch (product) {
                 case "crystal" -> name + "_crystal";

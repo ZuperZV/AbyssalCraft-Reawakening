@@ -1,0 +1,19 @@
+{
+  "feature": "abyssalcraft_reawakening:coralium_lake",
+  "placement": [
+    {
+      "type": "minecraft:rarity_filter",
+      "chance": 750
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "minecraft:heightmap",
+      "heightmap": "WORLD_SURFACE"
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

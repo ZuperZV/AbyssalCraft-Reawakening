@@ -6,9 +6,11 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -43,7 +45,6 @@ import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.services.types.IRegistryHelper;
 import net.zuperzv.abyssalcraft_reawakening.services.util.RegistryHandle;
 
-import java.util.Arrays;
 import java.util.function.*;
 
 public class NeoForgeRegistryHelper implements IRegistryHelper {
@@ -77,10 +78,13 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
             DeferredRegister.create(Registries.FLUID, Constants.MOD_ID);
     private static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES =
             DeferredRegister.create(Registries.PARTICLE_TYPE, Constants.MOD_ID);
+    private static final DeferredRegister<SoundEvent> SOUND_EVENTS =
+            DeferredRegister.create(Registries.SOUND_EVENT, Constants.MOD_ID);
 
     public static void register(IEventBus eventBus) {
         ENTITIES.register(eventBus);
         ITEMS.register(eventBus);
+        FLUIDS.register(eventBus);
         BLOCKS.register(eventBus);
         CREATIVE_MODE_TABS.register(eventBus);
         MENU_TYPES.register(eventBus);
@@ -93,8 +97,8 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
         FEATURES.register(eventBus);
         MOB_EFFECTS.register(eventBus);
         POTIONS.register(eventBus);
-        FLUIDS.register(eventBus);
         PARTICLE_TYPES.register(eventBus);
+        SOUND_EVENTS.register(eventBus);
     }
 
     @Override
@@ -110,6 +114,25 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
             @Override
             public T get() {
                 return deferredItem.get();
+            }
+        };
+    }
+
+    @Override
+    public RegistryHandle<SoundEvent> registerSoundEvent(String name) {
+        Identifier id = Constants.id(name);
+        DeferredHolder<SoundEvent, SoundEvent> holder =
+                SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(id));
+
+        return new RegistryHandle<>() {
+            @Override
+            public Identifier id() {
+                return id;
+            }
+
+            @Override
+            public SoundEvent get() {
+                return holder.get();
             }
         };
     }
@@ -133,12 +156,29 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
             public T get() {
                 return deferredBlock.get();
             }
+
         };
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T extends BlockItem> RegistryHandle<T> registerBlockItem(String name, RegistryHandle<? extends Block> block, BiFunction<Block, Item.Properties, T> item) {
-        return registerItem(name, properties -> item.apply(block.get(), properties));
+        Identifier id = Constants.id(name);
+        DeferredItem<T> deferredItem = ITEMS.registerItem(
+                name,
+                (props) -> item.apply(block.get(), props)
+        );
+        return new RegistryHandle<>() {
+            @Override
+            public Identifier id() {
+                return id;
+            }
+
+            @Override
+            public T get() {
+                return deferredItem.get();
+            }
+        };
     }
 
     @Override
@@ -221,8 +261,9 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
         DeferredHolder<BlockEntityType<?>, BlockEntityType<T>> holder =
                 BLOCK_ENTITY_TYPES.register(name,
                         () -> new BlockEntityType<>(
-                                factory::apply,
-                                Arrays.stream(blocks)
+                                (BlockEntityType.BlockEntitySupplier<T>) factory::apply,
+                                false,
+                                java.util.Arrays.stream(blocks)
                                         .map(Supplier::get)
                                         .toArray(Block[]::new)
                         )
@@ -472,6 +513,25 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 
             @Override
             public T get() {
+                return holder.get();
+            }
+        };
+    }
+
+    @Override
+    public RegistryHandle<SimpleParticleType> registerSimpleParticleType(String name, boolean overrideLimit) {
+        Identifier id = Constants.id(name);
+        DeferredHolder<ParticleType<?>, SimpleParticleType> holder =
+                PARTICLE_TYPES.register(name, () -> new SimpleParticleType(overrideLimit));
+
+        return new RegistryHandle<>() {
+            @Override
+            public Identifier id() {
+                return id;
+            }
+
+            @Override
+            public SimpleParticleType get() {
                 return holder.get();
             }
         };

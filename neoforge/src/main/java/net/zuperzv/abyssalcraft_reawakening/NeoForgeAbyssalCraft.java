@@ -2,6 +2,9 @@ package net.zuperzv.abyssalcraft_reawakening;
 
 
 import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -27,11 +30,14 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.Necronomicon
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.NecronomiconTooltipComponent;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.StaffClientTooltip;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.StaffTooltipComponent;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.item.client.AbyssalniteArmorRenderLayer;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.mixin.LivingEntityRendererAccessor;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.effect.ModPotionBrewing;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.network.SetBookmarksPacket;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.network.SyncBookmarksPacket;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.particle.ColorBubbleParticle;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.particle.ModParticleTypes;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.particle.SulfurBubbleParticle;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.ModRecipes;
 import net.zuperzv.abyssalcraft_reawakening.services.NeoForgeRegistryHelper;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
@@ -108,10 +114,40 @@ public class NeoForgeAbyssalCraft {
         }
 
         @SubscribeEvent
+        public static void addArmorLayers(EntityRenderersEvent.AddLayers event) {
+            for (EntityType<?> entityType : event.getEntityTypes()) {
+                Object renderer = event.getRenderer(entityType);
+                if (renderer instanceof LivingEntityRenderer<?, ?, ?> livingRenderer) {
+                    if (livingRenderer.getModel() instanceof HumanoidModel<?>) {
+                        ((LivingEntityRendererAccessor) livingRenderer)
+                                .abyssalcraft$addLayer(AbyssalniteArmorRenderLayer.create(livingRenderer));
+                    }
+                }
+            }
+
+            for (var skin : event.getSkins()) {
+                var playerRenderer = event.getPlayerRenderer(skin);
+                if (playerRenderer.getModel() instanceof HumanoidModel<?>) {
+                    ((LivingEntityRendererAccessor) playerRenderer)
+                            .abyssalcraft$addLayer(AbyssalniteArmorRenderLayer.create(playerRenderer));
+                }
+                var mannequinRenderer = event.getMannequinRenderer(skin);
+                if (mannequinRenderer.getModel() instanceof HumanoidModel<?>) {
+                    ((LivingEntityRendererAccessor) mannequinRenderer)
+                            .abyssalcraft$addLayer(AbyssalniteArmorRenderLayer.create(mannequinRenderer));
+                }
+            }
+        }
+
+        @SubscribeEvent
         public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
             event.registerSpriteSet(
                     ModParticleTypes.COLOR_BUBBLE.get(),
                     ColorBubbleParticle.Provider::new
+            );
+            event.registerSpriteSet(
+                    ModParticleTypes.CROASIUS_GAS.get(),
+                    SulfurBubbleParticle.Provider::new
             );
         }
 

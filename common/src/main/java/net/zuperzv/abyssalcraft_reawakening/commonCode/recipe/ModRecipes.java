@@ -3,6 +3,7 @@ package net.zuperzv.abyssalcraft_reawakening.commonCode.recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.customCraftingTable.CoraliumGemRecipe;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.customCraftingTable.CoraliumChunkRecipe;
 import net.zuperzv.abyssalcraft_reawakening.services.types.IRegistryHelper;
 
 public class ModRecipes {
@@ -12,6 +13,7 @@ public class ModRecipes {
     public static IRegistryHelper.RecipeRegistryHandle<RecipeType<EssenceBoilerRecipe>, RecipeSerializer<EssenceBoilerRecipe>> ESSENCE_BOILER;
     public static IRegistryHelper.RecipeRegistryHandle<RecipeType<CrystalGrowthRecipe>, RecipeSerializer<CrystalGrowthRecipe>> CRYSTAL_GROWTH;
     public static IRegistryHelper.RecipeRegistryHandle<RecipeType<CoraliumGemRecipe>, RecipeSerializer<CoraliumGemRecipe>> CORALIUM_GEM;
+    public static IRegistryHelper.RecipeRegistryHandle<RecipeType<CoraliumChunkRecipe>, RecipeSerializer<CoraliumChunkRecipe>> CORALIUM_CHUNK;
 
     public static void load(IRegistryHelper registry) {
         RITUAL_ALTAR = registry.registerRecipeTypeAndSerializer(
@@ -73,6 +75,20 @@ public class ModRecipes {
                 () -> new RecipeSerializer<>(
                         CoraliumGemRecipe.CODEC,
                         CoraliumGemRecipe.STREAM_CODEC
+                )
+        );
+
+        CORALIUM_CHUNK = registry.registerRecipeTypeAndSerializer(
+                "coralium_chunk",
+                () -> new RecipeType<CoraliumChunkRecipe>() {
+                    @Override
+                    public String toString() {
+                        return "coralium_chunk";
+                    }
+                },
+                () -> new RecipeSerializer<>(
+                        CoraliumChunkRecipe.CODEC,
+                        CoraliumChunkRecipe.STREAM_CODEC
                 )
         );
     }

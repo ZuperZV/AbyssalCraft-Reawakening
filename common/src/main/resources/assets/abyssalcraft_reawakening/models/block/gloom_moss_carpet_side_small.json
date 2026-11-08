@@ -1,0 +1,6 @@
+{
+  "parent": "abyssalcraft_reawakening:block/mossy_carpet_side",
+  "textures": {
+    "side": "abyssalcraft_reawakening:block/gloom_moss_carpet_side_small"
+  }
+}

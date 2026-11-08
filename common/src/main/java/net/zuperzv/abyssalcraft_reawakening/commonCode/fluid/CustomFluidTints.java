@@ -12,7 +12,6 @@ import java.util.Set;
 
 import java.util.Map;
 
-/** Colors shared by custom-fluid rendering and immersion particles. */
 public final class CustomFluidTints {
     private static final Map<Fluid, Integer> COLORS = Map.of(
             ModFluids.SOURCE_POTION.get(), PotionFluidColor.WORLD_COLOR,

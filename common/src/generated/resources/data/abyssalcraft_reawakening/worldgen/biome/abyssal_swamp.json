@@ -6,23 +6,34 @@
   ],
   "downfall": 1.0,
   "effects": {
-    "foliage_color": "#304d38",
-    "grass_color": "#263c2d",
-    "water_color": "#111c24"
+    "foliage_color": "#1a5a3a",
+    "grass_color": "#2a4a30",
+    "water_color": "#1a3a2a"
   },
   "features": [
     [],
     [],
     [],
-    [],
-    [],
-    [],
     [
-      "abyssalcraft_reawakening:abyssalnite_ore"
+      "abyssalcraft_reawakening:abyssal_monster_room"
     ],
     [],
     [],
     [
+      "abyssalcraft_reawakening:abyssalnite_ore",
+      "abyssalcraft_reawakening:coralium_infused_ore"
+    ],
+    [
+      "abyssalcraft_reawakening:scarlet_shale_disk",
+      "abyssalcraft_reawakening:azure_waste_stone_disk"
+    ],
+    [],
+    [
+      "abyssalcraft_reawakening:gloom_moss",
+      "abyssalcraft_reawakening:gloom_moss_carpet",
+      "abyssalcraft_reawakening:swamp_vines",
+      "abyssalcraft_reawakening:glowing_fungus",
+      "abyssalcraft_reawakening:murky_water_lily",
       "abyssalcraft_reawakening:witherwood_tree",
       "abyssalcraft_reawakening:vanila_fossil/marker",
       "abyssalcraft_reawakening:vanila_fossil/disk",
@@ -67,5 +78,5 @@
     "water_ambient": [],
     "water_creature": []
   },
-  "temperature": 0.8
+  "temperature": 0.6
 }

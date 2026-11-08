@@ -1,10 +1,13 @@
 {
   "ambient_light": 1.0,
   "attributes": {
-    "minecraft:visual/ambient_light_color": "#bfb995",
-    "minecraft:visual/cloud_color": "#9bc81f19",
-    "minecraft:visual/fog_color": "#a1e035",
-    "minecraft:visual/sky_color": "#6ab7ff"
+    "minecraft:visual/ambient_light_color": "#141e14",
+    "minecraft:visual/cloud_color": "#00000000",
+    "minecraft:visual/fog_color": "#001e00",
+    "minecraft:visual/sky_color": "#1e1e1e",
+    "minecraft:visual/sky_light_color": "#328c32",
+    "minecraft:visual/star_brightness": 1.0,
+    "minecraft:visual/sunrise_sunset_color": "#64326e05"
   },
   "coordinate_scale": 1.0,
   "default_clock": "minecraft:overworld",
@@ -21,5 +24,6 @@
     "max_inclusive": 15,
     "min_inclusive": 15
   },
+  "skybox": "none",
   "timelines": "#minecraft:in_overworld"
 }

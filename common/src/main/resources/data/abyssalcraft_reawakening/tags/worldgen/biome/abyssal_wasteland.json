@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "abyssalcraft_reawakening:corallium_lake",
+    "abyssalcraft_reawakening:abyssal_swamp",
+    "abyssalcraft_reawakening:darklands_forest",
+    "abyssalcraft_reawakening:abyssal_desert",
+    "abyssalcraft_reawakening:darklands_mountains",
+    "abyssalcraft_reawakening:abyssal_plateau",
+    "abyssalcraft_reawakening:abyssal_wastelands"
+  ]
+}

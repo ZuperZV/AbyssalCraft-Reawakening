@@ -9,6 +9,12 @@ import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 
 public class ModFoods {
 
+    public static final FoodProperties DREADROOT =
+            new FoodProperties.Builder()
+                    .nutrition(3)
+                    .saturationModifier(0.6F)
+                    .build();
+
     public static final FoodProperties GHOUL_FLESH =
             new FoodProperties.Builder()
                     .nutrition(4)

@@ -79,12 +79,9 @@ public class AbyssalZombieEntity extends Zombie {
                 (double)2.0F).add(Attributes.SPAWN_REINFORCEMENTS_CHANCE);
     }
 
-    public static boolean checkMonsterSpawnRules(final EntityType<? extends Mob> type, final ServerLevelAccessor level, final EntitySpawnReason spawnReason, final BlockPos pos, final RandomSource random) {
-        return level.getDifficulty() != Difficulty.PEACEFUL && (EntitySpawnReason.ignoresLightRequirements(spawnReason) || checkMobSpawnRules(type, level, spawnReason, pos, random));
-    }
-
     public static boolean canSpawn(EntityType<AbyssalZombieEntity> entityType, ServerLevelAccessor level, EntitySpawnReason spawnReason, BlockPos pos, RandomSource random) {
-        return checkMonsterSpawnRules(entityType, level, spawnReason, pos, random);
+        return level.getDifficulty() != Difficulty.PEACEFUL
+                && level.getFluidState(pos.below()).isEmpty();
     }
 
     @Override

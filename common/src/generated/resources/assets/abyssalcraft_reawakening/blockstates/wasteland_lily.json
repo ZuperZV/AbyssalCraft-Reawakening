@@ -1,0 +1,24 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "abyssalcraft_reawakening:block/wasteland_lily_1"
+      },
+      {
+        "model": "abyssalcraft_reawakening:block/wasteland_lily_2"
+      },
+      {
+        "model": "abyssalcraft_reawakening:block/wasteland_lily_3"
+      },
+      {
+        "model": "abyssalcraft_reawakening:block/wasteland_lily_4"
+      },
+      {
+        "model": "abyssalcraft_reawakening:block/wasteland_lily_5"
+      },
+      {
+        "model": "abyssalcraft_reawakening:block/wasteland_lily_6"
+      }
+    ]
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "name": "abyssalcraft_reawakening:three_x_three_block_decoration",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 60,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "abyssalcraft_reawakening:empty",
+        "processors": "minecraft:mossify_10_percent",
+        "override_liquid_settings": "ignore_waterlogging"
+      }
+    },
+    {
+      "weight": 30,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "abyssalcraft_reawakening:ruins/decoration/three_block_decoration/three_block_decoration_0",
+        "processors": "minecraft:mossify_10_percent",
+        "override_liquid_settings": "ignore_waterlogging"
+      }
+    },
+    {
+      "weight": 60,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "abyssalcraft_reawakening:ruins/decoration/three_block_decoration/three_block_decoration_1",
+        "processors": "minecraft:mossify_10_percent",
+        "override_liquid_settings": "ignore_waterlogging"
+      }
+    },
+    {
+      "weight": 65,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "abyssalcraft_reawakening:ruins/decoration/three_block_decoration/three_block_decoration_2",
+        "processors": "minecraft:mossify_10_percent",
+        "override_liquid_settings": "ignore_waterlogging"
+      }
+    },
+    {
+      "weight": 40,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "abyssalcraft_reawakening:ruins/decoration/three_block_decoration/three_block_decoration_3",
+        "processors": "minecraft:mossify_10_percent",
+        "override_liquid_settings": "ignore_waterlogging"
+      }
+    },
+    {
+      "weight": 70,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "abyssalcraft_reawakening:ruins/decoration/three_block_decoration/three_block_decoration_4",
+        "processors": "minecraft:mossify_10_percent",
+        "override_liquid_settings": "ignore_waterlogging"
+      }
+    },
+    {
+      "weight": 25,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "abyssalcraft_reawakening:ruins/decoration/three_block_decoration/three_block_decoration_5",
+        "processors": "minecraft:mossify_10_percent",
+        "override_liquid_settings": "ignore_waterlogging"
+      }
+    },
+    {
+      "weight": 25,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "abyssalcraft_reawakening:ruins/decoration/three_block_decoration/three_block_decoration_6",
+        "processors": "minecraft:mossify_10_percent",
+        "override_liquid_settings": "ignore_waterlogging"
+      }
+    }
+  ]
+}

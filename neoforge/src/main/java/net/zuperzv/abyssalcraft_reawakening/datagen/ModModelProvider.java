@@ -10,6 +10,9 @@ import net.minecraft.client.data.models.blockstates.ConditionBuilder;
 import net.minecraft.client.data.models.blockstates.MultiPartGenerator;
 import net.minecraft.client.data.models.blockstates.PropertyDispatch;
 import net.minecraft.client.data.models.model.*;
+import net.minecraft.client.renderer.block.dispatch.Variant;
+import net.minecraft.util.random.Weighted;
+import net.minecraft.util.random.WeightedList;
 import net.minecraft.client.renderer.item.ClientItem;
 import net.minecraft.client.renderer.item.ConditionalItemModel;
 import net.minecraft.client.renderer.item.ItemModel;
@@ -31,12 +34,15 @@ import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.BoilerTipBlock;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.DreadrootRootsBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.EssenceBoilerBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.PortalActivatorBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.ModDataComponentTypes;
@@ -56,6 +62,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+
 
 import static net.minecraft.client.data.models.BlockModelGenerators.*;
 import static net.minecraft.client.data.models.ItemModelGenerators.createFlatModelDispatch;
@@ -127,6 +134,27 @@ public class ModModelProvider extends ModelProvider {
         createCrossBlockWithItem(blockModels, itemModels, ModBlocks.CORALIUM_TENDRILS.block().get(), BlockModelGenerators.PlantType.NOT_TINTED);
         createCrossBlockWithItem(blockModels, itemModels, ModBlocks.LUMINOUS_THISTLE.block().get(), BlockModelGenerators.PlantType.NOT_TINTED);
         createCrossBlockWithItem(blockModels, itemModels, ModBlocks.WASTELANDS_THORN.block().get(), BlockModelGenerators.PlantType.NOT_TINTED);
+        createDreadrootCrop(blockModels, ModBlocks.DREADROOT_CROP.get());
+        createDreadrootRoots(blockModels, ModBlocks.DREADROOT_ROOTS.block().get());
+        generatedItems.add(ModItems.DREADROOT.get());
+        itemModels.generateFlatItem(ModItems.DREADROOT.get(), ModelTemplates.FLAT_ITEM);
+
+        //Swamp blocks - GLOOM_MOSS is a full block, GLOOM_MOSS_CARPET uses manual carpet models
+        generatedBlocks.add(ModBlocks.GLOOM_MOSS.block().get());
+        Identifier gloomMossBlockModel = Constants.id("block/gloom_moss_block");
+        blockModels.blockStateOutput.accept(createSimpleBlock(ModBlocks.GLOOM_MOSS.block().get(), plainVariant(gloomMossBlockModel)));
+        blockModels.registerSimpleItemModel(ModBlocks.GLOOM_MOSS.block().get(), gloomMossBlockModel);
+
+        generatedBlocks.add(ModBlocks.GLOOM_MOSS_CARPET.block().get());
+        Identifier gloomMossCarpetModel = Constants.id("block/gloom_moss_carpet");
+        blockModels.blockStateOutput.accept(createSimpleBlock(ModBlocks.GLOOM_MOSS_CARPET.block().get(), plainVariant(gloomMossCarpetModel)));
+        blockModels.registerSimpleItemModel(ModBlocks.GLOOM_MOSS_CARPET.block().get(), gloomMossCarpetModel);
+
+        // Corallium Geyser
+        generatedBlocks.add(ModBlocks.CORALIUM_GEYSER.block().get());
+        Identifier coraliumGeyserModel = Constants.id("block/coralium_geyser");
+        blockModels.blockStateOutput.accept(createSimpleBlock(ModBlocks.CORALIUM_GEYSER.block().get(), plainVariant(coraliumGeyserModel)));
+        blockModels.registerSimpleItemModel(ModBlocks.CORALIUM_GEYSER.block().get(), coraliumGeyserModel);
 
         //Grass
         createGrassLikeBlock(blockModels, ModBlocks.FUSED_ABYSSAL_SAND.block().get(), ModBlocks.ABYSSAL_SAND.block().get(),
@@ -170,6 +198,8 @@ public class ModModelProvider extends ModelProvider {
 
         blockModels.createLeafLitter(ModBlocks.WITHERWOOD_LEAF_LITTER.block().get());
         generatedBlocks.add(ModBlocks.WITHERWOOD_LEAF_LITTER.block().get());
+
+        createWastelandLily(blockModels, itemModels, ModBlocks.WASTELAND_LILY.block().get());
 
         //generateLeaves(blockModels, ModBlocks.WITHERWOOD_LEAVES.block().get(), 0);
 
@@ -616,6 +646,47 @@ public class ModModelProvider extends ModelProvider {
         blockModels.createRotatedVariantBlock(block);
     }
 
+    private void createDreadrootCrop(BlockModelGenerators blockModels, Block block) {
+        generatedBlocks.add(block);
+        MultiVariant[] stageVariants = new MultiVariant[3];
+        for (int stage = 0; stage < stageVariants.length; stage++) {
+            String suffix = "_stage" + stage;
+            Identifier model = ModelTemplates.CROP.createWithSuffix(
+                    block,
+                    suffix,
+                    TextureMapping.crop(TextureMapping.getBlockTexture(block, suffix)),
+                    blockModels.modelOutput
+            );
+            MultiVariant variant = plainVariant(model);
+            stageVariants[stage] = stage == 2 ? variant.with(X_ROT_180) : variant;
+        }
+
+        blockModels.blockStateOutput.accept(
+                MultiVariantGenerator.dispatch(block)
+                        .with(PropertyDispatch.initial(CropBlock.AGE).generate(age -> {
+                            int stage = age < 2 ? 0 : age < 3 ? 1 : 2;
+                            return stageVariants[stage];
+                        }))
+        );
+    }
+
+    private void createDreadrootRoots(BlockModelGenerators blockModels, Block block) {
+        generatedBlocks.add(block);
+        Identifier model = ModelTemplates.CROSS.create(
+                block,
+                TextureMapping.cross(TextureMapping.getBlockTexture(block)),
+                blockModels.modelOutput
+        );
+        MultiVariant roots = plainVariant(model);
+        blockModels.blockStateOutput.accept(
+                MultiVariantGenerator.dispatch(block)
+                        .with(PropertyDispatch.initial(DreadrootRootsBlock.FACE)
+                                .select(AttachFace.FLOOR, roots.with(X_ROT_180))
+                                .select(AttachFace.CEILING, roots.with(NOP)))
+        );
+        blockModels.registerSimpleItemModel(block, model);
+    }
+
     private void createCrystalGrowthChamber(BlockModelGenerators blockModels, Block block) {
         generatedBlocks.add(block);
         Identifier model = ModelLocationUtils.getModelLocation(block);
@@ -720,6 +791,12 @@ public class ModModelProvider extends ModelProvider {
     private void generateItem(ItemModelGenerators itemModels, Item item) {
         generatedItems.add(item);
 
+        String itemName = BuiltInRegistries.ITEM.getKey(item).getPath();
+        if (itemName.endsWith("_horse_armor") || itemName.endsWith("_nautilus_armor")) {
+            generateMountArmorItem(itemModels, item, itemName);
+            return;
+        }
+
         if (item.getDescriptionId().toLowerCase().contains("spear")) {
             generateSpearWithWood(itemModels, item);
             return;
@@ -737,6 +814,23 @@ public class ModModelProvider extends ModelProvider {
         }
 
         itemModels.generateFlatItem(item, ModelTemplates.FLAT_ITEM);
+    }
+
+    private void generateMountArmorItem(ItemModelGenerators itemModels, Item item, String itemName) {
+        String textureName = switch (itemName) {
+            case "plated_coralium_horse_armor", "of_the_depths_horse_armor" -> "coralium_horse_armor";
+            case "plated_coralium_nautilus_armor", "of_the_depths_nautilus_armor" -> "coralium_nautilus_armor";
+            case "dreadium_samurai_horse_armor" -> "dreadium_horse_armor";
+            case "dreadium_samurai_nautilus_armor" -> "dreadium_nautilus_armor";
+            case "ethaxium_horse_armor" -> "ethaxium_horse_armor";
+            default -> itemName;
+        };
+        Identifier model = ModelTemplates.FLAT_ITEM.create(
+                ModelLocationUtils.getModelLocation(item),
+                TextureMapping.layer0(new Material(Constants.id("item/" + textureName))),
+                itemModels.modelOutput
+        );
+        itemModels.itemModelOutput.accept(item, ItemModelUtils.plainModel(model));
     }
 
     private void generateWaterFluidBucket(ItemModelGenerators itemModels, Item item) {
@@ -1465,6 +1559,53 @@ public class ModModelProvider extends ModelProvider {
         blockModels.registerSimpleItemModel(block, model);
     }
 
+    private void createWastelandLily(BlockModelGenerators blockModels, ItemModelGenerators itemModels, Block block) {
+        generatedBlocks.add(block);
+
+        // Custom texture slot for top face
+        TextureSlot topSlot = TextureSlot.create("top");
+
+        // Custom model template for flat block with particle and top textures
+        ModelTemplate flatBlockTemplate = new ModelTemplate(
+                Optional.of(Identifier.withDefaultNamespace("block/thin_block")),
+                Optional.empty(),
+                TextureSlot.PARTICLE,
+                topSlot
+        );
+
+        // Create 6 block models with different wast_lillie textures
+        Identifier[] modelIds = new Identifier[6];
+        for (int i = 1; i <= 6; i++) {
+            String textureName = "wast_lillie_" + i;
+            Material texture = new Material(Constants.id("block/" + textureName));
+            TextureMapping mapping = new TextureMapping()
+                    .put(TextureSlot.PARTICLE, texture)
+                    .put(topSlot, texture);
+            modelIds[i - 1] = flatBlockTemplate.create(
+                    Constants.id("block/wasteland_lily_" + i),
+                    mapping,
+                    blockModels.modelOutput
+            );
+        }
+
+        // Create item model using first texture
+        blockModels.registerSimpleItemModel(block, modelIds[0]);
+
+        // Create blockstate with random texture selection based on coordinates (like lily pad)
+        WeightedList<Variant> variants = WeightedList.of(
+                new Weighted<>(new Variant(modelIds[0]), 1),
+                new Weighted<>(new Variant(modelIds[1]), 1),
+                new Weighted<>(new Variant(modelIds[2]), 1),
+                new Weighted<>(new Variant(modelIds[3]), 1),
+                new Weighted<>(new Variant(modelIds[4]), 1),
+                new Weighted<>(new Variant(modelIds[5]), 1)
+        );
+
+        blockModels.blockStateOutput.accept(
+                createSimpleBlock(block, new MultiVariant(variants))
+        );
+    }
+
     private Iterable<Block> getModBlocks() {
         return NeoForgeRegistryHelper.BLOCKS.getEntries()
                 .stream()
@@ -1549,4 +1690,5 @@ public class ModModelProvider extends ModelProvider {
 
         return itemName;
     }
+
 }

@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "abyssalcraft_reawakening:small_crystal_bag",
+    "abyssalcraft_reawakening:medium_crystal_bag",
+    "abyssalcraft_reawakening:large_crystal_bag",
+    "abyssalcraft_reawakening:huge_crystal_bag"
+  ]
+}

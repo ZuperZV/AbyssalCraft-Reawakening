@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/thin_block",
+  "textures": {
+    "particle": "abyssalcraft_reawakening:block/wast_lillie_4",
+    "top": "abyssalcraft_reawakening:block/wast_lillie_4"
+  }
+}

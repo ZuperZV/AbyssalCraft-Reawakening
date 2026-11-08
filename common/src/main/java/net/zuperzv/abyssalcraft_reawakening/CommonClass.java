@@ -16,6 +16,7 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.EssenceBoilerPotion
 import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.ModFluids;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModDataItem;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.sound.ModSounds;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.dataDrivenItems.DataItemRegistry;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.particle.ModParticleTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.ModRecipes;
@@ -48,6 +49,7 @@ public class CommonClass {
         DataItemRegistry registry = DataItemRegistry.getInstance();
         ModDataItem.registerAll(registry);
 
+        ModSounds.load();
         ModItems.load();
         ModBlocks.load();
         ModFluids.load();

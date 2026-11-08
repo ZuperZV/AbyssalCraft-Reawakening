@@ -1,13 +1,13 @@
 package net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.dimension;
 
 import net.minecraft.core.HolderGetter;
+import net.minecraft.world.level.biome.OverworldBiomeBuilder;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.*;
 import net.minecraft.world.level.levelgen.synth.NormalNoise;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.ModFluids;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.biome.surface.ModSurfaceRules;
-
-import java.util.List;
 
 public class ModNoiseSettings {
 
@@ -32,12 +32,12 @@ public class ModNoiseSettings {
                 ),
 
                 ModBlocks.ABYSSAL_STONE.block().get().defaultBlockState(),
-                Blocks.WATER.defaultBlockState(), //WATER/FLUID //TODO MAKE Coralium fluid
+                ModFluids.CORALIUM_BLOCK.get().defaultBlockState(),
                 router,
 
                 ModSurfaceRules.makeRules(),
 
-                List.of(),
+                new OverworldBiomeBuilder().spawnTarget(),
 
                 63,
                 false,

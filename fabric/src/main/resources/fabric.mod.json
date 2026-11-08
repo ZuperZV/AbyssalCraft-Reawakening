@@ -7,6 +7,9 @@
     "authors": [
         "${mod_author}"
     ],
+    "contributors": [
+        "Shinoow (Original creator of AbyssalCraft: https://github.com/Shinoow/AbyssalCraft)"
+    ],
     "contact": {
         "homepage": "https://github.com/ZuperZV/AbyssalCraft-Reawakening",
         "sources": "https://github.com/ZuperZV/AbyssalCraft-Reawakening"

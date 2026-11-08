@@ -9,15 +9,7 @@
       "from": "mold"
     }
   ],
-  "ingredient": {
-    "neoforge:ingredient_type": "neoforge:components",
-    "components": {
-      "abyssalcraft_reawakening:codex_tier": {
-        "tier": 2
-      }
-    },
-    "items": "abyssalcraft_reawakening:necronomicon"
-  },
+  "ingredient": "abyssalcraft_reawakening:necronomicon",
   "ingredients": [
     "abyssalcraft_reawakening:skin_of_the_dreadlands",
     "abyssalcraft_reawakening:skin_of_the_dreadlands",

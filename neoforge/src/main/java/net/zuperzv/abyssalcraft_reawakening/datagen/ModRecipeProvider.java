@@ -24,16 +24,15 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.CodexTierData;
-import net.zuperzv.abyssalcraft_reawakening.commonCode.component.CoraliumGemsData;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.ModFluids;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.effect.ModEffects;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.ModRecipes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.StoneRitualAltarRecipe;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.customCraftingTable.CoraliumGemRecipe;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.recipe.customCraftingTable.CoraliumChunkRecipe;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.dimension.ModDimensions;
 import net.zuperzv.abyssalcraft_reawakening.datagen.custom.StoneRitualAltarRecipeBuilder;
 import net.zuperzv.abyssalcraft_reawakening.datagen.custom.CrystalGrowthRecipeBuilder;
@@ -81,12 +80,7 @@ public class ModRecipeProvider extends RecipeProvider {
                                 .set(ModDataComponentTypes.CODEX_TIER.get(), new CodexTierData(2))
                                 .build()
                 ),
-                DataComponentIngredient.of(
-                        false,
-                        ModDataComponentTypes.CODEX_TIER.get(),
-                        new CodexTierData(1),
-                        ModItems.NECRONOMICON.get()
-                ))
+                Ingredient.of(ModItems.NECRONOMICON.get()))
                 .addIngredient(Ingredient.of(ModItems.SKIN_OF_THE_ABYSSAL_WASTELAND.get())) //Venster
                 .addIngredient(Ingredient.of(ModItems.SKIN_OF_THE_ABYSSAL_WASTELAND.get())) //Up
                 .addIngredient(Ingredient.of(ModItems.SKIN_OF_THE_ABYSSAL_WASTELAND.get())) //Højere
@@ -113,12 +107,7 @@ public class ModRecipeProvider extends RecipeProvider {
                                 .set(ModDataComponentTypes.CODEX_TIER.get(), new CodexTierData(3))
                                 .build()
                 ),
-                DataComponentIngredient.of(
-                        false,
-                        ModDataComponentTypes.CODEX_TIER.get(),
-                        new CodexTierData(2),
-                        ModItems.NECRONOMICON.get()
-                ))
+                Ingredient.of(ModItems.NECRONOMICON.get()))
                 .addIngredient(Ingredient.of(ModItems.SKIN_OF_THE_DREADLANDS.get())) //Venster
                 .addIngredient(Ingredient.of(ModItems.SKIN_OF_THE_DREADLANDS.get())) //Up
                 .addIngredient(Ingredient.of(ModItems.SKIN_OF_THE_DREADLANDS.get())) //Højere
@@ -145,12 +134,7 @@ public class ModRecipeProvider extends RecipeProvider {
                                 .set(ModDataComponentTypes.CODEX_TIER.get(), new CodexTierData(4))
                                 .build()
                 ),
-                DataComponentIngredient.of(
-                        false,
-                        ModDataComponentTypes.CODEX_TIER.get(),
-                        new CodexTierData(3),
-                        ModItems.NECRONOMICON.get()
-                ))
+                Ingredient.of(ModItems.NECRONOMICON.get()))
                 .addIngredient(Ingredient.of(ModItems.SKIN_OF_THE_OMOTHOL.get())) //Venster
                 .addIngredient(Ingredient.of(ModItems.SKIN_OF_THE_OMOTHOL.get())) //Up
                 .addIngredient(Ingredient.of(ModItems.SKIN_OF_THE_OMOTHOL.get())) //Højere
@@ -177,12 +161,7 @@ public class ModRecipeProvider extends RecipeProvider {
                                 .set(ModDataComponentTypes.CODEX_TIER.get(), new CodexTierData(5))
                                 .build()
                 ),
-                DataComponentIngredient.of(
-                        false,
-                        ModDataComponentTypes.CODEX_TIER.get(),
-                        new CodexTierData(4),
-                        ModItems.NECRONOMICON.get()
-                ))
+                Ingredient.of(ModItems.NECRONOMICON.get()))
                 .addIngredient(Ingredient.of(ModItems.ELDRITCH_SCALE.get())) //Venster
                 .addIngredient(Ingredient.of(ModItems.ESSENCE_OF_THE_GATEKEEPER.get())) //Up
                 .addIngredient(Ingredient.of(ModItems.ELDRITCH_SCALE.get())) //Højere
@@ -1254,19 +1233,11 @@ public class ModRecipeProvider extends RecipeProvider {
                 CoraliumGemRecipe::new
         ).save(this.output, "coralium_gem");
 
-        shaped(RecipeCategory.MISC, ModItems.CHUNK_OF_CORALIUM.get(), 4,
-                new String[]{
-                        " A ",
-                        "ABA",
-                        " A "
-                },
-                new Key('A', DataComponentIngredient.of(
-                        false,
-                        ModDataComponentTypes.CORALIUM_GEMS.get(),
-                        new CoraliumGemsData(9),
-                        ModItems.CORALIUM_GEM.get()
-                ), ModItems.CORALIUM_GEM.get()),
-                new Key('B', ModBlocks.ABYSSAL_STONE.block().get()));
+        SpecialRecipeBuilder.special(CoraliumChunkRecipe::new)
+                .save(this.output, ResourceKey.create(
+                        Registries.RECIPE,
+                        Constants.id("chunk_of_coralium")
+                ));
 
         shaped(RecipeCategory.MISC, ModItems.CORALIUM_PLATE.get(),
                 new String[]{
@@ -1886,6 +1857,15 @@ public class ModRecipeProvider extends RecipeProvider {
                 .requires(ModItems.SULFUR_CHUNK.get())
                 .requires(ModItems.NITRE.get())
                 .requires(Items.CHARCOAL)
+                .unlockedBy(getHasName(ModItems.SULFUR_CHUNK.get()), this.has(ModItems.SULFUR_CHUNK.get()))
+                .save(this.output);
+
+        // Sulfur block - 3x3 shaped recipe, no deconstruction back to chunks
+        this.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.SULFUR_BLOCK.block().get())
+                .define('S', ModItems.SULFUR_CHUNK.get())
+                .pattern("SSS")
+                .pattern("SSS")
+                .pattern("SSS")
                 .unlockedBy(getHasName(ModItems.SULFUR_CHUNK.get()), this.has(ModItems.SULFUR_CHUNK.get()))
                 .save(this.output);
 

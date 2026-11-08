@@ -15,6 +15,9 @@ public final class ModItemTags {
     public static final TagKey<Item> ETHAXIUM_MATERIALS = create("ethaxium_materials");
     public static final TagKey<Item> WITHERWOOD_LOGS = create("witherwood_logs");
     public static final TagKey<Item> GEMS = create("gems");
+    public static final TagKey<Item> CRYSTAL_FRAGMENTS = create("crystal_fragments");
+    public static final TagKey<Item> CRYSTAL_SHARDS = create("crystal_shards");
+    public static final TagKey<Item> CRYSTALS = create("crystals");
 
     public static TagKey<Item> create(String name) {
         return TagKey.create(Registries.ITEM, Constants.id(name));

@@ -7,6 +7,7 @@ import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.common.data.ItemTagsProvider;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModDataItem;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItemTags;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
 import org.jspecify.annotations.NonNull;
@@ -119,6 +120,24 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.DREADIUM_BOOTS.get())
                 .add(ModItems.ETHAXIUM_BOOTS.get());
 
+        tag(ItemTags.TRIMMABLE_ARMOR)
+                .add(ModItems.ABYSSALNITE_HELMET.get())
+                .add(ModItems.ABYSSALNITE_CHESTPLATE.get())
+                .add(ModItems.ABYSSALNITE_LEGGINGS.get())
+                .add(ModItems.ABYSSALNITE_BOOTS.get())
+                .add(ModItems.CORALIUM_HELMET.get())
+                .add(ModItems.CORALIUM_CHESTPLATE.get())
+                .add(ModItems.CORALIUM_LEGGINGS.get())
+                .add(ModItems.CORALIUM_BOOTS.get())
+                .add(ModItems.DREADIUM_HELMET.get())
+                .add(ModItems.DREADIUM_CHESTPLATE.get())
+                .add(ModItems.DREADIUM_LEGGINGS.get())
+                .add(ModItems.DREADIUM_BOOTS.get())
+                .add(ModItems.ETHAXIUM_HELMET.get())
+                .add(ModItems.ETHAXIUM_CHESTPLATE.get())
+                .add(ModItems.ETHAXIUM_LEGGINGS.get())
+                .add(ModItems.ETHAXIUM_BOOTS.get());
+
 
         tag(ItemTags.PLANKS)
                 .add(ModBlocks.WITHERWOOD_PLANKS.item().get());
@@ -162,5 +181,14 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
         tag(ItemTags.LOGS_THAT_BURN)
                 .addTags(ModItemTags.WITHERWOOD_LOGS);
+
+        var crystalFragments = tag(ModItemTags.CRYSTAL_FRAGMENTS);
+        var crystalShards = tag(ModItemTags.CRYSTAL_SHARDS);
+        var crystals = tag(ModItemTags.CRYSTALS);
+        for (var crystal : ModDataItem.CRYSTAL_TYPES) {
+            crystalFragments.add(ModBlocks.CRYSTAL_BLOCKS.get(crystal.productId("fragment")).get().asItem());
+            crystalShards.add(ModBlocks.CRYSTAL_BLOCKS.get(crystal.productId("shard")).get().asItem());
+            crystals.add(ModBlocks.CRYSTAL_BLOCKS.get(crystal.productId("crystal")).get().asItem());
+        }
     }
 }

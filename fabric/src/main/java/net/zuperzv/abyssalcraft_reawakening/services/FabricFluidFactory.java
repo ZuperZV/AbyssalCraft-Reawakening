@@ -82,7 +82,7 @@ public final class FabricFluidFactory implements IFluidFactory {
 
         @Override
         protected boolean canConvertToSource(ServerLevel level) {
-            return false;
+            return definition.fluidTypeName().equals("coralium");
         }
 
         @Override

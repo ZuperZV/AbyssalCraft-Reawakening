@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:smithing_trim",
+  "template": "abyssalcraft_reawakening:abyssal_trim_smithing_template",
+  "base": "#minecraft:trimmable_armor",
+  "addition": "#minecraft:trim_materials",
+  "pattern": "abyssalcraft_reawakening:abyssal"
+}

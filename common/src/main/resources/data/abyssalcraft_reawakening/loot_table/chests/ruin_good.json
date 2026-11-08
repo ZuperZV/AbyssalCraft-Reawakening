@@ -1,0 +1,84 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": {
+        "type": "minecraft:uniform",
+        "min": 3,
+        "max": 5
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "abyssalcraft_reawakening:coralium_pearl",
+          "weight": 5,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 3
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "abyssalcraft_reawakening:abyssal_wasteland_essence",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "abyssalcraft_reawakening:coralium_gem",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "abyssalcraft_reawakening:abyssalnite_crystal_shard",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "abyssalcraft_reawakening:coralium_crystal_shard",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "abyssalcraft_reawakening:abyssalnite_ingot",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name": "abyssalcraft_reawakening:abyssal_shoggoth_flesh",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 3
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "abyssalcraft_reawakening:sulfur_chunk",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 3
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

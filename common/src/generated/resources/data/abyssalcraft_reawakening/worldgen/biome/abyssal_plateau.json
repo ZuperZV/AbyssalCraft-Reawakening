@@ -12,7 +12,9 @@
   },
   "features": [
     [],
-    [],
+    [
+      "abyssalcraft_reawakening:coralium_mound"
+    ],
     [],
     [
       "abyssalcraft_reawakening:abyssal_monster_room"

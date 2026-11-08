@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:simple_block",
+  "config": {
+    "to_place": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "abyssalcraft_reawakening:abyssal_stone"
+          },
+          "weight": 5
+        },
+        {
+          "data": {
+            "Name": "abyssalcraft_reawakening:sulfur_block"
+          },
+          "weight": 3
+        },
+        {
+          "data": {
+            "Name": "minecraft:amethyst_cluster",
+            "Properties": {
+              "coralium_logged": "false",
+              "facing": "up",
+              "waterlogged": "false"
+            }
+          },
+          "weight": 2
+        }
+      ]
+    }
+  }
+}

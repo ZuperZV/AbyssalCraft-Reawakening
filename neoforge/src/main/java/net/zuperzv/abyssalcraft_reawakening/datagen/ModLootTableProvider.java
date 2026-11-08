@@ -12,7 +12,9 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.SegmentableBlock;
+import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
@@ -55,6 +57,9 @@ public class ModLootTableProvider extends LootTableProvider {
 
         @Override
         protected void generate() {
+
+            addDreadrootCropDrops(ModBlocks.DREADROOT_CROP.get(), ModItems.DREADROOT.get());
+            addDreadrootRootsDrops(ModBlocks.DREADROOT_ROOTS.block().get(), ModItems.DREADROOT.get());
 
             //Stone
             addSingleItemTable(ModBlocks.ABYSSAL_STONE.block().get(), ModBlocks.ABYSSAL_COBBLESTONE.block().get());
@@ -198,6 +203,43 @@ public class ModLootTableProvider extends LootTableProvider {
 
         protected void addOreDrop(Block block, Item item, float min, float max) {
             this.add(block, b -> createOreDrop(block, item, min, max));
+        }
+
+        protected void addDreadrootCropDrops(Block block, Item item) {
+            generatedLoot.add(block);
+            var enchantments = this.registries.lookupOrThrow(Registries.ENCHANTMENT);
+            this.add(block, blockToMine ->
+                    LootTable.lootTable()
+                            .withPool(LootPool.lootPool()
+                                    .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                                            .setProperties(
+                                                    StatePropertiesPredicate.Builder.properties()
+                                                            .hasProperty(CropBlock.AGE, 3)
+                                            ))
+                                    .setRolls(ConstantValue.exactly(1.0F))
+                                    .add(applyExplosionDecay(
+                                            block,
+                                            LootItem.lootTableItem(item)
+                                                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 5.0F)))
+                                                    .apply(ApplyBonusCount.addOreBonusCount(
+                                                            enchantments.getOrThrow(Enchantments.FORTUNE)
+                                                    ))
+                                    )))
+            );
+        }
+
+        protected void addDreadrootRootsDrops(Block block, Item item) {
+            generatedLoot.add(block);
+            this.add(block, blockToMine ->
+                    createSilkTouchDispatchTable(
+                            block,
+                            applyExplosionDecay(
+                                    block,
+                                    LootItem.lootTableItem(item)
+                                            .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F)))
+                            )
+                    )
+            );
         }
 
         protected void noDrop(Block block) {

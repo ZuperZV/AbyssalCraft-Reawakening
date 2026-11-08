@@ -1,6 +1,7 @@
 package net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen;
 
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.feature.CoraliumMoundFeature;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.feature.MonsterRoomFeature;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.feature.MonsterRoomFeatureConfiguration;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
@@ -18,6 +19,12 @@ public final class ModFeatures {
                     new MonsterRoomFeature(
                             MonsterRoomFeatureConfiguration.CODEC
                     )
+            );
+
+    public static final RegistryHandle<CoraliumMoundFeature> CORALIUM_MOUND =
+            Services.REGISTRY.registerFeature(
+                    "coralium_mound",
+                    CoraliumMoundFeature.INSTANCE
             );
 
 }

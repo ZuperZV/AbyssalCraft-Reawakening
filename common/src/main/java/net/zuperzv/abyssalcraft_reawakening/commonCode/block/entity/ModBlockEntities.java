@@ -105,4 +105,11 @@ public class ModBlockEntities {
                     ModBlocks.WITHERWOOD_HANGING_SIGN::get,
                     ModBlocks.WITHERWOOD_WALL_HANGING_SIGN::get
             );
+
+    public static final RegistryHandle<BlockEntityType<CoralliumGeyserBlockEntity>> CORALIUM_GEYSER_BE =
+            Services.REGISTRY.registerBlockEntityType(
+                    "coralium_geyser_be",
+                    CoralliumGeyserBlockEntity::new,
+                    ModBlocks.CORALIUM_GEYSER.block()::get
+            );
 }

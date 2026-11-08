@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/crop",
+  "textures": {
+    "crop": "abyssalcraft_reawakening:block/dreadroot_crop_stage1"
+  }
+}

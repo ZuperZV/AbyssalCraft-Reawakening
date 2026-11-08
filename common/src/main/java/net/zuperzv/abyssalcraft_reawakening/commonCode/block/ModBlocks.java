@@ -8,12 +8,14 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.*;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.DreadrootCropBlock;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.DreadrootRootsBlock;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.GloomMossBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModDataItem;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.CrystalProductBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.tree.ModTreeGrowers;
@@ -105,7 +107,7 @@ public final class ModBlocks {
     private static BlockWithItemRegistryHandle<Block> peMachine(String name, PEMachineBlock.Kind kind) {
         return Services.REGISTRY.registerBlockWithItem(name,
                 properties -> new PEMachineBlock(properties.mapColor(MapColor.COLOR_BLACK)
-                        .requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.DEEPSLATE), kind));
+                        .requiresCorrectToolForDrops().strength(4.0F, 6.0F).noOcclusion().sound(SoundType.DEEPSLATE), kind));
     }
 
     //Abyssal
@@ -134,7 +136,7 @@ public final class ModBlocks {
             properties -> new ModStairBlock(ABYSSAL_STONE_BRICKS.block().get().defaultBlockState(), properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
 
     public static final BlockWithItemRegistryHandle<Block> ABYSSAL_STONE_BRICKS_SLAB = Services.REGISTRY.registerBlockWithItem("abyssal_stone_bricks_slab",
-            properties -> new SlabBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
+            properties -> new MergingSlabBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
 
     public static final BlockWithItemRegistryHandle<Block> ABYSSAL_STONE_BRICKS_FENCE = Services.REGISTRY.registerBlockWithItem("abyssal_stone_bricks_fence",
             properties -> new FenceBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
@@ -166,8 +168,40 @@ public final class ModBlocks {
     public static final BlockWithItemRegistryHandle<Block> WASTELANDS_THORN = Services.REGISTRY.registerBlockWithItem("wastelands_thorn",
             properties -> new ModPlantBlock(ParticleTypes.ASH, 0.95f, MobEffects.INSTANT_DAMAGE, true, properties.mapColor(MapColor.PLANT).ignitedByLava().lightLevel((statex) -> 2).noCollision().noOcclusion().instabreak().sound(SoundType.SWEET_BERRY_BUSH).pushReaction(PushReaction.DESTROY)));
 
+    public static final RegistryHandle<DreadrootCropBlock> DREADROOT_CROP =
+            Services.REGISTRY.registerBlock("dreadroot_crop",
+                    properties -> new DreadrootCropBlock(properties.mapColor(MapColor.PLANT)
+                            .noCollision().instabreak().sound(SoundType.CROP)));
 
-        //Abyssal Witherwood Tree
+    public static final BlockWithItemRegistryHandle<DreadrootRootsBlock> DREADROOT_ROOTS =
+            Services.REGISTRY.registerBlockWithItem("dreadroot_roots",
+                    properties -> new DreadrootRootsBlock(properties.mapColor(MapColor.PLANT)
+                            .noCollision().noOcclusion().instabreak().sound(SoundType.ROOTED_DIRT)));
+
+    // ABYSSAL SWAMP BLOCKS
+    public static final BlockWithItemRegistryHandle<Block> GLOOM_MOSS = Services.REGISTRY.registerBlockWithItem("gloom_moss",
+            properties -> new GloomMossBlock(properties.ignitedByLava().mapColor(MapColor.COLOR_LIGHT_GRAY).strength(0.1F).sound(SoundType.MOSS).pushReaction(PushReaction.DESTROY)));
+
+    public static final BlockWithItemRegistryHandle<Block> GLOOM_MOSS_CARPET = Services.REGISTRY.registerBlockWithItem("gloom_moss_carpet",
+            properties -> new CarpetBlock(properties.mapColor(MapColor.PLANT).ignitedByLava().lightLevel((statex) -> 1).noCollision().noOcclusion().instabreak().sound(SoundType.MOSS_CARPET).pushReaction(PushReaction.DESTROY)));
+
+    public static final BlockWithItemRegistryHandle<Block> GLOOM_VINES = Services.REGISTRY.registerBlockWithItem("gloom_vines",
+            properties -> new ModPlantBlock(ParticleTypes.NAUTILUS, 0.85f, properties.mapColor(MapColor.PLANT).ignitedByLava().lightLevel((statex) -> 1).noCollision().noOcclusion().instabreak().sound(SoundType.VINE).pushReaction(PushReaction.DESTROY)));
+
+    public static final BlockWithItemRegistryHandle<Block> GLOWING_GLOOM_FUNGUS = Services.REGISTRY.registerBlockWithItem("glowing_gloom_fungus",
+            properties -> new ModPlantBlock(ParticleTypes.GLOW_SQUID_INK, 0.9f, properties.mapColor(MapColor.PLANT).ignitedByLava().lightLevel((statex) -> 8).noCollision().noOcclusion().instabreak().sound(SoundType.SWEET_BERRY_BUSH).pushReaction(PushReaction.DESTROY)));
+
+    public static final BlockWithItemRegistryHandle<Block> MURKY_GLOOM_LILY = Services.REGISTRY.registerBlockWithItem("murky_gloom_lily",
+            properties -> new ModPlantBlock(ParticleTypes.BUBBLE, 0.75f, properties.mapColor(MapColor.PLANT).ignitedByLava().lightLevel((statex) -> 2).noCollision().noOcclusion().instabreak().sound(SoundType.LILY_PAD).pushReaction(PushReaction.DESTROY)));
+
+    public static final BlockWithItemRegistryHandle<Block> WASTELAND_LILY = Services.REGISTRY.registerBlockWithItem("wasteland_lily",
+            properties -> new WastelandLilyBlock(ParticleTypes.ASH, 0.5f, true, properties.mapColor(MapColor.PLANT).ignitedByLava().lightLevel((statex) -> 1).noCollision().noOcclusion().instabreak().sound(SoundType.LILY_PAD).pushReaction(PushReaction.DESTROY)));
+
+    public static final BlockWithItemRegistryHandle<Block> CORALIUM_GEYSER = Services.REGISTRY.registerBlockWithItem("coralium_geyser",
+            properties -> new CoralliumGeyserBlock(properties.mapColor(MapColor.COLOR_CYAN).requiresCorrectToolForDrops().strength(3.0F, 4.0F).sound(SoundType.DEEPSLATE).lightLevel(state -> 8).noOcclusion()));
+
+
+    //Abyssal Witherwood Tree
     public static final BlockWithItemRegistryHandle<Block> WITHERWOOD_LOG = Services.REGISTRY.registerBlockWithItem("witherwood_log",
             properties -> new RotatedPillarBlock(properties.mapColor(MapColor.WOOD).sound(SoundType.WOOD).strength(2f).ignitedByLava()));
     
@@ -256,6 +290,10 @@ public final class ModBlocks {
 
     public static final BlockWithItemRegistryHandle<Block> RAW_ABYSSALNITE_BLOCK = Services.REGISTRY.registerBlockWithItem("raw_abyssalnite_block",
             properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.METAL)));
+
+    // Sulfur
+    public static final BlockWithItemRegistryHandle<Block> SULFUR_BLOCK = Services.REGISTRY.registerBlockWithItem("sulfur_block",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_YELLOW).requiresCorrectToolForDrops().strength(3.0F, 4.0F).sound(SoundType.METAL)));
 
     public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_ORE = createOreBlock("abyssalnite_ore", 6.0F);
     public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_GRIMESTONE_ORE = createOreBlock("abyssalnite_grimestone_ore");

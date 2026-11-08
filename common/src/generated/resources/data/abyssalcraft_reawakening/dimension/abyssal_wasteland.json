@@ -9,134 +9,29 @@
           "biome": "abyssalcraft_reawakening:corallium_lake",
           "parameters": {
             "continentalness": [
-              -0.99,
-              -0.86
+              -1.0,
+              1.0
             ],
-            "depth": 0.0,
+            "depth": [
+              -1.5,
+              1.5
+            ],
             "erosion": [
-              -0.08,
-              0.08
+              -1.0,
+              1.0
             ],
             "humidity": [
-              -0.88,
-              -0.72
+              -1.0,
+              1.0
             ],
             "offset": 0.0,
             "temperature": [
-              -0.83,
-              -0.67
+              -1.0,
+              -0.6
             ],
             "weirdness": [
-              -1.0,
-              1.0
-            ]
-          }
-        },
-        {
-          "biome": "abyssalcraft_reawakening:darklands_mountains",
-          "parameters": {
-            "continentalness": [
-              0.6,
-              0.75
-            ],
-            "depth": 0.0,
-            "erosion": [
-              -0.13,
-              0.03
-            ],
-            "humidity": [
-              0.67,
-              0.83
-            ],
-            "offset": 0.0,
-            "temperature": [
-              0.3,
-              0.45
-            ],
-            "weirdness": [
-              -1.0,
-              1.0
-            ]
-          }
-        },
-        {
-          "biome": "abyssalcraft_reawakening:abyssal_plateau",
-          "parameters": {
-            "continentalness": [
-              0.8,
-              0.95
-            ],
-            "depth": 0.0,
-            "erosion": [
-              -0.63,
-              -0.47
-            ],
-            "humidity": [
-              0.6,
-              0.75
-            ],
-            "offset": 0.0,
-            "temperature": [
-              0.4,
-              0.55
-            ],
-            "weirdness": [
-              -1.0,
-              1.0
-            ]
-          }
-        },
-        {
-          "biome": "abyssalcraft_reawakening:abyssal_wastelands",
-          "parameters": {
-            "continentalness": [
-              0.34,
-              0.51
-            ],
-            "depth": 0.0,
-            "erosion": [
-              -0.18,
-              -0.02
-            ],
-            "humidity": [
-              0.37,
-              0.5299
-            ],
-            "offset": 0.0,
-            "temperature": [
-              0.15,
-              0.3
-            ],
-            "weirdness": [
-              -1.0,
-              1.0
-            ]
-          }
-        },
-        {
-          "biome": "abyssalcraft_reawakening:darklands_forest",
-          "parameters": {
-            "continentalness": [
-              0.52,
-              0.68
-            ],
-            "depth": 0.0,
-            "erosion": [
-              0.32,
-              0.48
-            ],
-            "humidity": [
-              0.45,
-              0.6
-            ],
-            "offset": 0.0,
-            "temperature": [
-              0.02,
-              0.18
-            ],
-            "weirdness": [
-              -1.0,
-              1.0
+              -1.5,
+              1.5
             ]
           }
         },
@@ -144,26 +39,59 @@
           "biome": "abyssalcraft_reawakening:abyssal_swamp",
           "parameters": {
             "continentalness": [
-              0.62,
-              0.7799
+              -1.0,
+              1.0
             ],
-            "depth": 0.0,
+            "depth": [
+              -1.5,
+              1.5
+            ],
             "erosion": [
-              0.34,
-              0.51
+              -1.0,
+              1.0
             ],
             "humidity": [
-              -0.26,
-              -0.09
+              -1.0,
+              1.0
             ],
             "offset": 0.0,
             "temperature": [
-              -0.58,
-              -0.42
+              -0.6,
+              -0.4
             ],
             "weirdness": [
+              -1.5,
+              1.5
+            ]
+          }
+        },
+        {
+          "biome": "abyssalcraft_reawakening:darklands_forest",
+          "parameters": {
+            "continentalness": [
               -1.0,
               1.0
+            ],
+            "depth": [
+              -1.5,
+              1.5
+            ],
+            "erosion": [
+              -1.0,
+              1.0
+            ],
+            "humidity": [
+              -1.0,
+              1.0
+            ],
+            "offset": 0.0,
+            "temperature": [
+              -0.4,
+              -0.2
+            ],
+            "weirdness": [
+              -1.5,
+              1.5
             ]
           }
         },
@@ -171,26 +99,119 @@
           "biome": "abyssalcraft_reawakening:abyssal_desert",
           "parameters": {
             "continentalness": [
-              0.75,
-              0.9
+              -1.0,
+              1.0
             ],
-            "depth": 0.0,
+            "depth": [
+              -1.5,
+              1.5
+            ],
             "erosion": [
-              -0.9,
-              -0.65
+              -1.0,
+              1.0
             ],
             "humidity": [
-              0.07,
-              0.23
+              -1.0,
+              1.0
             ],
             "offset": 0.0,
             "temperature": [
-              0.05,
-              0.2
+              -0.2,
+              0.0
             ],
             "weirdness": [
+              -1.5,
+              1.5
+            ]
+          }
+        },
+        {
+          "biome": "abyssalcraft_reawakening:darklands_mountains",
+          "parameters": {
+            "continentalness": [
               -1.0,
               1.0
+            ],
+            "depth": [
+              -1.5,
+              1.5
+            ],
+            "erosion": [
+              -1.0,
+              1.0
+            ],
+            "humidity": [
+              -1.0,
+              1.0
+            ],
+            "offset": 0.0,
+            "temperature": [
+              0.0,
+              0.4
+            ],
+            "weirdness": [
+              -1.5,
+              1.5
+            ]
+          }
+        },
+        {
+          "biome": "abyssalcraft_reawakening:abyssal_plateau",
+          "parameters": {
+            "continentalness": [
+              -1.0,
+              1.0
+            ],
+            "depth": [
+              -1.5,
+              1.5
+            ],
+            "erosion": [
+              -1.0,
+              1.0
+            ],
+            "humidity": [
+              -1.0,
+              1.0
+            ],
+            "offset": 0.0,
+            "temperature": [
+              0.4,
+              1.0
+            ],
+            "weirdness": [
+              -1.5,
+              1.5
+            ]
+          }
+        },
+        {
+          "biome": "abyssalcraft_reawakening:abyssal_wastelands",
+          "parameters": {
+            "continentalness": [
+              -1.0,
+              1.0
+            ],
+            "depth": [
+              -1.5,
+              1.5
+            ],
+            "erosion": [
+              -1.0,
+              1.0
+            ],
+            "humidity": [
+              -1.0,
+              1.0
+            ],
+            "offset": 0.0,
+            "temperature": [
+              -1.0,
+              1.0
+            ],
+            "weirdness": [
+              -1.5,
+              1.5
             ]
           }
         }

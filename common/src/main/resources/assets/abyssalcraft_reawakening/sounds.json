@@ -1,0 +1,10 @@
+{
+  "music_disc.raw_sewer": {
+    "sounds": [
+      {
+        "name": "abyssalcraft_reawakening:music/game/records/raw_sewer_0",
+        "stream": true
+      }
+    ]
+  }
+}

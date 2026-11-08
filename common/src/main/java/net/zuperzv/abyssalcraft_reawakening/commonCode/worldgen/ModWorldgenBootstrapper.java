@@ -3,6 +3,7 @@ package net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.features.VegetationFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
@@ -18,6 +19,7 @@ import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.LakeFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.*;
 import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlacer;
@@ -31,11 +33,13 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlockTags;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.ModFluids;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.feature.MonsterRoomFeatureConfiguration;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.gravityFossils.FossilGenerator;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.gravityFossils.FossilRegistry;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.gravityFossils.FossilWorldgenHelper;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.helpers.ModWorldgenPredicates;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.placement.NoFluidBelowPlacement;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.tree.decorator.TinyRootDecorator;
 
 import java.util.List;
@@ -79,6 +83,44 @@ public final class ModWorldgenBootstrapper {
                 )
         );
 
+        // Coralium Mound feature
+        context.register(
+                ModWorldgen.CORALIUM_MOUND,
+                new ConfiguredFeature<>(
+                        ModFeatures.CORALIUM_MOUND.get(),
+                        net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration.INSTANCE
+                )
+        );
+
+        // Coralium Mound edge decoration - small rocks with crystals and sulfur
+        context.register(
+                ModWorldgen.CORALIUM_MOUND_EDGE_DECORATION,
+                new ConfiguredFeature<>(
+                        Feature.SIMPLE_BLOCK,
+                        new SimpleBlockConfiguration(
+                                new WeightedStateProvider(
+                                        WeightedList.<BlockState>builder()
+                                                .add(ModBlocks.ABYSSAL_STONE.block().get().defaultBlockState(), 5)
+                                                .add(ModBlocks.SULFUR_BLOCK.block().get().defaultBlockState(), 3)
+                                                .add(Blocks.AMETHYST_CLUSTER.defaultBlockState(), 2)
+                                        .build()
+                                )
+                        )
+                )
+        );
+
+        // Coralium Lake - like lava lakes in the overworld, but with Corallium fluid
+        context.register(
+                ModWorldgen.CORALIUM_LAKE,
+                new ConfiguredFeature<>(
+                        Feature.LAKE,
+                        new LakeFeature.Configuration(
+                                BlockStateProvider.simple(ModFluids.CORALIUM_BLOCK.get().defaultBlockState()),
+                                BlockStateProvider.simple(ModBlocks.ABYSSAL_STONE.block().get().defaultBlockState())
+                        )
+                )
+        );
+
         // PLANTS
         context.register(
                 ModWorldgen.CORALIUM_TENDRILS,
@@ -114,6 +156,67 @@ public final class ModWorldgenBootstrapper {
                         new SimpleBlockConfiguration(
                                 BlockStateProvider.simple(
                                         ModBlocks.WASTELANDS_THORN.block().get()
+                                )
+                        )
+                )
+        );
+
+        // SWAMP FEATURES
+        context.register(
+                ModWorldgen.GLOOM_MOSS,
+                new ConfiguredFeature<>(
+                        Feature.SIMPLE_BLOCK,
+                        new SimpleBlockConfiguration(
+                                BlockStateProvider.simple(
+                                        ModBlocks.GLOOM_MOSS.block().get()
+                                )
+                        )
+                )
+        );
+
+        context.register(
+                ModWorldgen.GLOOM_MOSS_CARPET,
+                new ConfiguredFeature<>(
+                        Feature.SIMPLE_BLOCK,
+                        new SimpleBlockConfiguration(
+                                BlockStateProvider.simple(
+                                        ModBlocks.GLOOM_MOSS_CARPET.block().get()
+                                )
+                        )
+                )
+        );
+
+        context.register(
+                ModWorldgen.SWAMP_VINES,
+                new ConfiguredFeature<>(
+                        Feature.SIMPLE_BLOCK,
+                        new SimpleBlockConfiguration(
+                                BlockStateProvider.simple(
+                                        ModBlocks.GLOOM_VINES.block().get()
+                                )
+                        )
+                )
+        );
+
+        context.register(
+                ModWorldgen.GLOWING_FUNGUS,
+                new ConfiguredFeature<>(
+                        Feature.SIMPLE_BLOCK,
+                        new SimpleBlockConfiguration(
+                                BlockStateProvider.simple(
+                                        ModBlocks.GLOWING_GLOOM_FUNGUS.block().get()
+                                )
+                        )
+                )
+        );
+
+        context.register(
+                ModWorldgen.MURKY_WATER_LILY,
+                new ConfiguredFeature<>(
+                        Feature.SIMPLE_BLOCK,
+                        new SimpleBlockConfiguration(
+                                BlockStateProvider.simple(
+                                        ModBlocks.MURKY_GLOOM_LILY.block().get()
                                 )
                         )
                 )
@@ -578,6 +681,50 @@ public final class ModWorldgenBootstrapper {
                         )
                 )
         );
+
+        // Gloom moss vegetation features
+        context.register(
+                ModWorldgen.GLOOM_MOSS_VEGETATION,
+                new ConfiguredFeature<>(
+                        Feature.SIMPLE_BLOCK,
+                        new SimpleBlockConfiguration(
+                                new WeightedStateProvider(
+                                        WeightedList.<BlockState>builder()
+                                                .add(ModBlocks.GLOOM_MOSS_CARPET.block().get().defaultBlockState(), 25)
+                                                .add(Blocks.SHORT_GRASS.defaultBlockState(), 25)
+                                                .add(Blocks.TALL_GRASS.defaultBlockState(), 10)
+                                )
+                        )
+                )
+        );
+
+        SimpleBlockConfiguration gloomMossVegetationConfig =  new SimpleBlockConfiguration(
+                new WeightedStateProvider(
+                        WeightedList.<BlockState>builder()
+                                .add(ModBlocks.GLOOM_MOSS_CARPET.block().get().defaultBlockState(), 25)
+                                .add(Blocks.SHORT_GRASS.defaultBlockState(), 25)
+                                .add(Blocks.TALL_GRASS.defaultBlockState(), 10)
+                )
+        );
+
+        context.register(
+                ModWorldgen.GLOOM_MOSS_PATCH_BONEMEAL,
+                new ConfiguredFeature<>(
+                        Feature.VEGETATION_PATCH,
+                        new VegetationPatchConfiguration(
+                                BlockTags.MOSS_REPLACEABLE,
+                                BlockStateProvider.simple(ModBlocks.GLOOM_MOSS.block().get()),
+                                PlacementUtils.inlinePlaced(Feature.SIMPLE_BLOCK, gloomMossVegetationConfig),
+                                CaveSurface.FLOOR,
+                                ConstantInt.of(1),
+                                0.0F,
+                                5,
+                                0.6F,
+                                UniformInt.of(1, 2),
+                                0.75F
+                        )
+                )
+        );
     }
 
     public static void bootstrapPlacedFeatures(BootstrapContext<PlacedFeature> context) {
@@ -701,6 +848,129 @@ public final class ModWorldgenBootstrapper {
                                 PlacementUtils.HEIGHTMAP_NO_LEAVES,
                                 BiomeFilter.biome(),
 
+                                BlockPredicateFilter.forPredicate(
+                                        BlockPredicate.ONLY_IN_AIR_PREDICATE
+                                )
+                        )
+                )
+        );
+
+        // SWAMP PLACED FEATURES
+        context.register(
+                ModWorldgen.GLOOM_MOSS_PLACED,
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(
+                                ModWorldgen.GLOOM_MOSS
+                        ),
+                        List.of(
+                                CountPlacement.of(40),
+                                InSquarePlacement.spread(),
+                                HeightRangePlacement.uniform(
+                                        VerticalAnchor.absolute(55),
+                                        VerticalAnchor.absolute(70)
+                                ),
+                                PlacementUtils.HEIGHTMAP_NO_LEAVES,
+                                BiomeFilter.biome(),
+                                BlockPredicateFilter.forPredicate(
+                                        BlockPredicate.ONLY_IN_AIR_PREDICATE
+                                )
+                        )
+                )
+        );
+
+        context.register(
+                ModWorldgen.GLOOM_MOSS_CARPET_PLACED,
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(
+                                ModWorldgen.GLOOM_MOSS_CARPET
+                        ),
+                        List.of(
+                                CountPlacement.of(30),
+                                InSquarePlacement.spread(),
+                                HeightRangePlacement.uniform(
+                                        VerticalAnchor.absolute(55),
+                                        VerticalAnchor.absolute(70)
+                                ),
+                                PlacementUtils.HEIGHTMAP_NO_LEAVES,
+                                BiomeFilter.biome(),
+                                BlockPredicateFilter.forPredicate(
+                                        BlockPredicate.ONLY_IN_AIR_PREDICATE
+                                )
+                        )
+                )
+        );
+
+        context.register(
+                ModWorldgen.SWAMP_VINES_PLACED,
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(
+                                ModWorldgen.SWAMP_VINES
+                        ),
+                        List.of(
+                                CountPlacement.of(25),
+                                InSquarePlacement.spread(),
+                                HeightRangePlacement.uniform(
+                                        VerticalAnchor.absolute(55),
+                                        VerticalAnchor.absolute(70)
+                                ),
+                                PlacementUtils.HEIGHTMAP_NO_LEAVES,
+                                BiomeFilter.biome(),
+                                BlockPredicateFilter.forPredicate(
+                                        BlockPredicate.ONLY_IN_AIR_PREDICATE
+                                )
+                        )
+                )
+        );
+
+        context.register(
+                ModWorldgen.GLOWING_FUNGUS_PLACED,
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(
+                                ModWorldgen.GLOWING_FUNGUS
+                        ),
+                        List.of(
+                                CountPlacement.of(15),
+                                RandomOffsetPlacement.ofTriangle(3, 2),
+                                HeightmapPlacement.onHeightmap(
+                                        Heightmap.Types.WORLD_SURFACE
+                                ),
+                                BiomeFilter.biome(),
+                                BlockPredicateFilter.forPredicate(
+                                        BlockPredicate.allOf(
+                                                BlockPredicate.ONLY_IN_AIR_PREDICATE,
+                                                BlockPredicate.wouldSurvive(
+                                                        ModBlocks.GLOWING_GLOOM_FUNGUS.block()
+                                                                .get()
+                                                                .defaultBlockState(),
+                                                        BlockPos.ZERO
+                                                )
+                                        )
+                                )
+                        )
+                )
+        );
+
+        context.register(
+                ModWorldgen.MURKY_WATER_LILY_PLACED,
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(
+                                ModWorldgen.MURKY_WATER_LILY
+                        ),
+                        List.of(
+                                CountPlacement.of(20),
+                                InSquarePlacement.spread(),
+                                HeightRangePlacement.uniform(
+                                        VerticalAnchor.absolute(55),
+                                        VerticalAnchor.absolute(66)
+                                ),
+                                PlacementUtils.HEIGHTMAP_NO_LEAVES,
+                                BiomeFilter.biome(),
+                                BlockPredicateFilter.forPredicate(
+                                        ModWorldgenPredicates.nearCustomWaterPredicate(
+                                                Blocks.WATER,
+                                                2
+                                        )
+                                ),
                                 BlockPredicateFilter.forPredicate(
                                         BlockPredicate.ONLY_IN_AIR_PREDICATE
                                 )
@@ -1046,6 +1316,95 @@ public final class ModWorldgenBootstrapper {
 
                                 BiomeFilter.biome()
                         )
+                )
+        );
+
+        // Coralium Mound placement
+        context.register(
+                ModWorldgen.CORALIUM_MOUND_PLACED,
+
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(
+                                ModWorldgen.CORALIUM_MOUND
+                        ),
+
+                        List.of(
+                                RarityFilter.onAverageOnceEvery(15),
+
+                                InSquarePlacement.spread(),
+
+                                CountPlacement.of(5),
+
+                                HeightmapPlacement.onHeightmap(
+                                        Heightmap.Types.WORLD_SURFACE
+                                ),
+
+                                new NoFluidBelowPlacement(),
+
+                                BiomeFilter.biome()
+                        )
+                )
+        );
+
+        // Coralium Mound edge decoration placement
+        context.register(
+                ModWorldgen.CORALIUM_MOUND_EDGE_DECORATION_PLACED,
+
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(
+                                ModWorldgen.CORALIUM_MOUND_EDGE_DECORATION
+                        ),
+
+                        List.of(
+                                CountPlacement.of(3),
+
+                                InSquarePlacement.spread(),
+
+                                HeightmapPlacement.onHeightmap(
+                                        Heightmap.Types.WORLD_SURFACE
+                                ),
+
+                                BiomeFilter.biome()
+                        )
+                )
+        );
+
+        // Coralium Lake placement - like lava lakes in overworld
+        context.register(
+                ModWorldgen.CORALIUM_LAKE_PLACED,
+
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(
+                                ModWorldgen.CORALIUM_LAKE
+                        ),
+
+                        List.of(
+                                RarityFilter.onAverageOnceEvery(750),
+
+                                InSquarePlacement.spread(),
+
+                                HeightmapPlacement.onHeightmap(
+                                        Heightmap.Types.WORLD_SURFACE
+                                ),
+
+                                BiomeFilter.biome()
+                        )
+                )
+        );
+
+        context.register(
+                ModWorldgen.GLOOM_MOSS_PATCH_BONEMEAL_PLACED,
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(ModWorldgen.GLOOM_MOSS_PATCH_BONEMEAL),
+                        List.of()
+                )
+        );
+
+        context.register(
+                ModWorldgen.GLOOM_MOSS_VEGETATION_PLACED,
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(ModWorldgen.GLOOM_MOSS_VEGETATION),
+                        List.of()
                 )
         );
     }

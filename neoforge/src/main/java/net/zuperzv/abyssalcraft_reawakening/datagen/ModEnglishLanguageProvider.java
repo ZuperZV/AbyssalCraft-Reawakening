@@ -66,8 +66,13 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         add("item.minecraft.potion.effect.crystallization", "Potion of Crystallization");
         add("item.minecraft.potion.effect.long_crystallization", "Long Potion of Crystallization");
 
+        add("item.abyssalcraft_reawakening.abyssal_trim_smithing_template", "Abyssal Armor Trim Smithing Template");
+        add("trim_pattern.abyssalcraft_reawakening.abyssal", "Abyssal");
+
         add("item.abyssalcraft_reawakening.necronomicon", "Necronomicon");
         add("item.abyssalcraft_reawakening.necronomicon_tier", "%s %s");
+        add("item.abyssalcraft_reawakening.music_disc_raw_sewer", "Music Disc - Raw Sewer");
+        add("jukebox_song.abyssalcraft_reawakening.raw_sewer", "Raw Sewer");
 
         add("item.abyssalcraft_reawakening.abyssal_wasteland", "Abyssal Wasteland");
         add("item.abyssalcraft_reawakening.dreadlands", "Dreadlands");

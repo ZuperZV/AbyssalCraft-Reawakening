@@ -1,25 +1,3 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "key": {
-    "A": {
-      "neoforge:ingredient_type": "neoforge:components",
-      "components": {
-        "abyssalcraft_reawakening:corealium_gems": {
-          "corealium_gems": 9
-        }
-      },
-      "items": "abyssalcraft_reawakening:coralium_gem"
-    },
-    "B": "abyssalcraft_reawakening:abyssal_stone"
-  },
-  "pattern": [
-    " A ",
-    "ABA",
-    " A "
-  ],
-  "result": {
-    "count": 4,
-    "id": "abyssalcraft_reawakening:chunk_of_coralium"
-  }
+  "type": "abyssalcraft_reawakening:coralium_chunk"
 }

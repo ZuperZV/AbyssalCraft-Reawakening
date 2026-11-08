@@ -1,6 +1,7 @@
 package net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen;
 
 import net.minecraft.core.registries.Registries;
+import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
@@ -15,6 +16,12 @@ public final class ModWorldgen {
     public static final ResourceKey<ConfiguredFeature<?, ?>> CORALIUM_TENDRILS = configuredFeatureKey("coralium_tendrils");
     public static final ResourceKey<ConfiguredFeature<?, ?>> LUMINOUS_THISTLE = configuredFeatureKey("luminous_thistle");
     public static final ResourceKey<ConfiguredFeature<?, ?>> WASTELANDS_THORN = configuredFeatureKey("wastelands_thorn");
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> GLOOM_MOSS = configuredFeatureKey("gloom_moss");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> GLOOM_MOSS_CARPET = configuredFeatureKey("gloom_moss_carpet");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> SWAMP_VINES = configuredFeatureKey("swamp_vines");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> GLOWING_FUNGUS = configuredFeatureKey("glowing_fungus");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> MURKY_WATER_LILY = configuredFeatureKey("murky_water_lily");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> WITHERWOOD_TREE = configuredFeatureKey("witherwood_tree");
     public static final ResourceKey<ConfiguredFeature<?, ?>> LEAVES_WITHERWOOD_TREE = configuredFeatureKey("leaves_witherwood_tree");
@@ -43,11 +50,24 @@ public final class ModWorldgen {
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> ABYSSAL_MONSTER_ROOM = configuredFeatureKey("abyssal_monster_room");
 
+    public static final ResourceKey<ConfiguredFeature<?, ?>> CORALIUM_MOUND = configuredFeatureKey("coralium_mound");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> CORALIUM_MOUND_EDGE_DECORATION = configuredFeatureKey("coralium_mound_edge_decoration");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> CORALIUM_LAKE = configuredFeatureKey("coralium_lake");
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> GLOOM_MOSS_VEGETATION = configuredFeatureKey("gloom_moss_vegetation");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> GLOOM_MOSS_PATCH_BONEMEAL = configuredFeatureKey("gloom_moss_patch_bonemeal");
+
 
     // Configured Features
     public static final ResourceKey<PlacedFeature> CORALIUM_TENDRILS_PLACED = placedFeatureKey("coralium_tendrils");
     public static final ResourceKey<PlacedFeature> LUMINOUS_THISTLE_PLACED = placedFeatureKey("luminous_thistle");
     public static final ResourceKey<PlacedFeature> WASTELANDS_THORN_PLACED = placedFeatureKey("wastelands_thorn");
+
+    public static final ResourceKey<PlacedFeature> GLOOM_MOSS_PLACED = placedFeatureKey("gloom_moss");
+    public static final ResourceKey<PlacedFeature> GLOOM_MOSS_CARPET_PLACED = placedFeatureKey("gloom_moss_carpet");
+    public static final ResourceKey<PlacedFeature> SWAMP_VINES_PLACED = placedFeatureKey("swamp_vines");
+    public static final ResourceKey<PlacedFeature> GLOWING_FUNGUS_PLACED = placedFeatureKey("glowing_fungus");
+    public static final ResourceKey<PlacedFeature> MURKY_WATER_LILY_PLACED = placedFeatureKey("murky_water_lily");
 
     public static final ResourceKey<PlacedFeature> ABYSSAL_DRY_GRASS_PLACED = placedFeatureKey("abyssal_dry_grass_placed");
     public static final ResourceKey<PlacedFeature> ABYSSAL_DEAD_BUSH_PLACED = placedFeatureKey("abyssal_dead_bush_placed");
@@ -80,6 +100,13 @@ public final class ModWorldgen {
     public static final ResourceKey<PlacedFeature> CORALIUM_ORE_PLACED   = placedFeatureKey("coralium_ore");
 
     public static final ResourceKey<PlacedFeature> ABYSSAL_MONSTER_ROOM_PLACED = placedFeatureKey("abyssal_monster_room");
+
+    public static final ResourceKey<PlacedFeature> CORALIUM_MOUND_PLACED = placedFeatureKey("coralium_mound");
+    public static final ResourceKey<PlacedFeature> CORALIUM_MOUND_EDGE_DECORATION_PLACED = placedFeatureKey("coralium_mound_edge_decoration");
+    public static final ResourceKey<PlacedFeature> CORALIUM_LAKE_PLACED = placedFeatureKey("coralium_lake");
+
+    public static final ResourceKey<PlacedFeature> GLOOM_MOSS_VEGETATION_PLACED = placedFeatureKey("gloom_moss_vegetation");
+    public static final ResourceKey<PlacedFeature> GLOOM_MOSS_PATCH_BONEMEAL_PLACED = placedFeatureKey("gloom_moss_patch_bonemeal");
 
     // Configured Carvers
     public static final ResourceKey<ConfiguredWorldCarver<?>> CAVE = configuredCarverKey("cave");
