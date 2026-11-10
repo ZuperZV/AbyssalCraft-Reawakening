@@ -1,7 +1,27 @@
 {
   "variants": {
-    "": {
+    "facing=down": {
+      "model": "abyssalcraft_reawakening:block/lunar_light_beam_emitter",
+      "x": 90
+    },
+    "facing=east": {
+      "model": "abyssalcraft_reawakening:block/lunar_light_beam_emitter",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "abyssalcraft_reawakening:block/lunar_light_beam_emitter",
+      "y": 180
+    },
+    "facing=south": {
       "model": "abyssalcraft_reawakening:block/lunar_light_beam_emitter"
+    },
+    "facing=up": {
+      "model": "abyssalcraft_reawakening:block/lunar_light_beam_emitter",
+      "x": 270
+    },
+    "facing=west": {
+      "model": "abyssalcraft_reawakening:block/lunar_light_beam_emitter",
+      "y": 270
     }
   }
 }

@@ -25,6 +25,7 @@
     "AdvancementsScreenMixin",
     "AdvancementTabMixin",
     "AbyssalniteVanillaArmorLayerMixin",
+    "EthaxiumArmorTrimMixin",
     "BlockTooltipOverlayMixin",
     "CoraliumNauseaMixin",
     "CustomFluidFogColorMixin",

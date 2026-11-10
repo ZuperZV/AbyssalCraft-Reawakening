@@ -3,18 +3,37 @@
   "fallback": "minecraft:empty",
   "elements": [
     {
-      "weight": 16,
-      "element": {
-        "element_type": "minecraft:empty_pool_element"
-      }
-    },
-    {
       "weight": 10,
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
         "location": "abyssalcraft_reawakening:ruins/chest/chest_bad",
-        "processors": "minecraft:mossify_10_percent",
+        "processors": [
+          {
+            "processor_type": "minecraft:jigsaw_replacement"
+          },
+          {
+            "processor_type": "minecraft:rule",
+            "rules": [
+              {
+                "input_predicate": {
+                  "predicate_type": "minecraft:block_match",
+                  "block": "minecraft:chest"
+                },
+                "location_predicate": {
+                  "predicate_type": "minecraft:always_true"
+                },
+                "output_state": {
+                  "Name": "minecraft:chest"
+                },
+                "block_entity_modifier": {
+                  "type": "minecraft:append_loot",
+                  "loot_table": "abyssalcraft_reawakening:chests/ruin_bad"
+                }
+              }
+            ]
+          }
+        ],
         "override_liquid_settings": "ignore_waterlogging"
       }
     },
@@ -24,7 +43,32 @@
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
         "location": "abyssalcraft_reawakening:ruins/chest/chest_medium",
-        "processors": "minecraft:mossify_10_percent",
+        "processors": [
+          {
+            "processor_type": "minecraft:jigsaw_replacement"
+          },
+          {
+            "processor_type": "minecraft:rule",
+            "rules": [
+              {
+                "input_predicate": {
+                  "predicate_type": "minecraft:block_match",
+                  "block": "minecraft:chest"
+                },
+                "location_predicate": {
+                  "predicate_type": "minecraft:always_true"
+                },
+                "output_state": {
+                  "Name": "minecraft:chest"
+                },
+                "block_entity_modifier": {
+                  "type": "minecraft:append_loot",
+                  "loot_table": "abyssalcraft_reawakening:chests/ruin_medium"
+                }
+              }
+            ]
+          }
+        ],
         "override_liquid_settings": "ignore_waterlogging"
       }
     },
@@ -34,7 +78,32 @@
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
         "location": "abyssalcraft_reawakening:ruins/chest/chest_good",
-        "processors": "minecraft:mossify_10_percent",
+        "processors": [
+          {
+            "processor_type": "minecraft:jigsaw_replacement"
+          },
+          {
+            "processor_type": "minecraft:rule",
+            "rules": [
+              {
+                "input_predicate": {
+                  "predicate_type": "minecraft:block_match",
+                  "block": "minecraft:chest"
+                },
+                "location_predicate": {
+                  "predicate_type": "minecraft:always_true"
+                },
+                "output_state": {
+                  "Name": "minecraft:chest"
+                },
+                "block_entity_modifier": {
+                  "type": "minecraft:append_loot",
+                  "loot_table": "abyssalcraft_reawakening:chests/ruin_good"
+                }
+              }
+            ]
+          }
+        ],
         "override_liquid_settings": "ignore_waterlogging"
       }
     }

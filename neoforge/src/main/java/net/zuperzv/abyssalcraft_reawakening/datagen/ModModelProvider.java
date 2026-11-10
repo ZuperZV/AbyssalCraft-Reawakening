@@ -44,6 +44,7 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.BoilerTipBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.DreadrootRootsBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.EssenceBoilerBlock;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.LunarLightBeamEmitterBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.PortalActivatorBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.ModDataComponentTypes;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.DyedColorTintSource;
@@ -117,7 +118,7 @@ public class ModModelProvider extends ModelProvider {
         createPEMachineModels(blockModels);
         createLunarBlockModel(blockModels, ModBlocks.LUNAR_JAR.block().get(), "lunar_jar");
         createLunarBlockModel(blockModels, ModBlocks.LUNAR_INFUSER.block().get(), "lunar_infuser");
-        createLunarBlockModel(blockModels, ModBlocks.LUNAR_LIGHT_BEAM_EMITTER.block().get(), "lunar_light_beam_emitter");
+        createLunarLightBeamEmitterModel(blockModels, ModBlocks.LUNAR_LIGHT_BEAM_EMITTER.block().get());
         createNonTemplateModelBlock(blockModels, ModFluids.CORALIUM_BLOCK.get(), Blocks.WATER);
         generateWaterFluidBucket(itemModels, ModFluids.CORALIUM_BUCKET.get());
 
@@ -139,7 +140,7 @@ public class ModModelProvider extends ModelProvider {
         generatedItems.add(ModItems.DREADROOT.get());
         itemModels.generateFlatItem(ModItems.DREADROOT.get(), ModelTemplates.FLAT_ITEM);
 
-        //Swamp blocks - GLOOM_MOSS is a full block, GLOOM_MOSS_CARPET uses manual carpet models
+        //Swamp blocks
         generatedBlocks.add(ModBlocks.GLOOM_MOSS.block().get());
         Identifier gloomMossBlockModel = Constants.id("block/gloom_moss_block");
         blockModels.blockStateOutput.accept(createSimpleBlock(ModBlocks.GLOOM_MOSS.block().get(), plainVariant(gloomMossBlockModel)));
@@ -649,16 +650,21 @@ public class ModModelProvider extends ModelProvider {
     private void createDreadrootCrop(BlockModelGenerators blockModels, Block block) {
         generatedBlocks.add(block);
         MultiVariant[] stageVariants = new MultiVariant[3];
+        ModelTemplate cropTemplate = new ModelTemplate(
+                Optional.of(Constants.id("block/dreadroot_crop_parent")),
+                Optional.empty(),
+                TextureSlot.CROP
+        );
         for (int stage = 0; stage < stageVariants.length; stage++) {
             String suffix = "_stage" + stage;
-            Identifier model = ModelTemplates.CROP.createWithSuffix(
+            Identifier model = cropTemplate.createWithSuffix(
                     block,
                     suffix,
                     TextureMapping.crop(TextureMapping.getBlockTexture(block, suffix)),
                     blockModels.modelOutput
             );
             MultiVariant variant = plainVariant(model);
-            stageVariants[stage] = stage == 2 ? variant.with(X_ROT_180) : variant;
+            stageVariants[stage] = variant;
         }
 
         blockModels.blockStateOutput.accept(
@@ -1303,18 +1309,18 @@ public class ModModelProvider extends ModelProvider {
     }
 
     private ResourceKey<EquipmentAsset> getEquipmentAssetForItem(Item item) {
-        String id = item.getDescriptionId().toLowerCase();
+        String id = BuiltInRegistries.ITEM.getKey(item).getPath();
 
         if (id.contains("abyssalnite")) {
             return ModArmorMaterials.ABYSSALNITE_ASSET;
-        } else if (id.contains("refined_coralium")) {
-            return ModArmorMaterials.REFINED_CORALIUM_ASSET;
         } else if (id.contains("plated_coralium")) {
             return ModArmorMaterials.PLATED_CORALIUM_ASSET;
         } else if (id.contains("of_the_depths")) {
             return ModArmorMaterials.OF_THE_DEPTHS_ASSET;
         } else if (id.contains("dreadium_samurai")) {
             return ModArmorMaterials.DREADIUM_SAMURAI_ASSET;
+        } else if (id.startsWith("coralium_")) {
+            return ModArmorMaterials.REFINED_CORALIUM_ASSET;
         } else if (id.contains("dreadium")) {
             return ModArmorMaterials.DREADIUM_ASSET;
         } else if (id.contains("ethaxium")) {
@@ -1548,6 +1554,22 @@ public class ModModelProvider extends ModelProvider {
         generatedBlocks.add(block);
         Identifier model = Constants.id("block/" + modelName);
         blockModels.blockStateOutput.accept(createSimpleBlock(block, plainVariant(model)));
+        blockModels.registerSimpleItemModel(block, model);
+    }
+
+    private void createLunarLightBeamEmitterModel(BlockModelGenerators blockModels, Block block) {
+        generatedBlocks.add(block);
+        Identifier model = Constants.id("block/lunar_light_beam_emitter");
+        blockModels.blockStateOutput.accept(
+                MultiVariantGenerator.dispatch(block)
+                        .with(PropertyDispatch.initial(LunarLightBeamEmitterBlock.FACING)
+                                .select(Direction.SOUTH, plainVariant(model))
+                                .select(Direction.NORTH, plainVariant(model).with(Y_ROT_180))
+                                .select(Direction.EAST, plainVariant(model).with(Y_ROT_90))
+                                .select(Direction.WEST, plainVariant(model).with(Y_ROT_270))
+                                .select(Direction.UP, plainVariant(model).with(X_ROT_270))
+                                .select(Direction.DOWN, plainVariant(model).with(X_ROT_90)))
+        );
         blockModels.registerSimpleItemModel(block, model);
     }
 

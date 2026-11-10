@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.entity.state.ArmorStandRenderState;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
-import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.client.AbyssalniteArmorRenderLayer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -26,10 +26,15 @@ public class AbyssalniteVanillaArmorLayerMixin {
             HumanoidRenderState state,
             CallbackInfo ci
     ) {
-        boolean abyssalniteChestplate = item.is(ModItems.ABYSSALNITE_CHESTPLATE.get());
-        boolean abyssalniteHelmet = item.is(ModItems.ABYSSALNITE_HELMET.get())
-                && !(state instanceof ArmorStandRenderState);
-        if (abyssalniteChestplate || abyssalniteHelmet) {
+        boolean customChestplate = AbyssalniteArmorRenderLayer.isCustomChestplate(item)
+                && !state.isBaby;
+        boolean customHelmet = AbyssalniteArmorRenderLayer.isCustomHelmet(item)
+                && !state.isBaby
+                && (!(state instanceof ArmorStandRenderState)
+                || AbyssalniteArmorRenderLayer.isEthaxiumHelmet(item));
+        boolean customBoots = AbyssalniteArmorRenderLayer.isCustomBoots(item)
+                && !state.isBaby;
+        if (customChestplate || customHelmet || customBoots) {
             ci.cancel();
         }
     }

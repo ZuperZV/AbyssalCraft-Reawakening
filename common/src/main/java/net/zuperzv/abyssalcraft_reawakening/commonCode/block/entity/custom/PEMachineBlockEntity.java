@@ -134,6 +134,8 @@ public class PEMachineBlockEntity extends BlockEntity {
     public int getStoredPE() { return pe; }
     public int getCapacityPE() { return capacity(); }
     public ItemStack getDisplayedCharm() { return displayedCharm; }
+    public int extractPE(int amount) { return extract(amount); }
+    public int insertPE(int amount) { return insert(amount); }
 
     private void sync() {
         setChanged();
@@ -412,7 +414,9 @@ public class PEMachineBlockEntity extends BlockEntity {
         output.putInt("range_upgrade", rangeUpgrade);
         output.putInt("power_upgrade", powerUpgrade);
         output.putInt("duration_upgrade", durationUpgrade);
-        output.store("displayed_charm", ItemStack.CODEC, displayedCharm);
+        if (!displayedCharm.isEmpty()) {
+            output.store("displayed_charm", ItemStack.CODEC, displayedCharm);
+        }
     }
 
     @Override

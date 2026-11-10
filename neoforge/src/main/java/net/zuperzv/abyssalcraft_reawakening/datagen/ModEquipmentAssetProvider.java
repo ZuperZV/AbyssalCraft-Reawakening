@@ -27,7 +27,7 @@ public class ModEquipmentAssetProvider extends EquipmentAssetProvider {
         output.accept(
                 ModArmorMaterials.REFINED_CORALIUM_ASSET,
                 EquipmentClientInfo.builder()
-                        .addHumanoidLayers(Constants.id("refined_coralium"))
+                        .addHumanoidLayers(Constants.id("coralium"))
                         .build()
         );
         output.accept(

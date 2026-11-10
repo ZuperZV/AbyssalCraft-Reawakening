@@ -61,6 +61,17 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         add("message.abyssalcraft_reawakening.place_of_power_active", "Place of Power active (%s Monolith Stone, %s Pillars, %s Statues)");
         add("message.abyssalcraft_reawakening.place_of_power_incomplete", "Place of Power incomplete (%s Monolith Stone, %s Pillars, %s Statues)");
 
+        add("tag.item.abyssalcraft_reawakening.abyssalnite_materials", "Abyssalnite Materials");
+        add("tag.item.abyssalcraft_reawakening.refined_coralium_materials", "Refined Coralium Materials");
+        add("tag.item.abyssalcraft_reawakening.dreadium_materials", "Dreadium Materials");
+        add("tag.item.abyssalcraft_reawakening.ethaxium_materials", "Ethaxium Materials");
+        add("tag.item.abyssalcraft_reawakening.witherwood_logs", "Witherwood Logs");
+        add("tag.item.abyssalcraft_reawakening.gems", "Gems");
+        add("tag.item.abyssalcraft_reawakening.crystal_fragments", "Crystal Fragments");
+        add("tag.item.abyssalcraft_reawakening.crystal_shards", "Crystal Shards");
+        add("tag.item.abyssalcraft_reawakening.crystals", "Crystals");
+        add("tag.item.abyssalcraft_reawakening.bundles", "Crystal Bags");
+
         add("name.abyssalcraft_reawakening.cluster", "Cluster");
 
         add("item.minecraft.potion.effect.crystallization", "Potion of Crystallization");

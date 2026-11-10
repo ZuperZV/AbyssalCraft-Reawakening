@@ -30,7 +30,7 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.Necronomicon
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.NecronomiconTooltipComponent;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.StaffClientTooltip;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.StaffTooltipComponent;
-import net.zuperzv.abyssalcraft_reawakening.commonCode.item.client.AbyssalniteArmorRenderLayer;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.client.AbyssalniteArmorRenderLayer;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.mixin.LivingEntityRendererAccessor;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.effect.ModPotionBrewing;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.network.SetBookmarksPacket;

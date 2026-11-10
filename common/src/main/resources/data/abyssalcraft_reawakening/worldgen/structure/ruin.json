@@ -10,7 +10,7 @@
   "start_height": {
     "type": "minecraft:constant",
     "value": {
-      "absolute": 2
+      "absolute": 3
     }
   },
   "max_distance_from_center": 32,

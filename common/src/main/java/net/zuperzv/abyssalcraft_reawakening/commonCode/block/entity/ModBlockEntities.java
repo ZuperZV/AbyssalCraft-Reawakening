@@ -74,6 +74,13 @@ public class ModBlockEntities {
                     ModBlocks.ENERGY_DEPOSITIONER.block()::get
             );
 
+    public static final RegistryHandle<BlockEntityType<LunarLightBeamEmitterBlockEntity>> LUNAR_LIGHT_BEAM_EMITTER_BE =
+            Services.REGISTRY.registerBlockEntityType(
+                    "lunar_light_beam_emitter",
+                    LunarLightBeamEmitterBlockEntity::new,
+                    ModBlocks.LUNAR_LIGHT_BEAM_EMITTER.block()::get
+            );
+
     /*
     public static final RegistryHandle<BlockEntityType<StoneRitualPedestalBlockEntity>> PE_STATUE_BE =
             Services.REGISTRY.registerBlockEntityType(

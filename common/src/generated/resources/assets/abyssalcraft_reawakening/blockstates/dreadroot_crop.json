@@ -10,24 +10,19 @@
       "model": "abyssalcraft_reawakening:block/dreadroot_crop_stage1"
     },
     "age=3": {
-      "model": "abyssalcraft_reawakening:block/dreadroot_crop_stage2",
-      "x": 180
+      "model": "abyssalcraft_reawakening:block/dreadroot_crop_stage2"
     },
     "age=4": {
-      "model": "abyssalcraft_reawakening:block/dreadroot_crop_stage2",
-      "x": 180
+      "model": "abyssalcraft_reawakening:block/dreadroot_crop_stage2"
     },
     "age=5": {
-      "model": "abyssalcraft_reawakening:block/dreadroot_crop_stage2",
-      "x": 180
+      "model": "abyssalcraft_reawakening:block/dreadroot_crop_stage2"
     },
     "age=6": {
-      "model": "abyssalcraft_reawakening:block/dreadroot_crop_stage2",
-      "x": 180
+      "model": "abyssalcraft_reawakening:block/dreadroot_crop_stage2"
     },
     "age=7": {
-      "model": "abyssalcraft_reawakening:block/dreadroot_crop_stage2",
-      "x": 180
+      "model": "abyssalcraft_reawakening:block/dreadroot_crop_stage2"
     }
   }
 }

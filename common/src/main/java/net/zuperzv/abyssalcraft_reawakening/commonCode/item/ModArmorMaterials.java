@@ -15,7 +15,7 @@ public final class ModArmorMaterials {
     private ModArmorMaterials() {}
 
     public static final ResourceKey<EquipmentAsset> ABYSSALNITE_ASSET = ResourceKey.create(EquipmentAssets.ROOT_ID, Constants.id("abyssalnite"));
-    public static final ResourceKey<EquipmentAsset> REFINED_CORALIUM_ASSET = ResourceKey.create(EquipmentAssets.ROOT_ID, Constants.id("refined_coralium"));
+    public static final ResourceKey<EquipmentAsset> REFINED_CORALIUM_ASSET = ResourceKey.create(EquipmentAssets.ROOT_ID, Constants.id("coralium"));
     public static final ResourceKey<EquipmentAsset> PLATED_CORALIUM_ASSET = ResourceKey.create(EquipmentAssets.ROOT_ID, Constants.id("plated_coralium"));
     public static final ResourceKey<EquipmentAsset> OF_THE_DEPTHS_ASSET = ResourceKey.create(EquipmentAssets.ROOT_ID, Constants.id("of_the_depths"));
     public static final ResourceKey<EquipmentAsset> DREADIUM_ASSET = ResourceKey.create(EquipmentAssets.ROOT_ID, Constants.id("dreadium"));

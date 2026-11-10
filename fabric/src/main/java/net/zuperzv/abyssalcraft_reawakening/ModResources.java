@@ -38,7 +38,7 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.StaffClientT
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.StaffTooltipComponent;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.property.CodexTierProperty;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.property.CoraliumGemsProperty;
-import net.zuperzv.abyssalcraft_reawakening.commonCode.item.client.AbyssalniteArmorRenderLayer;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.client.AbyssalniteArmorRenderLayer;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.network.SyncBookmarksPacket;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.particle.ColorBubbleParticle;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.particle.ModParticleTypes;
@@ -137,6 +137,10 @@ public class ModResources implements ClientModInitializer {
         BlockEntityRendererRegistry.register(
                 ModBlockEntities.PE_MACHINE_BE.get(),
                 PEMachineBlockEntityRenderer::new
+        );
+        BlockEntityRendererRegistry.register(
+                ModBlockEntities.LUNAR_LIGHT_BEAM_EMITTER_BE.get(),
+                LunarLightBeamEmitterBlockEntityRenderer::new
         );
 
         BlockEntityRendererRegistry.register(

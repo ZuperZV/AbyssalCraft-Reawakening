@@ -9,7 +9,7 @@
         "projection": "rigid",
         "location": "abyssalcraft_reawakening:ruins/hallway/end",
         "processors": "minecraft:mossify_10_percent",
-        "override_liquid_settings": "ignore_waterlogging"
+        "override_liquid_settings": "apply_waterlogging"
       }
     }
   ]

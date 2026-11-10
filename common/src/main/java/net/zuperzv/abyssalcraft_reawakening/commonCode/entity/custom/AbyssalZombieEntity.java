@@ -2,6 +2,7 @@ package net.zuperzv.abyssalcraft_reawakening.commonCode.entity.custom;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -11,7 +12,6 @@ import net.minecraft.util.SpecialDates;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -34,6 +34,7 @@ import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.dimension.DimensionType;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.effect.ModEffects;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModItems;
 import net.zuperzv.abyssalcraft_reawakening.services.util.ModSpecialDates;
 import org.jspecify.annotations.Nullable;
@@ -90,13 +91,15 @@ public class AbyssalZombieEntity extends Zombie {
         if (result) {
             float difficulty = level.getCurrentDifficultyAt(this.blockPosition()).getEffectiveDifficulty();
             if (this.getMainHandItem().isEmpty() && this.isOnFire() && this.random.nextFloat() < difficulty * 0.3F) {
-                target.igniteForSeconds((float)(2 * (int)difficulty));
+                target.igniteForSeconds(2.0F * difficulty);
             }
-            if (this.getMainHandItem().isEmpty() && this.random.nextFloat() < difficulty * 0.1F) {
-                ((LivingEntity) target).addEffect(
+            if (target instanceof LivingEntity living
+                    && this.getMainHandItem().isEmpty()
+                    && this.random.nextFloat() < difficulty * 0.1F) {
+                living.addEffect(
                         new MobEffectInstance(
-                                MobEffects.POISON,
-                                (Mth.floor((float)(2 * (int)difficulty) * 20.0F)),
+                                BuiltInRegistries.MOB_EFFECT.wrapAsHolder(ModEffects.CORALIUM_PLAGUE.get()),
+                                Mth.floor(2.0F * difficulty * 20.0F),
                                 0,
                                 false,
                                 true,

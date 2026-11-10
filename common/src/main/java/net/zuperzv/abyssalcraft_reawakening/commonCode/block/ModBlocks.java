@@ -100,7 +100,8 @@ public final class ModBlocks {
     public static final BlockWithItemRegistryHandle<Block> LUNAR_INFUSER = Services.REGISTRY.registerBlockWithItem("lunar_infuser",
             properties -> new Block(properties.mapColor(MapColor.COLOR_BLACK).strength(4.0F, 6.0F).noOcclusion()));
     public static final BlockWithItemRegistryHandle<Block> LUNAR_LIGHT_BEAM_EMITTER = Services.REGISTRY.registerBlockWithItem("lunar_light_beam_emitter",
-            properties -> new Block(properties.mapColor(MapColor.COLOR_BLACK).strength(4.0F, 6.0F).noOcclusion()));
+            properties -> new LunarLightBeamEmitterBlock(properties.mapColor(MapColor.COLOR_BLACK)
+                    .requiresCorrectToolForDrops().strength(4.0F, 6.0F).noOcclusion()));
     public static final BlockWithItemRegistryHandle<Block> SACRIFICIAL_ALTAR = peMachine("sacrificial_altar", PEMachineBlock.Kind.SACRIFICIAL_ALTAR);
     public static final BlockWithItemRegistryHandle<Block> ENERGY_DEPOSITIONER = peMachine("energy_depositioner", PEMachineBlock.Kind.DEPOSITIONER);
 
