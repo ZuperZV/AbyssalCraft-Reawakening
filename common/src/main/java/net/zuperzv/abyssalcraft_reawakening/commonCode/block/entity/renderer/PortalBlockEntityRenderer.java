@@ -34,7 +34,7 @@ public class PortalBlockEntityRenderer extends AbstractEndPortalRenderer<PortalB
 
         for (Direction direction : state.facesToShow) {
             poseStack.pushPose();
-            // Translate this face toward the center of the block, only along the axis perpendicular to the face. AHAHAHAHAHHAH MATH
+            // Translate this face toward the center of the block, only along the axis perpendicular to the face. AHAHAHAHAHH MATH
             poseStack.translate(
                     direction.getStepX() * -OFFSET,
                     direction.getStepY() * -OFFSET,
