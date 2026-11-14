@@ -82,6 +82,9 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.WASTITE.block().get())
                 .add(Blocks.MUD);
 
+        tag(BlockTags.MOSS_REPLACEABLE)
+                .addTags(ModBlockTags.ABYSSALWASTELAND_SURFACES);
+
         tag(BlockTags.SUPPORTS_DRY_VEGETATION)
                 .add(ModBlocks.CORRUPTED_SOIL.block().get())
                 .add(ModBlocks.ABYSSAL_SAND.block().get());
@@ -207,6 +210,8 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
         this.tag(ModBlockTags.SUPPORTS_ABYSS_VEGETATION)
                 .addTags(BlockTags.SUPPORTS_VEGETATION)
+                .add(ModBlocks.GLOOM_MOSS.block().get())
+                .add(ModBlocks.FUSED_ABYSSAL_SAND.block().get())
                 .add(ModBlocks.CORRUPTED_SOIL.block().get())
                 .add(ModBlocks.ABYSSAL_SAND.block().get());
     }

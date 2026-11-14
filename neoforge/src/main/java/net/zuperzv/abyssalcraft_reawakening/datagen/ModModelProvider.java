@@ -11,6 +11,7 @@ import net.minecraft.client.data.models.blockstates.MultiPartGenerator;
 import net.minecraft.client.data.models.blockstates.PropertyDispatch;
 import net.minecraft.client.data.models.model.*;
 import net.minecraft.client.renderer.block.dispatch.Variant;
+import net.minecraft.client.renderer.block.dispatch.VariantMutator;
 import net.minecraft.util.random.Weighted;
 import net.minecraft.util.random.WeightedList;
 import net.minecraft.client.renderer.item.ClientItem;
@@ -32,13 +33,8 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.equipment.EquipmentAsset;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.CropBlock;
-import net.minecraft.world.level.block.LiquidBlock;
-import net.minecraft.world.level.block.state.properties.AttachFace;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.properties.*;
 import net.zuperzv.abyssalcraft_reawakening.Constants;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.BoilerTipBlock;
@@ -59,10 +55,7 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.property.Code
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.property.CoraliumGemsProperty;
 import net.zuperzv.abyssalcraft_reawakening.services.NeoForgeRegistryHelper;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 
 import static net.minecraft.client.data.models.BlockModelGenerators.*;
@@ -132,6 +125,7 @@ public class ModModelProvider extends ModelProvider {
         //createPortalActivator(blockModels, ModBlocks.ABYSSAL_WASTELAND_ACTIVATOR.block().get());
 
         //Plants
+        createCrossBlockWithItem(blockModels, itemModels, ModBlocks.FUSSI_GRASS.block().get(), BlockModelGenerators.PlantType.NOT_TINTED);
         createCrossBlockWithItem(blockModels, itemModels, ModBlocks.CORALIUM_TENDRILS.block().get(), BlockModelGenerators.PlantType.NOT_TINTED);
         createCrossBlockWithItem(blockModels, itemModels, ModBlocks.LUMINOUS_THISTLE.block().get(), BlockModelGenerators.PlantType.NOT_TINTED);
         createCrossBlockWithItem(blockModels, itemModels, ModBlocks.WASTELANDS_THORN.block().get(), BlockModelGenerators.PlantType.NOT_TINTED);
@@ -140,16 +134,8 @@ public class ModModelProvider extends ModelProvider {
         generatedItems.add(ModItems.DREADROOT.get());
         itemModels.generateFlatItem(ModItems.DREADROOT.get(), ModelTemplates.FLAT_ITEM);
 
-        //Swamp blocks
-        generatedBlocks.add(ModBlocks.GLOOM_MOSS.block().get());
-        Identifier gloomMossBlockModel = Constants.id("block/gloom_moss_block");
-        blockModels.blockStateOutput.accept(createSimpleBlock(ModBlocks.GLOOM_MOSS.block().get(), plainVariant(gloomMossBlockModel)));
-        blockModels.registerSimpleItemModel(ModBlocks.GLOOM_MOSS.block().get(), gloomMossBlockModel);
-
-        generatedBlocks.add(ModBlocks.GLOOM_MOSS_CARPET.block().get());
-        Identifier gloomMossCarpetModel = Constants.id("block/gloom_moss_carpet");
-        blockModels.blockStateOutput.accept(createSimpleBlock(ModBlocks.GLOOM_MOSS_CARPET.block().get(), plainVariant(gloomMossCarpetModel)));
-        blockModels.registerSimpleItemModel(ModBlocks.GLOOM_MOSS_CARPET.block().get(), gloomMossCarpetModel);
+        generateCubeBlock(blockModels, ModBlocks.GLOOM_MOSS.block().get());
+        createMossyCarpet(blockModels, ModBlocks.GLOOM_MOSS_CARPET.block().get());
 
         // Corallium Geyser
         generatedBlocks.add(ModBlocks.CORALIUM_GEYSER.block().get());
@@ -257,6 +243,37 @@ public class ModModelProvider extends ModelProvider {
                 }
             }
         }
+    }
+
+
+    public void createMossyCarpet(BlockModelGenerators blockModels, Block block) {
+        generatedBlocks.add(block);
+
+        Map<Property<WallSide>, VariantMutator> directionProperties = selectMultifaceProperties(block.defaultBlockState(), MossyCarpetBlock::getPropertyForFace);
+        ConditionBuilder noFaces = condition().term(MossyCarpetBlock.BASE, false);
+        directionProperties.forEach((property, mutator) -> noFaces.term((Property<WallSide>)property, WallSide.NONE));
+        MultiVariant modelCarpet = plainVariant(TexturedModel.CARPET.create(block, blockModels.modelOutput));
+        MultiVariant modelSideTall = plainVariant(
+                TexturedModel.MOSSY_CARPET_SIDE
+                        .get(block)
+                        .updateTextures(m -> m.put(TextureSlot.SIDE, TextureMapping.getBlockTexture(block, "_side_tall")))
+                        .createWithSuffix(block, "_side_tall", blockModels.modelOutput)
+        );
+        MultiVariant modelSideSmall = plainVariant(
+                TexturedModel.MOSSY_CARPET_SIDE
+                        .get(block)
+                        .updateTextures(m -> m.put(TextureSlot.SIDE, TextureMapping.getBlockTexture(block, "_side_small")))
+                        .createWithSuffix(block, "_side_small", blockModels.modelOutput)
+        );
+        MultiPartGenerator generator = MultiPartGenerator.multiPart(block);
+        generator.with(condition().term(MossyCarpetBlock.BASE, true), modelCarpet);
+        generator.with(noFaces, modelCarpet);
+        directionProperties.forEach((property, mutator) -> {
+            generator.with(condition().term((Property<WallSide>)property, WallSide.TALL), modelSideTall.with(mutator));
+            generator.with(condition().term((Property<WallSide>)property, WallSide.LOW), modelSideSmall.with(mutator));
+            generator.with(noFaces, modelSideTall.with(mutator));
+        });
+        blockModels.blockStateOutput.accept(generator);
     }
 
     private void createCrystalProducts(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
@@ -1530,6 +1547,11 @@ public class ModModelProvider extends ModelProvider {
     private void generateCubeBlock(BlockModelGenerators blockModels, Block block) {
         generatedBlocks.add(block);
         blockModels.createTrivialCube(block);
+    }
+
+    public void generateSimpleItem(ItemModelGenerators itemModels, Item item) {
+        generatedItems.add(item);
+        itemModels.generateFlatItem(item, ModelTemplates.FLAT_ITEM);
     }
 
     private void createPEMachineModels(BlockModelGenerators blockModels) {

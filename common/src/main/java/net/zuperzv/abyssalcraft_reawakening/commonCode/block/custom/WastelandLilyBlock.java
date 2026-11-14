@@ -65,19 +65,4 @@ public class WastelandLilyBlock extends LilyPadBlock implements BonemealableBloc
     public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
         BonemealableBlock.findSpreadableNeighbourPos(level, pos, state).ifPresent((blockPos) -> level.setBlockAndUpdate(blockPos, this.defaultBlockState()));
     }
-
-    @Override
-    protected boolean mayPlaceOn(BlockState state, BlockGetter level, BlockPos pos) {
-        if (useSupportsAbyssVegetation) {
-            return state.is(ModBlockTags.SUPPORTS_ABYSS_VEGETATION);
-        } else {
-            return state.is(BlockTags.SUPPORTS_VEGETATION);
-        }
-    }
-
-    @Override
-    protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
-        BlockPos below = pos.below();
-        return this.mayPlaceOn(level.getBlockState(below), level, below);
-    }
 }

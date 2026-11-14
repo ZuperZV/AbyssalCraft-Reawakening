@@ -20,6 +20,7 @@ def commonResourcesDir = layout.buildDirectory.dir('generated/commonResources')
 def syncCommonResources = tasks.register('syncCommonResources', Sync) {
     from sourceSets.main.resources
     into commonResourcesDir
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 dependencies {

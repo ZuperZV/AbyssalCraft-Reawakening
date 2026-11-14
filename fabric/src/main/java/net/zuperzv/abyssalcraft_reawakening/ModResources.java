@@ -29,6 +29,7 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.ModBlockEnti
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.CrystalProductBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.renderer.*;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.renderer.PortalBlockEntityRenderer;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.loader.BlockTooltipDataLoader;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.loader.CodexDataLoader;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.loader.DataItemJsonLoader;
@@ -167,6 +168,11 @@ public class ModResources implements ClientModInitializer {
         BlockEntityRendererRegistry.register(
                 ModBlockEntities.MOD_HANGING_SIGN.get(),
                 ModHangingSignRenderer::new
+        );
+
+        BlockEntityRendererRegistry.register(
+                ModBlockEntities.PORTAL_BE.get(),
+                PortalBlockEntityRenderer::new
         );
 
         ModelLayerRegistry.registerModelLayer(

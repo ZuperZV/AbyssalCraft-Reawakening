@@ -8,6 +8,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
@@ -15,9 +16,9 @@ import net.minecraft.world.level.material.PushReaction;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.*;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.DreadrootCropBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.DreadrootRootsBlock;
-import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.GloomMossBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.item.ModDataItem;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.CrystalProductBlock;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.ModWorldgen;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.tree.ModTreeGrowers;
 import net.zuperzv.abyssalcraft_reawakening.services.Services;
 import net.zuperzv.abyssalcraft_reawakening.services.util.BlockWithItemRegistryHandle;
@@ -148,6 +149,8 @@ public final class ModBlocks {
     public static final BlockWithItemRegistryHandle<Block> FUSED_ABYSSAL_SAND = Services.REGISTRY.registerBlockWithItem("fused_abyssal_sand",
             properties -> new GrassSandBlock(new ColorRGBA(14406560), properties.instrument(NoteBlockInstrument.SNARE).strength(0.7F, 5.0F).sound(SoundType.SAND)));
 
+
+
     public static final BlockWithItemRegistryHandle<Block> CORRUPTED_SOIL = Services.REGISTRY.registerBlockWithItem("corrupted_soil",
             properties -> new Block(properties.mapColor(MapColor.COLOR_BLUE).strength(3.0F, 4.0F).sound(SoundType.MUD)));
 
@@ -169,6 +172,10 @@ public final class ModBlocks {
     public static final BlockWithItemRegistryHandle<Block> WASTELANDS_THORN = Services.REGISTRY.registerBlockWithItem("wastelands_thorn",
             properties -> new ModPlantBlock(ParticleTypes.ASH, 0.95f, MobEffects.INSTANT_DAMAGE, true, properties.mapColor(MapColor.PLANT).ignitedByLava().lightLevel((statex) -> 2).noCollision().noOcclusion().instabreak().sound(SoundType.SWEET_BERRY_BUSH).pushReaction(PushReaction.DESTROY)));
 
+    public static final BlockWithItemRegistryHandle<Block> FUSSI_GRASS = Services.REGISTRY.registerBlockWithItem("fussi_grass",
+            properties -> new ModPlantBlock(Block.box(1, 0, 1, 15, 5, 15), ParticleTypes.SNEEZE, 13f, null, true, 1, properties.mapColor(MapColor.PLANT)
+                    .ignitedByLava().lightLevel((statex) -> 2).noCollision().noOcclusion().instabreak().sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)));
+
     public static final RegistryHandle<DreadrootCropBlock> DREADROOT_CROP =
             Services.REGISTRY.registerBlock("dreadroot_crop",
                     properties -> new DreadrootCropBlock(properties.mapColor(MapColor.PLANT)
@@ -179,12 +186,14 @@ public final class ModBlocks {
                     properties -> new DreadrootRootsBlock(properties.mapColor(MapColor.PLANT)
                             .noCollision().noOcclusion().instabreak().sound(SoundType.ROOTED_DIRT)));
 
-    // ABYSSAL SWAMP BLOCKS
-    public static final BlockWithItemRegistryHandle<Block> GLOOM_MOSS = Services.REGISTRY.registerBlockWithItem("gloom_moss",
-            properties -> new GloomMossBlock(properties.ignitedByLava().mapColor(MapColor.COLOR_LIGHT_GRAY).strength(0.1F).sound(SoundType.MOSS).pushReaction(PushReaction.DESTROY)));
+    // ABYSSAL SWAMP BLOCKS 
+    public static final BlockWithItemRegistryHandle<Block> GLOOM_MOSS =
+            Services.REGISTRY.registerBlockWithItem("gloom_moss",
+                    properties -> new BonemealableFeaturePlacerBlock(ModWorldgen.GLOOM_MOSS_PATCH_BONEMEAL,
+                            properties.ignitedByLava().mapColor(MapColor.COLOR_LIGHT_GRAY).strength(0.1F).sound(SoundType.MOSS).pushReaction(PushReaction.DESTROY)));
 
     public static final BlockWithItemRegistryHandle<Block> GLOOM_MOSS_CARPET = Services.REGISTRY.registerBlockWithItem("gloom_moss_carpet",
-            properties -> new CarpetBlock(properties.mapColor(MapColor.PLANT).ignitedByLava().lightLevel((statex) -> 1).noCollision().noOcclusion().instabreak().sound(SoundType.MOSS_CARPET).pushReaction(PushReaction.DESTROY)));
+            properties -> new ModMossyCarpetBlock(properties.mapColor(MapColor.PLANT).ignitedByLava().lightLevel((statex) -> 1).noCollision().noOcclusion().instabreak().sound(SoundType.MOSS_CARPET).pushReaction(PushReaction.DESTROY)));
 
     public static final BlockWithItemRegistryHandle<Block> GLOOM_VINES = Services.REGISTRY.registerBlockWithItem("gloom_vines",
             properties -> new ModPlantBlock(ParticleTypes.NAUTILUS, 0.85f, properties.mapColor(MapColor.PLANT).ignitedByLava().lightLevel((statex) -> 1).noCollision().noOcclusion().instabreak().sound(SoundType.VINE).pushReaction(PushReaction.DESTROY)));
@@ -196,7 +205,7 @@ public final class ModBlocks {
             properties -> new ModPlantBlock(ParticleTypes.BUBBLE, 0.75f, properties.mapColor(MapColor.PLANT).ignitedByLava().lightLevel((statex) -> 2).noCollision().noOcclusion().instabreak().sound(SoundType.LILY_PAD).pushReaction(PushReaction.DESTROY)));
 
     public static final BlockWithItemRegistryHandle<Block> WASTELAND_LILY = Services.REGISTRY.registerBlockWithItem("wasteland_lily",
-            properties -> new WastelandLilyBlock(ParticleTypes.ASH, 0.5f, true, properties.mapColor(MapColor.PLANT).ignitedByLava().lightLevel((statex) -> 1).noCollision().noOcclusion().instabreak().sound(SoundType.LILY_PAD).pushReaction(PushReaction.DESTROY)));
+            properties -> new WastelandLilyBlock(ParticleTypes.ASH, 0.5f, true, properties.mapColor(MapColor.PLANT).ignitedByLava().lightLevel((statex) -> 1).noOcclusion().instabreak().sound(SoundType.LILY_PAD).pushReaction(PushReaction.DESTROY)));
 
     public static final BlockWithItemRegistryHandle<Block> CORALIUM_GEYSER = Services.REGISTRY.registerBlockWithItem("coralium_geyser",
             properties -> new CoralliumGeyserBlock(properties.mapColor(MapColor.COLOR_CYAN).requiresCorrectToolForDrops().strength(3.0F, 4.0F).sound(SoundType.DEEPSLATE).lightLevel(state -> 8).noOcclusion()));

@@ -725,6 +725,48 @@ public final class ModWorldgenBootstrapper {
                         )
                 )
         );
+
+        // Fused Abyssal Grass bonemeal feature - places various plants on fused abyssal sand
+        SimpleBlockConfiguration fusedAbyssalGrassConfig = new SimpleBlockConfiguration(
+                new WeightedStateProvider(
+                        WeightedList.<BlockState>builder()
+                                .add(ModBlocks.FUSSI_GRASS.block().get().defaultBlockState(), 40)
+                                .add(ModBlocks.CORALIUM_TENDRILS.block().get().defaultBlockState(), 15)
+                                .add(ModBlocks.LUMINOUS_THISTLE.block().get().defaultBlockState(), 10)
+                                .add(ModBlocks.WASTELANDS_THORN.block().get().defaultBlockState(), 5)
+                                .add(Blocks.POPPY.defaultBlockState(), 5)
+                                .add(Blocks.BLUE_ORCHID.defaultBlockState(), 5)
+                                .add(Blocks.ALLIUM.defaultBlockState(), 5)
+                                .add(Blocks.AZURE_BLUET.defaultBlockState(), 5)
+                                .add(Blocks.RED_TULIP.defaultBlockState(), 3)
+                                .add(Blocks.ORANGE_TULIP.defaultBlockState(), 3)
+                                .add(Blocks.WHITE_TULIP.defaultBlockState(), 3)
+                                .add(Blocks.PINK_TULIP.defaultBlockState(), 3)
+                                .add(Blocks.CORNFLOWER.defaultBlockState(), 3)
+                                .add(Blocks.LILY_OF_THE_VALLEY.defaultBlockState(), 3)
+                                .add(Blocks.TALL_GRASS.defaultBlockState(), 10)
+                                .add(Blocks.FERN.defaultBlockState(), 8)
+                )
+        );
+
+        context.register(
+                ModWorldgen.FUSED_GRASS_BONEMEAL,
+                new ConfiguredFeature<>(
+                        Feature.VEGETATION_PATCH,
+                        new VegetationPatchConfiguration(
+                                BlockTags.SAND,
+                                BlockStateProvider.simple(ModBlocks.FUSED_ABYSSAL_SAND.block().get()),
+                                PlacementUtils.inlinePlaced(Feature.SIMPLE_BLOCK, fusedAbyssalGrassConfig),
+                                CaveSurface.FLOOR,
+                                ConstantInt.of(1),
+                                0.0F,
+                                5,
+                                0.6F,
+                                UniformInt.of(1, 2),
+                                0.75F
+                        )
+                )
+        );
     }
 
     public static void bootstrapPlacedFeatures(BootstrapContext<PlacedFeature> context) {
@@ -1396,6 +1438,14 @@ public final class ModWorldgenBootstrapper {
                 ModWorldgen.GLOOM_MOSS_PATCH_BONEMEAL_PLACED,
                 new PlacedFeature(
                         configuredFeatures.getOrThrow(ModWorldgen.GLOOM_MOSS_PATCH_BONEMEAL),
+                        List.of()
+                )
+        );
+
+        context.register(
+                ModWorldgen.FUSED_GRASS_BONEMEAL_PLACED,
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(ModWorldgen.FUSED_GRASS_BONEMEAL),
                         List.of()
                 )
         );

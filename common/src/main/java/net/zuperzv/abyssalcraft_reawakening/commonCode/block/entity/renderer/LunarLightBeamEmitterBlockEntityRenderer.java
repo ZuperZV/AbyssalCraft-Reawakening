@@ -46,6 +46,7 @@ public final class LunarLightBeamEmitterBlockEntityRenderer implements
         state.alpha = (float) blockEntity.getBeamTicksRemaining()
                 / LunarLightBeamEmitterBlockEntity.MAX_BEAM_TICKS;
         state.facing = blockEntity.getBlockState().getValue(LunarLightBeamEmitterBlock.FACING);
+        state.isEmitting = blockEntity.isEmitting();
     }
 
     @Override
@@ -55,7 +56,7 @@ public final class LunarLightBeamEmitterBlockEntityRenderer implements
             SubmitNodeCollector collector,
             CameraRenderState camera
     ) {
-        if (state.beamLength <= 0 || state.alpha <= 0) return;
+        if (state.beamLength <= 0 || state.alpha <= 0 || !state.isEmitting) return;
 
         Vec3 start = new Vec3(0.5, 0.5, 0.5);
         Vec3 direction = new Vec3(
@@ -139,5 +140,6 @@ public final class LunarLightBeamEmitterBlockEntityRenderer implements
         private int beamLength;
         private float alpha;
         private Direction facing;
+        private boolean isEmitting;
     }
 }

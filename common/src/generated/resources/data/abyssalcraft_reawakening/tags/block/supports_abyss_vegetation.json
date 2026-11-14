@@ -1,6 +1,8 @@
 {
   "values": [
     "#minecraft:supports_vegetation",
+    "abyssalcraft_reawakening:gloom_moss",
+    "abyssalcraft_reawakening:fused_abyssal_sand",
     "abyssalcraft_reawakening:corrupted_soil",
     "abyssalcraft_reawakening:abyssal_sand"
   ]

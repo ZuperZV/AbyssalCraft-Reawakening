@@ -4,7 +4,14 @@
     "to_place": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "abyssalcraft_reawakening:gloom_moss_carpet"
+        "Name": "abyssalcraft_reawakening:gloom_moss_carpet",
+        "Properties": {
+          "bottom": "true",
+          "east": "none",
+          "north": "none",
+          "south": "none",
+          "west": "none"
+        }
       }
     }
   }

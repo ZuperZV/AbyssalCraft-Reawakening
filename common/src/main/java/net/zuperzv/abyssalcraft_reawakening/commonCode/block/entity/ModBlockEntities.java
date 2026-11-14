@@ -119,4 +119,11 @@ public class ModBlockEntities {
                     CoralliumGeyserBlockEntity::new,
                     ModBlocks.CORALIUM_GEYSER.block()::get
             );
+
+    public static final RegistryHandle<BlockEntityType<PortalBlockEntity>> PORTAL_BE =
+            Services.REGISTRY.registerBlockEntityType(
+                    "portal_be",
+                    PortalBlockEntity::new,
+                    ModBlocks.ABYSSAL_WASTELAND_PORTAL_BLOCK.block()::get
+            );
 }

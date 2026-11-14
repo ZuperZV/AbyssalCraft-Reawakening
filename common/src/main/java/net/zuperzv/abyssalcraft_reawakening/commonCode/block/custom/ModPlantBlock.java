@@ -30,10 +30,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlockTags;
 
 public class ModPlantBlock extends VegetationBlock implements BonemealableBlock {
+
     private static final double FIREFLY_CHANCE_PER_TICK = 0.7;
     private static final double FIREFLY_HORIZONTAL_RANGE = (double)10.0F;
     private static final double FIREFLY_VERTICAL_RANGE = (double)5.0F;
@@ -41,41 +43,84 @@ public class ModPlantBlock extends VegetationBlock implements BonemealableBlock 
     private static final int FIREFLY_AMBIENT_SOUND_CHANCE_ONE_IN = 30;
     public static final MapCodec<FireflyBushBlock> CODEC = simpleCodec(FireflyBushBlock::new);
 
-    private static final VoxelShape SHAPE = Block.column((double)8.0F, (double)0.0F, (double)13.0F);
+    private final VoxelShape shape;
     private SimpleParticleType particleTypeForEmiting = ParticleTypes.FIREFLY;
     private float rarityFloat = 0.7f;
     private Holder<MobEffect> collisionEffectForEntity;
     private boolean useSupportsAbyssVegetation = false;
+    private int slownessModifier = 0;
 
     public ModPlantBlock(SimpleParticleType particleType, float rarity, BlockBehaviour.Properties properties) {
-        super(properties);
-        particleTypeForEmiting = particleType;
-        rarityFloat = rarity;
+        this(particleType, rarity, null, false, 0, properties);
     }
 
     public ModPlantBlock(SimpleParticleType particleType, float rarity, Holder<MobEffect> collisionEffect, BlockBehaviour.Properties properties) {
-        super(properties);
-        particleTypeForEmiting = particleType;
-        rarityFloat = rarity;
-        collisionEffectForEntity = collisionEffect;
+        this(particleType, rarity, collisionEffect, false, 0, properties);
     }
     public ModPlantBlock(SimpleParticleType particleType, float rarity,  boolean canSurviveInAbyss, BlockBehaviour.Properties properties) {
-        super(properties);
-        particleTypeForEmiting = particleType;
-        rarityFloat = rarity;
-        useSupportsAbyssVegetation = canSurviveInAbyss;
+        this(particleType, rarity, null, canSurviveInAbyss, 0, properties);
     }
 
     public ModPlantBlock(SimpleParticleType particleType, float rarity, Holder<MobEffect> collisionEffect,  boolean canSurviveInAbyss, BlockBehaviour.Properties properties) {
+        this(particleType, rarity, collisionEffect, canSurviveInAbyss, 0, properties);
+    }
+
+    public ModPlantBlock(SimpleParticleType particleType, float rarity, Holder<MobEffect> collisionEffect, boolean canSurviveInAbyss, int slownessModifier, BlockBehaviour.Properties properties) {
+        this(13, particleType, rarity, collisionEffect, canSurviveInAbyss, slownessModifier, properties);
+    }
+
+    public ModPlantBlock(int yShape, SimpleParticleType particleType, float rarity, BlockBehaviour.Properties properties) {
+        this(yShape, particleType, rarity, null, false, 0, properties);
+    }
+
+    public ModPlantBlock(int yShape, SimpleParticleType particleType, float rarity, Holder<MobEffect> collisionEffect, BlockBehaviour.Properties properties) {
+        this(yShape, particleType, rarity, collisionEffect, false, 0, properties);
+    }
+    public ModPlantBlock(int yShape, SimpleParticleType particleType, float rarity,  boolean canSurviveInAbyss, BlockBehaviour.Properties properties) {
+        this(yShape, particleType, rarity, null, canSurviveInAbyss, 0, properties);
+    }
+
+    public ModPlantBlock(int yShape, SimpleParticleType particleType, float rarity, Holder<MobEffect> collisionEffect,  boolean canSurviveInAbyss, BlockBehaviour.Properties properties) {
+        this(yShape, particleType, rarity, collisionEffect, canSurviveInAbyss, 0, properties);
+    }
+
+    public ModPlantBlock(int yShape, SimpleParticleType particleType, float rarity, Holder<MobEffect> collisionEffect, boolean canSurviveInAbyss, int slownessModifier, BlockBehaviour.Properties properties) {
         super(properties);
+        this.shape = Block.column(8.0D, 0.0D, yShape);
         particleTypeForEmiting = particleType;
         rarityFloat = rarity;
         collisionEffectForEntity = collisionEffect;
         useSupportsAbyssVegetation = canSurviveInAbyss;
+        this.slownessModifier = slownessModifier;
+    }
+
+    public ModPlantBlock(VoxelShape shape, SimpleParticleType particleType, float rarity, BlockBehaviour.Properties properties) {
+        this(shape, particleType, rarity, null, false, 0, properties);
+    }
+
+    public ModPlantBlock(VoxelShape shape, SimpleParticleType particleType, float rarity, boolean canSurviveInAbyss, BlockBehaviour.Properties properties) {
+        this(shape, particleType, rarity, null, canSurviveInAbyss, 0, properties);
+    }
+
+    public ModPlantBlock(VoxelShape shape, SimpleParticleType particleType, float rarity, Holder<MobEffect> collisionEffect, boolean canSurviveInAbyss, int slownessModifier, BlockBehaviour.Properties properties) {
+        super(properties);
+        this.shape = shape;
+        particleTypeForEmiting = particleType;
+        rarityFloat = rarity;
+        collisionEffectForEntity = collisionEffect;
+        useSupportsAbyssVegetation = canSurviveInAbyss;
+        this.slownessModifier = slownessModifier;
     }
 
     protected VoxelShape getShape(final BlockState state, final BlockGetter level, final BlockPos pos, final CollisionContext context) {
-        return SHAPE.move(state.getOffset(pos));
+        return shape.move(state.getOffset(pos));
+    }
+
+    protected VoxelShape getCollisionShape(final BlockState state, final BlockGetter level, final BlockPos pos, final CollisionContext context) {
+        if (!this.hasCollision) {
+            return Shapes.empty();
+        }
+        return shape.move(state.getOffset(pos));
     }
 
     protected MapCodec<? extends FireflyBushBlock> codec() {
@@ -85,7 +130,15 @@ public class ModPlantBlock extends VegetationBlock implements BonemealableBlock 
 
     protected void entityInside(final BlockState state, final Level level, final BlockPos pos, final Entity entity, final InsideBlockEffectApplier effectApplier, final boolean isPrecise) {
         if (entity instanceof LivingEntity && !entity.is(EntityType.FOX) && !entity.is(EntityType.BEE)) {
-            entity.makeStuckInBlock(state, new Vec3((double)0.8F, (double)0.75F, (double)0.8F));
+            Vec3 speedMultiplier;
+            if (this.slownessModifier != 0) {
+                Vec3 baseSlowness = new Vec3(0.25, 0.05F, 0.25);
+                if (entity instanceof LivingEntity livingEntity && livingEntity.hasEffect(MobEffects.WEAVING)) {
+                    baseSlowness = new Vec3(0.5, 0.25, 0.5);
+                }
+                speedMultiplier = baseSlowness;
+                entity.makeStuckInBlock(state, speedMultiplier);
+            }
             if (level instanceof ServerLevel) {
                 ServerLevel serverLevel = (ServerLevel)level;
                 Vec3 movement = entity.isClientAuthoritative() ? entity.getKnownMovement() : entity.oldPosition().subtract(entity.position());

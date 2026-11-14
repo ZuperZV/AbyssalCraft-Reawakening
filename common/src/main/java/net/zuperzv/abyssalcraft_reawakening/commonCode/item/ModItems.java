@@ -35,6 +35,10 @@ public class ModItems {
         return Services.REGISTRY.registerItem(name, Item::new);
     }
 
+    public static RegistryHandle<Item> generateItem(String name) {
+        return Services.REGISTRY.registerItem(name, Item::new);
+    }
+
     private static RegistryHandle<Item> horseArmorItem(String name, ArmorMaterial material) {
         return Services.REGISTRY.registerItem(name,
                 properties -> new Item(properties.horseArmor(material)));
@@ -60,7 +64,8 @@ public class ModItems {
             simpleItem("staff_of_the_gatekeeper");
 
     public static final RegistryHandle<Item> ABYSSAL_TRIM_SMITHING_TEMPLATE =
-            simpleItem("abyssal_trim_smithing_template");
+            Services.REGISTRY.registerItem("abyssal_trim_smithing_template",
+                    properties -> SmithingTemplateItem.createArmorTrimTemplate(properties.rarity(Rarity.UNCOMMON)));
 
     public static final RegistryHandle<Item> POWERSTONE_TRACKER =
             simpleItem("powerstone_tracker");

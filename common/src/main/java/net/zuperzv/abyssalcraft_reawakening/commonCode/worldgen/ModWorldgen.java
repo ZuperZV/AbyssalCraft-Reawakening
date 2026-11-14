@@ -57,8 +57,10 @@ public final class ModWorldgen {
     public static final ResourceKey<ConfiguredFeature<?, ?>> GLOOM_MOSS_VEGETATION = configuredFeatureKey("gloom_moss_vegetation");
     public static final ResourceKey<ConfiguredFeature<?, ?>> GLOOM_MOSS_PATCH_BONEMEAL = configuredFeatureKey("gloom_moss_patch_bonemeal");
 
+    public static final ResourceKey<ConfiguredFeature<?, ?>> FUSED_GRASS_BONEMEAL = configuredFeatureKey("fused_grass_bonemeal");
 
-    // Configured Features
+
+    // Placed Features
     public static final ResourceKey<PlacedFeature> CORALIUM_TENDRILS_PLACED = placedFeatureKey("coralium_tendrils");
     public static final ResourceKey<PlacedFeature> LUMINOUS_THISTLE_PLACED = placedFeatureKey("luminous_thistle");
     public static final ResourceKey<PlacedFeature> WASTELANDS_THORN_PLACED = placedFeatureKey("wastelands_thorn");
@@ -107,6 +109,8 @@ public final class ModWorldgen {
 
     public static final ResourceKey<PlacedFeature> GLOOM_MOSS_VEGETATION_PLACED = placedFeatureKey("gloom_moss_vegetation");
     public static final ResourceKey<PlacedFeature> GLOOM_MOSS_PATCH_BONEMEAL_PLACED = placedFeatureKey("gloom_moss_patch_bonemeal");
+
+    public static final ResourceKey<PlacedFeature> FUSED_GRASS_BONEMEAL_PLACED = placedFeatureKey("fused_grass_bonemeal");
 
     // Configured Carvers
     public static final ResourceKey<ConfiguredWorldCarver<?>> CAVE = configuredCarverKey("cave");

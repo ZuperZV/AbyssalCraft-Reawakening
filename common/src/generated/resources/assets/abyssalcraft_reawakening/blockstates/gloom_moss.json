@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "abyssalcraft_reawakening:block/gloom_moss_block"
+      "model": "abyssalcraft_reawakening:block/gloom_moss"
     }
   }
 }

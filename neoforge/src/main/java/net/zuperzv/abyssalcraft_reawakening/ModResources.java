@@ -22,6 +22,7 @@ import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.ModBlockEntities;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.CrystalProductBlock;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.renderer.PortalBlockEntityRenderer;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.renderer.*;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.loader.BlockTooltipDataLoader;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.DyedColorTintSource;
@@ -92,6 +93,8 @@ public class ModResources {
 
         event.registerBlockEntityRenderer(ModBlockEntities.MOD_SIGN.get(), context -> new StandingSignRenderer(context));
         event.registerBlockEntityRenderer(ModBlockEntities.MOD_HANGING_SIGN.get(), context -> new HangingSignRenderer(context));
+
+        event.registerBlockEntityRenderer(ModBlockEntities.PORTAL_BE.get(), PortalBlockEntityRenderer::new);
     }
 
     @SubscribeEvent

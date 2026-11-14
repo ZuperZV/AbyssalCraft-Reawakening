@@ -20,7 +20,9 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.Portal;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -34,6 +36,8 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.ModBlockEntities;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.block.entity.custom.PortalBlockEntity;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.portal.BasePortalForcer;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.portal.BasePortalShape;
 import org.jspecify.annotations.Nullable;
@@ -42,7 +46,7 @@ import org.slf4j.Logger;
 import java.util.Map;
 import java.util.Optional;
 
-public class BasePortalBlock extends Block implements Portal {
+public class BasePortalBlock extends Block implements Portal, EntityBlock {
     private static final Logger LOGGER = LogUtils.getLogger();
     public static final MapCodec<BasePortalBlock> CODEC = simpleCodec(BasePortalBlock::new);
     public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.HORIZONTAL_AXIS;
@@ -306,5 +310,10 @@ public class BasePortalBlock extends Block implements Portal {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(AXIS);
+    }
+
+    @Override
+    public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new PortalBlockEntity(pos, state);
     }
 }

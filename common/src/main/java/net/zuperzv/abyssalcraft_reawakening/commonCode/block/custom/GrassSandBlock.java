@@ -5,7 +5,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.ColorRGBA;
 import net.minecraft.util.RandomSource;
@@ -13,16 +12,15 @@ import net.minecraft.util.Util;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.BonemealableBlock;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.worldgen.ModWorldgen;
 
 import java.util.List;
-import java.util.Optional;
 
 public class GrassSandBlock extends FallingBlock implements BonemealableBlock {
 
@@ -64,7 +62,7 @@ public class GrassSandBlock extends FallingBlock implements BonemealableBlock {
             BlockPos pos,
             RandomSource random
     ) {
-        if (level.getMaxLocalRawBrightness(pos.above()) < 9) {
+        if (level.getMaxLocalRawBrightness(pos.above()) < 3) {
             level.setBlockAndUpdate(
                     pos,
                     ModBlocks.ABYSSAL_SAND.block().get().defaultBlockState()
@@ -135,10 +133,10 @@ public class GrassSandBlock extends FallingBlock implements BonemealableBlock {
     ) {
         BlockPos above = pos.above();
 
-        Optional<Holder.Reference<PlacedFeature>> grassFeature =
+        Holder.Reference<PlacedFeature> grassFeature =
                 level.registryAccess()
                         .lookupOrThrow(Registries.PLACED_FEATURE)
-                        .get(VegetationPlacements.GRASS_BONEMEAL);
+                        .getOrThrow(ModWorldgen.FUSED_GRASS_BONEMEAL_PLACED);
 
         for (int j = 0; j < 128; ++j) {
 
@@ -165,7 +163,7 @@ public class GrassSandBlock extends FallingBlock implements BonemealableBlock {
 
             BlockState testState = level.getBlockState(testPos);
 
-            if (testState.is(Blocks.SHORT_GRASS)
+            if (testState.is(ModBlocks.FUSSI_GRASS.block().get())
                     && random.nextInt(10) == 0) {
 
                 BonemealableBlock bonemealable =
@@ -208,9 +206,9 @@ public class GrassSandBlock extends FallingBlock implements BonemealableBlock {
                         );
                     }
 
-                } else if (grassFeature.isPresent()) {
+                } else {
 
-                    grassFeature.get().value().place(
+                    grassFeature.value().place(
                             level,
                             level.getChunkSource().getGenerator(),
                             random,
