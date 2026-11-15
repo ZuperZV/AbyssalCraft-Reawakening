@@ -14,6 +14,8 @@ import java.util.Collections;
 
 public class PortalBlockEntityRenderer extends AbstractEndPortalRenderer<PortalBlockEntity, EndPortalRenderState> {
 
+    private static final float OFFSET = 6.01F/16F;
+
     public PortalBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
     }
 
@@ -21,10 +23,6 @@ public class PortalBlockEntityRenderer extends AbstractEndPortalRenderer<PortalB
     public EndPortalRenderState createRenderState() {
         return new EndPortalRenderState();
     }
-
-
-    // 5.99 pixels toward center (block is 16 units, so offset = 5.99/16 ≈ 0.3744)
-    private static final float OFFSET = 0.3744F;
 
     @Override
     public void submit(EndPortalRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
@@ -34,7 +32,6 @@ public class PortalBlockEntityRenderer extends AbstractEndPortalRenderer<PortalB
 
         for (Direction direction : state.facesToShow) {
             poseStack.pushPose();
-            // Translate this face toward the center of the block, only along the axis perpendicular to the face. AHAHAHAHAHH MATH
             poseStack.translate(
                     direction.getStepX() * -OFFSET,
                     direction.getStepY() * -OFFSET,

@@ -53,6 +53,8 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         add("block.abyssalcraft_reawakening.lunar_jar", "Lunar Jar");
         add("block.abyssalcraft_reawakening.lunar_infuser", "Lunar Infuser");
         add("block.abyssalcraft_reawakening.lunar_light_beam_emitter", "Lunar Light Beam Emitter");
+        add("block.abyssalcraft_reawakening.otothol_stone", "Otothol Stone");
+        add("block.abyssalcraft_reawakening.oomothol_stone", "Omothol Stone");
         add("fluid.abyssalcraft_reawakening.coralium", "Liquid Coralium");
         add("item.abyssalcraft_reawakening.coralium_bucket", "Liquid Coralium Bucket");
         add("effect.abyssalcraft_reawakening.crystallization", "Crystallization");

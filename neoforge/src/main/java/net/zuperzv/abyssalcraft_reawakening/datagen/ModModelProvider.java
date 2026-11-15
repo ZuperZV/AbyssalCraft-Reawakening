@@ -120,6 +120,12 @@ public class ModModelProvider extends ModelProvider {
         createRotatedVariantBlock(blockModels, ModBlocks.STARITE.block().get());
         createRotatedVariantBlock(blockModels, ModBlocks.ABYSSAL_SAND.block().get());
 
+        // Otothol Stone - 4 random textures with 4 random rotations each
+        createRotatedVariantBlockWithMultipleTextures(blockModels, ModBlocks.OTOTHOL_STONE.block().get(), 4);
+
+        // Omothol Stone - 4 random textures with 4 random rotations each
+        createRotatedVariantBlockWithMultipleTextures(blockModels, ModBlocks.OMOTHOL_STONE.block().get(), 4);
+
         //PortalBlock
         createNetherPortalBlock(blockModels, ModBlocks.ABYSSAL_WASTELAND_PORTAL_BLOCK.block().get());
         //createPortalActivator(blockModels, ModBlocks.ABYSSAL_WASTELAND_ACTIVATOR.block().get());
@@ -662,6 +668,49 @@ public class ModModelProvider extends ModelProvider {
         generatedBlocks.add(block);
 
         blockModels.createRotatedVariantBlock(block);
+    }
+
+    /**
+     * Creates a block with multiple random textures, each with 4 random Y-rotations.
+     * Similar to createRotatedVariantBlock but uses multiple texture variants.
+     * Textures are expected to be named <blockname>_1.png, <blockname>_2.png, etc.
+     */
+    public void createRotatedVariantBlockWithMultipleTextures(
+            BlockModelGenerators blockModels,
+            Block block,
+            int textureCount) {
+        generatedBlocks.add(block);
+
+        // Create models for each texture variant (using 1-based indexing to match texture files)
+        Identifier[] modelIds = new Identifier[textureCount];
+        for (int i = 0; i < textureCount; i++) {
+            String textureName = BuiltInRegistries.BLOCK.getKey(block).getPath() + "_" + (i + 1);
+            Material texture = new Material(Constants.id("block/" + textureName));
+            Identifier model = ModelTemplates.CUBE_ALL.create(
+                    Constants.id("block/" + textureName),
+                    TextureMapping.cube(texture),
+                    blockModels.modelOutput
+            );
+            modelIds[i] = model;
+        }
+
+        // Create item model using first texture
+        blockModels.registerSimpleItemModel(block, modelIds[0]);
+
+        // Build all variants: each texture with 4 rotations (0, 90, 180, 270)
+        List<Weighted<Variant>> weightedVariants = new ArrayList<>();
+        for (Identifier modelId : modelIds) {
+            weightedVariants.add(new Weighted<>(new Variant(modelId), 1));
+            weightedVariants.add(new Weighted<>(new Variant(modelId).with(Y_ROT_90), 1));
+            weightedVariants.add(new Weighted<>(new Variant(modelId).with(Y_ROT_180), 1));
+            weightedVariants.add(new Weighted<>(new Variant(modelId).with(Y_ROT_270), 1));
+        }
+
+        WeightedList<Variant> variants = WeightedList.of(weightedVariants.toArray(new Weighted[0]));
+
+        blockModels.blockStateOutput.accept(
+                createSimpleBlock(block, new MultiVariant(variants))
+        );
     }
 
     private void createDreadrootCrop(BlockModelGenerators blockModels, Block block) {

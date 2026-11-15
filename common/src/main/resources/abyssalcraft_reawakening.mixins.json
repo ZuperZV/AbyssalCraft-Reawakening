@@ -24,6 +24,8 @@
   "client": [
     "AdvancementsScreenMixin",
     "AdvancementTabMixin",
+    "AbyssalWastelandPortalOverlayMixin",
+    "LevelLoadingScreenMixin",
     "AbyssalniteVanillaArmorLayerMixin",
     "EthaxiumArmorTrimMixin",
     "BlockTooltipOverlayMixin",

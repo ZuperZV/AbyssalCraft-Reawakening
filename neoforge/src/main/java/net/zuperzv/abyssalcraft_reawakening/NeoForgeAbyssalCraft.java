@@ -4,6 +4,7 @@ package net.zuperzv.abyssalcraft_reawakening;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -25,6 +26,7 @@ import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
+
 import net.zuperzv.abyssalcraft_reawakening.commonCode.api.jei.JEIPlugin;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.NecronomiconClientTooltip;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.data.tooltip.NecronomiconTooltipComponent;
@@ -191,5 +193,6 @@ public class NeoForgeAbyssalCraft {
             //ItemDecoratorRegistry.register(
             //        new StaffOfRenderingOverlay(Identifier.fromNamespaceAndPath(MOD_ID, "textures/item/oblivion_shard.png")));
         }
+
     }
 }

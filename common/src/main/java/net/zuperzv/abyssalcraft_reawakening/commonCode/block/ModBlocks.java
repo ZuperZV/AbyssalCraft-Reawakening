@@ -85,6 +85,16 @@ public final class ModBlocks {
                     properties -> new RotatedPillarBlock(properties.mapColor(MapColor.COLOR_BLACK)
                             .requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.DEEPSLATE)));
 
+    public static final BlockWithItemRegistryHandle<Block> OTOTHOL_STONE =
+            Services.REGISTRY.registerBlockWithItem("otothol_stone",
+                    properties -> new Block(properties.mapColor(MapColor.COLOR_BLACK)
+                            .requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.DEEPSLATE)));
+
+    public static final BlockWithItemRegistryHandle<Block> OMOOTHOL_STONE =
+            Services.REGISTRY.registerBlockWithItem("oomothol_stone",
+                    properties -> new Block(properties.mapColor(MapColor.COLOR_BLACK)
+                            .requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.DEEPSLATE)));
+
     public static final BlockWithItemRegistryHandle<Block> CTHULHU_STATUE = peMachine("cthulhu_statue", PEMachineBlock.Kind.STATUE);
     public static final BlockWithItemRegistryHandle<Block> HASTUR_STATUE = peMachine("hastur_statue", PEMachineBlock.Kind.STATUE);
     public static final BlockWithItemRegistryHandle<Block> JZAHAR_STATUE = peMachine("jzahar_statue", PEMachineBlock.Kind.STATUE);

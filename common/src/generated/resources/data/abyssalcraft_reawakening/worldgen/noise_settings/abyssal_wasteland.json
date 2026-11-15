@@ -295,38 +295,48 @@
     },
     "ridges": "abyssalcraft_reawakening:abyssal/ridges",
     "temperature": {
-      "type": "minecraft:shifted_noise",
-      "noise": "minecraft:temperature",
-      "shift_x": {
-        "type": "minecraft:mul",
-        "argument1": 1.0,
-        "argument2": "minecraft:shift_x"
+      "type": "minecraft:clamp",
+      "input": {
+        "type": "minecraft:shifted_noise",
+        "noise": "minecraft:temperature",
+        "shift_x": {
+          "type": "minecraft:mul",
+          "argument1": 1.0,
+          "argument2": "minecraft:shift_x"
+        },
+        "shift_y": 0.0,
+        "shift_z": {
+          "type": "minecraft:mul",
+          "argument1": 1.0,
+          "argument2": "minecraft:shift_z"
+        },
+        "xz_scale": 3.0,
+        "y_scale": 0.0
       },
-      "shift_y": 0.0,
-      "shift_z": {
-        "type": "minecraft:mul",
-        "argument1": 1.0,
-        "argument2": "minecraft:shift_z"
-      },
-      "xz_scale": 0.25,
-      "y_scale": 0.0
+      "max": 1.0,
+      "min": -1.0
     },
     "vegetation": {
-      "type": "minecraft:shifted_noise",
-      "noise": "minecraft:vegetation",
-      "shift_x": {
-        "type": "minecraft:mul",
-        "argument1": 1.0,
-        "argument2": "minecraft:shift_x"
+      "type": "minecraft:clamp",
+      "input": {
+        "type": "minecraft:shifted_noise",
+        "noise": "minecraft:vegetation",
+        "shift_x": {
+          "type": "minecraft:mul",
+          "argument1": 1.0,
+          "argument2": "minecraft:shift_x"
+        },
+        "shift_y": 0.0,
+        "shift_z": {
+          "type": "minecraft:mul",
+          "argument1": 1.0,
+          "argument2": "minecraft:shift_z"
+        },
+        "xz_scale": 3.0,
+        "y_scale": 0.0
       },
-      "shift_y": 0.0,
-      "shift_z": {
-        "type": "minecraft:mul",
-        "argument1": 1.0,
-        "argument2": "minecraft:shift_z"
-      },
-      "xz_scale": 0.25,
-      "y_scale": 0.0
+      "max": 1.0,
+      "min": -1.0
     },
     "vein_gap": {
       "type": "minecraft:noise",
