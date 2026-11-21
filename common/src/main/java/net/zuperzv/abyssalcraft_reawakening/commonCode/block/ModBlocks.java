@@ -85,15 +85,6 @@ public final class ModBlocks {
                     properties -> new RotatedPillarBlock(properties.mapColor(MapColor.COLOR_BLACK)
                             .requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.DEEPSLATE)));
 
-    public static final BlockWithItemRegistryHandle<Block> OTOTHOL_STONE =
-            Services.REGISTRY.registerBlockWithItem("otothol_stone",
-                    properties -> new Block(properties.mapColor(MapColor.COLOR_BLACK)
-                            .requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.DEEPSLATE)));
-
-    public static final BlockWithItemRegistryHandle<Block> OMOOTHOL_STONE =
-            Services.REGISTRY.registerBlockWithItem("oomothol_stone",
-                    properties -> new Block(properties.mapColor(MapColor.COLOR_BLACK)
-                            .requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.DEEPSLATE)));
 
     public static final BlockWithItemRegistryHandle<Block> CTHULHU_STATUE = peMachine("cthulhu_statue", PEMachineBlock.Kind.STATUE);
     public static final BlockWithItemRegistryHandle<Block> HASTUR_STATUE = peMachine("hastur_statue", PEMachineBlock.Kind.STATUE);
@@ -152,6 +143,30 @@ public final class ModBlocks {
 
     public static final BlockWithItemRegistryHandle<Block> ABYSSAL_STONE_BRICKS_FENCE = Services.REGISTRY.registerBlockWithItem("abyssal_stone_bricks_fence",
             properties -> new FenceBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> CHISELED_ABYSSAL_STONE_BRICKS = Services.REGISTRY.registerBlockWithItem("chiseled_abyssal_stone_bricks",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> CRACKED_ABYSSAL_STONE_BRICKS = Services.REGISTRY.registerBlockWithItem("cracked_abyssal_stone_bricks",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> ABYSSAL_STONE_BUTTON = Services.REGISTRY.registerBlockWithItem("abyssal_stone_button",
+            properties -> new ModButtonBlock(ModBlockSetTypes.ABYSSAL_STONE, 20, properties.sound(SoundType.STONE)
+                    .noCollision().strength(0.5F).pushReaction(PushReaction.DESTROY)));
+
+    public static final BlockWithItemRegistryHandle<Block> ABYSSAL_STONE_PRESSURE_PLATE = Services.REGISTRY.registerBlockWithItem("abyssal_stone_pressure_plate",
+            properties -> new ModPressurePlateBlock(ModBlockSetTypes.ABYSSAL_STONE, properties.mapColor(MapColor.COLOR_PURPLE).forceSolidOn()
+                    .noCollision().strength(0.5F).pushReaction(PushReaction.DESTROY)));
+
+    // Abyssal Cobblestone building blocks
+    public static final BlockWithItemRegistryHandle<Block> ABYSSAL_COBBLESTONE_STAIRS = Services.REGISTRY.registerBlockWithItem("abyssal_cobblestone_stairs",
+            properties -> new ModStairBlock(ABYSSAL_COBBLESTONE.block().get().defaultBlockState(), properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> ABYSSAL_COBBLESTONE_SLAB = Services.REGISTRY.registerBlockWithItem("abyssal_cobblestone_slab",
+            properties -> new MergingSlabBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> ABYSSAL_COBBLESTONE_WALL = Services.REGISTRY.registerBlockWithItem("abyssal_cobblestone_wall",
+            properties -> new WallBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.STONE)));
 
     public static final BlockWithItemRegistryHandle<Block> ABYSSAL_SAND = Services.REGISTRY.registerBlockWithItem("abyssal_sand",
             properties -> new SandBlock(new ColorRGBA(14406560), properties.instrument(NoteBlockInstrument.SNARE).strength(0.5F, 4.0F).sound(SoundType.SAND)));
@@ -219,6 +234,77 @@ public final class ModBlocks {
 
     public static final BlockWithItemRegistryHandle<Block> CORALIUM_GEYSER = Services.REGISTRY.registerBlockWithItem("coralium_geyser",
             properties -> new CoralliumGeyserBlock(properties.mapColor(MapColor.COLOR_CYAN).requiresCorrectToolForDrops().strength(3.0F, 4.0F).sound(SoundType.DEEPSLATE).lightLevel(state -> 8).noOcclusion()));
+
+    // ABYSSAL SWAMP
+    public static final BlockWithItemRegistryHandle<GloomreedsBlock> GLOOMREEDS =
+            Services.REGISTRY.registerBlockWithItem("gloomreeds",
+                    properties -> new GloomreedsBlock(properties.mapColor(MapColor.PLANT)
+                            .ignitedByLava().lightLevel((statex) -> 0).noOcclusion().instabreak()
+                            .sound(SoundType.AZALEA_LEAVES).pushReaction(PushReaction.DESTROY)));
+
+    public static final BlockWithItemRegistryHandle<MurkweedBlock> MURKWEED =
+            Services.REGISTRY.registerBlockWithItem("murkweed",
+                    properties -> new MurkweedBlock(properties.mapColor(MapColor.PLANT)
+                            .ignitedByLava().lightLevel((statex) -> 0).noOcclusion().instabreak()
+                            .sound(SoundType.LILY_PAD).pushReaction(PushReaction.DESTROY)));
+
+    public static final BlockWithItemRegistryHandle<GloomCloverBlock> GLOOM_CLOVER =
+            Services.REGISTRY.registerBlockWithItem("gloom_clover",
+                    properties -> new GloomCloverBlock(properties.mapColor(MapColor.PLANT)
+                            .ignitedByLava().lightLevel((statex) -> 0).noCollision().noOcclusion().instabreak()
+                            .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)));
+
+    public static final BlockWithItemRegistryHandle<DreadvineMossBlock> DREADVINE_MOSS =
+            Services.REGISTRY.registerBlockWithItem("dreadvine_moss",
+                    properties -> new DreadvineMossBlock(properties.mapColor(MapColor.PLANT)
+                            .ignitedByLava().lightLevel((statex) -> 0).noOcclusion().instabreak()
+                            .sound(SoundType.MOSS).pushReaction(PushReaction.DESTROY)));
+
+    // SINKING MIRE - Custom swamp mud with sinking mechanic
+    public static final BlockWithItemRegistryHandle<SinkingMireBlock> SINKING_MIRE =
+            Services.REGISTRY.registerBlockWithItem("sinking_mire",
+                    properties -> new SinkingMireBlock(properties.mapColor(MapColor.COLOR_BROWN)
+                            .strength(0.5F).sound(SoundType.MUD).randomTicks()));
+
+    // GREENHEART WOOD - Green-tinted swamp wood inspired by real greenheart/verawood
+    public static final BlockWithItemRegistryHandle<Block> GREENHEART_LOG = Services.REGISTRY.registerBlockWithItem("greenheart_log",
+            properties -> new RotatedPillarBlock(properties.mapColor(MapColor.WOOD).sound(SoundType.WOOD).strength(2f).ignitedByLava()));
+    
+    public static final BlockWithItemRegistryHandle<Block> GREENHEART_WOOD = Services.REGISTRY.registerBlockWithItem("greenheart_wood",
+            properties -> new RotatedPillarBlock(properties.mapColor(MapColor.WOOD).sound(SoundType.WOOD).strength(2f).ignitedByLava()));
+    
+    public static final BlockWithItemRegistryHandle<Block> STRIPPED_GREENHEART_LOG = Services.REGISTRY.registerBlockWithItem("stripped_greenheart_log",
+            properties -> new RotatedPillarBlock(properties.mapColor(MapColor.WOOD).sound(SoundType.WOOD).strength(2f).ignitedByLava()));
+    
+    public static final BlockWithItemRegistryHandle<Block> STRIPPED_GREENHEART_WOOD = Services.REGISTRY.registerBlockWithItem("stripped_greenheart_wood",
+            properties -> new RotatedPillarBlock(properties.mapColor(MapColor.WOOD).sound(SoundType.WOOD).strength(2f).ignitedByLava()));
+    
+    public static final BlockWithItemRegistryHandle<Block> GREENHEART_PLANKS = Services.REGISTRY.registerBlockWithItem("greenheart_planks",
+            properties -> new Block(properties.sound(SoundType.WOOD).strength(2f).ignitedByLava()));
+
+    public static final BlockWithItemRegistryHandle<Block> GREENHEART_STAIRS = Services.REGISTRY.registerBlockWithItem("greenheart_stairs",
+                    properties -> new ModStairBlock(GREENHEART_PLANKS.block().get().defaultBlockState(), properties.sound(SoundType.WOOD).strength(2F).ignitedByLava()));
+
+    public static final BlockWithItemRegistryHandle<Block> GREENHEART_SLAB = Services.REGISTRY.registerBlockWithItem("greenheart_slab",
+            properties -> new SlabBlock(properties.sound(SoundType.WOOD).strength(2F).ignitedByLava()));
+
+    public static final BlockWithItemRegistryHandle<Block> GREENHEART_FENCE = Services.REGISTRY.registerBlockWithItem("greenheart_fence",
+            properties -> new FenceBlock(properties.sound(SoundType.WOOD).strength(2F).ignitedByLava()));
+
+    public static final BlockWithItemRegistryHandle<Block> GREENHEART_FENCE_GATE = Services.REGISTRY.registerBlockWithItem("greenheart_fence_gate",
+            properties -> new FenceGateBlock(ModWoodTypes.GREENHEART, properties.sound(SoundType.WOOD).strength(2F).ignitedByLava()));
+
+    public static final BlockWithItemRegistryHandle<Block> GREENHEART_LEAVES = Services.REGISTRY.registerBlockWithItem("greenheart_leaves",properties -> new UntintedParticleLeavesBlock(0f,
+            ParticleTypes.PALE_OAK_LEAVES, properties.mapColor(MapColor.PLANT).strength(0.2F).randomTicks().sound(SoundType.CHERRY_LEAVES).noOcclusion().isValidSpawn(ModBlocks::ocelotOrParrot)
+            .isSuffocating((state, level, pos) -> false).isViewBlocking((state, level, pos) -> false).ignitedByLava().pushReaction(PushReaction.DESTROY)
+            .isRedstoneConductor((state, level, pos) -> false)));
+
+    public static final BlockWithItemRegistryHandle<Block> GREENHEART_SAPLING = Services.REGISTRY.registerBlockWithItem("greenheart_sapling",
+            properties -> new ModSaplingBlock(ModTreeGrowers.GREENHEART, properties.mapColor(MapColor.PLANT).noCollision()
+                    .randomTicks().instabreak().sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)));
+
+    public static final BlockWithItemRegistryHandle<Block> POTTED_GREENHEART_SAPLING = Services.REGISTRY.registerBlockWithItem("potted_greenheart_sapling",
+            properties -> new FlowerPotBlock(GREENHEART_SAPLING.block().get(), properties.noOcclusion().instabreak().pushReaction(PushReaction.DESTROY)));
 
 
     //Abyssal Witherwood Tree
@@ -344,22 +430,317 @@ public final class ModBlocks {
     public static final BlockWithItemRegistryHandle<Block> CORALIUM_BRICKS = Services.REGISTRY.registerBlockWithItem("coralium_bricks",
             properties -> new Block(properties.mapColor(MapColor.COLOR_BLUE).requiresCorrectToolForDrops().strength(6.0F, 8.0F).sound(SoundType.STONE)));
 
+    public static final BlockWithItemRegistryHandle<Block> CHISELED_CORALIUM_BRICKS = Services.REGISTRY.registerBlockWithItem("chiseled_coralium_bricks",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_BLUE).requiresCorrectToolForDrops().strength(6.0F, 8.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> CRACKED_CORALIUM_BRICKS = Services.REGISTRY.registerBlockWithItem("cracked_coralium_bricks",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_BLUE).requiresCorrectToolForDrops().strength(6.0F, 8.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> CORALIUM_BUTTON = Services.REGISTRY.registerBlockWithItem("coralium_button",
+            properties -> new ModButtonBlock(ModBlockSetTypes.CORALIUM, 20, properties.sound(SoundType.STONE)
+                    .noCollision().strength(0.5F).pushReaction(PushReaction.DESTROY)));
+
+    public static final BlockWithItemRegistryHandle<Block> CORALIUM_PRESSURE_PLATE = Services.REGISTRY.registerBlockWithItem("coralium_pressure_plate",
+            properties -> new ModPressurePlateBlock(ModBlockSetTypes.CORALIUM, properties.mapColor(MapColor.COLOR_BLUE).forceSolidOn()
+                    .noCollision().strength(0.5F).pushReaction(PushReaction.DESTROY)));
+
+    // Coralium building blocks
+    public static final BlockWithItemRegistryHandle<Block> CORALIUM_STONE_STAIRS = Services.REGISTRY.registerBlockWithItem("coralium_stone_stairs",
+            properties -> new ModStairBlock(CORALIUM_STONE.block().get().defaultBlockState(), properties.mapColor(MapColor.COLOR_BLUE).requiresCorrectToolForDrops().strength(5.0F, 4.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> CORALIUM_STONE_SLAB = Services.REGISTRY.registerBlockWithItem("coralium_stone_slab",
+            properties -> new MergingSlabBlock(properties.mapColor(MapColor.COLOR_BLUE).requiresCorrectToolForDrops().strength(5.0F, 4.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> CORALIUM_STONE_WALL = Services.REGISTRY.registerBlockWithItem("coralium_stone_wall",
+            properties -> new WallBlock(properties.mapColor(MapColor.COLOR_BLUE).requiresCorrectToolForDrops().strength(5.0F, 4.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> CORALIUM_COBBLESTONE_STAIRS = Services.REGISTRY.registerBlockWithItem("coralium_cobblestone_stairs",
+            properties -> new ModStairBlock(CORALIUM_COBBLESTONE.block().get().defaultBlockState(), properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> CORALIUM_COBBLESTONE_SLAB = Services.REGISTRY.registerBlockWithItem("coralium_cobblestone_slab",
+            properties -> new MergingSlabBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> CORALIUM_COBBLESTONE_WALL = Services.REGISTRY.registerBlockWithItem("coralium_cobblestone_wall",
+            properties -> new WallBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> CORALIUM_BRICKS_STAIRS = Services.REGISTRY.registerBlockWithItem("coralium_bricks_stairs",
+            properties -> new ModStairBlock(CORALIUM_BRICKS.block().get().defaultBlockState(), properties.mapColor(MapColor.COLOR_BLUE).requiresCorrectToolForDrops().strength(6.0F, 8.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> CORALIUM_BRICKS_SLAB = Services.REGISTRY.registerBlockWithItem("coralium_bricks_slab",
+            properties -> new MergingSlabBlock(properties.mapColor(MapColor.COLOR_BLUE).requiresCorrectToolForDrops().strength(6.0F, 8.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> CORALIUM_BRICKS_WALL = Services.REGISTRY.registerBlockWithItem("coralium_bricks_wall",
+            properties -> new WallBlock(properties.mapColor(MapColor.COLOR_BLUE).requiresCorrectToolForDrops().strength(6.0F, 8.0F).sound(SoundType.STONE)));
+
     //Dread
     public static final BlockWithItemRegistryHandle<Block> DREADIUM_STONE = Services.REGISTRY.registerBlockWithItem("dreadium_stone",
             properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.STONE)));
 
+    public static final BlockWithItemRegistryHandle<Block> DREADIUM_COBBLESTONE = Services.REGISTRY.registerBlockWithItem("dreadium_cobblestone",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> DREADIUM_BRICKS = Services.REGISTRY.registerBlockWithItem("dreadium_bricks",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> CHISELED_DREADIUM_BRICKS = Services.REGISTRY.registerBlockWithItem("chiseled_dreadium_bricks",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> CRACKED_DREADIUM_BRICKS = Services.REGISTRY.registerBlockWithItem("cracked_dreadium_bricks",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> DREADIUM_BUTTON = Services.REGISTRY.registerBlockWithItem("dreadium_button",
+            properties -> new ModButtonBlock(ModBlockSetTypes.DREADIUM, 20, properties.sound(SoundType.STONE)
+                    .noCollision().strength(0.5F).pushReaction(PushReaction.DESTROY)));
+
+    public static final BlockWithItemRegistryHandle<Block> DREADIUM_PRESSURE_PLATE = Services.REGISTRY.registerBlockWithItem("dreadium_pressure_plate",
+            properties -> new ModPressurePlateBlock(ModBlockSetTypes.DREADIUM, properties.mapColor(MapColor.COLOR_PURPLE).forceSolidOn()
+                    .noCollision().strength(0.5F).pushReaction(PushReaction.DESTROY)));
+
     public static final BlockWithItemRegistryHandle<Block> DREADIUM_BLOCK = Services.REGISTRY.registerBlockWithItem("dreadium_block",
             properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.METAL)));
+
+    // Dreadium building blocks
+    public static final BlockWithItemRegistryHandle<Block> DREADIUM_STONE_STAIRS = Services.REGISTRY.registerBlockWithItem("dreadium_stone_stairs",
+            properties -> new ModStairBlock(DREADIUM_STONE.block().get().defaultBlockState(), properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> DREADIUM_STONE_SLAB = Services.REGISTRY.registerBlockWithItem("dreadium_stone_slab",
+            properties -> new MergingSlabBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> DREADIUM_STONE_WALL = Services.REGISTRY.registerBlockWithItem("dreadium_stone_wall",
+            properties -> new WallBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> DREADIUM_COBBLESTONE_STAIRS = Services.REGISTRY.registerBlockWithItem("dreadium_cobblestone_stairs",
+            properties -> new ModStairBlock(DREADIUM_COBBLESTONE.block().get().defaultBlockState(), properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> DREADIUM_COBBLESTONE_SLAB = Services.REGISTRY.registerBlockWithItem("dreadium_cobblestone_slab",
+            properties -> new MergingSlabBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> DREADIUM_COBBLESTONE_WALL = Services.REGISTRY.registerBlockWithItem("dreadium_cobblestone_wall",
+            properties -> new WallBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> DREADIUM_BRICKS_STAIRS = Services.REGISTRY.registerBlockWithItem("dreadium_bricks_stairs",
+            properties -> new ModStairBlock(DREADIUM_BRICKS.block().get().defaultBlockState(), properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> DREADIUM_BRICKS_SLAB = Services.REGISTRY.registerBlockWithItem("dreadium_bricks_slab",
+            properties -> new MergingSlabBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> DREADIUM_BRICKS_WALL = Services.REGISTRY.registerBlockWithItem("dreadium_bricks_wall",
+            properties -> new WallBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
 
     //Ethaxium
     public static final BlockWithItemRegistryHandle<Block> OMOTHOL_STONE = Services.REGISTRY.registerBlockWithItem("omothol_stone",
             properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> OMOTHOL_COBBLESTONE = Services.REGISTRY.registerBlockWithItem("omothol_cobblestone",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> OMOTHOL_BRICKS = Services.REGISTRY.registerBlockWithItem("omothol_bricks",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> CHISELED_OMOTHOL_BRICKS = Services.REGISTRY.registerBlockWithItem("chiseled_omothol_bricks",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> CRACKED_OMOTHOL_BRICKS = Services.REGISTRY.registerBlockWithItem("cracked_omothol_bricks",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> OMOTHOL_BUTTON = Services.REGISTRY.registerBlockWithItem("omothol_button",
+            properties -> new ModButtonBlock(ModBlockSetTypes.OMOTHOL, 20, properties.sound(SoundType.STONE)
+                    .noCollision().strength(0.5F).pushReaction(PushReaction.DESTROY)));
+
+    public static final BlockWithItemRegistryHandle<Block> OMOTHOL_PRESSURE_PLATE = Services.REGISTRY.registerBlockWithItem("omothol_pressure_plate",
+            properties -> new ModPressurePlateBlock(ModBlockSetTypes.OMOTHOL, properties.mapColor(MapColor.COLOR_PURPLE).forceSolidOn()
+                    .noCollision().strength(0.5F).pushReaction(PushReaction.DESTROY)));
 
     public static final BlockWithItemRegistryHandle<Block> ETHAXIUM_BLOCK = Services.REGISTRY.registerBlockWithItem("ethaxium_block",
             properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.METAL)));
 
     public static final BlockWithItemRegistryHandle<Block> ETHAXIUM_ORE = Services.REGISTRY.registerBlockWithItem("ethaxium_ore",
             properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.METAL)));
+
+    // Darkstone blocks
+    public static final BlockWithItemRegistryHandle<Block> DARK_STONE = Services.REGISTRY.registerBlockWithItem("dark_stone",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.DEEPSLATE)));
+
+    public static final BlockWithItemRegistryHandle<Block> DARK_COBBLESTONE = Services.REGISTRY.registerBlockWithItem("dark_cobblestone",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.DEEPSLATE)));
+
+    public static final BlockWithItemRegistryHandle<Block> DARK_STONE_BRICKS = Services.REGISTRY.registerBlockWithItem("dark_stone_bricks",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.DEEPSLATE)));
+
+    public static final BlockWithItemRegistryHandle<Block> CHISELED_DARK_STONE_BRICKS = Services.REGISTRY.registerBlockWithItem("chiseled_dark_stone_bricks",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.DEEPSLATE)));
+
+    public static final BlockWithItemRegistryHandle<Block> CRACKED_DARK_STONE_BRICKS = Services.REGISTRY.registerBlockWithItem("cracked_dark_stone_bricks",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.DEEPSLATE)));
+
+    public static final BlockWithItemRegistryHandle<Block> DARK_STONE_BUTTON = Services.REGISTRY.registerBlockWithItem("dark_stone_button",
+            properties -> new ModButtonBlock(ModBlockSetTypes.DARK_STONE, 20, properties.sound(SoundType.DEEPSLATE)
+                    .noCollision().strength(0.5F).pushReaction(PushReaction.DESTROY)));
+
+    public static final BlockWithItemRegistryHandle<Block> DARK_STONE_PRESSURE_PLATE = Services.REGISTRY.registerBlockWithItem("dark_stone_pressure_plate",
+            properties -> new ModPressurePlateBlock(ModBlockSetTypes.DARK_STONE, properties.mapColor(MapColor.COLOR_BLACK).forceSolidOn()
+                    .noCollision().strength(0.5F).pushReaction(PushReaction.DESTROY)));
+
+    // Darkstone building blocks
+    public static final BlockWithItemRegistryHandle<Block> DARK_STONE_STAIRS = Services.REGISTRY.registerBlockWithItem("dark_stone_stairs",
+            properties -> new ModStairBlock(DARK_STONE.block().get().defaultBlockState(), properties.mapColor(MapColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.DEEPSLATE)));
+
+    public static final BlockWithItemRegistryHandle<Block> DARK_STONE_SLAB = Services.REGISTRY.registerBlockWithItem("dark_stone_slab",
+            properties -> new MergingSlabBlock(properties.mapColor(MapColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.DEEPSLATE)));
+
+    public static final BlockWithItemRegistryHandle<Block> DARK_STONE_WALL = Services.REGISTRY.registerBlockWithItem("dark_stone_wall",
+            properties -> new WallBlock(properties.mapColor(MapColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.DEEPSLATE)));
+
+    public static final BlockWithItemRegistryHandle<Block> DARK_COBBLESTONE_STAIRS = Services.REGISTRY.registerBlockWithItem("dark_cobblestone_stairs",
+            properties -> new ModStairBlock(DARK_COBBLESTONE.block().get().defaultBlockState(), properties.mapColor(MapColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.DEEPSLATE)));
+
+    public static final BlockWithItemRegistryHandle<Block> DARK_COBBLESTONE_SLAB = Services.REGISTRY.registerBlockWithItem("dark_cobblestone_slab",
+            properties -> new MergingSlabBlock(properties.mapColor(MapColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.DEEPSLATE)));
+
+    public static final BlockWithItemRegistryHandle<Block> DARK_COBBLESTONE_WALL = Services.REGISTRY.registerBlockWithItem("dark_cobblestone_wall",
+            properties -> new WallBlock(properties.mapColor(MapColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.DEEPSLATE)));
+
+    public static final BlockWithItemRegistryHandle<Block> DARK_STONE_BRICKS_STAIRS = Services.REGISTRY.registerBlockWithItem("dark_stone_bricks_stairs",
+            properties -> new ModStairBlock(DARK_STONE_BRICKS.block().get().defaultBlockState(), properties.mapColor(MapColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.DEEPSLATE)));
+
+    public static final BlockWithItemRegistryHandle<Block> DARK_STONE_BRICKS_SLAB = Services.REGISTRY.registerBlockWithItem("dark_stone_bricks_slab",
+            properties -> new MergingSlabBlock(properties.mapColor(MapColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.DEEPSLATE)));
+
+    public static final BlockWithItemRegistryHandle<Block> DARK_STONE_BRICKS_WALL = Services.REGISTRY.registerBlockWithItem("dark_stone_bricks_wall",
+            properties -> new WallBlock(properties.mapColor(MapColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.DEEPSLATE)));
+
+    // Abyssalnite Stone blocks
+    public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_STONE = Services.REGISTRY.registerBlockWithItem("abyssalnite_stone",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_STONE_STAIRS = Services.REGISTRY.registerBlockWithItem("abyssalnite_stone_stairs",
+            properties -> new ModStairBlock(ABYSSALNITE_STONE.block().get().defaultBlockState(), properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_STONE_SLAB = Services.REGISTRY.registerBlockWithItem("abyssalnite_stone_slab",
+            properties -> new MergingSlabBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_STONE_WALL = Services.REGISTRY.registerBlockWithItem("abyssalnite_stone_wall",
+            properties -> new WallBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.STONE)));
+
+    // Ethaxium Stone blocks
+    public static final BlockWithItemRegistryHandle<Block> ETHAXIUM_STONE = Services.REGISTRY.registerBlockWithItem("ethaxium_stone",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> ETHAXIUM_STONE_STAIRS = Services.REGISTRY.registerBlockWithItem("ethaxium_stone_stairs",
+            properties -> new ModStairBlock(ETHAXIUM_STONE.block().get().defaultBlockState(), properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> ETHAXIUM_STONE_SLAB = Services.REGISTRY.registerBlockWithItem("ethaxium_stone_slab",
+            properties -> new MergingSlabBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> ETHAXIUM_STONE_WALL = Services.REGISTRY.registerBlockWithItem("ethaxium_stone_wall",
+            properties -> new WallBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.STONE)));
+
+    // Omothol building blocks
+    public static final BlockWithItemRegistryHandle<Block> OMOTHOL_STONE_STAIRS = Services.REGISTRY.registerBlockWithItem("omothol_stone_stairs",
+            properties -> new ModStairBlock(OMOTHOL_STONE.block().get().defaultBlockState(), properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> OMOTHOL_STONE_SLAB = Services.REGISTRY.registerBlockWithItem("omothol_stone_slab",
+            properties -> new MergingSlabBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> OMOTHOL_STONE_WALL = Services.REGISTRY.registerBlockWithItem("omothol_stone_wall",
+            properties -> new WallBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> OMOTHOL_COBBLESTONE_STAIRS = Services.REGISTRY.registerBlockWithItem("omothol_cobblestone_stairs",
+            properties -> new ModStairBlock(OMOTHOL_COBBLESTONE.block().get().defaultBlockState(), properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> OMOTHOL_COBBLESTONE_SLAB = Services.REGISTRY.registerBlockWithItem("omothol_cobblestone_slab",
+            properties -> new MergingSlabBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> OMOTHOL_COBBLESTONE_WALL = Services.REGISTRY.registerBlockWithItem("omothol_cobblestone_wall",
+            properties -> new WallBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> OMOTHOL_BRICKS_STAIRS = Services.REGISTRY.registerBlockWithItem("omothol_bricks_stairs",
+            properties -> new ModStairBlock(OMOTHOL_BRICKS.block().get().defaultBlockState(), properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> OMOTHOL_BRICKS_SLAB = Services.REGISTRY.registerBlockWithItem("omothol_bricks_slab",
+            properties -> new MergingSlabBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> OMOTHOL_BRICKS_WALL = Services.REGISTRY.registerBlockWithItem("omothol_bricks_wall",
+            properties -> new WallBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
+
+
+    // Abyssalnite Stone building blocks
+    public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_COBBLESTONE = Services.REGISTRY.registerBlockWithItem("abyssalnite_cobblestone",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_BRICKS = Services.REGISTRY.registerBlockWithItem("abyssalnite_bricks",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> CHISELED_ABYSSALNITE_BRICKS = Services.REGISTRY.registerBlockWithItem("chiseled_abyssalnite_bricks",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> CRACKED_ABYSSALNITE_BRICKS = Services.REGISTRY.registerBlockWithItem("cracked_abyssalnite_bricks",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_BUTTON = Services.REGISTRY.registerBlockWithItem("abyssalnite_button",
+            properties -> new ModButtonBlock(ModBlockSetTypes.ABYSSALNITE_STONE, 20, properties.sound(SoundType.STONE)
+                    .noCollision().strength(0.5F).pushReaction(PushReaction.DESTROY)));
+
+    public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_PRESSURE_PLATE = Services.REGISTRY.registerBlockWithItem("abyssalnite_pressure_plate",
+            properties -> new ModPressurePlateBlock(ModBlockSetTypes.ABYSSALNITE_STONE, properties.mapColor(MapColor.COLOR_PURPLE).forceSolidOn()
+                    .noCollision().strength(0.5F).pushReaction(PushReaction.DESTROY)));
+
+    public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_COBBLESTONE_STAIRS = Services.REGISTRY.registerBlockWithItem("abyssalnite_cobblestone_stairs",
+            properties -> new ModStairBlock(ABYSSALNITE_COBBLESTONE.block().get().defaultBlockState(), properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_COBBLESTONE_SLAB = Services.REGISTRY.registerBlockWithItem("abyssalnite_cobblestone_slab",
+            properties -> new MergingSlabBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_COBBLESTONE_WALL = Services.REGISTRY.registerBlockWithItem("abyssalnite_cobblestone_wall",
+            properties -> new WallBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_BRICKS_STAIRS = Services.REGISTRY.registerBlockWithItem("abyssalnite_bricks_stairs",
+            properties -> new ModStairBlock(ABYSSALNITE_BRICKS.block().get().defaultBlockState(), properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_BRICKS_SLAB = Services.REGISTRY.registerBlockWithItem("abyssalnite_bricks_slab",
+            properties -> new MergingSlabBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> ABYSSALNITE_BRICKS_WALL = Services.REGISTRY.registerBlockWithItem("abyssalnite_bricks_wall",
+            properties -> new WallBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
+
+    // Ethaxium Stone building blocks
+    public static final BlockWithItemRegistryHandle<Block> ETHAXIUM_COBBLESTONE = Services.REGISTRY.registerBlockWithItem("ethaxium_cobblestone",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> ETHAXIUM_BRICKS = Services.REGISTRY.registerBlockWithItem("ethaxium_bricks",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> CHISELED_ETHAXIUM_BRICKS = Services.REGISTRY.registerBlockWithItem("chiseled_ethaxium_bricks",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> CRACKED_ETHAXIUM_BRICKS = Services.REGISTRY.registerBlockWithItem("cracked_ethaxium_bricks",
+            properties -> new Block(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> ETHAXIUM_BUTTON = Services.REGISTRY.registerBlockWithItem("ethaxium_button",
+            properties -> new ModButtonBlock(ModBlockSetTypes.ETHAXIUM_STONE, 20, properties.sound(SoundType.STONE)
+                    .noCollision().strength(0.5F).pushReaction(PushReaction.DESTROY)));
+
+    public static final BlockWithItemRegistryHandle<Block> ETHAXIUM_PRESSURE_PLATE = Services.REGISTRY.registerBlockWithItem("ethaxium_pressure_plate",
+            properties -> new ModPressurePlateBlock(ModBlockSetTypes.ETHAXIUM_STONE, properties.mapColor(MapColor.COLOR_PURPLE).forceSolidOn()
+                    .noCollision().strength(0.5F).pushReaction(PushReaction.DESTROY)));
+
+    public static final BlockWithItemRegistryHandle<Block> ETHAXIUM_COBBLESTONE_STAIRS = Services.REGISTRY.registerBlockWithItem("ethaxium_cobblestone_stairs",
+            properties -> new ModStairBlock(ETHAXIUM_COBBLESTONE.block().get().defaultBlockState(), properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> ETHAXIUM_COBBLESTONE_SLAB = Services.REGISTRY.registerBlockWithItem("ethaxium_cobblestone_slab",
+            properties -> new MergingSlabBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> ETHAXIUM_COBBLESTONE_WALL = Services.REGISTRY.registerBlockWithItem("ethaxium_cobblestone_wall",
+            properties -> new WallBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(3.0F, 5.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> ETHAXIUM_BRICKS_STAIRS = Services.REGISTRY.registerBlockWithItem("ethaxium_bricks_stairs",
+            properties -> new ModStairBlock(ETHAXIUM_BRICKS.block().get().defaultBlockState(), properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> ETHAXIUM_BRICKS_SLAB = Services.REGISTRY.registerBlockWithItem("ethaxium_bricks_slab",
+            properties -> new MergingSlabBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
+
+    public static final BlockWithItemRegistryHandle<Block> ETHAXIUM_BRICKS_WALL = Services.REGISTRY.registerBlockWithItem("ethaxium_bricks_wall",
+            properties -> new WallBlock(properties.mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(4.0F, 6.0F).sound(SoundType.STONE)));
 
 
 

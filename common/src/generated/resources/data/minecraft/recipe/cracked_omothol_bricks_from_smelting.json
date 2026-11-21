@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.1,
+  "ingredient": "abyssalcraft_reawakening:omothol_bricks",
+  "result": {
+    "id": "abyssalcraft_reawakening:cracked_omothol_bricks"
+  }
+}

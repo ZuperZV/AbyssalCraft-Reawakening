@@ -59,6 +59,12 @@ public final class ModBlockTags {
     public static final TagKey<Block> ABYSSALWASTELAND_CARVER_REPLACEABLES =
             create("abyssalwasteland_carver_replaceables");
 
+    public static final TagKey<Block> SWAMP_SOIL =
+            create("swamp_soil");
+
+    public static final TagKey<Block> GREENHEART_LOGS =
+            create("greenheart_logs");
+
     public static TagKey<Block> create(String name) {
         return TagKey.create(Registries.BLOCK, Constants.id(name));
     }

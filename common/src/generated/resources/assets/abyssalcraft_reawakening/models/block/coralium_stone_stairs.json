@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "abyssalcraft_reawakening:block/coralium_stone",
+    "side": "abyssalcraft_reawakening:block/coralium_stone",
+    "top": "abyssalcraft_reawakening:block/coralium_stone"
+  }
+}

@@ -682,28 +682,36 @@ public final class ModWorldgenBootstrapper {
                 )
         );
 
-        // Gloom moss vegetation features
-        context.register(
-                ModWorldgen.GLOOM_MOSS_VEGETATION,
-                new ConfiguredFeature<>(
-                        Feature.SIMPLE_BLOCK,
-                        new SimpleBlockConfiguration(
-                                new WeightedStateProvider(
-                                        WeightedList.<BlockState>builder()
-                                                .add(ModBlocks.GLOOM_MOSS_CARPET.block().get().defaultBlockState(), 25)
-                                                .add(Blocks.SHORT_GRASS.defaultBlockState(), 25)
-                                                .add(Blocks.TALL_GRASS.defaultBlockState(), 10)
-                                )
-                        )
+        // Gloom moss vegetation features - vegetation patch for swamp floor
+        SimpleBlockConfiguration gloomMossVegetationConfig = new SimpleBlockConfiguration(
+                new WeightedStateProvider(
+                        WeightedList.<BlockState>builder()
+                                .add(ModBlocks.GLOOM_MOSS.block().get().defaultBlockState(), 50)
+                                .add(ModBlocks.GLOWING_GLOOM_FUNGUS.block().get().defaultBlockState(), 15)
+                                .add(ModBlocks.GLOOM_VINES.block().get().defaultBlockState(), 15)
+                                .add(Blocks.SHORT_GRASS.defaultBlockState(), 10)
+                                .add(Blocks.TALL_GRASS.defaultBlockState(), 5)
+                                .add(Blocks.FERN.defaultBlockState(), 5)
+                                .build()
                 )
         );
 
-        SimpleBlockConfiguration gloomMossVegetationConfig =  new SimpleBlockConfiguration(
-                new WeightedStateProvider(
-                        WeightedList.<BlockState>builder()
-                                .add(ModBlocks.GLOOM_MOSS_CARPET.block().get().defaultBlockState(), 25)
-                                .add(Blocks.SHORT_GRASS.defaultBlockState(), 25)
-                                .add(Blocks.TALL_GRASS.defaultBlockState(), 10)
+        context.register(
+                ModWorldgen.GLOOM_MOSS_VEGETATION,
+                new ConfiguredFeature<>(
+                        Feature.VEGETATION_PATCH,
+                        new VegetationPatchConfiguration(
+                                BlockTags.MOSS_REPLACEABLE,
+                                BlockStateProvider.simple(ModBlocks.GLOOM_MOSS.block().get()),
+                                PlacementUtils.inlinePlaced(Feature.SIMPLE_BLOCK, gloomMossVegetationConfig),
+                                CaveSurface.FLOOR,
+                                ConstantInt.of(1),
+                                0.0F,
+                                7,
+                                0.7F,
+                                UniformInt.of(2, 4),
+                                0.8F
+                        )
                 )
         );
 
@@ -714,7 +722,11 @@ public final class ModWorldgenBootstrapper {
                         new VegetationPatchConfiguration(
                                 BlockTags.MOSS_REPLACEABLE,
                                 BlockStateProvider.simple(ModBlocks.GLOOM_MOSS.block().get()),
-                                PlacementUtils.inlinePlaced(Feature.SIMPLE_BLOCK, gloomMossVegetationConfig),
+                                PlacementUtils.inlinePlaced(Feature.SIMPLE_BLOCK,
+                                        new SimpleBlockConfiguration(
+                                                BlockStateProvider.simple(ModBlocks.GLOOM_MOSS.block().get().defaultBlockState())
+                                        )
+                                ),
                                 CaveSurface.FLOOR,
                                 ConstantInt.of(1),
                                 0.0F,
@@ -746,6 +758,7 @@ public final class ModWorldgenBootstrapper {
                                 .add(Blocks.LILY_OF_THE_VALLEY.defaultBlockState(), 3)
                                 .add(Blocks.TALL_GRASS.defaultBlockState(), 10)
                                 .add(Blocks.FERN.defaultBlockState(), 8)
+                                .build()
                 )
         );
 
@@ -767,6 +780,189 @@ public final class ModWorldgenBootstrapper {
                         )
                 )
         );
+
+        // ===== NEW SWAMP FEATURES =====
+
+        // Gloomreeds
+        context.register(
+                ModWorldgen.GLOOMREEDS,
+                new ConfiguredFeature<>(
+                        Feature.SIMPLE_BLOCK,
+                        new SimpleBlockConfiguration(
+                                BlockStateProvider.simple(
+                                        ModBlocks.GLOOMREEDS.block().get().defaultBlockState()
+                                )
+                        )
+                )
+        );
+
+        // Murkweed
+        context.register(
+                ModWorldgen.MURKWEED,
+                new ConfiguredFeature<>(
+                        Feature.SIMPLE_BLOCK,
+                        new SimpleBlockConfiguration(
+                                BlockStateProvider.simple(
+                                        ModBlocks.MURKWEED.block().get().defaultBlockState()
+                                )
+                        )
+                )
+        );
+
+        // Gloom Clover
+        context.register(
+                ModWorldgen.GLOOM_CLOVER,
+                new ConfiguredFeature<>(
+                        Feature.SIMPLE_BLOCK,
+                        new SimpleBlockConfiguration(
+                                BlockStateProvider.simple(
+                                        ModBlocks.GLOOM_CLOVER.block().get().defaultBlockState()
+                                )
+                        )
+                )
+        );
+
+        // Dreadvine Moss
+        context.register(
+                ModWorldgen.DREADVINE_MOSS,
+                new ConfiguredFeature<>(
+                        Feature.SIMPLE_BLOCK,
+                        new SimpleBlockConfiguration(
+                                BlockStateProvider.simple(
+                                        ModBlocks.DREADVINE_MOSS.block().get().defaultBlockState()
+                                )
+                        )
+                )
+        );
+
+        // Sinking Mire Disk
+        context.register(
+                ModWorldgen.SINKING_MIRE_DISK,
+                new ConfiguredFeature<>(
+                        Feature.SIMPLE_BLOCK,
+                        new SimpleBlockConfiguration(
+                                BlockStateProvider.simple(
+                                        ModBlocks.SINKING_MIRE.block().get().defaultBlockState()
+                                )
+                        )
+                )
+        );
+
+        // Swamp Vegetation Patch
+        SimpleBlockConfiguration swampVegetationConfig = new SimpleBlockConfiguration(
+                new WeightedStateProvider(
+                        WeightedList.<BlockState>builder()
+                                .add(ModBlocks.GLOOM_MOSS.block().get().defaultBlockState(), 30)
+                                .add(ModBlocks.GLOWING_GLOOM_FUNGUS.block().get().defaultBlockState(), 10)
+                                .add(ModBlocks.GLOOM_VINES.block().get().defaultBlockState(), 10)
+                                .add(ModBlocks.GLOOMREEDS.block().get().defaultBlockState(), 15)
+                                .add(ModBlocks.GLOOM_CLOVER.block().get().defaultBlockState(), 15)
+                                .add(Blocks.SHORT_GRASS.defaultBlockState(), 5)
+                                .add(Blocks.TALL_GRASS.defaultBlockState(), 3)
+                                .add(Blocks.FERN.defaultBlockState(), 2)
+                                .build()
+                )
+        );
+
+        context.register(
+                ModWorldgen.SWAMP_VEGETATION_PATCH,
+                new ConfiguredFeature<>(
+                        Feature.VEGETATION_PATCH,
+                        new VegetationPatchConfiguration(
+                                ModBlockTags.SWAMP_SOIL,
+                                BlockStateProvider.simple(ModBlocks.GLOOM_MOSS.block().get()),
+                                PlacementUtils.inlinePlaced(Feature.SIMPLE_BLOCK, swampVegetationConfig),
+                                CaveSurface.FLOOR,
+                                ConstantInt.of(1),
+                                0.0F,
+                                7,
+                                0.7F,
+                                UniformInt.of(2, 5),
+                                0.85F
+                        )
+                )
+        );
+
+        context.register(
+                ModWorldgen.SWAMP_VEGETATION_BONEMEAL,
+                new ConfiguredFeature<>(
+                        Feature.VEGETATION_PATCH,
+                        new VegetationPatchConfiguration(
+                                ModBlockTags.SWAMP_SOIL,
+                                BlockStateProvider.simple(ModBlocks.GLOOM_MOSS.block().get()),
+                                PlacementUtils.inlinePlaced(Feature.SIMPLE_BLOCK,
+                                        new SimpleBlockConfiguration(
+                                                BlockStateProvider.simple(ModBlocks.GLOOM_MOSS.block().get().defaultBlockState())
+                                        )
+                                ),
+                                CaveSurface.FLOOR,
+                                ConstantInt.of(1),
+                                0.0F,
+                                5,
+                                0.6F,
+                                UniformInt.of(1, 2),
+                                0.75F
+                        )
+                )
+        );
+
+        // Greenheart Tree - swamp tree with green foliage
+        PlaceOnGroundDecorator greenheartLeafLitter = new PlaceOnGroundDecorator(
+                96, 4, 2, new WeightedStateProvider(leafLitterPatchBuilder(1, 3, ModBlocks.WITHERWOOD_LEAF_LITTER.block().get()))
+        );
+
+        context.register(ModWorldgen.GREENHEART_TREE, new ConfiguredFeature<>(Feature.TREE,
+                        new TreeConfiguration.TreeConfigurationBuilder(
+                                BlockStateProvider.simple(ModBlocks.GREENHEART_LOG.block().get()),
+                                new FancyTrunkPlacer(
+                                        6,
+                                        3,
+                                        8),
+                                BlockStateProvider.simple(ModBlocks.GREENHEART_LEAVES.block().get()),
+                                new BlobFoliagePlacer(
+                                        UniformInt.of(2, 3),
+                                        UniformInt.of(1, 2),
+                                        3
+                                ),
+                                new TwoLayersFeatureSize(1, 0, 2))
+                                .decorators(
+                                        List.of(
+                                                new TinyRootDecorator(
+                                                        BlockStateProvider.simple(
+                                                                ModBlocks.GREENHEART_WOOD.block().get()
+                                                        ),
+                                                        0.6F
+                                                ),
+                                                greenheartLeafLitter
+                                        )
+                                ).build()));
+
+        // Swamp Witherwood Tree - variant with leaves for swamp
+        context.register(ModWorldgen.SWAMP_WITHERWOOD_TREE, new ConfiguredFeature<>(Feature.TREE,
+                        new TreeConfiguration.TreeConfigurationBuilder(
+                                BlockStateProvider.simple(ModBlocks.WITHERWOOD_LOG.block().get()),
+                                new FancyTrunkPlacer(
+                                        6,
+                                        3,
+                                        8),
+                                BlockStateProvider.simple(ModBlocks.WITHERWOOD_LEAVES.block().get()),
+                                new BlobFoliagePlacer(
+                                        UniformInt.of(2, 2),
+                                        UniformInt.of(1, 2),
+                                        2
+                                ),
+                                new TwoLayersFeatureSize(1, 0, 2))
+                                .decorators(
+                                        List.of(
+                                                new TinyRootDecorator(
+                                                        BlockStateProvider.simple(
+                                                                ModBlocks.WITHERWOOD_WOOD.block().get()
+                                                        ),
+                                                        0.75F
+                                                ),
+                                                sparseLeafLitter
+                                        )
+                                ).build()));
     }
 
     public static void bootstrapPlacedFeatures(BootstrapContext<PlacedFeature> context) {
@@ -1454,7 +1650,153 @@ public final class ModWorldgenBootstrapper {
                 ModWorldgen.GLOOM_MOSS_VEGETATION_PLACED,
                 new PlacedFeature(
                         configuredFeatures.getOrThrow(ModWorldgen.GLOOM_MOSS_VEGETATION),
+                        List.of(
+                                RarityFilter.onAverageOnceEvery(1),
+                                InSquarePlacement.spread(),
+                                CountPlacement.of(25),
+                                HeightmapPlacement.onHeightmap(
+                                        Heightmap.Types.WORLD_SURFACE
+                                ),
+                                BiomeFilter.biome()
+                        )
+                )
+        );
+
+        // ===== NEW SWAMP PLACED FEATURES =====
+
+        // Gloomreeds - grows in water/coralium with ground below
+        context.register(
+                ModWorldgen.GLOOMREEDS_PLACED,
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(ModWorldgen.GLOOMREEDS),
+                        List.of(
+                                CountPlacement.of(30),
+                                RandomOffsetPlacement.ofTriangle(4, 2),
+                                HeightmapPlacement.onHeightmap(Heightmap.Types.WORLD_SURFACE),
+                                BiomeFilter.biome(),
+                                BlockPredicateFilter.forPredicate(
+                                        ModWorldgenPredicates.inWaterOrCoralium(
+                                                net.minecraft.world.level.block.Blocks.WATER,
+                                                ModFluids.CORALIUM_BLOCK.get()
+                                        )
+                                )
+                        )
+                )
+        );
+
+        // Murkweed - grows on water surface
+        context.register(
+                ModWorldgen.MURKWEED_PLACED,
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(ModWorldgen.MURKWEED),
+                        List.of(
+                                CountPlacement.of(20),
+                                RandomOffsetPlacement.ofTriangle(3, 2),
+                                HeightmapPlacement.onHeightmap(Heightmap.Types.WORLD_SURFACE),
+                                BiomeFilter.biome(),
+                                BlockPredicateFilter.forPredicate(
+                                        BlockPredicate.ONLY_IN_AIR_PREDICATE
+                                )
+                        )
+                )
+        );
+
+        // Gloom Clover - grows in patches on swamp soil
+        context.register(
+                ModWorldgen.GLOOM_CLOVER_PLACED,
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(ModWorldgen.GLOOM_CLOVER),
+                        List.of(
+                                CountPlacement.of(25),
+                                RandomOffsetPlacement.ofTriangle(3, 2),
+                                HeightmapPlacement.onHeightmap(Heightmap.Types.WORLD_SURFACE),
+                                BiomeFilter.biome(),
+                                BlockPredicateFilter.forPredicate(
+                                        BlockPredicate.ONLY_IN_AIR_PREDICATE
+                                )
+                        )
+                )
+        );
+
+        // Dreadvine Moss - grows on tree trunks
+        context.register(
+                ModWorldgen.DREADVINE_MOSS_PLACED,
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(ModWorldgen.DREADVINE_MOSS),
+                        List.of(
+                                CountPlacement.of(15),
+                                RandomOffsetPlacement.ofTriangle(3, 2),
+                                HeightmapPlacement.onHeightmap(Heightmap.Types.WORLD_SURFACE),
+                                BiomeFilter.biome(),
+                                BlockPredicateFilter.forPredicate(
+                                        BlockPredicate.ONLY_IN_AIR_PREDICATE
+                                )
+                        )
+                )
+        );
+
+        // Sinking Mire Disk - replaces surface blocks with sinking mire
+        context.register(
+                ModWorldgen.SINKING_MIRE_DISK_PLACED,
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(ModWorldgen.SINKING_MIRE_DISK),
+                        List.of(
+                                CountPlacement.of(12),
+                                InSquarePlacement.spread(),
+                                HeightRangePlacement.uniform(
+                                        VerticalAnchor.absolute(55),
+                                        VerticalAnchor.absolute(70)
+                                ),
+                                PlacementUtils.HEIGHTMAP_NO_LEAVES,
+                                BiomeFilter.biome()
+                        )
+                )
+        );
+
+        // Swamp Vegetation Patch - dense vegetation
+        context.register(
+                ModWorldgen.SWAMP_VEGETATION_PATCH_PLACED,
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(ModWorldgen.SWAMP_VEGETATION_PATCH),
+                        List.of(
+                                RarityFilter.onAverageOnceEvery(1),
+                                InSquarePlacement.spread(),
+                                CountPlacement.of(30),
+                                HeightmapPlacement.onHeightmap(Heightmap.Types.WORLD_SURFACE),
+                                BiomeFilter.biome()
+                        )
+                )
+        );
+
+        context.register(
+                ModWorldgen.SWAMP_VEGETATION_BONEMEAL_PLACED,
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(ModWorldgen.SWAMP_VEGETATION_BONEMEAL),
                         List.of()
+                )
+        );
+
+        // Greenheart Tree - swamp tree
+        context.register(
+                ModWorldgen.GREENHEART_TREE_PLACED,
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(ModWorldgen.GREENHEART_TREE),
+                        VegetationPlacements.treePlacement(
+                                PlacementUtils.countExtra(5, 0.2f, 2),
+                                ModBlocks.GREENHEART_SAPLING.block().get()
+                        )
+                )
+        );
+
+        // Swamp Witherwood Tree - variant with leaves
+        context.register(
+                ModWorldgen.SWAMP_WITHERWOOD_TREE_PLACED,
+                new PlacedFeature(
+                        configuredFeatures.getOrThrow(ModWorldgen.SWAMP_WITHERWOOD_TREE),
+                        VegetationPlacements.treePlacement(
+                                PlacementUtils.countExtra(4, 0.2f, 2),
+                                ModBlocks.WITHERWOOD_SAPLING.block().get()
+                        )
                 )
         );
     }

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "abyssalcraft_reawakening:block/abyssalnite_bricks",
+    "side": "abyssalcraft_reawakening:block/abyssalnite_bricks",
+    "top": "abyssalcraft_reawakening:block/abyssalnite_bricks"
+  }
+}

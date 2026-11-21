@@ -22,5 +22,17 @@ public final class ModWoodTypes {
                     )
             );
 
+    public static final WoodType GREENHEART =
+            WoodTypeAccessor.register(
+                    new WoodType(
+                            Constants.MOD_ID + ":greenheart",
+                            ModBlockSetTypes.GREENHEART,
+                            SoundType.WOOD,
+                            SoundType.HANGING_SIGN,
+                            SoundEvents.FENCE_GATE_CLOSE,
+                            SoundEvents.FENCE_GATE_OPEN
+                    )
+            );
+
     public static void load() {}
 }

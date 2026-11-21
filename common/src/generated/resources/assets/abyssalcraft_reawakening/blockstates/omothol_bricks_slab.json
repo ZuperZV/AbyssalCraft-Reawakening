@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "abyssalcraft_reawakening:block/omothol_bricks_slab"
+    },
+    "type=double": {
+      "model": "abyssalcraft_reawakening:block/omothol_bricks"
+    },
+    "type=top": {
+      "model": "abyssalcraft_reawakening:block/omothol_bricks_slab_top"
+    }
+  }
+}

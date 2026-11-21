@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:simple_block",
+  "config": {
+    "to_place": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "abyssalcraft_reawakening:gloomreeds",
+        "Properties": {
+          "age": "0",
+          "coralium_logged": "false",
+          "coraliumlogged": "false",
+          "top": "true",
+          "waterlogged": "false"
+        }
+      }
+    }
+  }
+}

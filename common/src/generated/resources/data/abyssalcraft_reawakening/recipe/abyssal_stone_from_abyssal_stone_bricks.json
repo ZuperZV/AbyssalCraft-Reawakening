@@ -1,14 +1,11 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "minecraft:crafting_shapeless",
   "category": "misc",
-  "key": {
-    "#": "abyssalcraft_reawakening:abyssal_stone_bricks"
-  },
-  "pattern": [
-    "##",
-    "##"
+  "ingredients": [
+    "abyssalcraft_reawakening:abyssal_stone_bricks"
   ],
   "result": {
+    "count": 4,
     "id": "abyssalcraft_reawakening:abyssal_stone"
   }
 }

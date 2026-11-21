@@ -174,6 +174,15 @@ public class ModNoiseRouter {
                     )
             );
 
+    public static final ResourceKey<NormalNoise.NoiseParameters> ABYSSAL_SWAMP_GROUND =
+            ResourceKey.create(
+                    Registries.NOISE,
+                    Identifier.fromNamespaceAndPath(
+                            Constants.MOD_ID,
+                            "abyssal_swamp_ground"
+                    )
+            );
+
     public static NoiseRouter abyssalWasteland(
             HolderGetter<DensityFunction> functions,
             HolderGetter<NormalNoise.NoiseParameters> noises
@@ -239,7 +248,7 @@ public class ModNoiseRouter {
                 DensityFunctions.shiftedNoise2d(
                         shiftX,
                         shiftZ,
-                        0.25F,
+                        2.0F,
                         noises.getOrThrow(
                                 largeBiomes
                                         ? Noises.TEMPERATURE_LARGE
@@ -251,7 +260,7 @@ public class ModNoiseRouter {
                 DensityFunctions.shiftedNoise2d(
                         shiftX,
                         shiftZ,
-                        0.25F,
+                        2.0F,
                         noises.getOrThrow(
                                 largeBiomes
                                         ? Noises.VEGETATION_LARGE

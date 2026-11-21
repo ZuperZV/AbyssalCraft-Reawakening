@@ -401,6 +401,7 @@ public final class ModBiomes {
     }
 
     // ABYSSAL SWAMP - Water-adjacent swamp with unique features
+    // Inspired by real-world swamps: dense vegetation, murky water, cattails, algae, clovers
     public static Biome AbyssalSwampBiome(
             BootstrapContext<Biome> context) {
 
@@ -412,21 +413,27 @@ public final class ModBiomes {
 
         addDarklandsUnderground(builder);
 
-        // SURFACE - Mud and water-adjacent terrain
+        // SURFACE - Sinking Mire and mud disks for sinking terrain
         builder.addFeature(
                 GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
                 ModWorldgen.ABYSSAL_MUD_DISK_PLACED
         );
 
+        builder.addFeature(
+                GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
+                ModWorldgen.SINKING_MIRE_DISK_PLACED
+        );
+
         // SWAMP VEGETATION - Dense plant growth near water
+        // Vegetation patches on floor (gloom moss carpet, cattails, clovers)
         builder.addFeature(
                 GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModWorldgen.GLOOM_MOSS_PLACED
+                ModWorldgen.GLOOM_MOSS_VEGETATION_PLACED
         );
 
         builder.addFeature(
                 GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModWorldgen.GLOOM_MOSS_CARPET_PLACED
+                ModWorldgen.SWAMP_VEGETATION_PATCH_PLACED
         );
 
         builder.addFeature(
@@ -439,15 +446,42 @@ public final class ModBiomes {
                 ModWorldgen.GLOWING_FUNGUS_PLACED
         );
 
+        // WATER FEATURES - Lily pads, murkweed, gloomreeds near Coralium fluid
         builder.addFeature(
                 GenerationStep.Decoration.VEGETAL_DECORATION,
                 ModWorldgen.MURKY_WATER_LILY_PLACED
         );
 
-        // TREES - Sparse witherwood near water
         builder.addFeature(
                 GenerationStep.Decoration.VEGETAL_DECORATION,
-                ModWorldgen.WITHERWOOD_TREE_PLACED
+                ModWorldgen.GLOOMREEDS_PLACED
+        );
+
+        builder.addFeature(
+                GenerationStep.Decoration.VEGETAL_DECORATION,
+                ModWorldgen.MURKWEED_PLACED
+        );
+
+        // GROUND COVER - Clovers and dreadvine moss
+        builder.addFeature(
+                GenerationStep.Decoration.VEGETAL_DECORATION,
+                ModWorldgen.GLOOM_CLOVER_PLACED
+        );
+
+        builder.addFeature(
+                GenerationStep.Decoration.VEGETAL_DECORATION,
+                ModWorldgen.DREADVINE_MOSS_PLACED
+        );
+
+        // TREES - Greenheart and Witherwood with leaves, dense undergrowth
+        builder.addFeature(
+                GenerationStep.Decoration.VEGETAL_DECORATION,
+                ModWorldgen.GREENHEART_TREE_PLACED
+        );
+
+        builder.addFeature(
+                GenerationStep.Decoration.VEGETAL_DECORATION,
+                ModWorldgen.SWAMP_WITHERWOOD_TREE_PLACED
         );
 
         // FOSSILS

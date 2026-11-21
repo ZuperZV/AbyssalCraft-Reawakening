@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "abyssalcraft_reawakening:block/abyssalnite_cobblestone",
+    "side": "abyssalcraft_reawakening:block/abyssalnite_cobblestone",
+    "top": "abyssalcraft_reawakening:block/abyssalnite_cobblestone"
+  }
+}

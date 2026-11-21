@@ -40,6 +40,7 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.BoilerTipBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.DreadrootRootsBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.EssenceBoilerBlock;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.GloomreedsBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.LunarLightBeamEmitterBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.PortalActivatorBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.ModDataComponentTypes;
@@ -120,11 +121,6 @@ public class ModModelProvider extends ModelProvider {
         createRotatedVariantBlock(blockModels, ModBlocks.STARITE.block().get());
         createRotatedVariantBlock(blockModels, ModBlocks.ABYSSAL_SAND.block().get());
 
-        // Otothol Stone - 4 random textures with 4 random rotations each
-        createRotatedVariantBlockWithMultipleTextures(blockModels, ModBlocks.OTOTHOL_STONE.block().get(), 4);
-
-        // Omothol Stone - 4 random textures with 4 random rotations each
-        createRotatedVariantBlockWithMultipleTextures(blockModels, ModBlocks.OMOTHOL_STONE.block().get(), 4);
 
         //PortalBlock
         createNetherPortalBlock(blockModels, ModBlocks.ABYSSAL_WASTELAND_PORTAL_BLOCK.block().get());
@@ -142,6 +138,9 @@ public class ModModelProvider extends ModelProvider {
 
         generateCubeBlock(blockModels, ModBlocks.GLOOM_MOSS.block().get());
         createMossyCarpet(blockModels, ModBlocks.GLOOM_MOSS_CARPET.block().get());
+
+        // Gloomreeds - cross model with bottom and top textures
+        createGloomreedsBlock(blockModels, itemModels, ModBlocks.GLOOMREEDS.block().get());
 
         // Corallium Geyser
         generatedBlocks.add(ModBlocks.CORALIUM_GEYSER.block().get());
@@ -221,7 +220,256 @@ public class ModModelProvider extends ModelProvider {
         blockModels.family(ModBlocks.ABYSSAL_STONE_BRICKS.block().get())
                 .stairs(ModBlocks.ABYSSAL_STONE_BRICKS_STAIRS.block().get())
                 .slab(ModBlocks.ABYSSAL_STONE_BRICKS_SLAB.block().get())
-                .fence(ModBlocks.ABYSSAL_STONE_BRICKS_FENCE.block().get());
+                .fence(ModBlocks.ABYSSAL_STONE_BRICKS_FENCE.block().get())
+                .button(ModBlocks.ABYSSAL_STONE_BUTTON.block().get())
+                .pressurePlate(ModBlocks.ABYSSAL_STONE_PRESSURE_PLATE.block().get());
+
+        //Chiseled and Cracked Abyssal Stone Bricks
+        generateCubeBlock(blockModels, ModBlocks.CHISELED_ABYSSAL_STONE_BRICKS.block().get());
+        generateCubeBlock(blockModels, ModBlocks.CRACKED_ABYSSAL_STONE_BRICKS.block().get());
+
+        //Abyssal Stone Button and Pressure Plate
+        generatedBlocks.add(ModBlocks.ABYSSAL_STONE_BUTTON.block().get());
+        generatedBlocks.add(ModBlocks.ABYSSAL_STONE_PRESSURE_PLATE.block().get());
+
+        //Abyssal Cobblestone building blocks
+        generatedBlocks.add(ModBlocks.ABYSSAL_COBBLESTONE.block().get());
+        generatedBlocks.add(ModBlocks.ABYSSAL_COBBLESTONE_STAIRS.block().get());
+        generatedBlocks.add(ModBlocks.ABYSSAL_COBBLESTONE_SLAB.block().get());
+        generatedBlocks.add(ModBlocks.ABYSSAL_COBBLESTONE_WALL.block().get());
+
+        blockModels.family(ModBlocks.ABYSSAL_COBBLESTONE.block().get())
+                .stairs(ModBlocks.ABYSSAL_COBBLESTONE_STAIRS.block().get())
+                .slab(ModBlocks.ABYSSAL_COBBLESTONE_SLAB.block().get())
+                .wall(ModBlocks.ABYSSAL_COBBLESTONE_WALL.block().get());
+
+        // Coralium building blocks
+        generatedBlocks.add(ModBlocks.CORALIUM_STONE_STAIRS.block().get());
+        generatedBlocks.add(ModBlocks.CORALIUM_STONE_SLAB.block().get());
+        generatedBlocks.add(ModBlocks.CORALIUM_STONE_WALL.block().get());
+        generatedBlocks.add(ModBlocks.CORALIUM_COBBLESTONE_STAIRS.block().get());
+        generatedBlocks.add(ModBlocks.CORALIUM_COBBLESTONE_SLAB.block().get());
+        generatedBlocks.add(ModBlocks.CORALIUM_COBBLESTONE_WALL.block().get());
+        generatedBlocks.add(ModBlocks.CORALIUM_BRICKS_STAIRS.block().get());
+        generatedBlocks.add(ModBlocks.CORALIUM_BRICKS_SLAB.block().get());
+        generatedBlocks.add(ModBlocks.CORALIUM_BRICKS_WALL.block().get());
+        generatedBlocks.add(ModBlocks.CHISELED_CORALIUM_BRICKS.block().get());
+        generatedBlocks.add(ModBlocks.CRACKED_CORALIUM_BRICKS.block().get());
+        generatedBlocks.add(ModBlocks.CORALIUM_BUTTON.block().get());
+        generatedBlocks.add(ModBlocks.CORALIUM_PRESSURE_PLATE.block().get());
+
+        blockModels.family(ModBlocks.CORALIUM_STONE.block().get())
+                .stairs(ModBlocks.CORALIUM_STONE_STAIRS.block().get())
+                .slab(ModBlocks.CORALIUM_STONE_SLAB.block().get())
+                .wall(ModBlocks.CORALIUM_STONE_WALL.block().get());
+        generatedBlocks.add(ModBlocks.CORALIUM_STONE.block().get());
+
+        blockModels.family(ModBlocks.CORALIUM_COBBLESTONE.block().get())
+                .stairs(ModBlocks.CORALIUM_COBBLESTONE_STAIRS.block().get())
+                .slab(ModBlocks.CORALIUM_COBBLESTONE_SLAB.block().get())
+                .wall(ModBlocks.CORALIUM_COBBLESTONE_WALL.block().get());
+        generatedBlocks.add(ModBlocks.CORALIUM_COBBLESTONE.block().get());
+
+        blockModels.family(ModBlocks.CORALIUM_BRICKS.block().get())
+                .stairs(ModBlocks.CORALIUM_BRICKS_STAIRS.block().get())
+                .slab(ModBlocks.CORALIUM_BRICKS_SLAB.block().get())
+                .wall(ModBlocks.CORALIUM_BRICKS_WALL.block().get())
+                .button(ModBlocks.CORALIUM_BUTTON.block().get())
+                .pressurePlate(ModBlocks.CORALIUM_PRESSURE_PLATE.block().get());
+        generatedBlocks.add(ModBlocks.CORALIUM_BRICKS.block().get());
+
+        generateCubeBlock(blockModels, ModBlocks.CHISELED_CORALIUM_BRICKS.block().get());
+        generateCubeBlock(blockModels, ModBlocks.CRACKED_CORALIUM_BRICKS.block().get());
+
+        // Dreadium building blocks
+        generatedBlocks.add(ModBlocks.DREADIUM_STONE_STAIRS.block().get());
+        generatedBlocks.add(ModBlocks.DREADIUM_STONE_SLAB.block().get());
+        generatedBlocks.add(ModBlocks.DREADIUM_STONE_WALL.block().get());
+        generatedBlocks.add(ModBlocks.DREADIUM_COBBLESTONE_STAIRS.block().get());
+        generatedBlocks.add(ModBlocks.DREADIUM_COBBLESTONE_SLAB.block().get());
+        generatedBlocks.add(ModBlocks.DREADIUM_COBBLESTONE_WALL.block().get());
+        generatedBlocks.add(ModBlocks.DREADIUM_BRICKS_STAIRS.block().get());
+        generatedBlocks.add(ModBlocks.DREADIUM_BRICKS_SLAB.block().get());
+        generatedBlocks.add(ModBlocks.DREADIUM_BRICKS_WALL.block().get());
+        generatedBlocks.add(ModBlocks.CHISELED_DREADIUM_BRICKS.block().get());
+        generatedBlocks.add(ModBlocks.CRACKED_DREADIUM_BRICKS.block().get());
+        generatedBlocks.add(ModBlocks.DREADIUM_BUTTON.block().get());
+        generatedBlocks.add(ModBlocks.DREADIUM_PRESSURE_PLATE.block().get());
+
+        blockModels.family(ModBlocks.DREADIUM_STONE.block().get())
+                .stairs(ModBlocks.DREADIUM_STONE_STAIRS.block().get())
+                .slab(ModBlocks.DREADIUM_STONE_SLAB.block().get())
+                .wall(ModBlocks.DREADIUM_STONE_WALL.block().get());
+        generatedBlocks.add(ModBlocks.DREADIUM_STONE.block().get());
+
+        blockModels.family(ModBlocks.DREADIUM_COBBLESTONE.block().get())
+                .stairs(ModBlocks.DREADIUM_COBBLESTONE_STAIRS.block().get())
+                .slab(ModBlocks.DREADIUM_COBBLESTONE_SLAB.block().get())
+                .wall(ModBlocks.DREADIUM_COBBLESTONE_WALL.block().get());
+        generatedBlocks.add(ModBlocks.DREADIUM_COBBLESTONE.block().get());
+
+        blockModels.family(ModBlocks.DREADIUM_BRICKS.block().get())
+                .stairs(ModBlocks.DREADIUM_BRICKS_STAIRS.block().get())
+                .slab(ModBlocks.DREADIUM_BRICKS_SLAB.block().get())
+                .wall(ModBlocks.DREADIUM_BRICKS_WALL.block().get())
+                .button(ModBlocks.DREADIUM_BUTTON.block().get())
+                .pressurePlate(ModBlocks.DREADIUM_PRESSURE_PLATE.block().get());
+        generatedBlocks.add(ModBlocks.DREADIUM_BRICKS.block().get());
+
+        generateCubeBlock(blockModels, ModBlocks.CHISELED_DREADIUM_BRICKS.block().get());
+        generateCubeBlock(blockModels, ModBlocks.CRACKED_DREADIUM_BRICKS.block().get());
+
+        // Omothol building blocks
+        generatedBlocks.add(ModBlocks.OMOTHOL_STONE_STAIRS.block().get());
+        generatedBlocks.add(ModBlocks.OMOTHOL_STONE_SLAB.block().get());
+        generatedBlocks.add(ModBlocks.OMOTHOL_STONE_WALL.block().get());
+        generatedBlocks.add(ModBlocks.OMOTHOL_COBBLESTONE_STAIRS.block().get());
+        generatedBlocks.add(ModBlocks.OMOTHOL_COBBLESTONE_SLAB.block().get());
+        generatedBlocks.add(ModBlocks.OMOTHOL_COBBLESTONE_WALL.block().get());
+        generatedBlocks.add(ModBlocks.OMOTHOL_BRICKS_STAIRS.block().get());
+        generatedBlocks.add(ModBlocks.OMOTHOL_BRICKS_SLAB.block().get());
+        generatedBlocks.add(ModBlocks.OMOTHOL_BRICKS_WALL.block().get());
+        generatedBlocks.add(ModBlocks.CHISELED_OMOTHOL_BRICKS.block().get());
+        generatedBlocks.add(ModBlocks.CRACKED_OMOTHOL_BRICKS.block().get());
+        generatedBlocks.add(ModBlocks.OMOTHOL_BUTTON.block().get());
+        generatedBlocks.add(ModBlocks.OMOTHOL_PRESSURE_PLATE.block().get());
+
+        blockModels.family(ModBlocks.OMOTHOL_STONE.block().get())
+                .stairs(ModBlocks.OMOTHOL_STONE_STAIRS.block().get())
+                .slab(ModBlocks.OMOTHOL_STONE_SLAB.block().get())
+                .wall(ModBlocks.OMOTHOL_STONE_WALL.block().get());
+        generatedBlocks.add(ModBlocks.OMOTHOL_STONE.block().get());
+
+        blockModels.family(ModBlocks.OMOTHOL_COBBLESTONE.block().get())
+                .stairs(ModBlocks.OMOTHOL_COBBLESTONE_STAIRS.block().get())
+                .slab(ModBlocks.OMOTHOL_COBBLESTONE_SLAB.block().get())
+                .wall(ModBlocks.OMOTHOL_COBBLESTONE_WALL.block().get());
+        generatedBlocks.add(ModBlocks.OMOTHOL_COBBLESTONE.block().get());
+
+        blockModels.family(ModBlocks.OMOTHOL_BRICKS.block().get())
+                .stairs(ModBlocks.OMOTHOL_BRICKS_STAIRS.block().get())
+                .slab(ModBlocks.OMOTHOL_BRICKS_SLAB.block().get())
+                .wall(ModBlocks.OMOTHOL_BRICKS_WALL.block().get())
+                .button(ModBlocks.OMOTHOL_BUTTON.block().get())
+                .pressurePlate(ModBlocks.OMOTHOL_PRESSURE_PLATE.block().get());
+        generatedBlocks.add(ModBlocks.OMOTHOL_BRICKS.block().get());
+
+        generateCubeBlock(blockModels, ModBlocks.CHISELED_OMOTHOL_BRICKS.block().get());
+        generateCubeBlock(blockModels, ModBlocks.CRACKED_OMOTHOL_BRICKS.block().get());
+
+        // Darkstone blocks
+        generatedBlocks.add(ModBlocks.DARK_STONE_STAIRS.block().get());
+        generatedBlocks.add(ModBlocks.DARK_STONE_SLAB.block().get());
+        generatedBlocks.add(ModBlocks.DARK_STONE_WALL.block().get());
+        generatedBlocks.add(ModBlocks.DARK_COBBLESTONE_STAIRS.block().get());
+        generatedBlocks.add(ModBlocks.DARK_COBBLESTONE_SLAB.block().get());
+        generatedBlocks.add(ModBlocks.DARK_COBBLESTONE_WALL.block().get());
+        generatedBlocks.add(ModBlocks.DARK_STONE_BRICKS_STAIRS.block().get());
+        generatedBlocks.add(ModBlocks.DARK_STONE_BRICKS_SLAB.block().get());
+        generatedBlocks.add(ModBlocks.DARK_STONE_BRICKS_WALL.block().get());
+        generatedBlocks.add(ModBlocks.CHISELED_DARK_STONE_BRICKS.block().get());
+        generatedBlocks.add(ModBlocks.CRACKED_DARK_STONE_BRICKS.block().get());
+        generatedBlocks.add(ModBlocks.DARK_STONE_BUTTON.block().get());
+        generatedBlocks.add(ModBlocks.DARK_STONE_PRESSURE_PLATE.block().get());
+
+        blockModels.family(ModBlocks.DARK_STONE.block().get())
+                .stairs(ModBlocks.DARK_STONE_STAIRS.block().get())
+                .slab(ModBlocks.DARK_STONE_SLAB.block().get())
+                .wall(ModBlocks.DARK_STONE_WALL.block().get());
+        generatedBlocks.add(ModBlocks.DARK_STONE.block().get());
+
+        blockModels.family(ModBlocks.DARK_COBBLESTONE.block().get())
+                .stairs(ModBlocks.DARK_COBBLESTONE_STAIRS.block().get())
+                .slab(ModBlocks.DARK_COBBLESTONE_SLAB.block().get())
+                .wall(ModBlocks.DARK_COBBLESTONE_WALL.block().get());
+        generatedBlocks.add(ModBlocks.DARK_COBBLESTONE.block().get());
+
+        blockModels.family(ModBlocks.DARK_STONE_BRICKS.block().get())
+                .stairs(ModBlocks.DARK_STONE_BRICKS_STAIRS.block().get())
+                .slab(ModBlocks.DARK_STONE_BRICKS_SLAB.block().get())
+                .wall(ModBlocks.DARK_STONE_BRICKS_WALL.block().get())
+                .button(ModBlocks.DARK_STONE_BUTTON.block().get())
+                .pressurePlate(ModBlocks.DARK_STONE_PRESSURE_PLATE.block().get());
+        generatedBlocks.add(ModBlocks.DARK_STONE_BRICKS.block().get());
+
+        generateCubeBlock(blockModels, ModBlocks.CHISELED_DARK_STONE_BRICKS.block().get());
+        generateCubeBlock(blockModels, ModBlocks.CRACKED_DARK_STONE_BRICKS.block().get());
+
+        // Abyssalnite Stone building blocks
+        generatedBlocks.add(ModBlocks.ABYSSALNITE_STONE_STAIRS.block().get());
+        generatedBlocks.add(ModBlocks.ABYSSALNITE_STONE_SLAB.block().get());
+        generatedBlocks.add(ModBlocks.ABYSSALNITE_STONE_WALL.block().get());
+        generatedBlocks.add(ModBlocks.ABYSSALNITE_COBBLESTONE_STAIRS.block().get());
+        generatedBlocks.add(ModBlocks.ABYSSALNITE_COBBLESTONE_SLAB.block().get());
+        generatedBlocks.add(ModBlocks.ABYSSALNITE_COBBLESTONE_WALL.block().get());
+        generatedBlocks.add(ModBlocks.ABYSSALNITE_BRICKS_STAIRS.block().get());
+        generatedBlocks.add(ModBlocks.ABYSSALNITE_BRICKS_SLAB.block().get());
+        generatedBlocks.add(ModBlocks.ABYSSALNITE_BRICKS_WALL.block().get());
+        generatedBlocks.add(ModBlocks.CHISELED_ABYSSALNITE_BRICKS.block().get());
+        generatedBlocks.add(ModBlocks.CRACKED_ABYSSALNITE_BRICKS.block().get());
+        generatedBlocks.add(ModBlocks.ABYSSALNITE_BUTTON.block().get());
+        generatedBlocks.add(ModBlocks.ABYSSALNITE_PRESSURE_PLATE.block().get());
+
+        blockModels.family(ModBlocks.ABYSSALNITE_STONE.block().get())
+                .stairs(ModBlocks.ABYSSALNITE_STONE_STAIRS.block().get())
+                .slab(ModBlocks.ABYSSALNITE_STONE_SLAB.block().get())
+                .wall(ModBlocks.ABYSSALNITE_STONE_WALL.block().get());
+        generatedBlocks.add(ModBlocks.ABYSSALNITE_STONE.block().get());
+
+        blockModels.family(ModBlocks.ABYSSALNITE_COBBLESTONE.block().get())
+                .stairs(ModBlocks.ABYSSALNITE_COBBLESTONE_STAIRS.block().get())
+                .slab(ModBlocks.ABYSSALNITE_COBBLESTONE_SLAB.block().get())
+                .wall(ModBlocks.ABYSSALNITE_COBBLESTONE_WALL.block().get());
+        generatedBlocks.add(ModBlocks.ABYSSALNITE_COBBLESTONE.block().get());
+
+        blockModels.family(ModBlocks.ABYSSALNITE_BRICKS.block().get())
+                .stairs(ModBlocks.ABYSSALNITE_BRICKS_STAIRS.block().get())
+                .slab(ModBlocks.ABYSSALNITE_BRICKS_SLAB.block().get())
+                .wall(ModBlocks.ABYSSALNITE_BRICKS_WALL.block().get())
+                .button(ModBlocks.ABYSSALNITE_BUTTON.block().get())
+                .pressurePlate(ModBlocks.ABYSSALNITE_PRESSURE_PLATE.block().get());
+        generatedBlocks.add(ModBlocks.ABYSSALNITE_BRICKS.block().get());
+
+        generateCubeBlock(blockModels, ModBlocks.CHISELED_ABYSSALNITE_BRICKS.block().get());
+        generateCubeBlock(blockModels, ModBlocks.CRACKED_ABYSSALNITE_BRICKS.block().get());
+
+        // Ethaxium Stone building blocks
+        generatedBlocks.add(ModBlocks.ETHAXIUM_STONE_STAIRS.block().get());
+        generatedBlocks.add(ModBlocks.ETHAXIUM_STONE_SLAB.block().get());
+        generatedBlocks.add(ModBlocks.ETHAXIUM_STONE_WALL.block().get());
+        generatedBlocks.add(ModBlocks.ETHAXIUM_COBBLESTONE_STAIRS.block().get());
+        generatedBlocks.add(ModBlocks.ETHAXIUM_COBBLESTONE_SLAB.block().get());
+        generatedBlocks.add(ModBlocks.ETHAXIUM_COBBLESTONE_WALL.block().get());
+        generatedBlocks.add(ModBlocks.ETHAXIUM_BRICKS_STAIRS.block().get());
+        generatedBlocks.add(ModBlocks.ETHAXIUM_BRICKS_SLAB.block().get());
+        generatedBlocks.add(ModBlocks.ETHAXIUM_BRICKS_WALL.block().get());
+        generatedBlocks.add(ModBlocks.CHISELED_ETHAXIUM_BRICKS.block().get());
+        generatedBlocks.add(ModBlocks.CRACKED_ETHAXIUM_BRICKS.block().get());
+        generatedBlocks.add(ModBlocks.ETHAXIUM_BUTTON.block().get());
+        generatedBlocks.add(ModBlocks.ETHAXIUM_PRESSURE_PLATE.block().get());
+
+        blockModels.family(ModBlocks.ETHAXIUM_STONE.block().get())
+                .stairs(ModBlocks.ETHAXIUM_STONE_STAIRS.block().get())
+                .slab(ModBlocks.ETHAXIUM_STONE_SLAB.block().get())
+                .wall(ModBlocks.ETHAXIUM_STONE_WALL.block().get());
+        generatedBlocks.add(ModBlocks.ETHAXIUM_STONE.block().get());
+
+        blockModels.family(ModBlocks.ETHAXIUM_COBBLESTONE.block().get())
+                .stairs(ModBlocks.ETHAXIUM_COBBLESTONE_STAIRS.block().get())
+                .slab(ModBlocks.ETHAXIUM_COBBLESTONE_SLAB.block().get())
+                .wall(ModBlocks.ETHAXIUM_COBBLESTONE_WALL.block().get());
+        generatedBlocks.add(ModBlocks.ETHAXIUM_COBBLESTONE.block().get());
+
+        blockModels.family(ModBlocks.ETHAXIUM_BRICKS.block().get())
+                .stairs(ModBlocks.ETHAXIUM_BRICKS_STAIRS.block().get())
+                .slab(ModBlocks.ETHAXIUM_BRICKS_SLAB.block().get())
+                .wall(ModBlocks.ETHAXIUM_BRICKS_WALL.block().get())
+                .button(ModBlocks.ETHAXIUM_BUTTON.block().get())
+                .pressurePlate(ModBlocks.ETHAXIUM_PRESSURE_PLATE.block().get());
+        generatedBlocks.add(ModBlocks.ETHAXIUM_BRICKS.block().get());
+
+        generateCubeBlock(blockModels, ModBlocks.CHISELED_ETHAXIUM_BRICKS.block().get());
+        generateCubeBlock(blockModels, ModBlocks.CRACKED_ETHAXIUM_BRICKS.block().get());
 
         //Not Generated
         //generatedItems.add(ModItems.ABYSSALNITE_SWORD.get());
@@ -258,22 +506,28 @@ public class ModModelProvider extends ModelProvider {
         Map<Property<WallSide>, VariantMutator> directionProperties = selectMultifaceProperties(block.defaultBlockState(), MossyCarpetBlock::getPropertyForFace);
         ConditionBuilder noFaces = condition().term(MossyCarpetBlock.BASE, false);
         directionProperties.forEach((property, mutator) -> noFaces.term((Property<WallSide>)property, WallSide.NONE));
+
         MultiVariant modelCarpet = plainVariant(TexturedModel.CARPET.create(block, blockModels.modelOutput));
+
         MultiVariant modelSideTall = plainVariant(
                 TexturedModel.MOSSY_CARPET_SIDE
                         .get(block)
                         .updateTextures(m -> m.put(TextureSlot.SIDE, TextureMapping.getBlockTexture(block, "_side_tall")))
                         .createWithSuffix(block, "_side_tall", blockModels.modelOutput)
         );
+
         MultiVariant modelSideSmall = plainVariant(
                 TexturedModel.MOSSY_CARPET_SIDE
                         .get(block)
                         .updateTextures(m -> m.put(TextureSlot.SIDE, TextureMapping.getBlockTexture(block, "_side_small")))
                         .createWithSuffix(block, "_side_small", blockModels.modelOutput)
         );
+
         MultiPartGenerator generator = MultiPartGenerator.multiPart(block);
+
         generator.with(condition().term(MossyCarpetBlock.BASE, true), modelCarpet);
         generator.with(noFaces, modelCarpet);
+
         directionProperties.forEach((property, mutator) -> {
             generator.with(condition().term((Property<WallSide>)property, WallSide.TALL), modelSideTall.with(mutator));
             generator.with(condition().term((Property<WallSide>)property, WallSide.LOW), modelSideSmall.with(mutator));
@@ -680,6 +934,18 @@ public class ModModelProvider extends ModelProvider {
             Block block,
             int textureCount) {
         generatedBlocks.add(block);
+        createRotatedVariantBlockWithMultipleTexturesBlockstateOnly(blockModels, block, textureCount);
+    }
+
+    /**
+     * Re-applies the blockstate for a rotated variant block with multiple textures.
+     * Use this after family() has overwritten the blockstate.
+     * Does NOT add to generatedBlocks.
+     */
+    private void createRotatedVariantBlockWithMultipleTexturesBlockstateOnly(
+            BlockModelGenerators blockModels,
+            Block block,
+            int textureCount) {
 
         // Create models for each texture variant (using 1-based indexing to match texture files)
         Identifier[] modelIds = new Identifier[textureCount];
@@ -1655,10 +1921,8 @@ public class ModModelProvider extends ModelProvider {
     private void createWastelandLily(BlockModelGenerators blockModels, ItemModelGenerators itemModels, Block block) {
         generatedBlocks.add(block);
 
-        // Custom texture slot for top face
         TextureSlot topSlot = TextureSlot.create("top");
 
-        // Custom model template for flat block with particle and top textures
         ModelTemplate flatBlockTemplate = new ModelTemplate(
                 Optional.of(Identifier.withDefaultNamespace("block/thin_block")),
                 Optional.empty(),
@@ -1666,7 +1930,6 @@ public class ModModelProvider extends ModelProvider {
                 topSlot
         );
 
-        // Create 6 block models with different wast_lillie textures
         Identifier[] modelIds = new Identifier[6];
         for (int i = 1; i <= 6; i++) {
             String textureName = "wast_lillie_" + i;
@@ -1681,10 +1944,8 @@ public class ModModelProvider extends ModelProvider {
             );
         }
 
-        // Create item model using first texture
         blockModels.registerSimpleItemModel(block, modelIds[0]);
 
-        // Create blockstate with random texture selection based on coordinates (like lily pad)
         WeightedList<Variant> variants = WeightedList.of(
                 new Weighted<>(new Variant(modelIds[0]), 1),
                 new Weighted<>(new Variant(modelIds[1]), 1),
@@ -1696,6 +1957,65 @@ public class ModModelProvider extends ModelProvider {
 
         blockModels.blockStateOutput.accept(
                 createSimpleBlock(block, new MultiVariant(variants))
+        );
+    }
+
+    private void createGloomreedsBlock(BlockModelGenerators blockModels, ItemModelGenerators itemModels, Block block) {
+        generatedBlocks.add(block);
+
+        TextureSlot crossSlot = TextureSlot.create("cross");
+        TextureSlot topSlot = TextureSlot.create("top");
+
+        ModelTemplate gloomreedsTemplate = new ModelTemplate(
+                Optional.of(Identifier.withDefaultNamespace("block/cross")),
+                Optional.empty(),
+                crossSlot,
+                topSlot,
+                TextureSlot.PARTICLE
+        );
+
+        Material topTexture = new Material(Constants.id("block/gloomreeds_top"));
+        Material bottomTexture = new Material(Constants.id("block/gloomreeds_bottom"));
+
+        TextureMapping topMapping = new TextureMapping()
+                .put(crossSlot, topTexture)
+                .put(topSlot, topTexture)
+                .put(TextureSlot.PARTICLE, topTexture);
+
+        TextureMapping bottomMapping = new TextureMapping()
+                .put(crossSlot, bottomTexture)
+                .put(topSlot, bottomTexture)
+                .put(TextureSlot.PARTICLE, bottomTexture);
+
+        Identifier topModel = gloomreedsTemplate.create(
+                Constants.id("block/gloomreeds"),
+                topMapping,
+                blockModels.modelOutput
+        );
+
+        Identifier bottomModel = gloomreedsTemplate.create(
+                Constants.id("block/gloomreeds_bottom"),
+                bottomMapping,
+                blockModels.modelOutput
+        );
+
+        blockModels.blockStateOutput.accept(
+                MultiVariantGenerator.dispatch(block)
+                        .with(
+                                PropertyDispatch.initial(GloomreedsBlock.TOP)
+                                        .select(true, plainVariant(topModel))
+                                        .select(false, plainVariant(bottomModel))
+                        )
+        );
+
+        Identifier itemModel = itemModels.createFlatItemModel(
+                block.asItem(),
+                ModelTemplates.FLAT_ITEM
+        );
+        generatedItems.add(block.asItem());
+        itemModels.itemModelOutput.accept(
+                block.asItem(),
+                ItemModelUtils.plainModel(itemModel)
         );
     }
 

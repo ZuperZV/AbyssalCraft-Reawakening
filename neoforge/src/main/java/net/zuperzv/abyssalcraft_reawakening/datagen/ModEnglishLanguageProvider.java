@@ -53,8 +53,6 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         add("block.abyssalcraft_reawakening.lunar_jar", "Lunar Jar");
         add("block.abyssalcraft_reawakening.lunar_infuser", "Lunar Infuser");
         add("block.abyssalcraft_reawakening.lunar_light_beam_emitter", "Lunar Light Beam Emitter");
-        add("block.abyssalcraft_reawakening.otothol_stone", "Otothol Stone");
-        add("block.abyssalcraft_reawakening.oomothol_stone", "Omothol Stone");
         add("fluid.abyssalcraft_reawakening.coralium", "Liquid Coralium");
         add("item.abyssalcraft_reawakening.coralium_bucket", "Liquid Coralium Bucket");
         add("effect.abyssalcraft_reawakening.crystallization", "Crystallization");
@@ -97,6 +95,86 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         add(ModBlocks.RAW_ABYSSALNITE_BLOCK.block().get(), "Block of Raw Abyssalnite");
         add(ModBlocks.CORALIUM_BLOCK.block().get(), "Block of Coralium");
         add(ModBlocks.RAW_CORALIUM_BLOCK.block().get(), "Block of Raw Coralium");
+
+        // Darkstone
+        add(ModBlocks.DARK_STONE.block().get(), "Dark Stone");
+        add(ModBlocks.DARK_COBBLESTONE.block().get(), "Dark Cobblestone");
+        add(ModBlocks.DARK_STONE_BRICKS.block().get(), "Dark Stone Bricks");
+        add(ModBlocks.CHISELED_DARK_STONE_BRICKS.block().get(), "Chiseled Dark Stone Bricks");
+        add(ModBlocks.CRACKED_DARK_STONE_BRICKS.block().get(), "Cracked Dark Stone Bricks");
+        add(ModBlocks.DARK_STONE_BUTTON.block().get(), "Dark Stone Button");
+        add(ModBlocks.DARK_STONE_PRESSURE_PLATE.block().get(), "Dark Stone Pressure Plate");
+        add(ModBlocks.DARK_STONE_STAIRS.block().get(), "Dark Stone Stairs");
+        add(ModBlocks.DARK_STONE_SLAB.block().get(), "Dark Stone Slab");
+        add(ModBlocks.DARK_STONE_WALL.block().get(), "Dark Stone Wall");
+        add(ModBlocks.DARK_COBBLESTONE_STAIRS.block().get(), "Dark Cobblestone Stairs");
+        add(ModBlocks.DARK_COBBLESTONE_SLAB.block().get(), "Dark Cobblestone Slab");
+        add(ModBlocks.DARK_COBBLESTONE_WALL.block().get(), "Dark Cobblestone Wall");
+        add(ModBlocks.DARK_STONE_BRICKS_STAIRS.block().get(), "Dark Stone Bricks Stairs");
+        add(ModBlocks.DARK_STONE_BRICKS_SLAB.block().get(), "Dark Stone Bricks Slab");
+        add(ModBlocks.DARK_STONE_BRICKS_WALL.block().get(), "Dark Stone Bricks Wall");
+
+        // Coralium additional blocks
+        add(ModBlocks.CHISELED_CORALIUM_BRICKS.block().get(), "Chiseled Coralium Bricks");
+        add(ModBlocks.CRACKED_CORALIUM_BRICKS.block().get(), "Cracked Coralium Bricks");
+        add(ModBlocks.CORALIUM_BUTTON.block().get(), "Coralium Button");
+        add(ModBlocks.CORALIUM_PRESSURE_PLATE.block().get(), "Coralium Pressure Plate");
+
+        // Dreadium additional blocks
+        add(ModBlocks.DREADIUM_BRICKS.block().get(), "Dreadium Bricks");
+        add(ModBlocks.CHISELED_DREADIUM_BRICKS.block().get(), "Chiseled Dreadium Bricks");
+        add(ModBlocks.CRACKED_DREADIUM_BRICKS.block().get(), "Cracked Dreadium Bricks");
+        add(ModBlocks.DREADIUM_BUTTON.block().get(), "Dreadium Button");
+        add(ModBlocks.DREADIUM_PRESSURE_PLATE.block().get(), "Dreadium Pressure Plate");
+        add(ModBlocks.DREADIUM_BRICKS_STAIRS.block().get(), "Dreadium Bricks Stairs");
+        add(ModBlocks.DREADIUM_BRICKS_SLAB.block().get(), "Dreadium Bricks Slab");
+        add(ModBlocks.DREADIUM_BRICKS_WALL.block().get(), "Dreadium Bricks Wall");
+
+        // Omothol additional blocks
+        add(ModBlocks.OMOTHOL_BRICKS.block().get(), "Omothol Bricks");
+        add(ModBlocks.CHISELED_OMOTHOL_BRICKS.block().get(), "Chiseled Omothol Bricks");
+        add(ModBlocks.CRACKED_OMOTHOL_BRICKS.block().get(), "Cracked Omothol Bricks");
+        add(ModBlocks.OMOTHOL_BUTTON.block().get(), "Omothol Button");
+        add(ModBlocks.OMOTHOL_PRESSURE_PLATE.block().get(), "Omothol Pressure Plate");
+        add(ModBlocks.OMOTHOL_BRICKS_STAIRS.block().get(), "Omothol Bricks Stairs");
+        add(ModBlocks.OMOTHOL_BRICKS_SLAB.block().get(), "Omothol Bricks Slab");
+        add(ModBlocks.OMOTHOL_BRICKS_WALL.block().get(), "Omothol Bricks Wall");
+
+        // Abyssalnite Stone
+        add(ModBlocks.ABYSSALNITE_STONE.block().get(), "Abyssalnite Stone");
+        add(ModBlocks.ABYSSALNITE_STONE_STAIRS.block().get(), "Abyssalnite Stone Stairs");
+        add(ModBlocks.ABYSSALNITE_STONE_SLAB.block().get(), "Abyssalnite Stone Slab");
+        add(ModBlocks.ABYSSALNITE_STONE_WALL.block().get(), "Abyssalnite Stone Wall");
+        add(ModBlocks.ABYSSALNITE_COBBLESTONE.block().get(), "Abyssalnite Cobblestone");
+        add(ModBlocks.ABYSSALNITE_COBBLESTONE_STAIRS.block().get(), "Abyssalnite Cobblestone Stairs");
+        add(ModBlocks.ABYSSALNITE_COBBLESTONE_SLAB.block().get(), "Abyssalnite Cobblestone Slab");
+        add(ModBlocks.ABYSSALNITE_COBBLESTONE_WALL.block().get(), "Abyssalnite Cobblestone Wall");
+        add(ModBlocks.ABYSSALNITE_BRICKS.block().get(), "Abyssalnite Bricks");
+        add(ModBlocks.ABYSSALNITE_BRICKS_STAIRS.block().get(), "Abyssalnite Bricks Stairs");
+        add(ModBlocks.ABYSSALNITE_BRICKS_SLAB.block().get(), "Abyssalnite Bricks Slab");
+        add(ModBlocks.ABYSSALNITE_BRICKS_WALL.block().get(), "Abyssalnite Bricks Wall");
+        add(ModBlocks.CHISELED_ABYSSALNITE_BRICKS.block().get(), "Chiseled Abyssalnite Bricks");
+        add(ModBlocks.CRACKED_ABYSSALNITE_BRICKS.block().get(), "Cracked Abyssalnite Bricks");
+        add(ModBlocks.ABYSSALNITE_BUTTON.block().get(), "Abyssalnite Button");
+        add(ModBlocks.ABYSSALNITE_PRESSURE_PLATE.block().get(), "Abyssalnite Pressure Plate");
+
+        // Ethaxium Stone
+        add(ModBlocks.ETHAXIUM_STONE.block().get(), "Ethaxium Stone");
+        add(ModBlocks.ETHAXIUM_STONE_STAIRS.block().get(), "Ethaxium Stone Stairs");
+        add(ModBlocks.ETHAXIUM_STONE_SLAB.block().get(), "Ethaxium Stone Slab");
+        add(ModBlocks.ETHAXIUM_STONE_WALL.block().get(), "Ethaxium Stone Wall");
+        add(ModBlocks.ETHAXIUM_COBBLESTONE.block().get(), "Ethaxium Cobblestone");
+        add(ModBlocks.ETHAXIUM_COBBLESTONE_STAIRS.block().get(), "Ethaxium Cobblestone Stairs");
+        add(ModBlocks.ETHAXIUM_COBBLESTONE_SLAB.block().get(), "Ethaxium Cobblestone Slab");
+        add(ModBlocks.ETHAXIUM_COBBLESTONE_WALL.block().get(), "Ethaxium Cobblestone Wall");
+        add(ModBlocks.ETHAXIUM_BRICKS.block().get(), "Ethaxium Bricks");
+        add(ModBlocks.ETHAXIUM_BRICKS_STAIRS.block().get(), "Ethaxium Bricks Stairs");
+        add(ModBlocks.ETHAXIUM_BRICKS_SLAB.block().get(), "Ethaxium Bricks Slab");
+        add(ModBlocks.ETHAXIUM_BRICKS_WALL.block().get(), "Ethaxium Bricks Wall");
+        add(ModBlocks.CHISELED_ETHAXIUM_BRICKS.block().get(), "Chiseled Ethaxium Bricks");
+        add(ModBlocks.CRACKED_ETHAXIUM_BRICKS.block().get(), "Cracked Ethaxium Bricks");
+        add(ModBlocks.ETHAXIUM_BUTTON.block().get(), "Ethaxium Button");
+        add(ModBlocks.ETHAXIUM_PRESSURE_PLATE.block().get(), "Ethaxium Pressure Plate");
 
         // Creative tab
         add(ModCreativeTabs.ABYSSALCRAFT_TAB.get().getDisplayName(),

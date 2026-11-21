@@ -80,6 +80,15 @@ public final class ModWorldgenProvider extends DatapackBuiltinEntriesProvider {
                         2
                 )
         );
+
+        context.register(
+                ModNoiseRouter.ABYSSAL_SWAMP_GROUND,
+                new NormalNoise.NoiseParameters(
+                        -5,
+                        2,
+                        3
+                )
+        );
     }
 
     public static void bootstrapNoiseSettings(

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "B": "abyssalcraft_reawakening:omothol_bricks"
+  },
+  "pattern": [
+    "BB",
+    "BB"
+  ],
+  "result": {
+    "id": "abyssalcraft_reawakening:chiseled_omothol_bricks"
+  }
+}

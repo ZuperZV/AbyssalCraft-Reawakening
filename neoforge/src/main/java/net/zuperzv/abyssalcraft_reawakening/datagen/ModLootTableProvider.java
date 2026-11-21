@@ -61,9 +61,14 @@ public class ModLootTableProvider extends LootTableProvider {
             addDreadrootCropDrops(ModBlocks.DREADROOT_CROP.get(), ModItems.DREADROOT.get());
             addDreadrootRootsDrops(ModBlocks.DREADROOT_ROOTS.block().get(), ModItems.DREADROOT.get());
 
-            //Stone
-            addSingleItemTable(ModBlocks.ABYSSAL_STONE.block().get(), ModBlocks.ABYSSAL_COBBLESTONE.block().get());
-            addSingleItemTable(ModBlocks.CORALIUM_STONE.block().get(), ModBlocks.CORALIUM_COBBLESTONE.block().get());
+            //Stone - drops cobblestone without Silk Touch, drops stone with Silk Touch
+            addStoneCobblestoneTable(ModBlocks.ABYSSAL_STONE.block().get(), ModBlocks.ABYSSAL_COBBLESTONE.block().get());
+            addStoneCobblestoneTable(ModBlocks.CORALIUM_STONE.block().get(), ModBlocks.CORALIUM_COBBLESTONE.block().get());
+            addStoneCobblestoneTable(ModBlocks.DREADIUM_STONE.block().get(), ModBlocks.DREADIUM_COBBLESTONE.block().get());
+            addStoneCobblestoneTable(ModBlocks.OMOTHOL_STONE.block().get(), ModBlocks.OMOTHOL_COBBLESTONE.block().get());
+            addStoneCobblestoneTable(ModBlocks.DARK_STONE.block().get(), ModBlocks.DARK_COBBLESTONE.block().get());
+            addStoneCobblestoneTable(ModBlocks.ABYSSALNITE_STONE.block().get(), ModBlocks.ABYSSALNITE_COBBLESTONE.block().get());
+            addStoneCobblestoneTable(ModBlocks.ETHAXIUM_STONE.block().get(), ModBlocks.ETHAXIUM_COBBLESTONE.block().get());
 
             addOreDrop(ModBlocks.ABYSSALNITE_ORE.block().get(),
                     ModItems.RAW_ABYSSALNITE.get(), 1.0F, 3.0F);
@@ -199,6 +204,15 @@ public class ModLootTableProvider extends LootTableProvider {
             generatedLoot.add(block);
             this.add(block, blockToMine ->
                     createSingleItemTable(drop));
+        }
+
+        protected void addStoneCobblestoneTable(Block stone, Block cobblestone) {
+            generatedLoot.add(stone);
+            this.add(stone, blockToMine ->
+                    createSilkTouchDispatchTable(
+                            stone,
+                            applyExplosionDecay(stone, LootItem.lootTableItem(cobblestone))
+                    ));
         }
 
         protected void addOreDrop(Block block, Item item, float min, float max) {

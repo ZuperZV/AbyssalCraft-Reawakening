@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "abyssalcraft_reawakening:block/gloom_moss_block"
+    "all": "abyssalcraft_reawakening:block/gloom_moss"
   }
 }

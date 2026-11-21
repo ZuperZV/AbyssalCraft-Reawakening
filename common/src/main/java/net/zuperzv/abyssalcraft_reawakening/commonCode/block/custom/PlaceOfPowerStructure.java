@@ -22,7 +22,13 @@ public final class PlaceOfPowerStructure {
     public static boolean matches(Level level, BlockPos center) {
         if (!(level instanceof ServerLevel serverLevel)) return false;
         StructureTemplateManager manager = serverLevel.getStructureManager();
-        StructureTemplate template = manager.get(STRUCTURE_ID).orElse(null);
+        StructureTemplate template = null;
+        try {
+            template = manager.get(STRUCTURE_ID).orElse(null);
+        } catch (Exception e) {
+            // Structure NBT file is corrupted or missing - fail gracefully
+            return false;
+        }
         if (template == null) return false;
 
         var size = template.getSize();

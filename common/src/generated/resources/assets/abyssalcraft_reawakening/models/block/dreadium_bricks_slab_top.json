@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "abyssalcraft_reawakening:block/dreadium_bricks",
+    "side": "abyssalcraft_reawakening:block/dreadium_bricks",
+    "top": "abyssalcraft_reawakening:block/dreadium_bricks"
+  }
+}

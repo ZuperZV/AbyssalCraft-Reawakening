@@ -33,4 +33,15 @@ public class ModWorldgenPredicates {
                 waterChecks.toArray(new BlockPredicate[0])
         );
     }
+
+    /**
+     * Predicate for blocks that should be placed in water or coralium fluid.
+     * Used for Gloomreeds and similar aquatic plants.
+     */
+    public static BlockPredicate inWaterOrCoralium(Block waterBlock, Block coraliumBlock) {
+        return BlockPredicate.matchesBlocks(
+                new Vec3i(0, 0, 0),
+                java.util.List.of(waterBlock, coraliumBlock)
+        );
+    }
 }

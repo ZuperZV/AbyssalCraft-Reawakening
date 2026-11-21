@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.1,
+  "ingredient": "abyssalcraft_reawakening:dark_stone_bricks",
+  "result": {
+    "id": "abyssalcraft_reawakening:cracked_dark_stone_bricks"
+  }
+}

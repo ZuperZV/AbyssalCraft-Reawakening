@@ -29,12 +29,17 @@
     ],
     [],
     [
-      "abyssalcraft_reawakening:gloom_moss",
-      "abyssalcraft_reawakening:gloom_moss_carpet",
+      "abyssalcraft_reawakening:gloom_moss_vegetation",
+      "abyssalcraft_reawakening:swamp_vegetation_patch",
       "abyssalcraft_reawakening:swamp_vines",
       "abyssalcraft_reawakening:glowing_fungus",
       "abyssalcraft_reawakening:murky_water_lily",
-      "abyssalcraft_reawakening:witherwood_tree",
+      "abyssalcraft_reawakening:gloomreeds",
+      "abyssalcraft_reawakening:murkweed",
+      "abyssalcraft_reawakening:gloom_clover",
+      "abyssalcraft_reawakening:dreadvine_moss",
+      "abyssalcraft_reawakening:greenheart_tree",
+      "abyssalcraft_reawakening:swamp_witherwood_tree",
       "abyssalcraft_reawakening:vanila_fossil/marker",
       "abyssalcraft_reawakening:vanila_fossil/disk",
       "abyssalcraft_reawakening:vanila_fossil/fossil",
@@ -50,7 +55,8 @@
       "abyssalcraft_reawakening:chain/marker_cleanup"
     ],
     [
-      "abyssalcraft_reawakening:abyssal_mud_disk"
+      "abyssalcraft_reawakening:abyssal_mud_disk",
+      "abyssalcraft_reawakening:sinking_mire_disk"
     ]
   ],
   "has_precipitation": true,

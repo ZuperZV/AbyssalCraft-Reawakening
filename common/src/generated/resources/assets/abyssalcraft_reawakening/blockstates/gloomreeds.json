@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "top=false": {
+      "model": "abyssalcraft_reawakening:block/gloomreeds_bottom"
+    },
+    "top=true": {
+      "model": "abyssalcraft_reawakening:block/gloomreeds"
+    }
+  }
+}

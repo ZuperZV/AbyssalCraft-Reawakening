@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "#": "abyssalcraft_reawakening:ethaxium_bricks"
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "id": "abyssalcraft_reawakening:ethaxium_pressure_plate"
+  }
+}

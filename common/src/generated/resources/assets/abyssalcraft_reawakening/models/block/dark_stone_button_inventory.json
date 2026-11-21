@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/button_inventory",
+  "textures": {
+    "texture": "abyssalcraft_reawakening:block/dark_stone_bricks"
+  }
+}

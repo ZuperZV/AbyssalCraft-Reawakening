@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "abyssalcraft_reawakening:block/gloomreeds_bottom",
+    "particle": "abyssalcraft_reawakening:block/gloomreeds_bottom",
+    "top": "abyssalcraft_reawakening:block/gloomreeds_bottom"
+  }
+}

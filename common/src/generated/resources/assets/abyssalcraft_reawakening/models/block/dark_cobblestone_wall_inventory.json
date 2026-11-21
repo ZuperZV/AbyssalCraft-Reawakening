@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/wall_inventory",
+  "textures": {
+    "wall": "abyssalcraft_reawakening:block/dark_cobblestone"
+  }
+}

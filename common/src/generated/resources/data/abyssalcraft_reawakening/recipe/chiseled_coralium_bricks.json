@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "B": "abyssalcraft_reawakening:coralium_bricks"
+  },
+  "pattern": [
+    "BB",
+    "BB"
+  ],
+  "result": {
+    "id": "abyssalcraft_reawakening:chiseled_coralium_bricks"
+  }
+}

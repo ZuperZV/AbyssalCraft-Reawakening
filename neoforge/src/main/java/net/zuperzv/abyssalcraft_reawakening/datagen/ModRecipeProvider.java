@@ -1915,8 +1915,8 @@ public class ModRecipeProvider extends RecipeProvider {
         //Abyssal Stone
         rawToIngot(ModBlocks.ABYSSAL_COBBLESTONE.block().get(), RecipeCategory.MISC, ModBlocks.ABYSSAL_STONE.block().get(), 0.2f, 200, output);
 
-        fourBlockStorageRecipes(output, RecipeCategory.MISC, ModBlocks.ABYSSAL_STONE_BRICKS.block().get(), RecipeCategory.MISC,
-                ModBlocks.ABYSSAL_STONE.block().get());
+        fourBlockStorageRecipes(output, RecipeCategory.MISC, ModBlocks.ABYSSAL_STONE.block().get(), RecipeCategory.MISC,
+                ModBlocks.ABYSSAL_STONE_BRICKS.block().get());
 
         this.fenceBuilder(ModBlocks.ABYSSAL_STONE_BRICKS_FENCE.block().get(), Ingredient.of(ModBlocks.ABYSSAL_STONE.block().get()));
 
@@ -1927,6 +1927,401 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy(getHasName(ModBlocks.ABYSSAL_STONE_BRICKS.block().get()), this.has(ModBlocks.ABYSSAL_STONE_BRICKS.block().get()))
                 .save(this.output);
 
+        //Chiseled Abyssal Stone Bricks
+        this.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CHISELED_ABYSSAL_STONE_BRICKS.block().get())
+                .pattern("BB")
+                .pattern("BB")
+                .define('B', ModBlocks.ABYSSAL_STONE_BRICKS.block().get())
+                .unlockedBy(getHasName(ModBlocks.ABYSSAL_STONE_BRICKS.block().get()), this.has(ModBlocks.ABYSSAL_STONE_BRICKS.block().get()))
+                .save(this.output);
+
+        //Cracked Abyssal Stone Bricks (from smelting abyssal stone bricks)
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModBlocks.ABYSSAL_STONE_BRICKS.block().get()), RecipeCategory.BUILDING_BLOCKS, CookingBookCategory.MISC, ModBlocks.CRACKED_ABYSSAL_STONE_BRICKS.block().get(), 0.1f, 200)
+                .unlockedBy(getHasName(ModBlocks.ABYSSAL_STONE_BRICKS.block().get()), this.has(ModBlocks.ABYSSAL_STONE_BRICKS.block().get()))
+                .save(this.output, "cracked_abyssal_stone_bricks_from_smelting");
+
+        SimpleCookingRecipeBuilder.blasting(Ingredient.of(ModBlocks.ABYSSAL_STONE_BRICKS.block().get()), RecipeCategory.BUILDING_BLOCKS, CookingBookCategory.MISC, ModBlocks.CRACKED_ABYSSAL_STONE_BRICKS.block().get(), 0.1f, 100)
+                .unlockedBy(getHasName(ModBlocks.ABYSSAL_STONE_BRICKS.block().get()), this.has(ModBlocks.ABYSSAL_STONE_BRICKS.block().get()))
+                .save(this.output, "cracked_abyssal_stone_bricks_from_blasting");
+
+        //Abyssal Stone Button
+        this.shapeless(RecipeCategory.REDSTONE, ModBlocks.ABYSSAL_STONE_BUTTON.block().get())
+                .requires(ModBlocks.ABYSSAL_STONE_BRICKS.block().get())
+                .requires(ModBlocks.ABYSSAL_STONE_BRICKS.block().get())
+                .unlockedBy(getHasName(ModBlocks.ABYSSAL_STONE_BRICKS.block().get()), this.has(ModBlocks.ABYSSAL_STONE_BRICKS.block().get()))
+                .save(this.output);
+
+        //Abyssal Stone Pressure Plate
+        this.pressurePlate(ModBlocks.ABYSSAL_STONE_PRESSURE_PLATE.block().get(), ModBlocks.ABYSSAL_STONE_BRICKS.block().get());
+
+        //Abyssal Cobblestone Stairs
+        this.stairBuilder(ModBlocks.ABYSSAL_COBBLESTONE_STAIRS.block().get(), Ingredient.of(ModBlocks.ABYSSAL_COBBLESTONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.ABYSSAL_COBBLESTONE.block().get()), this.has(ModBlocks.ABYSSAL_COBBLESTONE.block().get()))
+                .save(this.output);
+
+        //Abyssal Cobblestone Slab
+        this.slabBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.ABYSSAL_COBBLESTONE_SLAB.block().get(), Ingredient.of(ModBlocks.ABYSSAL_COBBLESTONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.ABYSSAL_COBBLESTONE.block().get()), this.has(ModBlocks.ABYSSAL_COBBLESTONE.block().get()))
+                .save(this.output);
+
+        //Abyssal Cobblestone Wall
+        this.wallBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.ABYSSAL_COBBLESTONE_WALL.block().get(), Ingredient.of(ModBlocks.ABYSSAL_COBBLESTONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.ABYSSAL_COBBLESTONE.block().get()), this.has(ModBlocks.ABYSSAL_COBBLESTONE.block().get()))
+                .save(this.output);
+
+        // Coralium Stone building blocks
+        this.stairBuilder(ModBlocks.CORALIUM_STONE_STAIRS.block().get(), Ingredient.of(ModBlocks.CORALIUM_STONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.CORALIUM_STONE.block().get()), this.has(ModBlocks.CORALIUM_STONE.block().get()))
+                .save(this.output);
+        this.slabBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CORALIUM_STONE_SLAB.block().get(), Ingredient.of(ModBlocks.CORALIUM_STONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.CORALIUM_STONE.block().get()), this.has(ModBlocks.CORALIUM_STONE.block().get()))
+                .save(this.output);
+        this.wallBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CORALIUM_STONE_WALL.block().get(), Ingredient.of(ModBlocks.CORALIUM_STONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.CORALIUM_STONE.block().get()), this.has(ModBlocks.CORALIUM_STONE.block().get()))
+                .save(this.output);
+
+        // Coralium Cobblestone building blocks
+        this.stairBuilder(ModBlocks.CORALIUM_COBBLESTONE_STAIRS.block().get(), Ingredient.of(ModBlocks.CORALIUM_COBBLESTONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.CORALIUM_COBBLESTONE.block().get()), this.has(ModBlocks.CORALIUM_COBBLESTONE.block().get()))
+                .save(this.output);
+        this.slabBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CORALIUM_COBBLESTONE_SLAB.block().get(), Ingredient.of(ModBlocks.CORALIUM_COBBLESTONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.CORALIUM_COBBLESTONE.block().get()), this.has(ModBlocks.CORALIUM_COBBLESTONE.block().get()))
+                .save(this.output);
+        this.wallBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CORALIUM_COBBLESTONE_WALL.block().get(), Ingredient.of(ModBlocks.CORALIUM_COBBLESTONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.CORALIUM_COBBLESTONE.block().get()), this.has(ModBlocks.CORALIUM_COBBLESTONE.block().get()))
+                .save(this.output);
+
+        // Coralium Bricks building blocks
+        this.stairBuilder(ModBlocks.CORALIUM_BRICKS_STAIRS.block().get(), Ingredient.of(ModBlocks.CORALIUM_BRICKS.block().get()))
+                .unlockedBy(getHasName(ModBlocks.CORALIUM_BRICKS.block().get()), this.has(ModBlocks.CORALIUM_BRICKS.block().get()))
+                .save(this.output);
+        this.slabBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CORALIUM_BRICKS_SLAB.block().get(), Ingredient.of(ModBlocks.CORALIUM_BRICKS.block().get()))
+                .unlockedBy(getHasName(ModBlocks.CORALIUM_BRICKS.block().get()), this.has(ModBlocks.CORALIUM_BRICKS.block().get()))
+                .save(this.output);
+        this.wallBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CORALIUM_BRICKS_WALL.block().get(), Ingredient.of(ModBlocks.CORALIUM_BRICKS.block().get()))
+                .unlockedBy(getHasName(ModBlocks.CORALIUM_BRICKS.block().get()), this.has(ModBlocks.CORALIUM_BRICKS.block().get()))
+                .save(this.output);
+
+        // Chiseled Coralium Bricks
+        ShapedRecipeBuilder.shaped(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.BUILDING_BLOCKS, ModBlocks.CHISELED_CORALIUM_BRICKS.block().get())
+                .pattern("BB")
+                .pattern("BB")
+                .define('B', ModBlocks.CORALIUM_BRICKS.block().get())
+                .unlockedBy(getHasName(ModBlocks.CORALIUM_BRICKS.block().get()), this.has(ModBlocks.CORALIUM_BRICKS.block().get()))
+                .save(this.output);
+
+        // Cracked Coralium Bricks
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModBlocks.CORALIUM_BRICKS.block().get()), RecipeCategory.BUILDING_BLOCKS, CookingBookCategory.MISC, ModBlocks.CRACKED_CORALIUM_BRICKS.block().get(), 0.1F, 200)
+                .unlockedBy(getHasName(ModBlocks.CORALIUM_BRICKS.block().get()), this.has(ModBlocks.CORALIUM_BRICKS.block().get()))
+                .save(this.output, "cracked_coralium_bricks_from_smelting");
+        SimpleCookingRecipeBuilder.blasting(Ingredient.of(ModBlocks.CORALIUM_BRICKS.block().get()), RecipeCategory.BUILDING_BLOCKS, CookingBookCategory.MISC, ModBlocks.CRACKED_CORALIUM_BRICKS.block().get(), 0.1F, 100)
+                .unlockedBy(getHasName(ModBlocks.CORALIUM_BRICKS.block().get()), this.has(ModBlocks.CORALIUM_BRICKS.block().get()))
+                .save(this.output, "cracked_coralium_bricks_from_blasting");
+
+        // Coralium Button
+        ShapelessRecipeBuilder.shapeless(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.REDSTONE, ModBlocks.CORALIUM_BUTTON.block().get(), 2)
+                .requires(ModBlocks.CORALIUM_BRICKS.block().get())
+                .requires(ModBlocks.CORALIUM_BRICKS.block().get())
+                .unlockedBy(getHasName(ModBlocks.CORALIUM_BRICKS.block().get()), this.has(ModBlocks.CORALIUM_BRICKS.block().get()))
+                .save(this.output);
+
+        // Coralium Pressure Plate
+        this.pressurePlate(ModBlocks.CORALIUM_PRESSURE_PLATE.block().get(), ModBlocks.CORALIUM_BRICKS.block().get());
+
+        // Dreadium Stone building blocks
+        this.stairBuilder(ModBlocks.DREADIUM_STONE_STAIRS.block().get(), Ingredient.of(ModBlocks.DREADIUM_STONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.DREADIUM_STONE.block().get()), this.has(ModBlocks.DREADIUM_STONE.block().get()))
+                .save(this.output);
+        this.slabBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.DREADIUM_STONE_SLAB.block().get(), Ingredient.of(ModBlocks.DREADIUM_STONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.DREADIUM_STONE.block().get()), this.has(ModBlocks.DREADIUM_STONE.block().get()))
+                .save(this.output);
+        this.wallBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.DREADIUM_STONE_WALL.block().get(), Ingredient.of(ModBlocks.DREADIUM_STONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.DREADIUM_STONE.block().get()), this.has(ModBlocks.DREADIUM_STONE.block().get()))
+                .save(this.output);
+
+        // Dreadium Cobblestone building blocks
+        this.stairBuilder(ModBlocks.DREADIUM_COBBLESTONE_STAIRS.block().get(), Ingredient.of(ModBlocks.DREADIUM_COBBLESTONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.DREADIUM_COBBLESTONE.block().get()), this.has(ModBlocks.DREADIUM_COBBLESTONE.block().get()))
+                .save(this.output);
+        this.slabBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.DREADIUM_COBBLESTONE_SLAB.block().get(), Ingredient.of(ModBlocks.DREADIUM_COBBLESTONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.DREADIUM_COBBLESTONE.block().get()), this.has(ModBlocks.DREADIUM_COBBLESTONE.block().get()))
+                .save(this.output);
+        this.wallBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.DREADIUM_COBBLESTONE_WALL.block().get(), Ingredient.of(ModBlocks.DREADIUM_COBBLESTONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.DREADIUM_COBBLESTONE.block().get()), this.has(ModBlocks.DREADIUM_COBBLESTONE.block().get()))
+                .save(this.output);
+
+        // Dreadium Bricks building blocks
+        this.stairBuilder(ModBlocks.DREADIUM_BRICKS_STAIRS.block().get(), Ingredient.of(ModBlocks.DREADIUM_BRICKS.block().get()))
+                .unlockedBy(getHasName(ModBlocks.DREADIUM_BRICKS.block().get()), this.has(ModBlocks.DREADIUM_BRICKS.block().get()))
+                .save(this.output);
+        this.slabBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.DREADIUM_BRICKS_SLAB.block().get(), Ingredient.of(ModBlocks.DREADIUM_BRICKS.block().get()))
+                .unlockedBy(getHasName(ModBlocks.DREADIUM_BRICKS.block().get()), this.has(ModBlocks.DREADIUM_BRICKS.block().get()))
+                .save(this.output);
+        this.wallBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.DREADIUM_BRICKS_WALL.block().get(), Ingredient.of(ModBlocks.DREADIUM_BRICKS.block().get()))
+                .unlockedBy(getHasName(ModBlocks.DREADIUM_BRICKS.block().get()), this.has(ModBlocks.DREADIUM_BRICKS.block().get()))
+                .save(this.output);
+
+        // Chiseled Dreadium Bricks
+        ShapedRecipeBuilder.shaped(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.BUILDING_BLOCKS, ModBlocks.CHISELED_DREADIUM_BRICKS.block().get())
+                .pattern("BB")
+                .pattern("BB")
+                .define('B', ModBlocks.DREADIUM_BRICKS.block().get())
+                .unlockedBy(getHasName(ModBlocks.DREADIUM_BRICKS.block().get()), this.has(ModBlocks.DREADIUM_BRICKS.block().get()))
+                .save(this.output);
+
+        // Cracked Dreadium Bricks
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModBlocks.DREADIUM_BRICKS.block().get()), RecipeCategory.BUILDING_BLOCKS, CookingBookCategory.MISC, ModBlocks.CRACKED_DREADIUM_BRICKS.block().get(), 0.1F, 200)
+                .unlockedBy(getHasName(ModBlocks.DREADIUM_BRICKS.block().get()), this.has(ModBlocks.DREADIUM_BRICKS.block().get()))
+                .save(this.output, "cracked_dreadium_bricks_from_smelting");
+        SimpleCookingRecipeBuilder.blasting(Ingredient.of(ModBlocks.DREADIUM_BRICKS.block().get()), RecipeCategory.BUILDING_BLOCKS, CookingBookCategory.MISC, ModBlocks.CRACKED_DREADIUM_BRICKS.block().get(), 0.1F, 100)
+                .unlockedBy(getHasName(ModBlocks.DREADIUM_BRICKS.block().get()), this.has(ModBlocks.DREADIUM_BRICKS.block().get()))
+                .save(this.output, "cracked_dreadium_bricks_from_blasting");
+
+        // Dreadium Button
+        ShapelessRecipeBuilder.shapeless(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.REDSTONE, ModBlocks.DREADIUM_BUTTON.block().get(), 2)
+                .requires(ModBlocks.DREADIUM_BRICKS.block().get())
+                .requires(ModBlocks.DREADIUM_BRICKS.block().get())
+                .unlockedBy(getHasName(ModBlocks.DREADIUM_BRICKS.block().get()), this.has(ModBlocks.DREADIUM_BRICKS.block().get()))
+                .save(this.output);
+
+        // Dreadium Pressure Plate
+        this.pressurePlate(ModBlocks.DREADIUM_PRESSURE_PLATE.block().get(), ModBlocks.DREADIUM_BRICKS.block().get());
+
+        // Omothol Stone building blocks
+        this.stairBuilder(ModBlocks.OMOTHOL_STONE_STAIRS.block().get(), Ingredient.of(ModBlocks.OMOTHOL_STONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.OMOTHOL_STONE.block().get()), this.has(ModBlocks.OMOTHOL_STONE.block().get()))
+                .save(this.output);
+        this.slabBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.OMOTHOL_STONE_SLAB.block().get(), Ingredient.of(ModBlocks.OMOTHOL_STONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.OMOTHOL_STONE.block().get()), this.has(ModBlocks.OMOTHOL_STONE.block().get()))
+                .save(this.output);
+        this.wallBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.OMOTHOL_STONE_WALL.block().get(), Ingredient.of(ModBlocks.OMOTHOL_STONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.OMOTHOL_STONE.block().get()), this.has(ModBlocks.OMOTHOL_STONE.block().get()))
+                .save(this.output);
+
+        // Omothol Cobblestone building blocks
+        this.stairBuilder(ModBlocks.OMOTHOL_COBBLESTONE_STAIRS.block().get(), Ingredient.of(ModBlocks.OMOTHOL_COBBLESTONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.OMOTHOL_COBBLESTONE.block().get()), this.has(ModBlocks.OMOTHOL_COBBLESTONE.block().get()))
+                .save(this.output);
+        this.slabBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.OMOTHOL_COBBLESTONE_SLAB.block().get(), Ingredient.of(ModBlocks.OMOTHOL_COBBLESTONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.OMOTHOL_COBBLESTONE.block().get()), this.has(ModBlocks.OMOTHOL_COBBLESTONE.block().get()))
+                .save(this.output);
+        this.wallBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.OMOTHOL_COBBLESTONE_WALL.block().get(), Ingredient.of(ModBlocks.OMOTHOL_COBBLESTONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.OMOTHOL_COBBLESTONE.block().get()), this.has(ModBlocks.OMOTHOL_COBBLESTONE.block().get()))
+                .save(this.output);
+
+        // Omothol Bricks building blocks
+        this.stairBuilder(ModBlocks.OMOTHOL_BRICKS_STAIRS.block().get(), Ingredient.of(ModBlocks.OMOTHOL_BRICKS.block().get()))
+                .unlockedBy(getHasName(ModBlocks.OMOTHOL_BRICKS.block().get()), this.has(ModBlocks.OMOTHOL_BRICKS.block().get()))
+                .save(this.output);
+        this.slabBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.OMOTHOL_BRICKS_SLAB.block().get(), Ingredient.of(ModBlocks.OMOTHOL_BRICKS.block().get()))
+                .unlockedBy(getHasName(ModBlocks.OMOTHOL_BRICKS.block().get()), this.has(ModBlocks.OMOTHOL_BRICKS.block().get()))
+                .save(this.output);
+        this.wallBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.OMOTHOL_BRICKS_WALL.block().get(), Ingredient.of(ModBlocks.OMOTHOL_BRICKS.block().get()))
+                .unlockedBy(getHasName(ModBlocks.OMOTHOL_BRICKS.block().get()), this.has(ModBlocks.OMOTHOL_BRICKS.block().get()))
+                .save(this.output);
+
+        // Chiseled Omothol Bricks
+        ShapedRecipeBuilder.shaped(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.BUILDING_BLOCKS, ModBlocks.CHISELED_OMOTHOL_BRICKS.block().get())
+                .pattern("BB")
+                .pattern("BB")
+                .define('B', ModBlocks.OMOTHOL_BRICKS.block().get())
+                .unlockedBy(getHasName(ModBlocks.OMOTHOL_BRICKS.block().get()), this.has(ModBlocks.OMOTHOL_BRICKS.block().get()))
+                .save(this.output);
+
+        // Cracked Omothol Bricks
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModBlocks.OMOTHOL_BRICKS.block().get()), RecipeCategory.BUILDING_BLOCKS, CookingBookCategory.MISC, ModBlocks.CRACKED_OMOTHOL_BRICKS.block().get(), 0.1F, 200)
+                .unlockedBy(getHasName(ModBlocks.OMOTHOL_BRICKS.block().get()), this.has(ModBlocks.OMOTHOL_BRICKS.block().get()))
+                .save(this.output, "cracked_omothol_bricks_from_smelting");
+        SimpleCookingRecipeBuilder.blasting(Ingredient.of(ModBlocks.OMOTHOL_BRICKS.block().get()), RecipeCategory.BUILDING_BLOCKS, CookingBookCategory.MISC, ModBlocks.CRACKED_OMOTHOL_BRICKS.block().get(), 0.1F, 100)
+                .unlockedBy(getHasName(ModBlocks.OMOTHOL_BRICKS.block().get()), this.has(ModBlocks.OMOTHOL_BRICKS.block().get()))
+                .save(this.output, "cracked_omothol_bricks_from_blasting");
+
+        // Omothol Button
+        ShapelessRecipeBuilder.shapeless(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.REDSTONE, ModBlocks.OMOTHOL_BUTTON.block().get(), 2)
+                .requires(ModBlocks.OMOTHOL_BRICKS.block().get())
+                .requires(ModBlocks.OMOTHOL_BRICKS.block().get())
+                .unlockedBy(getHasName(ModBlocks.OMOTHOL_BRICKS.block().get()), this.has(ModBlocks.OMOTHOL_BRICKS.block().get()))
+                .save(this.output);
+
+        // Omothol Pressure Plate
+        this.pressurePlate(ModBlocks.OMOTHOL_PRESSURE_PLATE.block().get(), ModBlocks.OMOTHOL_BRICKS.block().get());
+
+        // Darkstone building blocks
+        this.stairBuilder(ModBlocks.DARK_STONE_STAIRS.block().get(), Ingredient.of(ModBlocks.DARK_STONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.DARK_STONE.block().get()), this.has(ModBlocks.DARK_STONE.block().get()))
+                .save(this.output);
+        this.slabBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.DARK_STONE_SLAB.block().get(), Ingredient.of(ModBlocks.DARK_STONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.DARK_STONE.block().get()), this.has(ModBlocks.DARK_STONE.block().get()))
+                .save(this.output);
+        this.wallBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.DARK_STONE_WALL.block().get(), Ingredient.of(ModBlocks.DARK_STONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.DARK_STONE.block().get()), this.has(ModBlocks.DARK_STONE.block().get()))
+                .save(this.output);
+
+        // Dark Cobblestone building blocks
+        this.stairBuilder(ModBlocks.DARK_COBBLESTONE_STAIRS.block().get(), Ingredient.of(ModBlocks.DARK_COBBLESTONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.DARK_COBBLESTONE.block().get()), this.has(ModBlocks.DARK_COBBLESTONE.block().get()))
+                .save(this.output);
+        this.slabBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.DARK_COBBLESTONE_SLAB.block().get(), Ingredient.of(ModBlocks.DARK_COBBLESTONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.DARK_COBBLESTONE.block().get()), this.has(ModBlocks.DARK_COBBLESTONE.block().get()))
+                .save(this.output);
+        this.wallBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.DARK_COBBLESTONE_WALL.block().get(), Ingredient.of(ModBlocks.DARK_COBBLESTONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.DARK_COBBLESTONE.block().get()), this.has(ModBlocks.DARK_COBBLESTONE.block().get()))
+                .save(this.output);
+
+        // Dark Stone Bricks building blocks
+        this.stairBuilder(ModBlocks.DARK_STONE_BRICKS_STAIRS.block().get(), Ingredient.of(ModBlocks.DARK_STONE_BRICKS.block().get()))
+                .unlockedBy(getHasName(ModBlocks.DARK_STONE_BRICKS.block().get()), this.has(ModBlocks.DARK_STONE_BRICKS.block().get()))
+                .save(this.output);
+        this.slabBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.DARK_STONE_BRICKS_SLAB.block().get(), Ingredient.of(ModBlocks.DARK_STONE_BRICKS.block().get()))
+                .unlockedBy(getHasName(ModBlocks.DARK_STONE_BRICKS.block().get()), this.has(ModBlocks.DARK_STONE_BRICKS.block().get()))
+                .save(this.output);
+        this.wallBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.DARK_STONE_BRICKS_WALL.block().get(), Ingredient.of(ModBlocks.DARK_STONE_BRICKS.block().get()))
+                .unlockedBy(getHasName(ModBlocks.DARK_STONE_BRICKS.block().get()), this.has(ModBlocks.DARK_STONE_BRICKS.block().get()))
+                .save(this.output);
+
+        // Chiseled Dark Stone Bricks
+        ShapedRecipeBuilder.shaped(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.BUILDING_BLOCKS, ModBlocks.CHISELED_DARK_STONE_BRICKS.block().get())
+                .pattern("BB")
+                .pattern("BB")
+                .define('B', ModBlocks.DARK_STONE_BRICKS.block().get())
+                .unlockedBy(getHasName(ModBlocks.DARK_STONE_BRICKS.block().get()), this.has(ModBlocks.DARK_STONE_BRICKS.block().get()))
+                .save(this.output);
+
+        // Cracked Dark Stone Bricks
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModBlocks.DARK_STONE_BRICKS.block().get()), RecipeCategory.BUILDING_BLOCKS, CookingBookCategory.MISC, ModBlocks.CRACKED_DARK_STONE_BRICKS.block().get(), 0.1F, 200)
+                .unlockedBy(getHasName(ModBlocks.DARK_STONE_BRICKS.block().get()), this.has(ModBlocks.DARK_STONE_BRICKS.block().get()))
+                .save(this.output, "cracked_dark_stone_bricks_from_smelting");
+        SimpleCookingRecipeBuilder.blasting(Ingredient.of(ModBlocks.DARK_STONE_BRICKS.block().get()), RecipeCategory.BUILDING_BLOCKS, CookingBookCategory.MISC, ModBlocks.CRACKED_DARK_STONE_BRICKS.block().get(), 0.1F, 100)
+                .unlockedBy(getHasName(ModBlocks.DARK_STONE_BRICKS.block().get()), this.has(ModBlocks.DARK_STONE_BRICKS.block().get()))
+                .save(this.output, "cracked_dark_stone_bricks_from_blasting");
+
+        // Dark Stone Button
+        ShapelessRecipeBuilder.shapeless(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.REDSTONE, ModBlocks.DARK_STONE_BUTTON.block().get(), 2)
+                .requires(ModBlocks.DARK_STONE_BRICKS.block().get())
+                .requires(ModBlocks.DARK_STONE_BRICKS.block().get())
+                .unlockedBy(getHasName(ModBlocks.DARK_STONE_BRICKS.block().get()), this.has(ModBlocks.DARK_STONE_BRICKS.block().get()))
+                .save(this.output);
+
+        // Dark Stone Pressure Plate
+        this.pressurePlate(ModBlocks.DARK_STONE_PRESSURE_PLATE.block().get(), ModBlocks.DARK_STONE_BRICKS.block().get());
+
+        // Abyssalnite Stone building blocks
+        this.stairBuilder(ModBlocks.ABYSSALNITE_STONE_STAIRS.block().get(), Ingredient.of(ModBlocks.ABYSSALNITE_STONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.ABYSSALNITE_STONE.block().get()), this.has(ModBlocks.ABYSSALNITE_STONE.block().get()))
+                .save(this.output);
+        this.slabBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.ABYSSALNITE_STONE_SLAB.block().get(), Ingredient.of(ModBlocks.ABYSSALNITE_STONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.ABYSSALNITE_STONE.block().get()), this.has(ModBlocks.ABYSSALNITE_STONE.block().get()))
+                .save(this.output);
+        this.wallBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.ABYSSALNITE_STONE_WALL.block().get(), Ingredient.of(ModBlocks.ABYSSALNITE_STONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.ABYSSALNITE_STONE.block().get()), this.has(ModBlocks.ABYSSALNITE_STONE.block().get()))
+                .save(this.output);
+
+        // Abyssalnite Cobblestone building blocks
+        this.stairBuilder(ModBlocks.ABYSSALNITE_COBBLESTONE_STAIRS.block().get(), Ingredient.of(ModBlocks.ABYSSALNITE_COBBLESTONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.ABYSSALNITE_COBBLESTONE.block().get()), this.has(ModBlocks.ABYSSALNITE_COBBLESTONE.block().get()))
+                .save(this.output);
+        this.slabBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.ABYSSALNITE_COBBLESTONE_SLAB.block().get(), Ingredient.of(ModBlocks.ABYSSALNITE_COBBLESTONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.ABYSSALNITE_COBBLESTONE.block().get()), this.has(ModBlocks.ABYSSALNITE_COBBLESTONE.block().get()))
+                .save(this.output);
+        this.wallBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.ABYSSALNITE_COBBLESTONE_WALL.block().get(), Ingredient.of(ModBlocks.ABYSSALNITE_COBBLESTONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.ABYSSALNITE_COBBLESTONE.block().get()), this.has(ModBlocks.ABYSSALNITE_COBBLESTONE.block().get()))
+                .save(this.output);
+
+        // Abyssalnite Bricks building blocks
+        this.stairBuilder(ModBlocks.ABYSSALNITE_BRICKS_STAIRS.block().get(), Ingredient.of(ModBlocks.ABYSSALNITE_BRICKS.block().get()))
+                .unlockedBy(getHasName(ModBlocks.ABYSSALNITE_BRICKS.block().get()), this.has(ModBlocks.ABYSSALNITE_BRICKS.block().get()))
+                .save(this.output);
+        this.slabBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.ABYSSALNITE_BRICKS_SLAB.block().get(), Ingredient.of(ModBlocks.ABYSSALNITE_BRICKS.block().get()))
+                .unlockedBy(getHasName(ModBlocks.ABYSSALNITE_BRICKS.block().get()), this.has(ModBlocks.ABYSSALNITE_BRICKS.block().get()))
+                .save(this.output);
+        this.wallBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.ABYSSALNITE_BRICKS_WALL.block().get(), Ingredient.of(ModBlocks.ABYSSALNITE_BRICKS.block().get()))
+                .unlockedBy(getHasName(ModBlocks.ABYSSALNITE_BRICKS.block().get()), this.has(ModBlocks.ABYSSALNITE_BRICKS.block().get()))
+                .save(this.output);
+
+        // Chiseled Abyssalnite Bricks
+        ShapedRecipeBuilder.shaped(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.BUILDING_BLOCKS, ModBlocks.CHISELED_ABYSSALNITE_BRICKS.block().get())
+                .pattern("BB")
+                .pattern("BB")
+                .define('B', ModBlocks.ABYSSALNITE_BRICKS.block().get())
+                .unlockedBy(getHasName(ModBlocks.ABYSSALNITE_BRICKS.block().get()), this.has(ModBlocks.ABYSSALNITE_BRICKS.block().get()))
+                .save(this.output);
+
+        // Cracked Abyssalnite Bricks
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModBlocks.ABYSSALNITE_BRICKS.block().get()), RecipeCategory.BUILDING_BLOCKS, CookingBookCategory.MISC, ModBlocks.CRACKED_ABYSSALNITE_BRICKS.block().get(), 0.1F, 200)
+                .unlockedBy(getHasName(ModBlocks.ABYSSALNITE_BRICKS.block().get()), this.has(ModBlocks.ABYSSALNITE_BRICKS.block().get()))
+                .save(this.output, "cracked_abyssalnite_bricks_from_smelting");
+        SimpleCookingRecipeBuilder.blasting(Ingredient.of(ModBlocks.ABYSSALNITE_BRICKS.block().get()), RecipeCategory.BUILDING_BLOCKS, CookingBookCategory.MISC, ModBlocks.CRACKED_ABYSSALNITE_BRICKS.block().get(), 0.1F, 100)
+                .unlockedBy(getHasName(ModBlocks.ABYSSALNITE_BRICKS.block().get()), this.has(ModBlocks.ABYSSALNITE_BRICKS.block().get()))
+                .save(this.output, "cracked_abyssalnite_bricks_from_blasting");
+
+        // Abyssalnite Button
+        ShapelessRecipeBuilder.shapeless(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.REDSTONE, ModBlocks.ABYSSALNITE_BUTTON.block().get(), 2)
+                .requires(ModBlocks.ABYSSALNITE_BRICKS.block().get())
+                .requires(ModBlocks.ABYSSALNITE_BRICKS.block().get())
+                .unlockedBy(getHasName(ModBlocks.ABYSSALNITE_BRICKS.block().get()), this.has(ModBlocks.ABYSSALNITE_BRICKS.block().get()))
+                .save(this.output);
+
+        // Abyssalnite Pressure Plate
+        this.pressurePlate(ModBlocks.ABYSSALNITE_PRESSURE_PLATE.block().get(), ModBlocks.ABYSSALNITE_BRICKS.block().get());
+
+        // Ethaxium Stone building blocks
+        this.stairBuilder(ModBlocks.ETHAXIUM_STONE_STAIRS.block().get(), Ingredient.of(ModBlocks.ETHAXIUM_STONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.ETHAXIUM_STONE.block().get()), this.has(ModBlocks.ETHAXIUM_STONE.block().get()))
+                .save(this.output);
+        this.slabBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.ETHAXIUM_STONE_SLAB.block().get(), Ingredient.of(ModBlocks.ETHAXIUM_STONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.ETHAXIUM_STONE.block().get()), this.has(ModBlocks.ETHAXIUM_STONE.block().get()))
+                .save(this.output);
+        this.wallBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.ETHAXIUM_STONE_WALL.block().get(), Ingredient.of(ModBlocks.ETHAXIUM_STONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.ETHAXIUM_STONE.block().get()), this.has(ModBlocks.ETHAXIUM_STONE.block().get()))
+                .save(this.output);
+
+        // Ethaxium Cobblestone building blocks
+        this.stairBuilder(ModBlocks.ETHAXIUM_COBBLESTONE_STAIRS.block().get(), Ingredient.of(ModBlocks.ETHAXIUM_COBBLESTONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.ETHAXIUM_COBBLESTONE.block().get()), this.has(ModBlocks.ETHAXIUM_COBBLESTONE.block().get()))
+                .save(this.output);
+        this.slabBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.ETHAXIUM_COBBLESTONE_SLAB.block().get(), Ingredient.of(ModBlocks.ETHAXIUM_COBBLESTONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.ETHAXIUM_COBBLESTONE.block().get()), this.has(ModBlocks.ETHAXIUM_COBBLESTONE.block().get()))
+                .save(this.output);
+        this.wallBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.ETHAXIUM_COBBLESTONE_WALL.block().get(), Ingredient.of(ModBlocks.ETHAXIUM_COBBLESTONE.block().get()))
+                .unlockedBy(getHasName(ModBlocks.ETHAXIUM_COBBLESTONE.block().get()), this.has(ModBlocks.ETHAXIUM_COBBLESTONE.block().get()))
+                .save(this.output);
+
+        // Ethaxium Bricks building blocks
+        this.stairBuilder(ModBlocks.ETHAXIUM_BRICKS_STAIRS.block().get(), Ingredient.of(ModBlocks.ETHAXIUM_BRICKS.block().get()))
+                .unlockedBy(getHasName(ModBlocks.ETHAXIUM_BRICKS.block().get()), this.has(ModBlocks.ETHAXIUM_BRICKS.block().get()))
+                .save(this.output);
+        this.slabBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.ETHAXIUM_BRICKS_SLAB.block().get(), Ingredient.of(ModBlocks.ETHAXIUM_BRICKS.block().get()))
+                .unlockedBy(getHasName(ModBlocks.ETHAXIUM_BRICKS.block().get()), this.has(ModBlocks.ETHAXIUM_BRICKS.block().get()))
+                .save(this.output);
+        this.wallBuilder(RecipeCategory.BUILDING_BLOCKS, ModBlocks.ETHAXIUM_BRICKS_WALL.block().get(), Ingredient.of(ModBlocks.ETHAXIUM_BRICKS.block().get()))
+                .unlockedBy(getHasName(ModBlocks.ETHAXIUM_BRICKS.block().get()), this.has(ModBlocks.ETHAXIUM_BRICKS.block().get()))
+                .save(this.output);
+
+        // Chiseled Ethaxium Bricks
+        ShapedRecipeBuilder.shaped(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.BUILDING_BLOCKS, ModBlocks.CHISELED_ETHAXIUM_BRICKS.block().get())
+                .pattern("BB")
+                .pattern("BB")
+                .define('B', ModBlocks.ETHAXIUM_BRICKS.block().get())
+                .unlockedBy(getHasName(ModBlocks.ETHAXIUM_BRICKS.block().get()), this.has(ModBlocks.ETHAXIUM_BRICKS.block().get()))
+                .save(this.output);
+
+        // Cracked Ethaxium Bricks
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModBlocks.ETHAXIUM_BRICKS.block().get()), RecipeCategory.BUILDING_BLOCKS, CookingBookCategory.MISC, ModBlocks.CRACKED_ETHAXIUM_BRICKS.block().get(), 0.1F, 200)
+                .unlockedBy(getHasName(ModBlocks.ETHAXIUM_BRICKS.block().get()), this.has(ModBlocks.ETHAXIUM_BRICKS.block().get()))
+                .save(this.output, "cracked_ethaxium_bricks_from_smelting");
+        SimpleCookingRecipeBuilder.blasting(Ingredient.of(ModBlocks.ETHAXIUM_BRICKS.block().get()), RecipeCategory.BUILDING_BLOCKS, CookingBookCategory.MISC, ModBlocks.CRACKED_ETHAXIUM_BRICKS.block().get(), 0.1F, 100)
+                .unlockedBy(getHasName(ModBlocks.ETHAXIUM_BRICKS.block().get()), this.has(ModBlocks.ETHAXIUM_BRICKS.block().get()))
+                .save(this.output, "cracked_ethaxium_bricks_from_blasting");
+
+        // Ethaxium Button
+        ShapelessRecipeBuilder.shapeless(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.REDSTONE, ModBlocks.ETHAXIUM_BUTTON.block().get(), 2)
+                .requires(ModBlocks.ETHAXIUM_BRICKS.block().get())
+                .requires(ModBlocks.ETHAXIUM_BRICKS.block().get())
+                .unlockedBy(getHasName(ModBlocks.ETHAXIUM_BRICKS.block().get()), this.has(ModBlocks.ETHAXIUM_BRICKS.block().get()))
+                .save(this.output);
+
+        // Ethaxium Pressure Plate
+        this.pressurePlate(ModBlocks.ETHAXIUM_PRESSURE_PLATE.block().get(), ModBlocks.ETHAXIUM_BRICKS.block().get());
 
         //Crystals
         EssenceBoilerRecipeBuilder.create()

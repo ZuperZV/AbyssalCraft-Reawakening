@@ -59,6 +59,19 @@ public final class ModWorldgen {
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> FUSED_GRASS_BONEMEAL = configuredFeatureKey("fused_grass_bonemeal");
 
+    // NEW SWAMP FEATURES
+    public static final ResourceKey<ConfiguredFeature<?, ?>> GLOOMREEDS = configuredFeatureKey("gloomreeds");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> MURKWEED = configuredFeatureKey("murkweed");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> GLOOM_CLOVER = configuredFeatureKey("gloom_clover");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> DREADVINE_MOSS = configuredFeatureKey("dreadvine_moss");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> SINKING_MIRE_DISK = configuredFeatureKey("sinking_mire_disk");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> SWAMP_VEGETATION_PATCH = configuredFeatureKey("swamp_vegetation_patch");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> SWAMP_VEGETATION_BONEMEAL = configuredFeatureKey("swamp_vegetation_bonemeal");
+
+    // GREENHEART TREE
+    public static final ResourceKey<ConfiguredFeature<?, ?>> GREENHEART_TREE = configuredFeatureKey("greenheart_tree");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> SWAMP_WITHERWOOD_TREE = configuredFeatureKey("swamp_witherwood_tree");
+
 
     // Placed Features
     public static final ResourceKey<PlacedFeature> CORALIUM_TENDRILS_PLACED = placedFeatureKey("coralium_tendrils");
@@ -111,6 +124,19 @@ public final class ModWorldgen {
     public static final ResourceKey<PlacedFeature> GLOOM_MOSS_PATCH_BONEMEAL_PLACED = placedFeatureKey("gloom_moss_patch_bonemeal");
 
     public static final ResourceKey<PlacedFeature> FUSED_GRASS_BONEMEAL_PLACED = placedFeatureKey("fused_grass_bonemeal");
+
+    // NEW SWAMP PLACED FEATURES
+    public static final ResourceKey<PlacedFeature> GLOOMREEDS_PLACED = placedFeatureKey("gloomreeds");
+    public static final ResourceKey<PlacedFeature> MURKWEED_PLACED = placedFeatureKey("murkweed");
+    public static final ResourceKey<PlacedFeature> GLOOM_CLOVER_PLACED = placedFeatureKey("gloom_clover");
+    public static final ResourceKey<PlacedFeature> DREADVINE_MOSS_PLACED = placedFeatureKey("dreadvine_moss");
+    public static final ResourceKey<PlacedFeature> SINKING_MIRE_DISK_PLACED = placedFeatureKey("sinking_mire_disk");
+    public static final ResourceKey<PlacedFeature> SWAMP_VEGETATION_PATCH_PLACED = placedFeatureKey("swamp_vegetation_patch");
+    public static final ResourceKey<PlacedFeature> SWAMP_VEGETATION_BONEMEAL_PLACED = placedFeatureKey("swamp_vegetation_bonemeal");
+
+    // GREENHEART TREE PLACED
+    public static final ResourceKey<PlacedFeature> GREENHEART_TREE_PLACED = placedFeatureKey("greenheart_tree");
+    public static final ResourceKey<PlacedFeature> SWAMP_WITHERWOOD_TREE_PLACED = placedFeatureKey("swamp_witherwood_tree");
 
     // Configured Carvers
     public static final ResourceKey<ConfiguredWorldCarver<?>> CAVE = configuredCarverKey("cave");
