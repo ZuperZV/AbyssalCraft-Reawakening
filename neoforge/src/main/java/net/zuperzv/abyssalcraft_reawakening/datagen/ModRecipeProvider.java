@@ -1947,7 +1947,6 @@ public class ModRecipeProvider extends RecipeProvider {
         //Abyssal Stone Button
         this.shapeless(RecipeCategory.REDSTONE, ModBlocks.ABYSSAL_STONE_BUTTON.block().get())
                 .requires(ModBlocks.ABYSSAL_STONE_BRICKS.block().get())
-                .requires(ModBlocks.ABYSSAL_STONE_BRICKS.block().get())
                 .unlockedBy(getHasName(ModBlocks.ABYSSAL_STONE_BRICKS.block().get()), this.has(ModBlocks.ABYSSAL_STONE_BRICKS.block().get()))
                 .save(this.output);
 
@@ -1991,6 +1990,10 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy(getHasName(ModBlocks.CORALIUM_COBBLESTONE.block().get()), this.has(ModBlocks.CORALIUM_COBBLESTONE.block().get()))
                 .save(this.output);
 
+        // Coralium Bricks
+        fourBlockStorageRecipes(output, RecipeCategory.MISC, ModBlocks.CORALIUM_STONE.block().get(), RecipeCategory.MISC,
+                ModBlocks.CORALIUM_BRICKS.block().get());
+
         // Coralium Bricks building blocks
         this.stairBuilder(ModBlocks.CORALIUM_BRICKS_STAIRS.block().get(), Ingredient.of(ModBlocks.CORALIUM_BRICKS.block().get()))
                 .unlockedBy(getHasName(ModBlocks.CORALIUM_BRICKS.block().get()), this.has(ModBlocks.CORALIUM_BRICKS.block().get()))
@@ -2019,8 +2022,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .save(this.output, "cracked_coralium_bricks_from_blasting");
 
         // Coralium Button
-        ShapelessRecipeBuilder.shapeless(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.REDSTONE, ModBlocks.CORALIUM_BUTTON.block().get(), 2)
-                .requires(ModBlocks.CORALIUM_BRICKS.block().get())
+        this.shapeless(RecipeCategory.REDSTONE, ModBlocks.CORALIUM_BUTTON.block().get())
                 .requires(ModBlocks.CORALIUM_BRICKS.block().get())
                 .unlockedBy(getHasName(ModBlocks.CORALIUM_BRICKS.block().get()), this.has(ModBlocks.CORALIUM_BRICKS.block().get()))
                 .save(this.output);
@@ -2050,6 +2052,10 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy(getHasName(ModBlocks.DREADIUM_COBBLESTONE.block().get()), this.has(ModBlocks.DREADIUM_COBBLESTONE.block().get()))
                 .save(this.output);
 
+        // Dreadium Bricks
+        fourBlockStorageRecipes(output, RecipeCategory.MISC, ModBlocks.DREADIUM_STONE.block().get(), RecipeCategory.MISC,
+                ModBlocks.DREADIUM_BRICKS.block().get());
+
         // Dreadium Bricks building blocks
         this.stairBuilder(ModBlocks.DREADIUM_BRICKS_STAIRS.block().get(), Ingredient.of(ModBlocks.DREADIUM_BRICKS.block().get()))
                 .unlockedBy(getHasName(ModBlocks.DREADIUM_BRICKS.block().get()), this.has(ModBlocks.DREADIUM_BRICKS.block().get()))
@@ -2078,8 +2084,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .save(this.output, "cracked_dreadium_bricks_from_blasting");
 
         // Dreadium Button
-        ShapelessRecipeBuilder.shapeless(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.REDSTONE, ModBlocks.DREADIUM_BUTTON.block().get(), 2)
-                .requires(ModBlocks.DREADIUM_BRICKS.block().get())
+        this.shapeless(RecipeCategory.REDSTONE, ModBlocks.DREADIUM_BUTTON.block().get())
                 .requires(ModBlocks.DREADIUM_BRICKS.block().get())
                 .unlockedBy(getHasName(ModBlocks.DREADIUM_BRICKS.block().get()), this.has(ModBlocks.DREADIUM_BRICKS.block().get()))
                 .save(this.output);
@@ -2109,6 +2114,10 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy(getHasName(ModBlocks.OMOTHOL_COBBLESTONE.block().get()), this.has(ModBlocks.OMOTHOL_COBBLESTONE.block().get()))
                 .save(this.output);
 
+        // Omothol Bricks
+        fourBlockStorageRecipes(output, RecipeCategory.MISC, ModBlocks.OMOTHOL_STONE.block().get(), RecipeCategory.MISC,
+                ModBlocks.OMOTHOL_BRICKS.block().get());
+
         // Omothol Bricks building blocks
         this.stairBuilder(ModBlocks.OMOTHOL_BRICKS_STAIRS.block().get(), Ingredient.of(ModBlocks.OMOTHOL_BRICKS.block().get()))
                 .unlockedBy(getHasName(ModBlocks.OMOTHOL_BRICKS.block().get()), this.has(ModBlocks.OMOTHOL_BRICKS.block().get()))
@@ -2137,8 +2146,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .save(this.output, "cracked_omothol_bricks_from_blasting");
 
         // Omothol Button
-        ShapelessRecipeBuilder.shapeless(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.REDSTONE, ModBlocks.OMOTHOL_BUTTON.block().get(), 2)
-                .requires(ModBlocks.OMOTHOL_BRICKS.block().get())
+        this.shapeless(RecipeCategory.REDSTONE, ModBlocks.OMOTHOL_BUTTON.block().get())
                 .requires(ModBlocks.OMOTHOL_BRICKS.block().get())
                 .unlockedBy(getHasName(ModBlocks.OMOTHOL_BRICKS.block().get()), this.has(ModBlocks.OMOTHOL_BRICKS.block().get()))
                 .save(this.output);
@@ -2168,6 +2176,10 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy(getHasName(ModBlocks.DARK_COBBLESTONE.block().get()), this.has(ModBlocks.DARK_COBBLESTONE.block().get()))
                 .save(this.output);
 
+        // Dark Stone Bricks
+        fourBlockStorageRecipes(output, RecipeCategory.MISC, ModBlocks.DARK_STONE.block().get(), RecipeCategory.MISC,
+                ModBlocks.DARK_STONE_BRICKS.block().get());
+
         // Dark Stone Bricks building blocks
         this.stairBuilder(ModBlocks.DARK_STONE_BRICKS_STAIRS.block().get(), Ingredient.of(ModBlocks.DARK_STONE_BRICKS.block().get()))
                 .unlockedBy(getHasName(ModBlocks.DARK_STONE_BRICKS.block().get()), this.has(ModBlocks.DARK_STONE_BRICKS.block().get()))
@@ -2196,8 +2208,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .save(this.output, "cracked_dark_stone_bricks_from_blasting");
 
         // Dark Stone Button
-        ShapelessRecipeBuilder.shapeless(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.REDSTONE, ModBlocks.DARK_STONE_BUTTON.block().get(), 2)
-                .requires(ModBlocks.DARK_STONE_BRICKS.block().get())
+        this.shapeless(RecipeCategory.REDSTONE, ModBlocks.DARK_STONE_BUTTON.block().get())
                 .requires(ModBlocks.DARK_STONE_BRICKS.block().get())
                 .unlockedBy(getHasName(ModBlocks.DARK_STONE_BRICKS.block().get()), this.has(ModBlocks.DARK_STONE_BRICKS.block().get()))
                 .save(this.output);
@@ -2227,6 +2238,10 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy(getHasName(ModBlocks.ABYSSALNITE_COBBLESTONE.block().get()), this.has(ModBlocks.ABYSSALNITE_COBBLESTONE.block().get()))
                 .save(this.output);
 
+        // Abyssalnite Bricks
+        fourBlockStorageRecipes(output, RecipeCategory.MISC, ModBlocks.ABYSSALNITE_STONE.block().get(), RecipeCategory.MISC,
+                ModBlocks.ABYSSALNITE_BRICKS.block().get());
+
         // Abyssalnite Bricks building blocks
         this.stairBuilder(ModBlocks.ABYSSALNITE_BRICKS_STAIRS.block().get(), Ingredient.of(ModBlocks.ABYSSALNITE_BRICKS.block().get()))
                 .unlockedBy(getHasName(ModBlocks.ABYSSALNITE_BRICKS.block().get()), this.has(ModBlocks.ABYSSALNITE_BRICKS.block().get()))
@@ -2255,8 +2270,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .save(this.output, "cracked_abyssalnite_bricks_from_blasting");
 
         // Abyssalnite Button
-        ShapelessRecipeBuilder.shapeless(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.REDSTONE, ModBlocks.ABYSSALNITE_BUTTON.block().get(), 2)
-                .requires(ModBlocks.ABYSSALNITE_BRICKS.block().get())
+        this.shapeless(RecipeCategory.REDSTONE, ModBlocks.ABYSSALNITE_BUTTON.block().get())
                 .requires(ModBlocks.ABYSSALNITE_BRICKS.block().get())
                 .unlockedBy(getHasName(ModBlocks.ABYSSALNITE_BRICKS.block().get()), this.has(ModBlocks.ABYSSALNITE_BRICKS.block().get()))
                 .save(this.output);
@@ -2286,6 +2300,10 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy(getHasName(ModBlocks.ETHAXIUM_COBBLESTONE.block().get()), this.has(ModBlocks.ETHAXIUM_COBBLESTONE.block().get()))
                 .save(this.output);
 
+        // Ethaxium Bricks
+        fourBlockStorageRecipes(output, RecipeCategory.MISC, ModBlocks.ETHAXIUM_STONE.block().get(), RecipeCategory.MISC,
+                ModBlocks.ETHAXIUM_BRICKS.block().get());
+
         // Ethaxium Bricks building blocks
         this.stairBuilder(ModBlocks.ETHAXIUM_BRICKS_STAIRS.block().get(), Ingredient.of(ModBlocks.ETHAXIUM_BRICKS.block().get()))
                 .unlockedBy(getHasName(ModBlocks.ETHAXIUM_BRICKS.block().get()), this.has(ModBlocks.ETHAXIUM_BRICKS.block().get()))
@@ -2314,8 +2332,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .save(this.output, "cracked_ethaxium_bricks_from_blasting");
 
         // Ethaxium Button
-        ShapelessRecipeBuilder.shapeless(this.registries.lookupOrThrow(Registries.ITEM), RecipeCategory.REDSTONE, ModBlocks.ETHAXIUM_BUTTON.block().get(), 2)
-                .requires(ModBlocks.ETHAXIUM_BRICKS.block().get())
+        this.shapeless(RecipeCategory.REDSTONE, ModBlocks.ETHAXIUM_BUTTON.block().get())
                 .requires(ModBlocks.ETHAXIUM_BRICKS.block().get())
                 .unlockedBy(getHasName(ModBlocks.ETHAXIUM_BRICKS.block().get()), this.has(ModBlocks.ETHAXIUM_BRICKS.block().get()))
                 .save(this.output);

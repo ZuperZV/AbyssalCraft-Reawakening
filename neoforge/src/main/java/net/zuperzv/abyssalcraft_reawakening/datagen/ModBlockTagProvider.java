@@ -410,14 +410,19 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
         this.tag(ModBlockTags.SUPPORTS_ABYSS_VEGETATION)
                 .addTags(BlockTags.SUPPORTS_VEGETATION)
+                .add(ModBlocks.SINKING_MIRE.block().get())
                 .add(ModBlocks.GLOOM_MOSS.block().get())
                 .add(ModBlocks.FUSED_ABYSSAL_SAND.block().get())
                 .add(ModBlocks.CORRUPTED_SOIL.block().get())
-                .add(ModBlocks.ABYSSAL_SAND.block().get());
+                .add(ModBlocks.ABYSSAL_SAND.block().get())
+                .addTag(ModBlockTags.SWAMP_SOIL);
 
         this.tag(ModBlockTags.SWAMP_SOIL)
                 .add(ModBlocks.SINKING_MIRE.block().get())
                 .add(ModBlocks.CORRUPTED_SOIL.block().get())
                 .add(ModBlocks.ABYSSAL_SAND.block().get());
+
+        this.tag(BlockTags.CLIMBABLE)
+                .add(ModBlocks.GLOOM_VINES.block().get());
     }
 }

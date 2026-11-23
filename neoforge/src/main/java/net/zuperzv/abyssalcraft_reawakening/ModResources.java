@@ -140,4 +140,5 @@ public class ModResources {
         );
         BlockTooltipProviders.registerDefaults();
     }
+
 }

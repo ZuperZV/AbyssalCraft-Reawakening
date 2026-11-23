@@ -30,8 +30,6 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlockTags;
-import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.ModFluidTags;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.fluid.ModFluids;
 import org.jspecify.annotations.Nullable;
 
@@ -40,9 +38,6 @@ public class GloomreedsBlock extends VegetationBlock implements BonemealableBloc
     public static final MapCodec<GloomreedsBlock> CODEC = simpleCodec(GloomreedsBlock::new);
     public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 3);
     public static final int MAX_AGE = 3;
-    public static final int MIN_AIR_BLOCKS = 3;
-    public static final int MAX_DEPTH_BELOW_SURFACE = 2;
-    public static final int MAX_HEIGHT_ABOVE_SURFACE = 1;
     public static final BooleanProperty CORALIUMLOGGED = BooleanProperty.create("coraliumlogged");
     public static final BooleanProperty TOP = BooleanProperty.create("top");
 
@@ -93,17 +88,22 @@ public class GloomreedsBlock extends VegetationBlock implements BonemealableBloc
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         Level level = context.getLevel();
         BlockPos pos = context.getClickedPos();
+
+        BlockState below = level.getBlockState(pos.below());
         FluidState fluidState = level.getFluidState(pos);
 
         boolean isWaterlogged = fluidState.is(FluidTags.WATER);
         boolean isCoraliumlogged = fluidState.getType() == ModFluids.SOURCE_CORALIUM.get();
 
-        if (!isWaterlogged && !isCoraliumlogged) {
-            BlockState below = level.getBlockState(pos.below());
-            if (below.is(this)) {
-                isWaterlogged = below.getValue(BlockStateProperties.WATERLOGGED);
-                isCoraliumlogged = below.getValue(CORALIUMLOGGED);
-            }
+        boolean canPlace = false;
+        if (isWaterlogged || isCoraliumlogged) {
+            canPlace = true;
+        } else if (below.is(this)) {
+            canPlace = below.getValue(BlockStateProperties.WATERLOGGED) || below.getValue(CORALIUMLOGGED);
+        }
+
+        if (!canPlace) {
+            return null;
         }
 
         BlockState state = this.defaultBlockState()
@@ -111,10 +111,7 @@ public class GloomreedsBlock extends VegetationBlock implements BonemealableBloc
                 .setValue(CORALIUMLOGGED, isCoraliumlogged)
                 .setValue(TOP, true);
 
-        if (this.canSurvive(state, level, pos)) {
-            return state;
-        }
-        return null;
+        return state;
     }
 
     @Override
@@ -129,166 +126,20 @@ public class GloomreedsBlock extends VegetationBlock implements BonemealableBloc
         }
     }
 
-    private boolean hasValidGround(LevelReader level, BlockPos pos) {
-        BlockPos below = pos.below();
-        BlockState ground = level.getBlockState(below);
-
-        // Check if the ground block is valid swamp soil or mud
-        boolean isValidGround = ground.is(ModBlockTags.SWAMP_SOIL) || ground.is(net.minecraft.tags.BlockTags.MUD);
-
-        if (!isValidGround) {
-            return false;
-        }
-
-        // For kelp-like behavior: the ground block can be waterlogged/coraliumlogged,
-        // or there can be fluid at the ground position
-        FluidState groundFluid = ground.getFluidState();
-        boolean groundIsWaterlogged = groundFluid.is(FluidTags.WATER) || groundFluid.getType() == ModFluids.SOURCE_CORALIUM.get();
-        
-        FluidState fluidState = level.getFluidState(below);
-        boolean hasFluidAtGround = fluidState.is(FluidTags.WATER) || fluidState.getType() == ModFluids.SOURCE_CORALIUM.get();
-
-        return groundIsWaterlogged || hasFluidAtGround;
-    }
-
-    private boolean hasValidFluid(LevelReader level, BlockPos pos) {
-        FluidState fluidState = level.getFluidState(pos);
-        return fluidState.is(FluidTags.WATER) || fluidState.getType() == ModFluids.SOURCE_CORALIUM.get();
-    }
-
-    private boolean hasEnoughAirSpace(LevelReader level, BlockPos pos, int required) {
-        for (int i = 1; i <= required; i++) {
-            BlockPos checkPos = pos.above(i);
-            if (!level.getBlockState(checkPos).isAir()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private boolean hasGroundBelow(LevelReader level, BlockPos pos) {
-        for (int i = 1; i <= 10; i++) {
-            BlockPos checkPos = pos.below(i);
-            BlockState blockState = level.getBlockState(checkPos);
-
-            if (blockState.isAir() || blockState.getFluidState().isEmpty() == false) {
-                continue;
-            }
-
-            if (Block.canSupportCenter(level, checkPos, Direction.UP)) {
-                if (blockState.is(ModBlockTags.SWAMP_SOIL) || blockState.is(net.minecraft.tags.BlockTags.MUD)) {
-                    return true;
-                }
-                return false;
-            }
-        }
-        return false;
-    }
-
-    private int findFluidSurfaceY(LevelReader level, BlockPos pos) {
-        for (int i = 0; i <= 20; i++) {
-            BlockPos checkPos = pos.above(i);
-            FluidState fluidState = level.getFluidState(checkPos);
-            boolean isFluid = fluidState.is(FluidTags.WATER) || fluidState.getType() == ModFluids.SOURCE_CORALIUM.get();
-
-            if (isFluid) {
-                for (int j = i + 1; j <= 20; j++) {
-                    BlockPos abovePos = pos.above(j);
-                    FluidState aboveFluid = level.getFluidState(abovePos);
-                    boolean aboveIsFluid = aboveFluid.is(FluidTags.WATER) || aboveFluid.getType() == ModFluids.SOURCE_CORALIUM.get();
-
-                    if (!aboveIsFluid) {
-                        return abovePos.getY();
-                    }
-                }
-                return pos.getY() + 20;
-            }
-        }
-
-        for (int i = 1; i <= 20; i++) {
-            BlockPos checkPos = pos.below(i);
-            FluidState fluidState = level.getFluidState(checkPos);
-            boolean isFluid = fluidState.is(FluidTags.WATER) || fluidState.getType() == ModFluids.SOURCE_CORALIUM.get();
-
-            if (isFluid) {
-                for (int j = 0; j <= 40; j++) {
-                    BlockPos abovePos = checkPos.above(j);
-                    FluidState aboveFluid = level.getFluidState(abovePos);
-                    boolean aboveIsFluid = aboveFluid.is(FluidTags.WATER) || aboveFluid.getType() == ModFluids.SOURCE_CORALIUM.get();
-
-                    if (!aboveIsFluid) {
-                        return abovePos.getY();
-                    }
-                }
-                return checkPos.getY() + 40;
-            }
-        }
-
-        return -100;
-    }
-
-    private int getDepthRelativeToSurface(LevelReader level, BlockPos pos) {
-        int surfaceY = findFluidSurfaceY(level, pos);
-        if (surfaceY == -100) {
-            return -100;
-        }
-
-        int posY = pos.getY();
-        int difference = posY - surfaceY;
-        return -difference;
-    }
-
-    private boolean isWithinDepthLimits(LevelReader level, BlockPos pos) {
-        int depth = getDepthRelativeToSurface(level, pos);
-        if (depth == -100) {
-            return true;
-        }
-
-        if (depth > 0) {
-            return depth <= MAX_DEPTH_BELOW_SURFACE;
-        } else if (depth < 0) {
-            return Math.abs(depth) <= MAX_HEIGHT_ABOVE_SURFACE;
-        }
-        return true;
-    }
-
     @Override
     protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
-        BlockState below = level.getBlockState(pos.below());
-
-        // If there's another Gloomreeds below, check the bottom one for valid ground
-        if (below.is(this)) {
-            BlockPos bottomPos = pos;
-            while (level.getBlockState(bottomPos.below()).is(this)) {
-                bottomPos = bottomPos.below();
-            }
-
-            if (!hasValidGround(level, bottomPos)) {
-                return false;
-            }
-
-            return isWithinDepthLimits(level, pos);
-        }
-
-        // For a new placement: check if there's valid ground below
-        // The ground can be waterlogged/coraliumlogged (like kelp)
-        if (below.is(ModBlockTags.SWAMP_SOIL) || below.is(net.minecraft.tags.BlockTags.MUD)) {
-            // Check if the position itself has water or coralium (for waterlogged/coraliumlogged placement)
-            FluidState fluidState = level.getFluidState(pos);
-            boolean hasFluid = fluidState.is(FluidTags.WATER) || fluidState.getType() == ModFluids.SOURCE_CORALIUM.get();
-
-            // Check if the ground block is waterlogged/coraliumlogged
-            FluidState groundFluid = below.getFluidState();
-            boolean groundIsWaterlogged = groundFluid.is(FluidTags.WATER) || groundFluid.getType() == ModFluids.SOURCE_CORALIUM.get();
-
-            // Can survive if in fluid, if ground is waterlogged, or if there's fluid below (kelp-like behavior)
-            if (hasFluid || groundIsWaterlogged) {
-                return isWithinDepthLimits(level, pos);
-            }
-        }
-
-        return false;
+        BlockPos attachedToPos = pos.relative(Direction.DOWN);
+        BlockState attachedToState = level.getBlockState(attachedToPos);
+        return !this.canAttachTo(attachedToState)
+                ? false
+                : attachedToState.isFaceSturdy(level, attachedToPos, Direction.UP)
+                || attachedToState.is(this);
     }
+
+    protected boolean canAttachTo(BlockState state) {
+        return true;
+    }
+
 
     @Override
     protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, boolean isPrecise) {
@@ -326,7 +177,7 @@ public class GloomreedsBlock extends VegetationBlock implements BonemealableBloc
             BlockState above = level.getBlockState(abovePos);
             FluidState aboveFluid = level.getFluidState(abovePos);
             // Allow growth into air or into water/coralium positions
-            if ((above.isAir() || aboveFluid.is(FluidTags.WATER) || aboveFluid.getType() == ModFluids.SOURCE_CORALIUM.get()) && isWithinDepthLimits(level, abovePos)) {
+            if (above.isAir() || aboveFluid.is(FluidTags.WATER) || aboveFluid.getType() == ModFluids.SOURCE_CORALIUM.get()) {
                 BlockState newState = this.defaultBlockState()
                         .setValue(AGE, 0)
                         .setValue(TOP, true);

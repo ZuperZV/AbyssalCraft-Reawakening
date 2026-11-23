@@ -7,7 +7,14 @@
     "ground_state": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "abyssalcraft_reawakening:gloom_moss"
+        "Name": "abyssalcraft_reawakening:gloom_moss_carpet",
+        "Properties": {
+          "bottom": "true",
+          "east": "none",
+          "north": "none",
+          "south": "none",
+          "west": "none"
+        }
       }
     },
     "replaceable": "#abyssalcraft_reawakening:swamp_soil",
@@ -22,50 +29,53 @@
             "entries": [
               {
                 "data": {
-                  "Name": "abyssalcraft_reawakening:gloom_moss"
+                  "Name": "abyssalcraft_reawakening:gloom_moss_carpet",
+                  "Properties": {
+                    "bottom": "true",
+                    "east": "none",
+                    "north": "none",
+                    "south": "none",
+                    "west": "none"
+                  }
                 },
-                "weight": 30
+                "weight": 25
               },
               {
                 "data": {
                   "Name": "abyssalcraft_reawakening:glowing_gloom_fungus"
                 },
-                "weight": 10
+                "weight": 4
               },
               {
                 "data": {
-                  "Name": "abyssalcraft_reawakening:gloom_vines"
-                },
-                "weight": 10
-              },
-              {
-                "data": {
-                  "Name": "abyssalcraft_reawakening:gloomreeds",
+                  "Name": "abyssalcraft_reawakening:gloom_vines",
                   "Properties": {
-                    "age": "0",
-                    "coralium_logged": "false",
-                    "coraliumlogged": "false",
-                    "top": "true",
-                    "waterlogged": "false"
+                    "east": "false",
+                    "has_bottom": "false",
+                    "has_top": "false",
+                    "north": "false",
+                    "south": "false",
+                    "up": "false",
+                    "west": "false"
                   }
                 },
-                "weight": 15
+                "weight": 7
               },
               {
                 "data": {
                   "Name": "abyssalcraft_reawakening:gloom_clover",
                   "Properties": {
-                    "facing": "0",
-                    "four_leaf": "false"
+                    "facing": "north",
+                    "flower_amount": "1"
                   }
                 },
-                "weight": 15
+                "weight": 10
               },
               {
                 "data": {
                   "Name": "minecraft:short_grass"
                 },
-                "weight": 5
+                "weight": 50
               },
               {
                 "data": {
@@ -74,13 +84,13 @@
                     "half": "lower"
                   }
                 },
-                "weight": 3
+                "weight": 10
               },
               {
                 "data": {
                   "Name": "minecraft:fern"
                 },
-                "weight": 2
+                "weight": 15
               }
             ]
           }
@@ -89,10 +99,6 @@
       "placement": []
     },
     "vertical_range": 7,
-    "xz_radius": {
-      "type": "minecraft:uniform",
-      "max_inclusive": 5,
-      "min_inclusive": 2
-    }
+    "xz_radius": 1
   }
 }

@@ -2,7 +2,6 @@
   "type": "minecraft:crafting_shapeless",
   "category": "redstone",
   "ingredients": [
-    "abyssalcraft_reawakening:abyssal_stone_bricks",
     "abyssalcraft_reawakening:abyssal_stone_bricks"
   ],
   "result": {

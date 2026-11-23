@@ -40,7 +40,9 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.block.ModBlocks;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.BoilerTipBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.DreadrootRootsBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.EssenceBoilerBlock;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.GloomCloverBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.GloomreedsBlock;
+import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.GloomVinesBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.LunarLightBeamEmitterBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.block.custom.PortalActivatorBlock;
 import net.zuperzv.abyssalcraft_reawakening.commonCode.component.ModDataComponentTypes;
@@ -57,6 +59,7 @@ import net.zuperzv.abyssalcraft_reawakening.commonCode.item.custom.property.Cora
 import net.zuperzv.abyssalcraft_reawakening.services.NeoForgeRegistryHelper;
 
 import java.util.*;
+import java.util.function.Function;
 
 
 import static net.minecraft.client.data.models.BlockModelGenerators.*;
@@ -139,8 +142,9 @@ public class ModModelProvider extends ModelProvider {
         generateCubeBlock(blockModels, ModBlocks.GLOOM_MOSS.block().get());
         createMossyCarpet(blockModels, ModBlocks.GLOOM_MOSS_CARPET.block().get());
 
-        // Gloomreeds - cross model with bottom and top textures
+        createGloomVinesBlock(blockModels, itemModels, ModBlocks.GLOOM_VINES.block().get());
         createGloomreedsBlock(blockModels, itemModels, ModBlocks.GLOOMREEDS.block().get());
+        createFlowerBed(blockModels, itemModels, ModBlocks.GLOOM_CLOVER.block().get());
 
         // Corallium Geyser
         generatedBlocks.add(ModBlocks.CORALIUM_GEYSER.block().get());
@@ -1840,6 +1844,69 @@ public class ModModelProvider extends ModelProvider {
         };
     }
 
+    private void createVineBlock(BlockModelGenerators blockModels, ItemModelGenerators itemModels, Block block) {
+        generatedBlocks.add(block);
+
+        Identifier modelLocation = ModelLocationUtils.getModelLocation(block);
+        MultiVariant variant = plainVariant(modelLocation);
+
+        MultiPartGenerator multipart = MultiPartGenerator.multiPart(block);
+        multipart.with(new ConditionBuilder().term(VineBlock.EAST, true).build(), variant.with(Y_ROT_90));
+        multipart.with(new ConditionBuilder().term(VineBlock.WEST, true).build(), variant.with(Y_ROT_270));
+        multipart.with(new ConditionBuilder().term(VineBlock.NORTH, true).build(), variant);
+        multipart.with(new ConditionBuilder().term(VineBlock.SOUTH, true).build(), variant.with(Y_ROT_180));
+        multipart.with(new ConditionBuilder().term(VineBlock.UP, true).build(), variant.with(X_ROT_270));
+
+        itemModels.generateFlatItem(block.asItem(), ModelTemplates.FLAT_ITEM);
+
+        blockModels.blockStateOutput.accept(multipart);
+    }
+
+    private void createGloomVinesBlock(BlockModelGenerators blockModels, ItemModelGenerators itemModels, Block block) {
+        generatedBlocks.add(block);
+
+        Identifier modelLocation = ModelLocationUtils.getModelLocation(block);
+        Identifier topModelLocation = ModelLocationUtils.getModelLocation(block, "_top");
+        Identifier bottomModelLocation = ModelLocationUtils.getModelLocation(block, "_bottom");
+        Identifier aloneModelLocation = ModelLocationUtils.getModelLocation(block, "_alone");
+        
+        MultiVariant variant = plainVariant(modelLocation);
+        MultiVariant topVariant = plainVariant(topModelLocation);
+        MultiVariant bottomVariant = plainVariant(bottomModelLocation);
+        MultiVariant aloneVariant = plainVariant(aloneModelLocation);
+
+        MultiPartGenerator multipart = MultiPartGenerator.multiPart(block);
+        
+        // East - alone: no vine above or below | top: no vine above (but has below) | bottom: has vine above
+        multipart.with(new ConditionBuilder().term(VineBlock.EAST, true).term(GloomVinesBlock.HAS_TOP, false).term(GloomVinesBlock.HAS_BOTTOM, false).build(), aloneVariant.with(Y_ROT_90));
+        multipart.with(new ConditionBuilder().term(VineBlock.EAST, true).term(GloomVinesBlock.HAS_TOP, false).term(GloomVinesBlock.HAS_BOTTOM, true).build(), topVariant.with(Y_ROT_90));
+        multipart.with(new ConditionBuilder().term(VineBlock.EAST, true).term(GloomVinesBlock.HAS_TOP, true).build(), bottomVariant.with(Y_ROT_90));
+        
+        // West
+        multipart.with(new ConditionBuilder().term(VineBlock.WEST, true).term(GloomVinesBlock.HAS_TOP, false).term(GloomVinesBlock.HAS_BOTTOM, false).build(), aloneVariant.with(Y_ROT_270));
+        multipart.with(new ConditionBuilder().term(VineBlock.WEST, true).term(GloomVinesBlock.HAS_TOP, false).term(GloomVinesBlock.HAS_BOTTOM, true).build(), topVariant.with(Y_ROT_270));
+        multipart.with(new ConditionBuilder().term(VineBlock.WEST, true).term(GloomVinesBlock.HAS_TOP, true).build(), bottomVariant.with(Y_ROT_270));
+        
+        // North
+        multipart.with(new ConditionBuilder().term(VineBlock.NORTH, true).term(GloomVinesBlock.HAS_TOP, false).term(GloomVinesBlock.HAS_BOTTOM, false).build(), aloneVariant);
+        multipart.with(new ConditionBuilder().term(VineBlock.NORTH, true).term(GloomVinesBlock.HAS_TOP, false).term(GloomVinesBlock.HAS_BOTTOM, true).build(), topVariant);
+        multipart.with(new ConditionBuilder().term(VineBlock.NORTH, true).term(GloomVinesBlock.HAS_TOP, true).build(), bottomVariant);
+        
+        // South
+        multipart.with(new ConditionBuilder().term(VineBlock.SOUTH, true).term(GloomVinesBlock.HAS_TOP, false).term(GloomVinesBlock.HAS_BOTTOM, false).build(), aloneVariant.with(Y_ROT_180));
+        multipart.with(new ConditionBuilder().term(VineBlock.SOUTH, true).term(GloomVinesBlock.HAS_TOP, false).term(GloomVinesBlock.HAS_BOTTOM, true).build(), topVariant.with(Y_ROT_180));
+        multipart.with(new ConditionBuilder().term(VineBlock.SOUTH, true).term(GloomVinesBlock.HAS_TOP, true).build(), bottomVariant.with(Y_ROT_180));
+        
+        // Up
+        multipart.with(new ConditionBuilder().term(VineBlock.UP, true).term(GloomVinesBlock.HAS_TOP, false).term(GloomVinesBlock.HAS_BOTTOM, false).build(), aloneVariant.with(X_ROT_270));
+        multipart.with(new ConditionBuilder().term(VineBlock.UP, true).term(GloomVinesBlock.HAS_TOP, false).term(GloomVinesBlock.HAS_BOTTOM, true).build(), topVariant.with(X_ROT_270));
+        multipart.with(new ConditionBuilder().term(VineBlock.UP, true).term(GloomVinesBlock.HAS_TOP, true).build(), bottomVariant.with(X_ROT_270));
+
+        itemModels.generateFlatItem(block.asItem(), ModelTemplates.FLAT_ITEM);
+
+        blockModels.blockStateOutput.accept(multipart);
+    }
+
     public void createNetherPortalBlock(BlockModelGenerators blockModels, Block block) {
         generatedBlocks.add(block);
 
@@ -1870,7 +1937,6 @@ public class ModModelProvider extends ModelProvider {
     }
 
     private void createPEMachineModels(BlockModelGenerators blockModels) {
-        createPECube(blockModels, ModBlocks.MONOLITH_STONE.block().get(), "minecraft:block/deepslate_tiles");
         createPECube(blockModels, ModBlocks.MONOLITH_STONE_PILLAR.block().get(), "minecraft:block/polished_blackstone_bricks");
         createPECube(blockModels, ModBlocks.CTHULHU_STATUE.block().get(), "minecraft:block/chiseled_deepslate");
         createPECube(blockModels, ModBlocks.HASTUR_STATUE.block().get(), "minecraft:block/gold_block");
@@ -2015,6 +2081,79 @@ public class ModModelProvider extends ModelProvider {
         generatedItems.add(block.asItem());
         itemModels.itemModelOutput.accept(
                 block.asItem(),
+                ItemModelUtils.plainModel(itemModel)
+        );
+    }
+
+
+    private void createFlowerBed(BlockModelGenerators blockModels, ItemModelGenerators itemModels, Block flowerbed) {
+        generatedBlocks.add(flowerbed);
+        MultiVariant model1 = plainVariant(TexturedModel.FLOWERBED_1.create(flowerbed, blockModels.modelOutput));
+        MultiVariant model2 = plainVariant(TexturedModel.FLOWERBED_2.create(flowerbed, blockModels.modelOutput));
+        MultiVariant model3 = plainVariant(TexturedModel.FLOWERBED_3.create(flowerbed, blockModels.modelOutput));
+        MultiVariant model4 = plainVariant(TexturedModel.FLOWERBED_4.create(flowerbed, blockModels.modelOutput));
+        registerSimpleFlatItemModel(itemModels, flowerbed.asItem());
+        this.createSegmentedBlock(
+                blockModels,
+                itemModels,
+                flowerbed,
+                model1,
+                FLOWER_BED_MODEL_1_SEGMENT_CONDITION,
+                model2,
+                FLOWER_BED_MODEL_2_SEGMENT_CONDITION,
+                model3,
+                FLOWER_BED_MODEL_3_SEGMENT_CONDITION,
+                model4,
+                FLOWER_BED_MODEL_4_SEGMENT_CONDITION
+        );
+    }
+
+    private void createSegmentedBlock(
+            BlockModelGenerators blockModels,
+            ItemModelGenerators itemModels,
+            Block segmentedProperty,
+            MultiVariant model1,
+            Function<ConditionBuilder, ConditionBuilder> model1SegmentCondition,
+            MultiVariant model2,
+            Function<ConditionBuilder, ConditionBuilder> model2SegmentCondition,
+            MultiVariant model3,
+            Function<ConditionBuilder, ConditionBuilder> model3SegmentCondition,
+            MultiVariant model4,
+            Function<ConditionBuilder, ConditionBuilder> model4SegmentCondition
+    ) {
+        blockModels.blockStateOutput
+                .accept(
+                        MultiPartGenerator.multiPart(segmentedProperty)
+                                .with(model1SegmentCondition.apply(condition().term(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH)), model1)
+                                .with(model1SegmentCondition.apply(condition().term(BlockStateProperties.HORIZONTAL_FACING, Direction.EAST)), model1.with(Y_ROT_90))
+                                .with(model1SegmentCondition.apply(condition().term(BlockStateProperties.HORIZONTAL_FACING, Direction.SOUTH)), model1.with(Y_ROT_180))
+                                .with(model1SegmentCondition.apply(condition().term(BlockStateProperties.HORIZONTAL_FACING, Direction.WEST)), model1.with(Y_ROT_270))
+                                .with(model2SegmentCondition.apply(condition().term(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH)), model2)
+                                .with(model2SegmentCondition.apply(condition().term(BlockStateProperties.HORIZONTAL_FACING, Direction.EAST)), model2.with(Y_ROT_90))
+                                .with(model2SegmentCondition.apply(condition().term(BlockStateProperties.HORIZONTAL_FACING, Direction.SOUTH)), model2.with(Y_ROT_180))
+                                .with(model2SegmentCondition.apply(condition().term(BlockStateProperties.HORIZONTAL_FACING, Direction.WEST)), model2.with(Y_ROT_270))
+                                .with(model3SegmentCondition.apply(condition().term(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH)), model3)
+                                .with(model3SegmentCondition.apply(condition().term(BlockStateProperties.HORIZONTAL_FACING, Direction.EAST)), model3.with(Y_ROT_90))
+                                .with(model3SegmentCondition.apply(condition().term(BlockStateProperties.HORIZONTAL_FACING, Direction.SOUTH)), model3.with(Y_ROT_180))
+                                .with(model3SegmentCondition.apply(condition().term(BlockStateProperties.HORIZONTAL_FACING, Direction.WEST)), model3.with(Y_ROT_270))
+                                .with(model4SegmentCondition.apply(condition().term(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH)), model4)
+                                .with(model4SegmentCondition.apply(condition().term(BlockStateProperties.HORIZONTAL_FACING, Direction.EAST)), model4.with(Y_ROT_90))
+                                .with(model4SegmentCondition.apply(condition().term(BlockStateProperties.HORIZONTAL_FACING, Direction.SOUTH)), model4.with(Y_ROT_180))
+                                .with(model4SegmentCondition.apply(condition().term(BlockStateProperties.HORIZONTAL_FACING, Direction.WEST)), model4.with(Y_ROT_270))
+                );
+    }
+
+    private void registerSimpleFlatItemModel(ItemModelGenerators itemModels, Item item) {
+        if (generatedItems.contains(item)) {
+            return;
+        }
+        Identifier itemModel = itemModels.createFlatItemModel(
+                item,
+                ModelTemplates.FLAT_ITEM
+        );
+        generatedItems.add(item);
+        itemModels.itemModelOutput.accept(
+                item,
                 ItemModelUtils.plainModel(itemModel)
         );
     }

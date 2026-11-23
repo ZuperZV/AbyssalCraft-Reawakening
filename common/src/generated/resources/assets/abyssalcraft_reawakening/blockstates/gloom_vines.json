@@ -1,7 +1,161 @@
 {
-  "variants": {
-    "": {
-      "model": "abyssalcraft_reawakening:block/gloom_vines"
+  "multipart": [
+    {
+      "apply": {
+        "model": "abyssalcraft_reawakening:block/gloom_vines_alone",
+        "y": 90
+      },
+      "when": {
+        "east": "true",
+        "has_bottom": "false",
+        "has_top": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "abyssalcraft_reawakening:block/gloom_vines_top",
+        "y": 90
+      },
+      "when": {
+        "east": "true",
+        "has_bottom": "true",
+        "has_top": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "abyssalcraft_reawakening:block/gloom_vines_bottom",
+        "y": 90
+      },
+      "when": {
+        "east": "true",
+        "has_top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "abyssalcraft_reawakening:block/gloom_vines_alone",
+        "y": 270
+      },
+      "when": {
+        "has_bottom": "false",
+        "has_top": "false",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "abyssalcraft_reawakening:block/gloom_vines_top",
+        "y": 270
+      },
+      "when": {
+        "has_bottom": "true",
+        "has_top": "false",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "abyssalcraft_reawakening:block/gloom_vines_bottom",
+        "y": 270
+      },
+      "when": {
+        "has_top": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "abyssalcraft_reawakening:block/gloom_vines_alone"
+      },
+      "when": {
+        "has_bottom": "false",
+        "has_top": "false",
+        "north": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "abyssalcraft_reawakening:block/gloom_vines_top"
+      },
+      "when": {
+        "has_bottom": "true",
+        "has_top": "false",
+        "north": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "abyssalcraft_reawakening:block/gloom_vines_bottom"
+      },
+      "when": {
+        "has_top": "true",
+        "north": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "abyssalcraft_reawakening:block/gloom_vines_alone",
+        "y": 180
+      },
+      "when": {
+        "has_bottom": "false",
+        "has_top": "false",
+        "south": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "abyssalcraft_reawakening:block/gloom_vines_top",
+        "y": 180
+      },
+      "when": {
+        "has_bottom": "true",
+        "has_top": "false",
+        "south": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "abyssalcraft_reawakening:block/gloom_vines_bottom",
+        "y": 180
+      },
+      "when": {
+        "has_top": "true",
+        "south": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "abyssalcraft_reawakening:block/gloom_vines_alone",
+        "x": 270
+      },
+      "when": {
+        "has_bottom": "false",
+        "has_top": "false",
+        "up": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "abyssalcraft_reawakening:block/gloom_vines_top",
+        "x": 270
+      },
+      "when": {
+        "has_bottom": "true",
+        "has_top": "false",
+        "up": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "abyssalcraft_reawakening:block/gloom_vines_bottom",
+        "x": 270
+      },
+      "when": {
+        "has_top": "true",
+        "up": "true"
+      }
     }
-  }
+  ]
 }

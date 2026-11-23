@@ -4,7 +4,16 @@
     "to_place": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "abyssalcraft_reawakening:gloom_vines"
+        "Name": "abyssalcraft_reawakening:gloom_vines",
+        "Properties": {
+          "east": "false",
+          "has_bottom": "false",
+          "has_top": "false",
+          "north": "false",
+          "south": "false",
+          "up": "false",
+          "west": "false"
+        }
       }
     }
   }

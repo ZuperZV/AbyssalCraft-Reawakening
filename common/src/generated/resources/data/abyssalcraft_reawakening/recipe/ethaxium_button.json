@@ -2,11 +2,9 @@
   "type": "minecraft:crafting_shapeless",
   "category": "redstone",
   "ingredients": [
-    "abyssalcraft_reawakening:ethaxium_bricks",
     "abyssalcraft_reawakening:ethaxium_bricks"
   ],
   "result": {
-    "count": 2,
     "id": "abyssalcraft_reawakening:ethaxium_button"
   }
 }

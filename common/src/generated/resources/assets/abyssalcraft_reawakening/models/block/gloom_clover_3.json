@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/flowerbed_3",
+  "textures": {
+    "flowerbed": "abyssalcraft_reawakening:block/gloom_clover",
+    "stem": "abyssalcraft_reawakening:block/gloom_clover_stem"
+  }
+}

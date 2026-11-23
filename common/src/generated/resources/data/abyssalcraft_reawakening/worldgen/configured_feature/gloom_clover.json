@@ -6,8 +6,8 @@
       "state": {
         "Name": "abyssalcraft_reawakening:gloom_clover",
         "Properties": {
-          "facing": "0",
-          "four_leaf": "false"
+          "facing": "north",
+          "flower_amount": "1"
         }
       }
     }

@@ -7,7 +7,14 @@
     "ground_state": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "abyssalcraft_reawakening:gloom_moss"
+        "Name": "abyssalcraft_reawakening:gloom_moss_carpet",
+        "Properties": {
+          "bottom": "true",
+          "east": "none",
+          "north": "none",
+          "south": "none",
+          "west": "none"
+        }
       }
     },
     "replaceable": "#abyssalcraft_reawakening:swamp_soil",
@@ -20,7 +27,14 @@
           "to_place": {
             "type": "minecraft:simple_state_provider",
             "state": {
-              "Name": "abyssalcraft_reawakening:gloom_moss"
+              "Name": "abyssalcraft_reawakening:gloom_moss_carpet",
+              "Properties": {
+                "bottom": "true",
+                "east": "none",
+                "north": "none",
+                "south": "none",
+                "west": "none"
+              }
             }
           }
         }
@@ -28,10 +42,6 @@
       "placement": []
     },
     "vertical_range": 5,
-    "xz_radius": {
-      "type": "minecraft:uniform",
-      "max_inclusive": 2,
-      "min_inclusive": 1
-    }
+    "xz_radius": 1
   }
 }

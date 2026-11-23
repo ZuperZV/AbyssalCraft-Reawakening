@@ -682,11 +682,11 @@ public final class ModWorldgenBootstrapper {
                 )
         );
 
-        // Gloom moss vegetation features - vegetation patch for swamp floor
+        // Gloom moss vegetation features - flat vegetation patch for swamp floor, no columns
         SimpleBlockConfiguration gloomMossVegetationConfig = new SimpleBlockConfiguration(
                 new WeightedStateProvider(
                         WeightedList.<BlockState>builder()
-                                .add(ModBlocks.GLOOM_MOSS.block().get().defaultBlockState(), 50)
+                                .add(ModBlocks.GLOOM_MOSS_CARPET.block().get().defaultBlockState(), 50)
                                 .add(ModBlocks.GLOWING_GLOOM_FUNGUS.block().get().defaultBlockState(), 15)
                                 .add(ModBlocks.GLOOM_VINES.block().get().defaultBlockState(), 15)
                                 .add(Blocks.SHORT_GRASS.defaultBlockState(), 10)
@@ -702,14 +702,14 @@ public final class ModWorldgenBootstrapper {
                         Feature.VEGETATION_PATCH,
                         new VegetationPatchConfiguration(
                                 BlockTags.MOSS_REPLACEABLE,
-                                BlockStateProvider.simple(ModBlocks.GLOOM_MOSS.block().get()),
+                                BlockStateProvider.simple(ModBlocks.GLOOM_MOSS_CARPET.block().get()),
                                 PlacementUtils.inlinePlaced(Feature.SIMPLE_BLOCK, gloomMossVegetationConfig),
                                 CaveSurface.FLOOR,
                                 ConstantInt.of(1),
                                 0.0F,
                                 7,
                                 0.7F,
-                                UniformInt.of(2, 4),
+                                ConstantInt.of(1),
                                 0.8F
                         )
                 )
@@ -721,10 +721,10 @@ public final class ModWorldgenBootstrapper {
                         Feature.VEGETATION_PATCH,
                         new VegetationPatchConfiguration(
                                 BlockTags.MOSS_REPLACEABLE,
-                                BlockStateProvider.simple(ModBlocks.GLOOM_MOSS.block().get()),
+                                BlockStateProvider.simple(ModBlocks.GLOOM_MOSS_CARPET.block().get()),
                                 PlacementUtils.inlinePlaced(Feature.SIMPLE_BLOCK,
                                         new SimpleBlockConfiguration(
-                                                BlockStateProvider.simple(ModBlocks.GLOOM_MOSS.block().get().defaultBlockState())
+                                                BlockStateProvider.simple(ModBlocks.GLOOM_MOSS_CARPET.block().get().defaultBlockState())
                                         )
                                 ),
                                 CaveSurface.FLOOR,
@@ -732,7 +732,7 @@ public final class ModWorldgenBootstrapper {
                                 0.0F,
                                 5,
                                 0.6F,
-                                UniformInt.of(1, 2),
+                                ConstantInt.of(1),
                                 0.75F
                         )
                 )
@@ -848,18 +848,17 @@ public final class ModWorldgenBootstrapper {
                 )
         );
 
-        // Swamp Vegetation Patch
+        // Swamp Vegetation Patch - flat moss vegetation pattern, no columns
         SimpleBlockConfiguration swampVegetationConfig = new SimpleBlockConfiguration(
                 new WeightedStateProvider(
                         WeightedList.<BlockState>builder()
-                                .add(ModBlocks.GLOOM_MOSS.block().get().defaultBlockState(), 30)
-                                .add(ModBlocks.GLOWING_GLOOM_FUNGUS.block().get().defaultBlockState(), 10)
-                                .add(ModBlocks.GLOOM_VINES.block().get().defaultBlockState(), 10)
-                                .add(ModBlocks.GLOOMREEDS.block().get().defaultBlockState(), 15)
-                                .add(ModBlocks.GLOOM_CLOVER.block().get().defaultBlockState(), 15)
-                                .add(Blocks.SHORT_GRASS.defaultBlockState(), 5)
-                                .add(Blocks.TALL_GRASS.defaultBlockState(), 3)
-                                .add(Blocks.FERN.defaultBlockState(), 2)
+                                .add(ModBlocks.GLOOM_MOSS_CARPET.block().get().defaultBlockState(), 25)
+                                .add(ModBlocks.GLOWING_GLOOM_FUNGUS.block().get().defaultBlockState(), 4)
+                                .add(ModBlocks.GLOOM_VINES.block().get().defaultBlockState(), 7)
+                                .add(ModBlocks.GLOOM_CLOVER.block().get().defaultBlockState(), 10)
+                                .add(Blocks.SHORT_GRASS.defaultBlockState(), 50)
+                                .add(Blocks.TALL_GRASS.defaultBlockState(), 10)
+                                .add(Blocks.FERN.defaultBlockState(), 15)
                                 .build()
                 )
         );
@@ -870,14 +869,14 @@ public final class ModWorldgenBootstrapper {
                         Feature.VEGETATION_PATCH,
                         new VegetationPatchConfiguration(
                                 ModBlockTags.SWAMP_SOIL,
-                                BlockStateProvider.simple(ModBlocks.GLOOM_MOSS.block().get()),
+                                BlockStateProvider.simple(ModBlocks.GLOOM_MOSS_CARPET.block().get()),
                                 PlacementUtils.inlinePlaced(Feature.SIMPLE_BLOCK, swampVegetationConfig),
                                 CaveSurface.FLOOR,
                                 ConstantInt.of(1),
                                 0.0F,
                                 7,
                                 0.7F,
-                                UniformInt.of(2, 5),
+                                ConstantInt.of(1),
                                 0.85F
                         )
                 )
@@ -889,10 +888,10 @@ public final class ModWorldgenBootstrapper {
                         Feature.VEGETATION_PATCH,
                         new VegetationPatchConfiguration(
                                 ModBlockTags.SWAMP_SOIL,
-                                BlockStateProvider.simple(ModBlocks.GLOOM_MOSS.block().get()),
+                                BlockStateProvider.simple(ModBlocks.GLOOM_MOSS_CARPET.block().get()),
                                 PlacementUtils.inlinePlaced(Feature.SIMPLE_BLOCK,
                                         new SimpleBlockConfiguration(
-                                                BlockStateProvider.simple(ModBlocks.GLOOM_MOSS.block().get().defaultBlockState())
+                                                BlockStateProvider.simple(ModBlocks.GLOOM_MOSS_CARPET.block().get().defaultBlockState())
                                         )
                                 ),
                                 CaveSurface.FLOOR,
@@ -900,7 +899,7 @@ public final class ModWorldgenBootstrapper {
                                 0.0F,
                                 5,
                                 0.6F,
-                                UniformInt.of(1, 2),
+                                ConstantInt.of(1),
                                 0.75F
                         )
                 )

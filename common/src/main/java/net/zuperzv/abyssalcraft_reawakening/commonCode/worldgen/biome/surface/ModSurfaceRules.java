@@ -394,7 +394,7 @@ public class ModSurfaceRules {
                         SurfaceRules.verticalGradient(
                                 "scarlet_shale",
                                 VerticalAnchor.bottom(),
-                                VerticalAnchor.aboveBottom(7)
+                                VerticalAnchor.aboveBottom(12)
                         ),
                         SCARLET_SHALE
                 ),
@@ -461,11 +461,9 @@ public class ModSurfaceRules {
                         ),
 
                         SurfaceRules.ifTrue(
-                                SurfaceRules.ON_FLOOR,
 
-                                SurfaceRules.sequence(
-                                        abyssalSwampGround
-                                )
+                                SurfaceRules.ON_FLOOR,
+                                abyssalSwampGround
                         )
                 ),
 

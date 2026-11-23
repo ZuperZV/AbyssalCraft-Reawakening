@@ -220,8 +220,8 @@ public final class ModBlocks {
     public static final BlockWithItemRegistryHandle<Block> GLOOM_MOSS_CARPET = Services.REGISTRY.registerBlockWithItem("gloom_moss_carpet",
             properties -> new ModMossyCarpetBlock(properties.mapColor(MapColor.PLANT).ignitedByLava().lightLevel((statex) -> 1).noCollision().noOcclusion().instabreak().sound(SoundType.MOSS_CARPET).pushReaction(PushReaction.DESTROY)));
 
-    public static final BlockWithItemRegistryHandle<Block> GLOOM_VINES = Services.REGISTRY.registerBlockWithItem("gloom_vines",
-            properties -> new ModPlantBlock(ParticleTypes.NAUTILUS, 0.85f, properties.mapColor(MapColor.PLANT).ignitedByLava().lightLevel((statex) -> 1).noCollision().noOcclusion().instabreak().sound(SoundType.VINE).pushReaction(PushReaction.DESTROY)));
+    public static final BlockWithItemRegistryHandle<GloomVinesBlock> GLOOM_VINES = Services.REGISTRY.registerBlockWithItem("gloom_vines",
+            properties -> new GloomVinesBlock(properties.mapColor(MapColor.PLANT).ignitedByLava().lightLevel((statex) -> 1).noCollision().noOcclusion().instabreak().sound(SoundType.VINE).pushReaction(PushReaction.DESTROY).randomTicks()));
 
     public static final BlockWithItemRegistryHandle<Block> GLOWING_GLOOM_FUNGUS = Services.REGISTRY.registerBlockWithItem("glowing_gloom_fungus",
             properties -> new ModPlantBlock(ParticleTypes.GLOW_SQUID_INK, 0.9f, properties.mapColor(MapColor.PLANT).ignitedByLava().lightLevel((statex) -> 8).noCollision().noOcclusion().instabreak().sound(SoundType.SWEET_BERRY_BUSH).pushReaction(PushReaction.DESTROY)));
@@ -260,7 +260,7 @@ public final class ModBlocks {
                             .ignitedByLava().lightLevel((statex) -> 0).noOcclusion().instabreak()
                             .sound(SoundType.MOSS).pushReaction(PushReaction.DESTROY)));
 
-    // SINKING MIRE - Custom swamp mud with sinking mechanic
+    // SINKING MIRE
     public static final BlockWithItemRegistryHandle<SinkingMireBlock> SINKING_MIRE =
             Services.REGISTRY.registerBlockWithItem("sinking_mire",
                     properties -> new SinkingMireBlock(properties.mapColor(MapColor.COLOR_BROWN)
